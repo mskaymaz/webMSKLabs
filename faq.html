@@ -128,13 +128,15 @@
       line-height: 1.4;
     }
     .faq-question-btn .arrow-icon {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: #0284c7;
       transition: transform 0.3s ease;
       flex-shrink: 0;
+      display: inline-block;
+      transform: rotate(0deg);
     }
     .faq-item-card.open .faq-question-btn .arrow-icon {
-      transform: rotate(180deg);
+      transform: rotate(90deg);
     }
     .faq-answer-content {
       max-height: 0;
@@ -434,7 +436,7 @@
       card.innerHTML = `
         <button class="faq-question-btn" onclick="toggleFaq(this)">
           <span class="faq-question-title">${item.q}</span>
-          <span class="arrow-icon">▼</span>
+          <span class="arrow-icon">▶</span>
         </button>
         <div class="faq-answer-content">
           <p style="margin: 0; padding: 0.25rem 0;">${item.a}</p>
