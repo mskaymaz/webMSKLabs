@@ -81,11 +81,11 @@ body {
 
 @media (max-width: 768px) {
   .bizce-header {
-    padding: 0.6rem 0.5rem !important;
+    padding: 0.6rem 0.75rem !important;
   }
   .bizce-header-inner {
     display: grid !important;
-    grid-template-columns: 1fr auto !important;
+    grid-template-columns: auto 1fr !important;
     grid-template-areas:
       "logo logo"
       "title switcher" !important;
@@ -109,6 +109,8 @@ body {
     text-align: left !important;
     padding: 0 !important;
     margin: 0 !important;
+    width: auto !important;
+    flex: 0 0 auto !important;
   }
   .bizce-title-group h1 {
     font-size: 1.15rem !important;
@@ -116,11 +118,13 @@ body {
     justify-content: flex-start !important;
     margin: 0 !important;
     padding: 0 !important;
+    letter-spacing: -0.02em !important;
   }
   .bizce-header .lang-switcher {
     grid-area: switcher !important;
     justify-self: end !important;
     align-self: center !important;
+    margin-left: auto !important;
   }
 }
 .nav-link-btn {
@@ -577,43 +581,7 @@ body {
 @media (max-width: 680px) {
   .bizce-header {
     max-height: none !important;
-    padding: 0.65rem 0.85rem !important;
-  }
-
-  .bizce-header-inner {
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 6px !important;
-    text-align: center !important;
-  }
-
-  .bizce-title-group {
-    justify-content: center !important;
-    width: 100% !important;
-  }
-
-  .bizce-title-group h1 {
-    font-size: 1.15rem !important;
-  }
-
-  .bizce-center-logo-box {
-    justify-content: center !important;
-    width: 100% !important;
-  }
-
-  .bizce-center-logo-link {
-    height: 36px !important;
-  }
-
-  .bizce-header-logo {
-    height: 36px !important;
-  }
-
-  .bizce-header-right-column {
-    justify-content: center !important;
-    width: 100% !important;
-    margin-top: 2px !important;
+    padding: 0.6rem 0.5rem !important;
   }
 
   .section-tab-bar {
