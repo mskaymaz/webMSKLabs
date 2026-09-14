@@ -15,3 +15,8 @@ Whenever the user includes the keywords **"Bismillah"**, **"Eko"**, or requests 
 3. **MINIMAL RESPONSE FORMAT**:
    - Keep all responses minimal (a concise one-line status unless detailed information is explicitly requested).
    - **TURKISH LANGUAGE REQUIREMENT**: All status updates and responses MUST be provided in **Turkish (Türkçe)**.
+
+4. **SURGICAL EFFICIENCY & TOKEN CONSERVATION**:
+   - Perform ONLY surgical, targeted edits on the exact lines/files specified by the user.
+   - NEVER touch, refactor, or re-format collateral or unrequested files.
+   - Minimize context scanning and unnecessary tool usage to conserve tokens and prevent side-effect regressions.
