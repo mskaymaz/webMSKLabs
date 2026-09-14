@@ -433,7 +433,7 @@
       card.className = 'faq-item-card' + (index === 0 ? ' open' : '');
       card.innerHTML = `
         <button class="faq-question-btn" onclick="toggleFaq(this)">
-          <span class="faq-question-title">❓ ${item.q}</span>
+          <span class="faq-question-title">${item.q}</span>
           <span class="arrow-icon">▼</span>
         </button>
         <div class="faq-answer-content">
