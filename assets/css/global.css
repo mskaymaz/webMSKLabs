@@ -288,18 +288,20 @@ body.lang-ar { direction: rtl; }
 .site-header {
   background: var(--bg-card, #ffffff);
   border-bottom: 1px solid var(--border-color, #cbd5e1);
-  padding: 0.5rem 1.25rem;
+  padding: 0.5rem 0;
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
   max-height: 68px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .site-header-inner {
-  max-width: 900px; /* Ana içerik bloğu ile milimetrik sol/sağ hizalama */
+  max-width: 900px; /* Ana içerik bloğu (.portfolio-container) ile milimetrik sol/sağ hizalama */
   margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 24px);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -327,45 +329,82 @@ body.lang-ar { direction: rtl; }
   font-weight: 600;
 }
 
+.bizce-center-logo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
 .site-header-logo {
-  height: 55px; /* %25 büyütülmüş kurumsal logo (44px -> 55px) */
+  height: 44px;
+  max-height: 44px;
   width: auto;
   object-fit: contain;
   display: block;
 }
 
-/* %20 Küçültülmüş ve 10px Yaklaştırılmış Dil Seçici */
+/* Dil & Tema Seçici Grubu (Sağ Hizalı) */
 .lang-switcher {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 10px;
-  margin-bottom: 0;
+  gap: 8px;
+  margin: 0;
 }
 
-.lang-switcher button {
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 3px 8px;
-  border-radius: 5px;
+.lang-switcher button,
+.theme-toggle-btn {
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-color, #cbd5e1);
+  padding: 4px 10px;
+  border-radius: 8px;
   cursor: pointer;
   font-family: inherit;
   font-weight: 600;
   font-size: 0.84rem;
   transition: all 0.2s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.08);
-  color: #333;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  color: var(--text-main, #0f172a);
+  min-height: 36px;
+  min-width: 36px;
+  box-sizing: border-box;
 }
 
-.lang-switcher button:hover {
-  background: #f5f7fa;
+.lang-switcher button:hover,
+.theme-toggle-btn:hover {
+  background: var(--bg-surface, #f1f5f9);
+  border-color: #0284c7;
   transform: translateY(-1px);
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.12);
-  border-color: #ccc;
+}
+
+.lang-switcher button.active {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+}
+
+@media (max-width: 600px) {
+  .site-header-inner {
+    padding: 0 12px;
+  }
+  .site-header-logo {
+    height: 36px;
+    max-height: 36px;
+  }
+  .lang-switcher {
+    gap: 6px;
+  }
+  .lang-switcher button,
+  .theme-toggle-btn {
+    min-height: 32px;
+    min-width: 32px;
+    padding: 3px 6px;
+    font-size: 0.75rem;
+  }
 }
 
 /* Aktif Dil Butonu Vurgusu (Dişi Görünüm) */

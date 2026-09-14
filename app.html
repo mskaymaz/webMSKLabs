@@ -120,17 +120,15 @@
 <body>
 
   <header class="site-header">
-    <div class="site-header-inner" style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem;">
+    <div class="site-header-inner">
       <a href="index.html" class="bizce-center-logo-link" title="MSK Labs Ana Sayfa">
-        <img src="img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="site-header-logo" style="height: 55px; width: auto;">
+        <img src="img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="site-header-logo">
       </a>
 
-      <div class="lang-switcher" style="display: flex; gap: 10px; align-items: center;">
-        <button onclick="setLang('tr')" data-lang="tr" class="active" title="Türkçe" style="font-size: 0.84rem; padding: 3px 8px;">TR</button>
-        <button onclick="setLang('en')" data-lang="en" title="English" style="font-size: 0.84rem; padding: 3px 8px;">EN</button>
-        <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic" style="font-size: 0.84rem; padding: 3px 8px;">
-          <img src="img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon" style="height: 22px;">
-        </button>
+      <div class="lang-switcher">
+        <button onclick="setLang('tr')" data-lang="tr" class="active" title="Türkçe">TR</button>
+        <button onclick="setLang('en')" data-lang="en" title="English">EN</button>
+        <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
         <button id="themeToggleBtn" onclick="toggleTheme()" class="theme-toggle-btn" title="Tema Değiştir">🌙</button>
       </div>
     </div>
