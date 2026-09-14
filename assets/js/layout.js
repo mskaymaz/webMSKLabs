@@ -135,8 +135,9 @@
       if (langSwitcher) {
         btn = document.createElement('button');
         btn.id = 'themeToggleBtn';
+        btn.className = 'theme-toggle-btn';
         btn.onclick = window.toggleTheme;
-        btn.style.cssText = 'background: transparent; border: 1px solid var(--border-color, #cbd5e1); border-radius: 8px; padding: 2px 7px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center;';
+        btn.style.cssText = 'background: transparent; border: 1px solid var(--border-color, #cbd5e1); border-radius: 8px; padding: 2px 7px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; min-height: 32px; min-width: 32px; display: inline-flex; align-items: center; justify-content: center;';
         langSwitcher.appendChild(btn);
       }
     }

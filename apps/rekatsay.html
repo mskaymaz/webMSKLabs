@@ -182,6 +182,7 @@
     <link rel="apple-touch-icon" href="../img/MSKLabs_favicon.png">
   <script src="../assets/js/config.js"></script>
   <script src="../assets/js/analytics.js"></script>
+  <script src="../assets/js/layout.js"></script>
 </head>
 <body class="lang-tr">
 
@@ -195,6 +196,7 @@
       <button onclick="setLang('tr')" data-lang="tr" class="active" title="Türkçe">TR</button>
       <button onclick="setLang('en')" data-lang="en" title="English">EN</button>
       <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img src="../img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
+      <button id="themeToggleBtn" onclick="toggleTheme()" class="theme-toggle-btn" title="Tema Değiştir">🌙</button>
     </div>
   </div>
 </header>
@@ -467,35 +469,6 @@
     });
   }
 
-  function setLang(lang) {
-    if (!lang) lang = 'tr';
-    try {
-      localStorage.setItem('user_lang', lang);
-    } catch(e) {}
-    
-    document.body.className = 'lang-' + lang;
-    
-    // Aktif Dil Butonu Vurgulama
-    var buttons = document.querySelectorAll('.lang-switcher button');
-    buttons.forEach(function(btn) {
-      if (btn.getAttribute('data-lang') === lang) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
-    });
-
-    // Bağlantılara ?lang= Parametresi Ekleme
-    var links = document.querySelectorAll('a.back-btn');
-    links.forEach(function(a) {
-      var href = a.getAttribute('href');
-      if (href) {
-        var base = href.split('?')[0];
-        a.setAttribute('href', base + '?lang=' + lang);
-      }
-    });
-  }
-
   // Sayfa Yüklenme Anında Çalışacak Ana Blok
   (function() {
     syncCentralConfig();
@@ -508,7 +481,9 @@
     } catch(e) {}
     
     var activeLang = langParam || savedLang || 'tr';
-    setLang(activeLang);
+    if (typeof setLang === 'function') {
+      setLang(activeLang);
+    }
   })();
 </script>
 

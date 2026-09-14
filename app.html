@@ -16,6 +16,7 @@
   <script>!function(){var t=localStorage.getItem("user_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"===t&&document.documentElement.setAttribute("data-theme","dark")}()</script>
 
   <link rel="stylesheet" href="assets/css/global.css?v=25">
+  <script src="assets/js/layout.js"></script>
   <style>
     .app-hero-card {
       background: var(--bg-card, #ffffff);
@@ -130,6 +131,7 @@
         <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic" style="font-size: 0.84rem; padding: 3px 8px;">
           <img src="img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon" style="height: 22px;">
         </button>
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="theme-toggle-btn" title="Tema Değiştir">🌙</button>
       </div>
     </div>
   </header>
