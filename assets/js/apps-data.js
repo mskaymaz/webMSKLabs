@@ -61,8 +61,8 @@ window.MSK_APPS_DATA = {
   },
   "enyakin": {
     id: "enyakin",
-    icon: "📍",
-    logoImg: "",
+    icon: '<img src="img/EnYakinLogo.svg" alt="En Yakın">',
+    logoImg: "img/EnYakinLogo.svg",
     name: { tr: "En Yakın Camii & Mescid", en: "Nearest Mosque Finder", ar: "أقرب مسجد" },
     tagline: {
       tr: "Çevrenizdeki Tüm Camii ve Mescitleri Anında Bulun",
