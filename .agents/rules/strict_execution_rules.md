@@ -14,3 +14,4 @@ Whenever the user includes the keywords **"Bismillah"**, **"Eko"**, or requests 
 
 3. **MINIMAL RESPONSE FORMAT**:
    - Keep all responses minimal (a concise one-line status unless detailed information is explicitly requested).
+   - **TURKISH LANGUAGE REQUIREMENT**: All status updates and responses MUST be provided in **Turkish (Türkçe)**.
