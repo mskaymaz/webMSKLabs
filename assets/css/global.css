@@ -345,11 +345,13 @@ body.lang-ar { direction: rtl; }
 
 /* Dil & Tema Seçici Grubu (Sağ Hizalı) */
 .lang-switcher {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  margin: 0;
+  margin-left: auto;
+  margin-right: 0;
+  width: fit-content;
 }
 
 .lang-switcher button,
