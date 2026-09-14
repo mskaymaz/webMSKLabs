@@ -187,6 +187,24 @@
     .data-table td {
       color: #1e293b;
     }
+    .app-mini-cell {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .app-mini-icon {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      min-height: 24px;
+      border-radius: 6px;
+      object-fit: contain;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      padding: 2px;
+      box-sizing: border-box;
+    }
   </style>
 </head>
 <body class="lang-tr">
@@ -283,35 +301,35 @@
         </thead>
         <tbody id="appTableBody">
           <tr>
-            <td><strong>🕌 HaydiNamaza</strong></td>
+            <td><div class="app-mini-cell"><img src="media/haydinamaza/icon.png" alt="HaydiNamaza" class="app-mini-icon"><strong>HaydiNamaza</strong></div></td>
             <td>İslam &amp; İbadet</td>
             <td><strong style="color: #0284c7;" id="dl_haydinamaza">0</strong></td>
             <td id="share_haydinamaza">%0</td>
             <td><span style="color: #059669;">● Canlı</span></td>
           </tr>
           <tr>
-            <td><strong>📿 RekatSay</strong></td>
+            <td><div class="app-mini-cell"><img src="media/rekatsay/icon.png" alt="RekatSay" class="app-mini-icon"><strong>RekatSay</strong></div></td>
             <td>İbadet &amp; Sensör</td>
             <td><strong style="color: #0284c7;" id="dl_rekatsay">0</strong></td>
             <td id="share_rekatsay">%0</td>
             <td><span style="color: #059669;">● Canlı</span></td>
           </tr>
           <tr>
-            <td><strong>👴 Emekli Sayaç</strong></td>
+            <td><div class="app-mini-cell"><img src="media/emekli/icon.png" alt="Emekli" class="app-mini-icon"><strong>Emekli Sayaç</strong></div></td>
             <td>Hesaplama &amp; Finans</td>
             <td><strong style="color: #0284c7;" id="dl_emekli">0</strong></td>
             <td id="share_emekli">%0</td>
             <td><span style="color: #059669;">● Canlı</span></td>
           </tr>
           <tr>
-            <td><strong>🖥️ DeskPilot</strong></td>
+            <td><div class="app-mini-cell"><img src="media/deskpilot/icon.png" alt="DeskPilot" class="app-mini-icon"><strong>DeskPilot</strong></div></td>
             <td>Masaüstü &amp; Araçlar</td>
             <td><strong style="color: #0284c7;" id="dl_deskpilot">0</strong></td>
             <td id="share_deskpilot">%0</td>
             <td><span style="color: #059669;">● Canlı</span></td>
           </tr>
           <tr>
-            <td><strong>📍 En Yakın</strong></td>
+            <td><div class="app-mini-cell"><img src="media/enyakin/icon.png" alt="En Yakın" class="app-mini-icon"><strong>En Yakın</strong></div></td>
             <td>Harita &amp; Konum</td>
             <td><strong style="color: #0284c7;" id="dl_enyakin">0</strong></td>
             <td id="share_enyakin">%0</td>
@@ -594,7 +612,7 @@
     appShareChartInstance = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: ['🕌 HaydiNamaza', '📿 RekatSay', '👴 Emekli Sayaç', '🖥️ DeskPilot', '📍 En Yakın'],
+        labels: ['HaydiNamaza', 'RekatSay', 'Emekli Sayaç', 'DeskPilot', 'En Yakın'],
         datasets: [{
           data: [
             appDownloads.haydinamaza,
