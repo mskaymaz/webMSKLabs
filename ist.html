@@ -212,12 +212,20 @@
 <!-- Auth PIN Modal -->
 <div class="pin-overlay" id="pinOverlay">
   <div class="pin-card">
-    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔐</div>
-    <h2 style="color: #0f172a; margin: 0;">MSK Labs Yönetici Paneli</h2>
-    <p style="color: #334155; font-size: 0.85rem; margin-top: 0.25rem;">Lütfen erişim PIN kodunu giriniz.</p>
+    <a href="index.html" title="MSK Labs Ana Sayfasına Dön" style="display: inline-block;">
+      <img src="img/MSKLabsLogo.svg" alt="MSK Labs Logo" style="height: 42px; width: auto; margin-bottom: 0.75rem; cursor: pointer;">
+    </a>
+    <h2 style="color: #0f172a; margin: 0; font-size: 1.25rem; font-weight: 700;">Yönetici Paneli Girişi</h2>
+    <p style="color: #475569; font-size: 0.85rem; margin-top: 0.35rem; margin-bottom: 1.1rem;">Lütfen erişim PIN kodunu giriniz.</p>
     <input type="password" id="pinInput" class="pin-input" maxlength="6" placeholder="    ">
     <button onclick="checkPin()" class="pin-btn">Giriş Yap</button>
     <div id="pinError" style="color: #ef4444; font-size: 0.85rem; margin-top: 0.75rem; display: none;">Hatalı PIN Kodu!</div>
+    
+    <div style="margin-top: 1.1rem; border-top: 1px solid #e2e8f0; padding-top: 0.85rem;">
+      <a href="index.html" style="color: #0284c7; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+        ← Ana Sayfaya Dön
+      </a>
+    </div>
   </div>
 </div>
 
@@ -230,7 +238,7 @@
   <div class="portfolio-container">
 
     <div class="logo-container" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-      <img src="img/MSKLabsLogo.svg" alt="MSK Labs" class="main-logo">
+      <a href="index.html" title="MSK Labs Ana Sayfa"><img src="img/MSKLabsLogo.svg" alt="MSK Labs" class="main-logo"></a>
       <button onclick="logout()" style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #dc2626; padding: 0.4rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600;">Çıkış Yap</button>
     </div>
 
