@@ -191,6 +191,10 @@
       }
     });
 
+    try {
+      window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: lang } }));
+    } catch(e) {}
+
     // Link URL Sync for Language Continuity (W4) - Preserves existing query params like ?type=bizce, ?type=anilts
     var links = document.querySelectorAll('a.app-card, a.back-btn, .top-main-nav a, .site-footer a');
     links.forEach(function(a) {

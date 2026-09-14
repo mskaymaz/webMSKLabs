@@ -698,6 +698,24 @@ function handleUrlParams() {
   switchSection(sec);
 }
 
+window.addEventListener('languageChanged', function(e) {
+  var lang = (e && e.detail && e.detail.lang) ? e.detail.lang : (localStorage.getItem('user_lang') || 'tr');
+  currentLang = lang;
+  updateHeaderAndTabs();
+  var readerView = document.getElementById('readerView');
+  var isReading = (currentPost !== null && readerView && readerView.style.display !== 'none');
+
+  if (isReading) {
+    updateReaderViewLanguage();
+    if (synth && synth.speaking) {
+      playTTS();
+    }
+  } else {
+    renderSubCategories();
+    renderPosts();
+  }
+});
+
 document.addEventListener("DOMContentLoaded", function() {
   var storedLang = localStorage.getItem('user_lang') || 'tr';
   currentLang = storedLang;
