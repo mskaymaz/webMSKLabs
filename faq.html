@@ -4,15 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sıkça Sorulan Sorular (SSS) | MSK Labs</title>
-  <meta name="description" content="MSK Labs mobil ve masaüstü uygulamaları için sıkça sorulan sorular, yardım ve destek rehberi.">
+  <meta name="description" content="MSK Labs, uygulamalar, indirme, gizlilik, destek ve kullanıcı talepleri hakkında sıkça sorulan soruların yanıtları.">
   <link rel="stylesheet" href="assets/css/global.css?v=25">
   <style>
-    /* FAQ Specific Custom Styles */
+    /* SSS Sayfası Özel Akordeon ve Kart Stilleri */
     .faq-badge-card {
-      background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: var(--bg-card, #ffffff);
+      border: 1px solid var(--border-color, #cbd5e1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
       border-radius: 16px;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
@@ -28,82 +27,87 @@
       gap: 1rem;
     }
     .app-meta-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+      width: 52px;
+      height: 52px;
+      min-width: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       color: #ffffff;
-      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+      flex-shrink: 0;
     }
     .app-meta-info h2 {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--text-main, #0f172a);
       margin: 0;
     }
     .app-meta-info p {
-      font-size: 0.85rem;
-      color: #334155;
-      margin: 0.2rem 0 0 0;
+      font-size: 0.9rem;
+      color: var(--text-muted, #475569);
+      margin: 0.35rem 0 0 0;
+      line-height: 1.5;
     }
     .faq-search-box {
       width: 100%;
       position: relative;
-      margin-bottom: 2rem;
+      margin-bottom: 1.75rem;
     }
     .faq-search-input {
       width: 100%;
-      background: rgba(248, 250, 252, 0.85); border: 1px solid #cbd5e1;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: var(--bg-card, #ffffff);
+      border: 1px solid var(--border-color, #cbd5e1);
       border-radius: 12px;
-      padding: 1rem 1rem 1rem 3rem;
-      color: #ffffff;
-      font-size: 1rem;
+      padding: 0.9rem 1rem 0.9rem 2.8rem;
+      color: var(--text-main, #0f172a);
+      font-size: 0.98rem;
       outline: none;
       transition: all 0.25s ease;
       box-sizing: border-box;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
     }
     .faq-search-input:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
     .faq-search-icon {
       position: absolute;
       left: 1rem;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #64748b;
       pointer-events: none;
     }
     .faq-accordion-group {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.85rem;
       margin-bottom: 2rem;
     }
     .faq-item-card {
-      background: #ffffff; border: 1px solid #e2e8f0;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
+      background: var(--bg-card, #ffffff);
+      border: 1px solid var(--border-color, #e2e8f0);
+      border-radius: 14px;
       overflow: hidden;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
     }
     .faq-item-card:hover {
-      border-color: rgba(56, 189, 248, 0.3);
-      transform: translateY(-2px);
+      border-color: #0284c7;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.08);
     }
     .faq-question-btn {
       width: 100%;
       padding: 1.1rem 1.25rem;
       background: transparent;
       border: none;
-      color: #0f172a;
-      font-size: 1rem;
+      color: var(--text-main, #0f172a);
+      font-size: 1.02rem;
       font-weight: 600;
       text-align: left;
       cursor: pointer;
@@ -111,11 +115,23 @@
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
+      box-sizing: border-box;
+      transition: background 0.2s ease;
+    }
+    .faq-question-btn:hover {
+      background: var(--bg-surface, #f8fafc);
+    }
+    .faq-question-title {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      line-height: 1.4;
     }
     .faq-question-btn .arrow-icon {
-      font-size: 0.9rem;
-      color: #38bdf8;
+      font-size: 0.85rem;
+      color: #0284c7;
       transition: transform 0.3s ease;
+      flex-shrink: 0;
     }
     .faq-item-card.open .faq-question-btn .arrow-icon {
       transform: rotate(180deg);
@@ -124,49 +140,58 @@
       max-height: 0;
       overflow: hidden;
       padding: 0 1.25rem;
-      color: #334155;
+      color: var(--text-muted, #334155);
       font-size: 0.95rem;
-      line-height: 1.6;
-      transition: max-height 0.35s ease, padding 0.35s ease;
+      line-height: 1.7;
+      transition: max-height 0.4s ease, padding 0.4s ease;
     }
     .faq-item-card.open .faq-answer-content {
-      max-height: 500px;
-      padding: 0 1.25rem 1.25rem 1.25rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      max-height: 2000px;
+      padding: 0.85rem 1.25rem 1.25rem 1.25rem;
+      border-top: 1px solid var(--border-color, #f1f5f9);
     }
     .support-cta-card {
-      background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(99, 102, 241, 0.15));
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.06), rgba(37, 99, 235, 0.06));
+      border: 1px solid rgba(2, 132, 199, 0.2);
       border-radius: 16px;
-      padding: 1.5rem;
+      padding: 1.75rem 1.5rem;
       text-align: center;
       margin-top: 2rem;
     }
     .support-cta-card h3 {
-      font-size: 1.1rem;
-      color: #0f172a;
-      margin: 0 0 0.5rem 0;
+      font-size: 1.15rem;
+      color: var(--text-main, #0f172a);
+      margin: 0 0 0.4rem 0;
+      font-weight: 700;
     }
     .support-cta-card p {
-      font-size: 0.9rem;
-      color: #334155;
-      margin: 0 0 1rem 0;
+      font-size: 0.92rem;
+      color: var(--text-muted, #475569);
+      margin: 0 0 1.2rem 0;
     }
     .support-cta-btn {
-      display: inline-block;
-      background: linear-gradient(135deg, #0ea5e9, #6366f1);
-      color: #ffffff;
-      padding: 0.75rem 1.5rem;
-      border-radius: 9999px;
-      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #ffffff !important;
+      padding: 0.75rem 1.6rem;
+      border-radius: 10px;
+      font-size: 0.92rem;
       font-weight: 600;
       text-decoration: none;
-      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.4);
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
       transition: all 0.25s ease;
     }
     .support-cta-btn:hover {
-      transform: scale(1.03);
-      box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.4);
+    }
+    @media (max-width: 600px) {
+      .faq-badge-card { padding: 1.2rem; }
+      .faq-question-btn { padding: 1rem; font-size: 0.95rem; }
+      .faq-answer-content { padding: 0 1rem; font-size: 0.9rem; }
+      .faq-item-card.open .faq-answer-content { padding: 0.75rem 1rem 1rem 1rem; }
     }
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -181,6 +206,31 @@
 </head>
 <body class="lang-tr">
 
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="index.html" class="bizce-center-logo-link" title="MSK Labs Ana Sayfa">
+      <img src="img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="site-header-logo">
+    </a>
+
+    <div class="lang-switcher">
+      <button onclick="setLang('tr')" data-lang="tr" class="active" title="Türkçe">TR</button>
+      <button onclick="setLang('en')" data-lang="en" title="English">EN</button>
+      <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
+    </div>
+  </div>
+</header>
+
+<!-- Standart Ust Ana Navigasyon Menusu -->
+<nav class="top-main-nav">
+  <a href="index.html"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a><span class="nav-divider">|</span>
+  <a href="blog/blog.html?type=bizce"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a><span class="nav-divider">|</span>
+  <a href="blog/blog.html?type=anilts"><span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span></a><span class="nav-divider">|</span>
+  <a href="index.html#apps"><span class="lang-tr">Uygulamalarımız</span><span class="lang-en">Our Apps</span><span class="lang-ar">تطبيقاتنا</span></a><span class="nav-divider">|</span>
+  <a href="about.html"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a><span class="nav-divider">|</span>
+  <a href="destek.html"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a><span class="nav-divider">|</span>
+  <a href="contact.html"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a>
+</nav>
+
 <div class="layout-wrapper">
 
   <aside class="desktop-ad desktop-ad-left">
@@ -188,42 +238,6 @@
   </aside>
 
   <div class="portfolio-container">
-  
-    <div class="lang-switcher">
-      <button onclick="setLang('tr')" data-lang="tr" class="active" title="Türkçe">TR</button>
-      <button onclick="setLang('en')" data-lang="en" title="English">EN</button>
-      <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
-    </div>
-
-    <div class="logo-container">
-      <img src="img/MSKLabsLogo.svg" alt="MSK Labs" class="main-logo">
-    </div>
-  <!-- Standart Ust Ana Navigasyon Menusu -->
-  <nav class="top-main-nav" style="text-align: center; margin: 1rem 0 1.25rem 0; font-size: 0.88rem; font-weight: 600; color: #475569;">
-    <a href="index.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
-      <span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span>
-    </a>
-    <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-    <a href="blog/blog.html?type=bizce" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
-      <span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span>
-    </a>
-    <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-    <a href="blog/blog.html?type=anilts" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
-      <span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span>
-    </a>
-    <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-    <a href="about.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
-      <span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span>
-    </a>
-    <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-    <a href="destek.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
-      <span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span>
-    </a>
-    <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-    <a href="contact.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
-      <span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span>
-    </a>
-  </nav>
 
     <h1 class="page-title">
       <span class="lang-tr">Sıkça Sorulan Sorular (SSS)</span>
@@ -231,29 +245,29 @@
       <span class="lang-ar">الأسئلة الشائعة</span>
     </h1>
 
-    <!-- App Dynamic Badge -->
+    <!-- Bilgilendirme ve Arama Kartı -->
     <div class="faq-badge-card" id="appBadgeCard">
       <div class="app-meta-box">
-        <div class="app-meta-icon" id="appIconBox">❓</div>
+        <div class="app-meta-icon" id="appIconBox">💡</div>
         <div class="app-meta-info">
-          <h2 id="appNameText">Tüm MSK Labs Uygulamaları</h2>
-          <p id="appMetaSub"><span class="lang-tr">Sorunuzun cevabını arama çubuğunu kullanarak veya aşağıdan filtreleyerek bulabilirsiniz.</span></p>
+          <h2 id="appNameText">MSK Labs – Sıkça Sorulan Sorular</h2>
+          <p id="appMetaSub">MSK Labs, ücretsiz ve kullanıcı odaklı yazılımlar geliştiren bağımsız bir teknoloji projesidir. Uygulamalar; gizlilik, kullanım kolaylığı, performans ve mümkün olduğunca yerel çalışma prensipleri dikkate alınarak geliştirilmektedir. Aşağıda MSK Labs, uygulamalar, indirme, gizlilik, destek ve kullanıcı talepleri hakkında en sık sorulabilecek soruların yanıtlarını bulabilirsiniz.</p>
         </div>
       </div>
     </div>
 
-    <!-- Live Search Input -->
+    <!-- Canlı Arama Kutusu -->
     <div class="faq-search-box">
       <span class="faq-search-icon">🔍</span>
-      <input type="text" id="faqSearchInput" class="faq-search-input" placeholder="Soru veya anahtar kelime yazın... (örn: ezan, konum, şifre)" oninput="filterFaq()">
+      <input type="text" id="faqSearchInput" class="faq-search-input" placeholder="Soru veya anahtar kelime yazın... (örn: gizlilik, reklam, izinler, indirme)" oninput="filterFaq()">
     </div>
 
-    <!-- FAQ Accordion List Container -->
+    <!-- Akordeon SSS Listesi -->
     <div class="faq-accordion-group" id="faqAccordionGroup">
-      <!-- Dynamically Rendered -->
+      <!-- JavaScript Tarafından Dinamik Olarak İndekslenip Oluşturulur -->
     </div>
 
-    <!-- Support CTA (Ticket Reduction Bridge) -->
+    <!-- Canlı Destek Yönlendirme Kartı -->
     <div class="support-cta-card">
       <h3>
         <span class="lang-tr">Aradığınız cevabı bulamadınız mı?</span>
@@ -261,16 +275,18 @@
         <span class="lang-ar">لم تجد إجابتك؟</span>
       </h3>
       <p>
-        <span class="lang-tr">Destek ekibimiz 24 saat içinde yanıt vermek üzere hazır.</span>
-        <span class="lang-en">Our support team is ready to respond within 24 hours.</span>
+        <span class="lang-tr">Destek &amp; Talep Merkezimiz üzerinden hata bildirimi, yeni özellik veya uygulama fikri iletebilirsiniz.</span>
+        <span class="lang-en">Submit bug reports, feature requests or new app ideas via our Support Center.</span>
       </p>
       <a href="destek.html" id="supportCtaBtn" class="support-cta-btn">
-        📩 <span class="lang-tr">Canlı Destek Talebi Oluştur</span><span class="lang-en">Submit Support Ticket</span>
+        📩 <span class="lang-tr">Destek &amp; Talep Merkezi'ne Git</span><span class="lang-en">Go to Support Center</span>
       </a>
     </div>
 
-    <!-- Footer -->
-    
+    <!-- Sayfa Altı Reklam Alanı -->
+    <div class="infeed-ad-container">
+      <div class="ad-placeholder">Sayfa Altı Reklam Alanı (Bottom Banner)</div>
+    </div>
 
   </div>
 
@@ -281,30 +297,78 @@
 </div>
 
 <script>
-  // App Configurations
+  // Uygulama Konfigürasyonları
   const APPS_CONFIG = {
     'haydinamaza': { name: 'HaydiNamaza', icon: '🕌' },
     'rekatsay': { name: 'RekatSay', icon: '📿' },
     'emekli': { name: 'Emekli Sayaç', icon: '⏳' },
     'enyakin': { name: 'En Yakın', icon: '📍' },
     'deskpilot': { name: 'DeskPilot', icon: '🖥️' },
-    'gcpiluyari': { name: 'GCP İl Uyarı', icon: '⚠️' }
+    'gcpiluyari': { name: 'GC Pil Uyarı', icon: '🔋' }
   };
 
-  // Modular FAQ Dataset (Built-in + Sheets Fallback Engine)
+  // MSK Labs SSS Veri Tabanı (15 Temel Soru & Cevap + Uygulama Bazlı Özel Sorular)
   const FAQ_DATABASE = {
     'common': [
       {
-        q: 'MSK Labs uygulamaları ücretsiz mi?',
-        a: 'Evet! Sitemizde yayınlanan tüm uygulamalarımızın temel sürümleri kullanıcılarımıza tamamen ücretsiz olarak sunulmaktadır.'
+        q: '1. MSK Labs nedir?',
+        a: 'MSK Labs; günlük yaşamı kolaylaştırmaya, belirli ihtiyaçlara pratik çözümler sunmaya ve kullanıcı deneyimini geliştirmeye yönelik yazılımlar geliştiren bağımsız bir yazılım ve teknoloji projesidir.<br><br>MSK Labs bünyesinde Android, masaüstü ve web başta olmak üzere farklı platformlara yönelik uygulamalar geliştirilmektedir. Proje; yalnızca uygulama geliştirmeyi değil, aynı zamanda sürdürülebilir, güvenilir ve kullanıcı odaklı bir yazılım ekosistemi oluşturmayı amaçlamaktadır.'
       },
       {
-        q: 'Kişisel verilerim veya konumum sunuculara kaydediliyor mu?',
-        a: 'Hayır! Gizlilik odaklı yazılım anlayışımız gereği konum, sayaç ve kişisel tercihleriniz sadece kendi cihazınızın yerel hafızasında saklanır. Sunucularımıza kesinlikle aktarılmaz.'
+        q: '2. MSK Labs uygulamaları ücretsiz mi?',
+        a: 'MSK Labs bünyesinde yayınlanan uygulamaların önemli bir bölümü kullanıcıların ücretsiz olarak kullanabilmesi amacıyla geliştirilmektedir.<br><br>Her uygulamanın lisans, kullanım ve dağıtım koşulları kendi ürün sayfasında belirtilir. Bir uygulama için farklı bir kullanım koşulu bulunuyorsa ilgili uygulamanın açıklaması esas alınmalıdır.<br><br>Ücretli olan uygulamalar henüz bulunmamaktadır. İleride ücretli olarak sunulacak uygulamalar ayrı bir kategoride yayınlanacaktır.'
       },
       {
-        q: 'Android APK dosyalarını nasıl kurabilirim?',
-        a: 'Sitemizden indirdiğiniz .apk dosyasını çalıştırdığınızda Android sistemi "Bilinmeyen kaynaklardan yükleme" izni isteyebilir. Ayarlardan onay vererek kurulumu saniyeler içinde tamamlayabilirsiniz.'
+        q: '3. MSK Labs uygulamalarında reklam bulunuyor mu?',
+        a: 'MSK Labs\'ın temel yaklaşımı, kullanıcı deneyimini gereksiz reklamlarla bozmadan faydalı ve kullanılabilir uygulamalar geliştirmektir.<br><br>Uygulamaların kendi yapılarında reklam mümkün olduğunca hiçbir zaman bulunmayacak veya kullanıcıyı zorla izlemek zorunda bırakan ve beklemediği bir anda karşısına çıkan reklam yapıları kullanılmayacaktır.<br><br>Bununla birlikte <a href="http://www.msklabs.org" target="_blank" style="color:#0284c7; font-weight:600;">www.msklabs.org</a> adresindeki web sitesinde, hem mobil hem de masaüstü/web görünümünde reklam bulunabilir.'
+      },
+      {
+        q: '4. MSK Labs uygulamalarını nereden indirebilirim?',
+        a: 'MSK Labs uygulamalarına web sitesindeki ilgili uygulama sayfalarından ulaşabilirsiniz.<br><br>Uygulamanın platformuna ve dağıtım yöntemine göre Google Play veya ilgili resmi indirme kaynağına yönlendirme yapılabilir. Güvenliğiniz için uygulamaları mümkün olduğunca MSK Labs tarafından belirtilen resmi kaynaklardan indirmeniz önerilir.'
+      },
+      {
+        q: '5. MSK Labs hangi platformlar için uygulama geliştiriyor?',
+        a: 'MSK Labs\'ın mevcut geliştirme odağında özellikle Android, Windows ve Web platformları bulunmaktadır. Bunun yanında farklı platformlarda aynı anda çalışabilen uygulama yapıları da geliştirilmektedir.<br><br>Bununla birlikte uygulamaların platform desteği ürünün teknik yapısına göre değişebilir. Bir uygulamanın desteklediği işletim sistemi ve platformlar, ilgili uygulamanın ürün sayfasında belirtilir.'
+      },
+      {
+        q: '6. MSK Labs uygulamaları internet bağlantısı olmadan çalışabilir mi?',
+        a: 'Bu durum uygulamanın çalışma modeline bağlıdır.<br><br>İnternet bağlantısına ihtiyaç duymayan özellikler mümkün olduğunca cihaz üzerinde, yerel olarak çalışacak şekilde tasarlanabilir. Ancak çevrim içi veri, harita, güncel bilgiler, üçüncü taraf servisler veya sunucu tabanlı özellikler kullanan uygulamalar internet bağlantısına ihtiyaç duyabilir.<br><br>Bir uygulamanın çevrim dışı çalışma özellikleri ürün sayfasında ayrıca belirtilir.'
+      },
+      {
+        q: '7. MSK Labs uygulamaları hangi kişisel verileri topluyor?',
+        a: 'MSK Labs\'ın yaklaşımı, uygulamanın çalışması için gerekli olmayan kişisel verilerin gereksiz şekilde toplanmaması ve kesinlikle herhangi bir amaçla, MSK Labs bünyesinde veya başka mecralarda kullanılmamasıdır.<br><br>Bununla birlikte her uygulamanın teknik yapısı ve ihtiyaç duyduğu veriler farklı olabilir. Bir uygulamanın hangi verilere eriştiği, hangi izinleri kullandığı ve verilerin nasıl işlendiği ilgili uygulamanın gizlilik açıklamalarında ve Gizlilik Politikası\'nda belirtilir.'
+      },
+      {
+        q: '8. Uygulamalar neden konum, bildirim veya başka izinler istiyor?',
+        a: 'Bir uygulamanın istediği izinler, uygulamanın sunduğu özelliklerle bağlantılıdır.<br><br>Örneğin konum tabanlı bir uygulamanın yakındaki belirli noktaları gösterebilmesi için konum bilgisine ihtiyaç duyulabilir. Bildirim kullanan bir uygulamanın ise bildirim gönderebilmek için bildirim iznine ihtiyacı olabilir.<br><br>MSK Labs uygulamalarında izinlerin mümkün olduğunca uygulamanın gerekli işlevleriyle sınırlı tutulması amaçlanmaktadır.'
+      },
+      {
+        q: '9. MSK Labs uygulamalarında verilerim nerede saklanıyor?',
+        a: 'Verilerin saklanma yöntemi uygulamaya göre değişir.<br><br>Bazı uygulamalar verileri doğrudan cihaz üzerinde yerel olarak saklayabilir. Çevrim içi hizmet kullanan uygulamalarda ise belirli veriler üçüncü taraf hizmetler veya sunucular üzerinden işlenebilir.<br><br>Üçüncü taraf hizmetler tarafından işlenmesi gereken veriler, ilgili hizmetin gerektirdiği işlem tamamlandıktan sonra MSK Labs tarafından kalıcı olarak saklanmaz ve ihtiyaç sona erdiğinde silinir.<br><br>MSK Labs\'ın kendi sunucu altyapısında kullanıcılara ait kişisel verilerin kalıcı olarak tutulması amaçlanmamaktadır.<br><br>Hangi verilerin nerede ve hangi amaçla işlendiği konusunda ilgili uygulamanın gizlilik açıklaması ve MSK Labs Gizlilik Politikası esas alınmalıdır.'
+      },
+      {
+        q: '10. Bir uygulamada hata veya sorun bulursam ne yapmalıyım?',
+        a: 'Bir uygulamada hata, teknik sorun veya beklenmeyen bir davranışla karşılaşırsanız MSK Labs Destek & Talep Merkezi üzerinden hata bildirimi oluşturabilirsiniz.<br><br>Sorunu mümkün olduğunca ayrıntılı açıklamanız; kullandığınız uygulamanın sürümünü, cihaz veya işletim sistemi bilgilerini ve sorunun nasıl tekrarlandığını belirtmeniz, problemin daha hızlı incelenmesine yardımcı olur.'
+      },
+      {
+        q: '11. Yeni özellik veya geliştirme talebinde bulunabilir miyim?',
+        a: 'Evet.<br><br>MSK Labs kullanıcılarından gelen özellik taleplerini, geliştirme önerilerini ve iyileştirme fikirlerini değerlendirmektedir.<br><br>Bir özelliğin uygulanıp uygulanmayacağı; teknik uygulanabilirlik, güvenlik, kullanıcı faydası, geliştirme maliyeti ve projenin genel yönelimi gibi kriterlere göre belirlenebilir.'
+      },
+      {
+        q: '12. MSK Labs\'a yeni bir uygulama fikri önerebilir miyim?',
+        a: 'Evet. Kullanıcılar MSK Labs\'a yeni uygulama fikirleri gönderebilir.<br><br>Önerinizin daha iyi değerlendirilebilmesi için uygulamanın hangi problemi çözdüğünü, kimlere fayda sağlayacağını ve temel olarak nasıl çalışmasını beklediğinizi açıklamanız önerilir.<br><br>Gönderilen fikirlerin değerlendirilmesi, uygulamanın mutlaka geliştirileceği veya yayınlanacağı anlamına gelmez.'
+      },
+      {
+        q: '13. Destek talebimi nasıl takip edebilirim?',
+        a: 'MSK Labs Destek & Talep Merkezi üzerinden gönderilen talepler bir destek bileti olarak değerlendirilir.<br><br>Talep oluştururken verilen bilgiler ve oluşturulan bilet numarası, ilgili başvurunun takip edilmesi ve değerlendirilmesi açısından önemlidir.'
+      },
+      {
+        q: '14. MSK Labs destek taleplerini yapay zekâ ile değerlendiriyor mu?',
+        a: 'MSK Labs destek sisteminde, gönderilen taleplerin sınıflandırılması ve ilgili kategoriye yönlendirilmesine yardımcı olmak amacıyla yapay zekâ destekli işlemler kullanılabilir.<br><br>Yapay zekâ desteğinin kullanılması, kullanıcı taleplerinin otomatik olarak sonuçlandırıldığı anlamına gelmez. Amaç, destek sürecinin daha düzenli ve verimli yürütülmesine yardımcı olmaktır.<br><br>Kişisel veya hassas bilgilerin destek talebine gereksiz şekilde eklenmemesi önerilir.'
+      },
+      {
+        q: '15. MSK Labs\'a nasıl ulaşabilirim?',
+        a: 'Uygulama hataları, özellik talepleri, yeni uygulama fikirleri ve diğer kullanıcı talepleri için öncelikle MSK Labs Destek & Talep Merkezi kullanılabilir.<br><br>Genel iletişim ve diğer konular için MSK Labs\'ın web sitesinde belirtilen iletişim kanalları kullanılabilir.<br><br>Uygulama ile ilgili teknik bir sorun bildiriyorsanız, uygulamanın adı ve sürümü ile birlikte sorunun ayrıntılarını paylaşmanız daha hızlı ve doğru değerlendirme yapılmasını sağlar.'
       }
     ],
     'haydinamaza': [
@@ -326,7 +390,7 @@
     'emekli': [
       {
         q: 'Windows Masaüstü RAR şifresi nedir?',
-        a: 'Masaüstü uygulamalarımızın RAR indirme şifresi <strong>571</strong> olarak belirlenmiştir.'
+        a: 'Masaüstü uygulamalarımızın RAR indirme şifresi <strong>571</strong> (veya güncel sürüm için 175) olarak belirlenmiştir.'
       }
     ],
     'deskpilot': [
@@ -359,22 +423,23 @@
     container.innerHTML = '';
 
     if (!faqList || faqList.length === 0) {
-      container.innerHTML = '<div style="text-align:center; padding:2rem; color:#94a3b8;">Aradığınız kriterlere uygun soru bulunamadı. Lütfen canlı destek formuyla bize iletin.</div>';
+      container.innerHTML = '<div style="text-align:center; padding:2rem; color:#64748b;">Aradığınız kriterlere uygun soru bulunamadı. Lütfen canlı destek formuyla bize iletin.</div>';
       return;
     }
 
     faqList.forEach((item, index) => {
       const card = document.createElement('div');
+      // İlk kartı varsayılan olarak açık tut, diğerlerini kapalı tut (Akordeon Mantığı)
       card.className = 'faq-item-card' + (index === 0 ? ' open' : '');
-      card.innerHTML = 
+      card.innerHTML = `
         <button class="faq-question-btn" onclick="toggleFaq(this)">
-          <span>❓ </span>
+          <span class="faq-question-title">❓ ${item.q}</span>
           <span class="arrow-icon">▼</span>
         </button>
         <div class="faq-answer-content">
-          <p></p>
+          <p style="margin: 0; padding: 0.25rem 0;">${item.a}</p>
         </div>
-      ;
+      `;
       container.appendChild(card);
     });
   }
@@ -386,12 +451,13 @@
       return;
     }
     const filtered = currentAppFaqs.filter(item => 
-      item.q.toLowerCase().includes(query) || item.a.toLowerCase().includes(query)
+      item.q.toLowerCase().includes(query) || 
+      item.a.toLowerCase().replace(/<[^>]*>/g, '').toLowerCase().includes(query)
     );
     renderFaqs(filtered);
   }
 
-  // Initialize
+  // Sayfa Yüklenme Anı Başlatıcısı
   (function() {
     const urlParams = new URLSearchParams(window.location.search);
     const appId = (urlParams.get('app') || '').toLowerCase().trim();
@@ -401,18 +467,18 @@
 
     setLang(langParam || savedLang || 'tr');
 
-    // Forward App ID to Support Button
+    // Destek Butonuna App İlettiyse Parametre Ekle
     if (appId) {
-      document.getElementById('supportCtaBtn').href = destek.html?app=;
+      document.getElementById('supportCtaBtn').href = 'destek.html?app=' + appId;
     }
 
-    // Set Header Badge Info
+    // Header Rozet Bilgisini Güncelle
     if (appId && APPS_CONFIG[appId]) {
-      document.getElementById('appNameText').innerText = ${APPS_CONFIG[appId].name} - Sıkça Sorulan Sorular;
+      document.getElementById('appNameText').innerText = APPS_CONFIG[appId].name + ' – Sıkça Sorulan Sorular';
       document.getElementById('appIconBox').innerText = APPS_CONFIG[appId].icon;
     }
 
-    // Build Current FAQ List (Specific + Common)
+    // SSS Veri Listesini Oluştur (Özel Uygulama + Genel Sorular)
     const specificFaqs = FAQ_DATABASE[appId] || [];
     const commonFaqs = FAQ_DATABASE['common'] || [];
 
@@ -421,23 +487,22 @@
   })();
 </script>
 
-
-  <!-- Standart Alt Footer Menusu -->
-  <footer class="site-footer" style="text-align: center; padding: 1.5rem 1rem; border-top: 1px solid #cbd5e1; margin-top: 2.5rem; font-size: 0.85rem; color: #64748b;">
-    <div class="footer-links" style="margin-bottom: 0.75rem; font-weight: 600;">
-      <a href="index.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a> |
-      <a href="blog/blog.html?type=bizce" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a> |
-      <a href="blog/blog.html?type=anilts" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span></a> |
-      <a href="about.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a> |
-      <a href="destek.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a> |
-      <a href="contact.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a> |
-      <a href="who-we-are.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Biz Kimiz</span><span class="lang-en">Who We Are</span><span class="lang-ar">من نحن</span></a> |
-      <a href="faq.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">SSS</span><span class="lang-en">FAQ</span><span class="lang-ar">الأسئلة الشائعة</span></a> |
-      <a href="privacy.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Gizlilik Politikası</span><span class="lang-en">Privacy Policy</span><span class="lang-ar">سياسة الخصوصية</span></a> |
-      <a href="terms.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Kullanım Koşulları</span><span class="lang-en">Terms of Service</span><span class="lang-ar">شروط الخدمة</span></a>
-    </div>
-    <p class="copyright-line" style="margin: 0;">© 2026 MSK Labs. Tüm hakları saklıdır.</p>
-  </footer>
-  <script src="assets/js/layout.js"></script>
+<!-- Standart Alt Footer Menusu -->
+<footer class="site-footer" style="text-align: center; padding: 1.5rem 1rem; border-top: 1px solid #cbd5e1; margin-top: 2.5rem; font-size: 0.85rem; color: #64748b;">
+  <div class="footer-links" style="margin-bottom: 0.75rem; font-weight: 600;">
+    <a href="index.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a> |
+    <a href="blog/blog.html?type=bizce" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a> |
+    <a href="blog/blog.html?type=anilts" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span></a> |
+    <a href="about.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a> |
+    <a href="destek.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a> |
+    <a href="contact.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a> |
+    <a href="who-we-are.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Biz Kimiz</span><span class="lang-en">Who We Are</span><span class="lang-ar">من نحن</span></a> |
+    <a href="faq.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">SSS</span><span class="lang-en">FAQ</span><span class="lang-ar">الأسئلة الشائعة</span></a> |
+    <a href="privacy.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Gizlilik Politikası</span><span class="lang-en">Privacy Policy</span><span class="lang-ar">سياسة الخصوصية</span></a> |
+    <a href="terms.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Kullanım Koşulları</span><span class="lang-en">Terms of Service</span><span class="lang-ar">شروط الخدمة</span></a>
+  </div>
+  <p class="copyright-line" style="margin: 0;">© 2026 MSK Labs. Tüm hakları saklıdır.</p>
+</footer>
+<script src="assets/js/layout.js"></script>
 </body>
 </html>
