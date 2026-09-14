@@ -65,16 +65,22 @@ document.addEventListener("DOMContentLoaded", function () {
     </p>
   </footer>`;
 
-  // Auto-inject Top Nav if element .top-main-nav is missing
-  if (!document.querySelector('.top-main-nav')) {
-    const logoContainer = document.querySelector('.logo-container') || document.querySelector('.bizce-header');
+  // 1. Sync & Inject Top Nav from Central Template
+  const existingNav = document.querySelector('.top-main-nav');
+  if (existingNav) {
+    existingNav.outerHTML = topNavHtml;
+  } else {
+    const logoContainer = document.querySelector('.logo-container') || document.querySelector('.bizce-header') || document.querySelector('.site-header');
     if (logoContainer) {
       logoContainer.insertAdjacentHTML('afterend', topNavHtml);
     }
   }
 
-  // Auto-inject Footer if site-footer element is completely missing
-  if (!document.querySelector('.site-footer') && !document.getElementById('site-footer')) {
+  // 2. Sync & Inject Footer from Central Template
+  const existingFooter = document.querySelector('.site-footer') || document.getElementById('site-footer');
+  if (existingFooter) {
+    existingFooter.outerHTML = footerHtml;
+  } else {
     document.body.insertAdjacentHTML('beforeend', footerHtml);
   }
 });
