@@ -22,12 +22,11 @@ body {
 .bizce-header {
   background: var(--bg-card, #ffffff);
   border-bottom: 1px solid var(--border-color, #cbd5e1);
-  padding: 0.5rem 1.5rem;
+  padding: 0.6rem 1rem;
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-  max-height: 68px;
   box-sizing: border-box;
 }
 .bizce-header-inner {
@@ -35,8 +34,10 @@ body {
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  height: 100%;
+  align-items: flex-start;
+}
+.bizce-title-group {
+  padding-top: 4px;
 }
 .bizce-title-group h1 {
   font-size: 1.35rem;
@@ -44,25 +45,26 @@ body {
   color: var(--bizce-dark);
   margin: 0;
   letter-spacing: -0.03em;
-  line-height: 1;
+  line-height: 1.2;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-.bizce-title-group p {
-  font-size: 0.72rem;
-  color: var(--bizce-primary);
-  margin: 0.15rem 0 0 0;
-  font-weight: 600;
+
+.bizce-header-right-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
 }
 
 .bizce-center-logo-link {
   display: flex;
   align-items: center;
-  height: 55px;
+  justify-content: flex-end;
 }
 .bizce-header-logo {
-  height: 55px;
+  height: 40px;
   width: auto;
   object-fit: contain;
 }
@@ -70,7 +72,8 @@ body {
 .bizce-nav-right {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
 .nav-link-btn {
   color: #334155;

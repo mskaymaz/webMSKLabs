@@ -12,6 +12,9 @@
   <meta id="ogImage" property="og:image" content="img/MSKLabsLogo.svg">
   <meta property="og:type" content="website">
 
+  <meta name="theme-color" content="#0f172a">
+  <script>!function(){var t=localStorage.getItem("user_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"===t&&document.documentElement.setAttribute("data-theme","dark")}()</script>
+
   <link rel="stylesheet" href="assets/css/global.css?v=25">
   <style>
     .app-hero-card {
@@ -19,7 +22,7 @@
       color: var(--text-main);
       border: 1px solid var(--border-color, #cbd5e1);
       border-radius: 16px;
-      padding: 2rem;
+      padding: clamp(1.25rem, 4vw, 2rem);
       margin-bottom: 2rem;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     }
@@ -117,11 +120,6 @@
 
   <header class="site-header">
     <div class="site-header-inner" style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem;">
-      <div class="site-header-title-group">
-        <h1 id="appHeaderTitle" style="margin:0; font-size: 1.25rem; font-weight: 700; color: #1e293b;">📱 Uygulama Detayı</h1>
-        <p id="appHeaderTagline" style="margin:0; font-size: 0.85rem; color: #64748b;">MSK Labs Mobil &amp; Masaüstü Yazılımları</p>
-      </div>
-      
       <a href="index.html" class="bizce-center-logo-link" title="MSK Labs Ana Sayfa">
         <img src="img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="site-header-logo" style="height: 55px; width: auto;">
       </a>
@@ -137,22 +135,27 @@
   </header>
 
   <!-- Standart Ust Ana Navigasyon Menusu -->
-  <nav class="top-main-nav" style="text-align: center; margin: 0.5rem 0 1.25rem 0; font-size: 0.88rem; font-weight: 600; color: #475569;">
-    <a href="index.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem;"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a> |
-    <a href="blog/blog.html?type=bizce" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem;"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a> |
-    <a href="blog/blog.html?type=anilts" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem;"><span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span></a> |
-    <a href="index.html#apps" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem;"><span class="lang-tr">Uygulamalarımız</span><span class="lang-en">Our Apps</span><span class="lang-ar">تطبيقاتنا</span></a> |
-    <a href="about.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem;"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a> |
-    <a href="destek.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem;"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a> |
-    <a href="contact.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem;"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a>
+  <nav class="top-main-nav">
+    <a href="index.html"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a>
+    <a href="blog/blog.html?type=bizce"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a>
+    <a href="blog/blog.html?type=anilts"><span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span></a>
+    <a href="index.html#apps"><span class="lang-tr">Uygulamalarımız</span><span class="lang-en">Our Apps</span><span class="lang-ar">تطبيقاتنا</span></a>
+    <a href="about.html"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a>
+    <a href="destek.html"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a>
+    <a href="contact.html"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a>
   </nav>
 
-  <main style="max-width: 900px; margin: 0 auto; padding: 0 1rem;">
-    <div id="appContainer" class="app-hero-card">
-      <!-- Dynamic Content Rendered Here -->
-      <p style="text-align: center; color: #64748b;">Uygulama bilgileri yükleniyor...</p>
+  <div class="layout-wrapper">
+    <div class="portfolio-container">
+      <div id="appContainer" class="app-hero-card">
+        <!-- Dynamic Content Rendered Here -->
+        <p style="text-align: center; color: #64748b;">Uygulama bilgileri yükleniyor...</p>
+      </div>
+      <div class="infeed-ad-container">
+        <div class="ad-placeholder">Sayfa Altı Reklam Alanı (Bottom Banner)</div>
+      </div>
     </div>
-  </main>
+  </div>
 
   <!-- Layout Injector Footer -->
   <footer id="site-footer" class="site-footer"></footer>

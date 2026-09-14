@@ -6,6 +6,9 @@
     <title>MSKLabs.org - Emekli</title>
     <meta name="description" content="Emekli - Emekli olmaya ne kadar kaldığını anlık olarak hesaplayan ve takip eden masaüstü sayaç uygulaması.">
     
+    <meta name="theme-color" content="#0f172a">
+    <script>!function(){var t=localStorage.getItem("user_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"===t&&document.documentElement.setAttribute("data-theme","dark")}()</script>
+
     <!-- Google Fonts: Inter & Global Stylesheet -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -160,33 +163,41 @@
       }
     </style>
     <!-- MSK Labs Favicon & Kısayol İkonları -->
-    <link rel="icon" type="image/png" href="img/MSKLabs_favicon.png">
-    <link rel="shortcut icon" href="img/MSKLabs_favicon.png" type="image/x-icon">
-    <link rel="apple-touch-icon" href="img/MSKLabs_favicon.png">
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/analytics.js"></script>
+    <link rel="icon" type="image/png" href="../img/MSKLabs_favicon.png">
+    <link rel="shortcut icon" href="../img/MSKLabs_favicon.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../img/MSKLabs_favicon.png">
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/analytics.js"></script>
 </head>
 <body class="lang-tr">
 
-<div class="layout-wrapper">
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="bizce-center-logo-link" title="MSK Labs Ana Sayfa">
+      <img src="../img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="site-header-logo">
+    </a>
 
-  <!-- Masaüstü Sol Reklam -->
-  <aside class="desktop-ad desktop-ad-left">
-    <div class="ad-placeholder">Masaüstü Sol Reklam<br>(120x300)</div>
-  </aside>
-
-  <!-- Ana Detay İçeriği -->
-  <div class="portfolio-container">
-    
-    <!-- Üst Bar: Dil Seçici -->
-    <div class="top-nav" style="justify-content: flex-end;">
-
-      <div class="lang-switcher">
-        <button onclick="setLang('tr')" data-lang="tr" title="Türkçe">TR</button>
-        <button onclick="setLang('en')" data-lang="en" title="English">EN</button>
-        <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img src="../img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
-      </div>
+    <div class="lang-switcher">
+      <button onclick="setLang('tr')" data-lang="tr" class="active" title="Türkçe">TR</button>
+      <button onclick="setLang('en')" data-lang="en" title="English">EN</button>
+      <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img src="../img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
     </div>
+  </div>
+</header>
+
+<!-- Standart Ust Ana Navigasyon Menusu -->
+<nav class="top-main-nav">
+  <a href="../index.html"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a>
+  <a href="../blog/blog.html?type=bizce"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a>
+  <a href="../blog/blog.html?type=anilts"><span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span></a>
+  <a href="../index.html#apps"><span class="lang-tr">Uygulamalarımız</span><span class="lang-en">Our Apps</span><span class="lang-ar">تطبيقاتنا</span></a>
+  <a href="../about.html"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a>
+  <a href="../destek.html"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a>
+  <a href="../contact.html"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a>
+</nav>
+
+<div class="layout-wrapper">
+  <div class="portfolio-container">
 
     <!-- Dil Destek Uyarısı & Çeviri Talebi Kutusu (Sadece EN ve AR dillerinde görünür) -->
     <div class="translation-request-box lang-en lang-ar">

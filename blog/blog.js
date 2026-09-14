@@ -164,7 +164,6 @@ var blogPostsData = [
 
 function updateHeaderAndTabs() {
   var mainTitle = document.getElementById('headerMainTitle');
-  var subSlogan = document.getElementById('subSlogan');
   var btnBizce = document.getElementById('tabBizce');
   var btnAnilts = document.getElementById('tabAnilts');
 
@@ -177,11 +176,6 @@ function updateHeaderAndTabs() {
       else if (currentLang === 'en') mainTitle.innerText = '📖 ANILTILAR';
       else mainTitle.innerText = '📖 ANILTILAR';
     }
-    if (subSlogan) {
-      if (currentLang === 'ar') subSlogan.innerText = 'قصص وحكايات واقعية وتجارب إنسانية';
-      else if (currentLang === 'en') subSlogan.innerText = 'Real-life Memoirs & Inspiring Life Stories';
-      else subSlogan.innerText = 'Yaşanmış Tecrübeler, Hayat Dersleri ve İz Bırakan Anılar';
-    }
   } else {
     if (btnBizce) btnBizce.className = 'section-tab-btn active-bizce';
     if (btnAnilts) btnAnilts.className = 'section-tab-btn';
@@ -191,22 +185,17 @@ function updateHeaderAndTabs() {
       else if (currentLang === 'en') mainTitle.innerText = '✍️ BİZCE';
       else mainTitle.innerText = '✍️ BİZCE';
     }
-    if (subSlogan) {
-      if (currentLang === 'ar') subSlogan.innerText = 'نظرة عميقة على التكنولوجيا والحياة';
-      else if (currentLang === 'en') subSlogan.innerText = 'A Deep Perspective on Tech, Life & Humanity';
-      else subSlogan.innerText = 'Teknolojiye, Hayata ve İnsanlığa Derin Bakış';
-    }
   }
 
   if (btnBizce) {
-    if (currentLang === 'ar') btnBizce.innerText = '✍️ بيزجه (مقالات الفكر والأفكار)';
-    else if (currentLang === 'en') btnBizce.innerText = '✍️ BİZCE (Thought & Idea Articles)';
-    else btnBizce.innerText = '✍️ BİZCE (Düşünce & Fikir Makaleleri)';
+    if (currentLang === 'ar') btnBizce.innerText = '✍️ بيزجه';
+    else if (currentLang === 'en') btnBizce.innerText = '✍️ BİZCE';
+    else btnBizce.innerText = '✍️ BİZCE';
   }
   if (btnAnilts) {
-    if (currentLang === 'ar') btnAnilts.innerText = '📖 أنيلتيلار (التجارب الحية والذكريات)';
-    else if (currentLang === 'en') btnAnilts.innerText = '📖 ANILTILAR (Memoirs & Life Experiences)';
-    else btnAnilts.innerText = '📖 ANILTILAR (Yaşanmış Tecrübeler & Anılar)';
+    if (currentLang === 'ar') btnAnilts.innerText = '📖 أنيلتيلار';
+    else if (currentLang === 'en') btnAnilts.innerText = '📖 ANILTILAR';
+    else btnAnilts.innerText = '📖 ANILTILAR';
   }
 }
 
@@ -224,6 +213,7 @@ function switchSection(sec) {
   updateHeaderAndTabs();
   renderSubCategories();
   renderPosts();
+  if (typeof window.highlightActiveTopNav === 'function') window.highlightActiveTopNav();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -649,19 +639,45 @@ function restartTTSIfPlaying() {
   }
 }
 
+function handleUrlParams() {
+  var params = new URLSearchParams(window.location.search);
+  var typeParam = (params.get('type') || params.get('cat') || '').toLowerCase();
+  var sec = 'bizce';
+  if (typeParam === 'anilts' || typeParam === 'aniltilar' || typeParam === 'anilti') {
+    sec = 'anilts';
+  }
+  switchSection(sec);
+}
+
 document.addEventListener("DOMContentLoaded", function() {
   var storedLang = localStorage.getItem('user_lang') || 'tr';
   currentLang = storedLang;
 
-  var params = new URLSearchParams(window.location.search);
-  var sec = 'bizce';
-  if (params.get('cat') === 'anilts' || params.get('type') === 'anilts') {
-    sec = 'anilts';
-  }
-
-  currentSection = sec;
+  handleUrlParams();
   setLang(currentLang);
   applyFontSize();
+});
+
+// Intercept clicks on Bizce & Anıltılar nav links for instant list view switching without reload
+document.addEventListener('click', function(e) {
+  var a = e.target.closest('a');
+  if (!a) return;
+  var href = a.getAttribute('href');
+  if (href && href.indexOf('blog.html') !== -1) {
+    if (href.indexOf('type=anilts') !== -1 || href.indexOf('cat=anilts') !== -1) {
+      e.preventDefault();
+      try { window.history.pushState({}, '', href); } catch(err) {}
+      switchSection('anilts');
+    } else if (href.indexOf('type=bizce') !== -1 || href.indexOf('cat=bizce') !== -1) {
+      e.preventDefault();
+      try { window.history.pushState({}, '', href); } catch(err) {}
+      switchSection('bizce');
+    }
+  }
+});
+
+window.addEventListener('popstate', function() {
+  handleUrlParams();
 });
 
 /* --- Erişilebilirlik: Okuma Metni Boyutu Ölçekleme (Font Resizer) --- */

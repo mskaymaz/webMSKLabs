@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
     </p>
   </footer>`;
 
-  // Auto-inject Top Nav if element #topNavMount or .top-main-nav missing
+  // Auto-inject Top Nav if element .top-main-nav is missing
   if (!document.querySelector('.top-main-nav')) {
     const logoContainer = document.querySelector('.logo-container') || document.querySelector('.bizce-header');
     if (logoContainer) {
@@ -76,8 +76,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Auto-inject Footer if missing
-  if (!document.querySelector('.site-footer')) {
+  // Auto-inject Footer if site-footer element is completely missing
+  if (!document.querySelector('.site-footer') && !document.getElementById('site-footer')) {
     document.body.insertAdjacentHTML('beforeend', footerHtml);
   }
 });

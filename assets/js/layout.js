@@ -71,16 +71,35 @@
   }
 
   function highlightActiveTopNav() {
-    var navLinks = document.querySelectorAll('.top-main-nav a, .site-subnav a');
+    var navLinks = document.querySelectorAll('.top-main-nav a, .site-subnav a, .footer-links a, .footer-links-row1 a, .footer-links-row2 a');
+    var params = new URLSearchParams(window.location.search);
+    var typeParam = (params.get('type') || params.get('cat') || '').toLowerCase();
+
     navLinks.forEach(function (link) {
+      link.classList.remove('active-nav-link');
       var href = link.getAttribute('href');
       if (!href) return;
-      if ((href.indexOf(pageName) !== -1 && pageName !== 'index.html') || (pageName === 'index.html' && href.indexOf('index.html') !== -1)) {
-        link.style.fontWeight = '700';
-        link.style.color = '#2563eb';
+
+      var isActive = false;
+      if (pageName === 'blog.html') {
+        if (typeParam === 'anilts' || typeParam === 'aniltilar' || typeParam === 'anilti') {
+          if (href.indexOf('type=anilts') !== -1 || href.indexOf('cat=anilts') !== -1) isActive = true;
+        } else {
+          if (href.indexOf('type=bizce') !== -1 || href.indexOf('cat=bizce') !== -1) isActive = true;
+        }
+      } else if (pageName === 'index.html' || pageName === '') {
+        if (href.indexOf('index.html') !== -1 && href.indexOf('#apps') === -1) isActive = true;
+      } else {
+        if (href.indexOf(pageName) !== -1) isActive = true;
+      }
+
+      if (isActive) {
+        link.classList.add('active-nav-link');
       }
     });
   }
+
+  window.highlightActiveTopNav = highlightActiveTopNav;
 
   // 3. Centralized Dark Mode Theme Manager
   function initTheme() {
@@ -117,7 +136,7 @@
         btn = document.createElement('button');
         btn.id = 'themeToggleBtn';
         btn.onclick = window.toggleTheme;
-        btn.style.cssText = 'background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; padding: 2px 7px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;';
+        btn.style.cssText = 'background: transparent; border: 1px solid var(--border-color, #cbd5e1); border-radius: 8px; padding: 2px 7px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center;';
         langSwitcher.appendChild(btn);
       }
     }
@@ -127,35 +146,77 @@
     }
   }
 
+  // Global Language & RTL Switcher (W4, W10)
+  window.setLang = function(lang) {
+    if (!lang) lang = 'tr';
+    try { localStorage.setItem('user_lang', lang); } catch(e) {}
+    
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    
+    if (document.body) {
+      document.body.classList.remove('lang-tr', 'lang-en', 'lang-ar');
+      document.body.classList.add('lang-' + lang);
+    }
+
+    var buttons = document.querySelectorAll('.lang-switcher button');
+    buttons.forEach(function(btn) {
+      if (btn.getAttribute('data-lang') === lang) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    // Link URL Sync for Language Continuity (W4) - Preserves existing query params like ?type=bizce, ?type=anilts
+    var links = document.querySelectorAll('a.app-card, a.back-btn, .top-main-nav a, .site-footer a');
+    links.forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (href && !href.startsWith('javascript:') && !href.startsWith('#')) {
+        var hashParts = href.split('#');
+        var urlPathAndQuery = hashParts[0];
+        var hash = hashParts[1] ? '#' + hashParts[1] : '';
+        
+        var queryParts = urlPathAndQuery.split('?');
+        var path = queryParts[0];
+        var queryStr = queryParts[1] || '';
+        
+        var params = new URLSearchParams(queryStr);
+        if (lang !== 'tr') {
+          params.set('lang', lang);
+        } else {
+          params.delete('lang');
+        }
+        
+        var newQuery = params.toString();
+        a.setAttribute('href', path + (newQuery ? '?' + newQuery : '') + hash);
+      }
+    });
+  };
+
   // Dynamic HTML lang and RTL attribute sync
   function syncLangAttributes() {
     var savedLang = 'tr';
     try { savedLang = localStorage.getItem('user_lang') || 'tr'; } catch(e) {}
-    document.documentElement.setAttribute('lang', savedLang);
-    if (savedLang === 'ar') {
-      document.documentElement.setAttribute('dir', 'rtl');
-    } else {
-      document.documentElement.setAttribute('dir', 'ltr');
-    }
+    window.setLang(savedLang);
   }
 
   // Pre-DOM theme apply
   initTheme();
-  syncLangAttributes();
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
       initTheme();
-      syncLangAttributes();
       syncTopNav();
       renderFooter();
       highlightActiveTopNav();
+      syncLangAttributes();
     });
   } else {
     initTheme();
-    syncLangAttributes();
     syncTopNav();
     renderFooter();
     highlightActiveTopNav();
+    syncLangAttributes();
   }
 })();

@@ -40,6 +40,13 @@
     }
 
     saveStats(data);
+
+    // Asynchronously ping backend API if configured
+    if (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.googleSheetApiUrl && !SITE_CONFIG.googleSheetApiUrl.includes('placeholder')) {
+      try {
+        fetch(SITE_CONFIG.googleSheetApiUrl + '?action=pageview&page=' + encodeURIComponent(window.location.pathname), { mode: 'no-cors' });
+      } catch(e) {}
+    }
   }
 
   function trackEvent(eventName, appId) {

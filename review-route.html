@@ -249,9 +249,15 @@
     setLang(langParam || savedLang || 'tr');
 
     if (selectedAppId && APPS_CONFIG[selectedAppId]) {
-      document.getElementById('appNameText').innerText = `${APPS_CONFIG[selectedAppId].name} Değerlendirmesi`;
-      document.getElementById('appIconBox').innerHTML = APPS_CONFIG[selectedAppId].icon;
-      document.getElementById('supportLinkBtn').href = `destek.html?app=${encodeURIComponent(selectedAppId)}&category=hata`;
+      const appName = APPS_CONFIG[selectedAppId].name || selectedAppId;
+      const appTitleEl = document.getElementById('appNameText');
+      if (appTitleEl) {
+        appTitleEl.innerHTML = `<span class="lang-tr">${appName} Değerlendirmesi</span><span class="lang-en">${appName} Review</span><span class="lang-ar">تقييم ${appName}</span>`;
+      }
+      const iconBox = document.getElementById('appIconBox');
+      if (iconBox) iconBox.innerHTML = APPS_CONFIG[selectedAppId].icon || '📱';
+      const supportBtn = document.getElementById('supportLinkBtn');
+      if (supportBtn) supportBtn.href = `destek.html?app=${encodeURIComponent(selectedAppId)}&category=hata`;
     }
   })();
 </script>
