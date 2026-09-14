@@ -22,11 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     </a>
     <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
     <a href="${rel}blog/blog.html?type=bizce" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
-      <span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span>
-    </a>
-    <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-    <a href="${rel}blog/blog.html?type=anilts" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
-      <span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span>
+      <span class="lang-tr">Bloglar</span><span class="lang-en">Blogs</span><span class="lang-ar">المدونات</span>
     </a>
     <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
     <a href="${rel}index.html#apps" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
@@ -53,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <a href="${rel}index.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a> |
       <a href="${rel}blog/blog.html?type=bizce" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a> |
       <a href="${rel}blog/blog.html?type=anilts" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span></a> |
+      <a href="${rel}blog/blog.html?type=guncel" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Güncel</span><span class="lang-en">News</span><span class="lang-ar">الأخبار</span></a> |
       <a href="${rel}about.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a> |
       <a href="${rel}destek.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a> |
       <a href="${rel}contact.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a> |
