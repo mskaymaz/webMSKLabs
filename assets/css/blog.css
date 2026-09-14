@@ -98,17 +98,18 @@ body {
 .layout-wrapper {
   display: flex;
   justify-content: center;
-  max-width: 1200px;
+  align-items: flex-start;
+  gap: 10px; /* Standart Sabit 10px Yan Reklam Mesafesi */
+  max-width: 1160px;
   width: 100%;
   margin: 1.5rem auto;
-  padding: 0 4px;
-  gap: 8px;
+  padding: 0;
   box-sizing: border-box;
 }
 .main-content-area {
   flex: 1;
   min-width: 0;
-  max-width: 920px;
+  max-width: 900px;
   width: 100%;
 }
 

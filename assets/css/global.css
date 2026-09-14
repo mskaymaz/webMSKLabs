@@ -59,8 +59,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 8px;
-  max-width: 1200px;
+  gap: 10px; /* Standart Sabit 10px Yan Reklam Mesafesi */
+  max-width: 1160px;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
@@ -72,7 +72,7 @@ body {
   flex: 1;
   min-width: 0;
   margin: 0 auto;
-  padding: 40px clamp(16px, 4vw, 24px) 60px clamp(16px, 4vw, 24px);
+  padding: 24px 0 60px 0;
   box-sizing: border-box;
 }
 
@@ -301,7 +301,7 @@ body.lang-ar { direction: rtl; }
 .site-header-inner {
   max-width: 900px; /* Ana içerik bloğu (.portfolio-container) ile milimetrik sol/sağ hizalama */
   margin: 0 auto;
-  padding: 0 clamp(16px, 4vw, 24px);
+  padding: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
