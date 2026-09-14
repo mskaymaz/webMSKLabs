@@ -159,6 +159,31 @@ var blogPostsData = [
       "summary": "نهج مستدام للنمو الشخصي في التكنولوجيا.",
       "content": "<p>التعلم رحلة مدى الحياة.</p>"
     }
+  },
+  {
+    "id": 6,
+    "type": "guncel",
+    "category": "Duyurular & Yenilikler",
+    "category_en": "Announcements & News",
+    "category_ar": "الإعلانات والجديد",
+    "date": "14 Eylül 2026",
+    "readTime": "2 dk okuma",
+    "icon": "📢",
+    "tr": {
+      "title": "MSK Labs Platform Güncellemesi ve Yeni Özellikler",
+      "summary": "Platformumuz genelinde yapılan performans iyileştirmeleri, çoklu dil güncellemeleri ve yeni modül duyuruları.",
+      "content": "<p>MSK Labs ekibi olarak platformumuzu sürekli geliştirmeye devam ediyoruz. Son güncellemelerimiz ile birlikte performans optimizasyonları ve yeni modül altyapısı yayına alındı.</p>"
+    },
+    "en": {
+      "title": "MSK Labs Platform Update and New Features",
+      "summary": "Performance enhancements, multi-language updates, and new module announcements across our platform.",
+      "content": "<p>At MSK Labs, we continuously improve our platform. With our latest updates, performance optimizations and new module infrastructure have been deployed live.</p>"
+    },
+    "ar": {
+      "title": "تحديث منصة MSK Labs والميزات الجديدة",
+      "summary": "تحسينات الأداء، تحديثات متعددة اللغات، وإعلانات الوحدات الجديدة على منصتنا.",
+      "content": "<p>في MSK Labs، نواصل تحسين منصتنا باستمرار. مع أحدث التحديثات لدينا، تم إطلاق تحسينات الأداء وبنية التحتية للوحدات الجديدة.</p>"
+    }
   }
 ];
 
@@ -166,20 +191,28 @@ function updateHeaderAndTabs() {
   var mainTitle = document.getElementById('headerMainTitle');
   var btnBizce = document.getElementById('tabBizce');
   var btnAnilts = document.getElementById('tabAnilts');
+  var btnGuncel = document.getElementById('tabGuncel');
+
+  if (btnBizce) btnBizce.className = 'section-tab-btn';
+  if (btnAnilts) btnAnilts.className = 'section-tab-btn';
+  if (btnGuncel) btnGuncel.className = 'section-tab-btn';
 
   if (currentSection === 'anilts') {
-    if (btnBizce) btnBizce.className = 'section-tab-btn';
     if (btnAnilts) btnAnilts.className = 'section-tab-btn active-anilts';
-
     if (mainTitle) {
       if (currentLang === 'ar') mainTitle.innerText = '📖 أنيلتيلار';
       else if (currentLang === 'en') mainTitle.innerText = '📖 ANILTILAR';
       else mainTitle.innerText = '📖 ANILTILAR';
     }
+  } else if (currentSection === 'guncel') {
+    if (btnGuncel) btnGuncel.className = 'section-tab-btn active-guncel';
+    if (mainTitle) {
+      if (currentLang === 'ar') mainTitle.innerText = '📰 الأخبار';
+      else if (currentLang === 'en') mainTitle.innerText = '📰 NEWS';
+      else mainTitle.innerText = '📰 GÜNCEL';
+    }
   } else {
     if (btnBizce) btnBizce.className = 'section-tab-btn active-bizce';
-    if (btnAnilts) btnAnilts.className = 'section-tab-btn';
-
     if (mainTitle) {
       if (currentLang === 'ar') mainTitle.innerText = '✍️ بيزجه';
       else if (currentLang === 'en') mainTitle.innerText = '✍️ BİZCE';
@@ -196,6 +229,11 @@ function updateHeaderAndTabs() {
     if (currentLang === 'ar') btnAnilts.innerText = '📖 أنيلتيلار';
     else if (currentLang === 'en') btnAnilts.innerText = '📖 ANILTILAR';
     else btnAnilts.innerText = '📖 ANILTILAR';
+  }
+  if (btnGuncel) {
+    if (currentLang === 'ar') btnGuncel.innerText = '📰 الأخبار';
+    else if (currentLang === 'en') btnGuncel.innerText = '📰 NEWS';
+    else btnGuncel.innerText = '📰 GÜNCEL';
   }
 }
 
@@ -230,6 +268,15 @@ function renderSubCategories() {
       '<button class="cat-pill ' + (currentSubFilter === 'all' ? 'active' : '') + '" onclick="setSubFilter(\'all\')">' + tAll + '</button>' +
       '<button class="cat-pill ' + (currentSubFilter === 'life' ? 'active' : '') + '" onclick="setSubFilter(\'life\')">' + tLife + '</button>' +
       '<button class="cat-pill ' + (currentSubFilter === 'work' ? 'active' : '') + '" onclick="setSubFilter(\'work\')">' + tWork + '</button>';
+  } else if (currentSection === 'guncel') {
+    var tAllGuncel = (currentLang === 'ar' ? '🌟 جميع الأخبار' : (currentLang === 'en' ? '🌟 All News' : '🌟 Tüm Güncel Yazılar'));
+    var tAnnounce = (currentLang === 'ar' ? '📢 الإعلانات' : (currentLang === 'en' ? '📢 Announcements' : '📢 Duyurular & Yenilikler'));
+    var tReleases = (currentLang === 'ar' ? '🚀 التحديثات' : (currentLang === 'en' ? '🚀 Release Notes' : '🚀 Sürüm Notları'));
+
+    pillsContainer.innerHTML = 
+      '<button class="cat-pill ' + (currentSubFilter === 'all' ? 'active' : '') + '" onclick="setSubFilter(\'all\')">' + tAllGuncel + '</button>' +
+      '<button class="cat-pill ' + (currentSubFilter === 'announce' ? 'active' : '') + '" onclick="setSubFilter(\'announce\')">' + tAnnounce + '</button>' +
+      '<button class="cat-pill ' + (currentSubFilter === 'release' ? 'active' : '') + '" onclick="setSubFilter(\'release\')">' + tReleases + '</button>';
   } else {
     var tAllBizce = (currentLang === 'ar' ? '🌟 جميع مقالات بيزجه' : (currentLang === 'en' ? '🌟 All Bizce Articles' : '🌟 Tüm Bizce Yazıları'));
     var tTech = (currentLang === 'ar' ? '💻 التكنولوجيا' : (currentLang === 'en' ? '💻 Technology' : '💻 Teknoloji'));
@@ -645,6 +692,8 @@ function handleUrlParams() {
   var sec = 'bizce';
   if (typeParam === 'anilts' || typeParam === 'aniltilar' || typeParam === 'anilti') {
     sec = 'anilts';
+  } else if (typeParam === 'guncel' || typeParam === 'news') {
+    sec = 'guncel';
   }
   switchSection(sec);
 }
@@ -658,7 +707,7 @@ document.addEventListener("DOMContentLoaded", function() {
   applyFontSize();
 });
 
-// Intercept clicks on Bizce & Anıltılar nav links for instant list view switching without reload
+// Intercept clicks on Bizce, Anıltılar & Güncel nav links for instant list view switching without reload
 document.addEventListener('click', function(e) {
   var a = e.target.closest('a');
   if (!a) return;
@@ -668,6 +717,10 @@ document.addEventListener('click', function(e) {
       e.preventDefault();
       try { window.history.pushState({}, '', href); } catch(err) {}
       switchSection('anilts');
+    } else if (href.indexOf('type=guncel') !== -1 || href.indexOf('cat=guncel') !== -1) {
+      e.preventDefault();
+      try { window.history.pushState({}, '', href); } catch(err) {}
+      switchSection('guncel');
     } else if (href.indexOf('type=bizce') !== -1 || href.indexOf('cat=bizce') !== -1) {
       e.preventDefault();
       try { window.history.pushState({}, '', href); } catch(err) {}
