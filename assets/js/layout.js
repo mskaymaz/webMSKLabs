@@ -15,7 +15,41 @@
   var basePath = isSubfolder ? '../' : './';
   var pageName = pathname.substring(pathname.lastIndexOf('/') + 1) || 'index.html';
 
-  // 1. Safe 2-Row Footer Injector
+  // 1. Centralized Top Navigation Bar Injector & Renderer
+  function renderTopNav() {
+    var nav = document.querySelector('.top-main-nav');
+    if (!nav) return;
+
+    var topNavHTML = `
+      <a href="${basePath}index.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+        <span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span>
+      </a>
+      <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
+      <a href="${basePath}blog/blog.html?type=bizce" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+        <span class="lang-tr">Bloglar</span><span class="lang-en">Blogs</span><span class="lang-ar">المدونات</span>
+      </a>
+      <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
+      <a href="${basePath}index.html#apps" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+        <span class="lang-tr">Uygulamalarımız</span><span class="lang-en">Our Apps</span><span class="lang-ar">تطبيقاتنا</span>
+      </a>
+      <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
+      <a href="${basePath}about.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+        <span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span>
+      </a>
+      <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
+      <a href="${basePath}destek.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+        <span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span>
+      </a>
+      <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
+      <a href="${basePath}contact.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+        <span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span>
+      </a>
+    `;
+
+    nav.innerHTML = topNavHTML;
+  }
+
+  // 2. Safe 2-Row Footer Injector
   function renderFooter() {
     var footerEl = document.querySelector('footer.site-footer') || document.getElementById('site-footer');
     if (!footerEl) return;
@@ -57,20 +91,7 @@
     footerEl.style.marginTop = '2.5rem';
   }
 
-  // 2. Safe Active Link Highlighter & Nav Sync
-  function syncTopNav() {
-    var nav = document.querySelector('.top-main-nav');
-    if (!nav) return;
-    var html = nav.innerHTML;
-    if (html.indexOf('Uygulamalarımız') === -1 && html.indexOf('Our Apps') === -1) {
-      var aboutLink = nav.querySelector('a[href*="about.html"]');
-      if (aboutLink) {
-        var appLinkHTML = '<a href="' + basePath + 'index.html#apps" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;"><span class="lang-tr">Uygulamalarımız</span><span class="lang-en">Our Apps</span><span class="lang-ar">تطبيقاتنا</span></a> <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span> ';
-        aboutLink.insertAdjacentHTML('beforebegin', appLinkHTML);
-      }
-    }
-  }
-
+  // 3. Safe Active Link Highlighter & Nav Sync
   function highlightActiveTopNav() {
     var navLinks = document.querySelectorAll('.top-main-nav a, .site-subnav a, .footer-links a, .footer-links-row1 a, .footer-links-row2 a');
     var params = new URLSearchParams(window.location.search);
@@ -102,13 +123,13 @@
 
   window.highlightActiveTopNav = highlightActiveTopNav;
 
-  // 3. Centralized Dark Mode Theme Manager
+  // 4. Centralized Dark Mode Theme Manager
   function initTheme() {
     var savedTheme = localStorage.getItem('user_theme');
     if (!savedTheme) {
       savedTheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
     }
-    applyTheme(savedTheme);
+    document.documentElement.setAttribute('data-theme', savedTheme);
   }
 
   function applyTheme(theme) {
@@ -209,14 +230,14 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
       initTheme();
-      syncTopNav();
+      renderTopNav();
       renderFooter();
       highlightActiveTopNav();
       syncLangAttributes();
     });
   } else {
     initTheme();
-    syncTopNav();
+    renderTopNav();
     renderFooter();
     highlightActiveTopNav();
     syncLangAttributes();
