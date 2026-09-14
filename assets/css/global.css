@@ -506,7 +506,9 @@ body.lang-ar .site-footer {
   transition: filter 0.2s ease;
 }
 
-.lang-switcher button.active .arabic-btn-icon {
+.lang-switcher button.active .arabic-btn-icon,
+[data-theme="dark"] .arabic-btn-icon,
+body.dark-theme .arabic-btn-icon {
   filter: brightness(0) invert(1);
 }
 
