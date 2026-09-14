@@ -33,29 +33,14 @@ body {
   max-width: 1000px;
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-.bizce-header-top-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-.bizce-header-logo {
-  height: 34px;
-  width: auto;
-  object-fit: contain;
-}
-.bizce-header-bottom-row {
-  display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
 .bizce-title-group {
+  flex: 1;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
 }
 .bizce-title-group h1 {
@@ -69,11 +54,59 @@ body {
   align-items: center;
   gap: 0.5rem;
 }
+.bizce-center-logo-link {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bizce-header-logo {
+  height: 39px;
+  width: auto;
+  object-fit: contain;
+}
+.bizce-header .lang-switcher {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+}
 .section-tab-btn.active-guncel {
   background: #059669 !important;
   color: #ffffff !important;
   border-color: #059669 !important;
   box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25) !important;
+}
+
+@media (max-width: 768px) {
+  .bizce-header-inner {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-areas:
+      "logo logo"
+      "title switcher" !important;
+    row-gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .bizce-center-logo-link {
+    grid-area: logo !important;
+    justify-self: center !important;
+    margin: 0 auto !important;
+  }
+  .bizce-header-logo {
+    height: 30px !important;
+  }
+  .bizce-title-group {
+    grid-area: title !important;
+    justify-self: start !important;
+    text-align: left !important;
+  }
+  .bizce-header .lang-switcher {
+    grid-area: switcher !important;
+    justify-self: end !important;
+  }
 }
 .nav-link-btn {
   color: #334155;
