@@ -684,3 +684,21 @@ body {
     cursor: pointer !important;
   }
 }
+
+/* ======================================================
+   ARAPÇA (RTL) BIZCE HEADER HİZALAMA KURALLARI
+   ====================================================== */
+html[dir="rtl"] .bizce-header-inner,
+body.lang-ar .bizce-header-inner {
+  direction: rtl !important;
+}
+
+html[dir="rtl"] .bizce-title-group,
+body.lang-ar .bizce-title-group {
+  justify-content: flex-start !important; /* RTL modunda sağ tarafa hizalanır */
+}
+
+html[dir="rtl"] .bizce-header-right-column,
+body.lang-ar .bizce-header-right-column {
+  justify-content: flex-end !important; /* RTL modunda sol tarafa hizalanır */
+}

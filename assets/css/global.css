@@ -227,6 +227,79 @@ body.lang-ar .lang-en {
 body.lang-ar { direction: rtl; }
 
 /* ==========================================================================
+   ARAPÇA (RTL / RIGHT-TO-LEFT) MERKEZİ HİZALAMA VE YÖN DEĞİŞİMİ KURALLARI
+   ========================================================================== */
+html[dir="rtl"],
+body.lang-ar {
+  direction: rtl !important;
+  text-align: right;
+}
+
+/* 1. Üst Sabit Header (.site-header-inner): Logo Sağ, Dil/Tema Butonları Sol */
+html[dir="rtl"] .site-header-inner,
+body.lang-ar .site-header-inner {
+  flex-direction: row !important;
+  direction: rtl !important;
+}
+
+html[dir="rtl"] .site-header-inner .bizce-center-logo-link,
+body.lang-ar .site-header-inner .bizce-center-logo-link {
+  justify-content: flex-start !important;
+}
+
+/* 2. Dil ve Tema Seçici Grubu (.lang-switcher): Tümüyle Sol Tarafa Geçiş */
+html[dir="rtl"] .lang-switcher,
+body.lang-ar .lang-switcher {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  justify-content: flex-start !important;
+}
+
+/* Dil & Tema Butonlarının Kendi İç Sırası (TR - EN - AR - Tema) Bozulmasın */
+html[dir="rtl"] .lang-switcher button,
+html[dir="rtl"] .theme-toggle-btn,
+body.lang-ar .lang-switcher button,
+body.lang-ar .theme-toggle-btn {
+  direction: ltr !important;
+}
+
+/* 3. Ana Sayfa & Statik Sayfalar (1. Grup) Sol Hizalı Üst Alana Geçiş */
+html[dir="rtl"] .portfolio-container > .lang-switcher,
+body.lang-ar .portfolio-container > .lang-switcher {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* 4. Uygulama Detay Kartı (.app-header & .app-header-right) Yön Değişimi */
+html[dir="rtl"] .app-header-right,
+body.lang-ar .app-header-right {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  align-items: flex-start !important;
+}
+
+/* 5. Statik Sayfa Kartları ve Metin Alanları */
+html[dir="rtl"] .detail-card,
+html[dir="rtl"] .static-page-card,
+body.lang-ar .detail-card,
+body.lang-ar .static-page-card {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* 6. Üst Navigasyon & Footer Hizalama */
+html[dir="rtl"] .top-main-nav,
+body.lang-ar .top-main-nav {
+  direction: rtl !important;
+}
+
+html[dir="rtl"] .site-footer,
+body.lang-ar .site-footer {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+/* ==========================================================================
    STANDART NAVİGASYON VE FOOTER STİLLERİ
    ========================================================================== */
 .top-main-nav {
