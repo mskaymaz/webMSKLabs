@@ -1,11 +1,11 @@
 /**
- * MSK Labs - Layout & 2-Row Footer Component Module
+ * MSK Labs - Layout & Language/Theme Component Module
  * 
  * Policy:
- * 1. Tip 1 (Static Core Pages): Preserves the original HTML headers and layout containers 100%.
- *    Injects only the 2-Row Footer into <footer class="site-footer">.
+ * 1. Tip 1 (Static Core Pages): Injects layout navigation, 2-Row Footer, language switcher, and dark theme toggle.
  * 2. Tip 2 (Dynamic Template Pages): Shared layout components for app showcase and blog templates.
- * 3. Active Link Highlighting: Pure CSS class toggle (.active-nav-link) on existing navigation anchors without any floating elements.
+ * 3. Active Link Highlighting: Pure CSS class toggle (.active-nav-link) on navigation anchors.
+ * 4. Unified Language & Theme Module: Combines language buttons and theme toggle into a seamless header module.
  */
 
 (function () {
@@ -123,22 +123,29 @@
 
   window.highlightActiveTopNav = highlightActiveTopNav;
 
-  // 4. Centralized Dark Mode Theme Manager
-  function initTheme() {
-    var savedTheme = localStorage.getItem('user_theme');
-    if (!savedTheme) {
-      savedTheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  // 4. Centralized Theme & Language Switcher Module
+  function getSavedTheme() {
+    var saved = null;
+    try { saved = localStorage.getItem('user_theme'); } catch(e) {}
+    if (!saved) {
+      saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
     }
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    return saved;
+  }
+
+  function initTheme() {
+    var theme = getSavedTheme();
+    applyTheme(theme);
   }
 
   function applyTheme(theme) {
-    if (theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      if (document.body) document.body.classList.add('dark-theme');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-      if (document.body) document.body.classList.remove('dark-theme');
+    document.documentElement.setAttribute('data-theme', theme);
+    if (document.body) {
+      if (theme === 'dark') {
+        document.body.classList.add('dark-theme');
+      } else {
+        document.body.classList.remove('dark-theme');
+      }
     }
     updateThemeToggleBtn(theme);
   }
@@ -151,25 +158,36 @@
   };
 
   function updateThemeToggleBtn(theme) {
-    var btn = document.getElementById('themeToggleBtn');
-    if (!btn) {
-      var langSwitcher = document.querySelector('.lang-switcher');
-      if (langSwitcher) {
+    if (!theme) {
+      theme = document.documentElement.getAttribute('data-theme') || getSavedTheme();
+    }
+
+    var langSwitchers = document.querySelectorAll('.lang-switcher');
+    langSwitchers.forEach(function(langSwitcher) {
+      var btn = langSwitcher.querySelector('#themeToggleBtn, .theme-toggle-btn');
+      if (!btn) {
         btn = document.createElement('button');
         btn.id = 'themeToggleBtn';
         btn.className = 'theme-toggle-btn';
-        btn.onclick = window.toggleTheme;
-        btn.style.cssText = 'background: transparent; border: 1px solid var(--border-color, #cbd5e1); border-radius: 8px; padding: 2px 7px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; min-height: 32px; min-width: 32px; display: inline-flex; align-items: center; justify-content: center;';
+        btn.setAttribute('type', 'button');
         langSwitcher.appendChild(btn);
       }
-    }
-    if (btn) {
+      btn.onclick = window.toggleTheme;
       btn.innerHTML = theme === 'dark' ? '☀️' : '🌙';
       btn.title = theme === 'dark' ? 'Açık Mod / Light Mode' : 'Koyu Mod / Dark Mode';
-    }
+      btn.setAttribute('aria-label', theme === 'dark' ? 'Açık Mod' : 'Koyu Mod');
+    });
+
+    var standaloneBtns = document.querySelectorAll('#themeToggleBtn, .theme-toggle-btn');
+    standaloneBtns.forEach(function(btn) {
+      btn.onclick = window.toggleTheme;
+      btn.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+      btn.title = theme === 'dark' ? 'Açık Mod / Light Mode' : 'Koyu Mod / Dark Mode';
+      btn.setAttribute('aria-label', theme === 'dark' ? 'Açık Mod' : 'Koyu Mod');
+    });
   }
 
-  // Global Language & RTL Switcher (W4, W10)
+  // Global Language & RTL Switcher
   window.setLang = function(lang) {
     if (!lang) lang = 'tr';
     try { localStorage.setItem('user_lang', lang); } catch(e) {}
@@ -186,16 +204,20 @@
     buttons.forEach(function(btn) {
       if (btn.getAttribute('data-lang') === lang) {
         btn.classList.add('active');
-      } else {
+      } else if (btn.getAttribute('data-lang')) {
         btn.classList.remove('active');
       }
     });
+
+    // Keep theme button state synced in module
+    var currentTheme = document.documentElement.getAttribute('data-theme') || getSavedTheme();
+    updateThemeToggleBtn(currentTheme);
 
     try {
       window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: lang } }));
     } catch(e) {}
 
-    // Link URL Sync for Language Continuity (W4) - Preserves existing query params like ?type=bizce, ?type=anilts
+    // Link URL Sync for Language Continuity
     var links = document.querySelectorAll('a.app-card, a.back-btn, .top-main-nav a, .site-footer a');
     links.forEach(function(a) {
       var href = a.getAttribute('href');
@@ -224,12 +246,17 @@
   // Dynamic HTML lang and RTL attribute sync
   function syncLangAttributes() {
     var savedLang = 'tr';
-    try { savedLang = localStorage.getItem('user_lang') || 'tr'; } catch(e) {}
+    try {
+      var urlParams = new URLSearchParams(window.location.search);
+      var langParam = urlParams.get('lang');
+      savedLang = langParam || localStorage.getItem('user_lang') || 'tr';
+    } catch(e) {}
     window.setLang(savedLang);
   }
 
-  // Pre-DOM theme apply
-  initTheme();
+  // Pre-DOM theme apply (immediate execution to avoid theme flash)
+  var preTheme = getSavedTheme();
+  document.documentElement.setAttribute('data-theme', preTheme);
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
