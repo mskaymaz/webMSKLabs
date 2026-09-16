@@ -309,111 +309,325 @@
     'gcpiluyari': { name: 'GC Pil Uyarı', icon: '🔋' }
   };
 
-  // MSK Labs SSS Veri Tabanı (15 Temel Soru & Cevap + Uygulama Bazlı Özel Sorular)
+  // MSK Labs SSS Veri Tabanı (Türkçe, İngilizce ve Arapça Çok Dilli Destek)
   const FAQ_DATABASE = {
-    'common': [
-      {
-        q: '1. MSK Labs nedir?',
-        a: 'MSK Labs; günlük yaşamı kolaylaştırmaya, belirli ihtiyaçlara pratik çözümler sunmaya ve kullanıcı deneyimini geliştirmeye yönelik yazılımlar geliştiren bağımsız bir yazılım ve teknoloji projesidir.<br><br>MSK Labs bünyesinde Android, masaüstü ve web başta olmak üzere farklı platformlara yönelik uygulamalar geliştirilmektedir. Proje; yalnızca uygulama geliştirmeyi değil, aynı zamanda sürdürülebilir, güvenilir ve kullanıcı odaklı bir yazılım ekosistemi oluşturmayı amaçlamaktadır.'
-      },
-      {
-        q: '2. MSK Labs uygulamaları ücretsiz mi?',
-        a: 'MSK Labs bünyesinde yayınlanan uygulamaların önemli bir bölümü kullanıcıların ücretsiz olarak kullanabilmesi amacıyla geliştirilmektedir.<br><br>Her uygulamanın lisans, kullanım ve dağıtım koşulları kendi ürün sayfasında belirtilir. Bir uygulama için farklı bir kullanım koşulu bulunuyorsa ilgili uygulamanın açıklaması esas alınmalıdır.<br><br>Ücretli olan uygulamalar henüz bulunmamaktadır. İleride ücretli olarak sunulacak uygulamalar ayrı bir kategoride yayınlanacaktır.'
-      },
-      {
-        q: '3. MSK Labs uygulamalarında reklam bulunuyor mu?',
-        a: 'MSK Labs\'ın temel yaklaşımı, kullanıcı deneyimini gereksiz reklamlarla bozmadan faydalı ve kullanılabilir uygulamalar geliştirmektir.<br><br>Uygulamaların kendi yapılarında reklam mümkün olduğunca hiçbir zaman bulunmayacak veya kullanıcıyı zorla izlemek zorunda bırakan ve beklemediği bir anda karşısına çıkan reklam yapıları kullanılmayacaktır.<br><br>Bununla birlikte <a href="http://www.msklabs.org" target="_blank" style="color:#0284c7; font-weight:600;">www.msklabs.org</a> adresindeki web sitesinde, hem mobil hem de masaüstü/web görünümünde reklam bulunabilir.'
-      },
-      {
-        q: '4. MSK Labs uygulamalarını nereden indirebilirim?',
-        a: 'MSK Labs uygulamalarına web sitesindeki ilgili uygulama sayfalarından ulaşabilirsiniz.<br><br>Uygulamanın platformuna ve dağıtım yöntemine göre Google Play veya ilgili resmi indirme kaynağına yönlendirme yapılabilir. Güvenliğiniz için uygulamaları mümkün olduğunca MSK Labs tarafından belirtilen resmi kaynaklardan indirmeniz önerilir.'
-      },
-      {
-        q: '5. MSK Labs hangi platformlar için uygulama geliştiriyor?',
-        a: 'MSK Labs\'ın mevcut geliştirme odağında özellikle Android, Windows ve Web platformları bulunmaktadır. Bunun yanında farklı platformlarda aynı anda çalışabilen uygulama yapıları da geliştirilmektedir.<br><br>Bununla birlikte uygulamaların platform desteği ürünün teknik yapısına göre değişebilir. Bir uygulamanın desteklediği işletim sistemi ve platformlar, ilgili uygulamanın ürün sayfasında belirtilir.'
-      },
-      {
-        q: '6. MSK Labs uygulamaları internet bağlantısı olmadan çalışabilir mi?',
-        a: 'Bu durum uygulamanın çalışma modeline bağlıdır.<br><br>İnternet bağlantısına ihtiyaç duymayan özellikler mümkün olduğunca cihaz üzerinde, yerel olarak çalışacak şekilde tasarlanabilir. Ancak çevrim içi veri, harita, güncel bilgiler, üçüncü taraf servisler veya sunucu tabanlı özellikler kullanan uygulamalar internet bağlantısına ihtiyaç duyabilir.<br><br>Bir uygulamanın çevrim dışı çalışma özellikleri ürün sayfasında ayrıca belirtilir.'
-      },
-      {
-        q: '7. MSK Labs uygulamaları hangi kişisel verileri topluyor?',
-        a: 'MSK Labs\'ın yaklaşımı, uygulamanın çalışması için gerekli olmayan kişisel verilerin gereksiz şekilde toplanmaması ve kesinlikle herhangi bir amaçla, MSK Labs bünyesinde veya başka mecralarda kullanılmamasıdır.<br><br>Bununla birlikte her uygulamanın teknik yapısı ve ihtiyaç duyduğu veriler farklı olabilir. Bir uygulamanın hangi verilere eriştiği, hangi izinleri kullandığı ve verilerin nasıl işlendiği ilgili uygulamanın gizlilik açıklamalarında ve Gizlilik Politikası\'nda belirtilir.'
-      },
-      {
-        q: '8. Uygulamalar neden konum, bildirim veya başka izinler istiyor?',
-        a: 'Bir uygulamanın istediği izinler, uygulamanın sunduğu özelliklerle bağlantılıdır.<br><br>Örneğin konum tabanlı bir uygulamanın yakındaki belirli noktaları gösterebilmesi için konum bilgisine ihtiyaç duyulabilir. Bildirim kullanan bir uygulamanın ise bildirim gönderebilmek için bildirim iznine ihtiyacı olabilir.<br><br>MSK Labs uygulamalarında izinlerin mümkün olduğunca uygulamanın gerekli işlevleriyle sınırlı tutulması amaçlanmaktadır.'
-      },
-      {
-        q: '9. MSK Labs uygulamalarında verilerim nerede saklanıyor?',
-        a: 'Verilerin saklanma yöntemi uygulamaya göre değişir.<br><br>Bazı uygulamalar verileri doğrudan cihaz üzerinde yerel olarak saklayabilir. Çevrim içi hizmet kullanan uygulamalarda ise belirli veriler üçüncü taraf hizmetler veya sunucular üzerinden işlenebilir.<br><br>Üçüncü taraf hizmetler tarafından işlenmesi gereken veriler, ilgili hizmetin gerektirdiği işlem tamamlandıktan sonra MSK Labs tarafından kalıcı olarak saklanmaz ve ihtiyaç sona erdiğinde silinir.<br><br>MSK Labs\'ın kendi sunucu altyapısında kullanıcılara ait kişisel verilerin kalıcı olarak tutulması amaçlanmamaktadır.<br><br>Hangi verilerin nerede ve hangi amaçla işlendiği konusunda ilgili uygulamanın gizlilik açıklaması ve MSK Labs Gizlilik Politikası esas alınmalıdır.'
-      },
-      {
-        q: '10. Bir uygulamada hata veya sorun bulursam ne yapmalıyım?',
-        a: 'Bir uygulamada hata, teknik sorun veya beklenmeyen bir davranışla karşılaşırsanız MSK Labs Destek & Talep Merkezi üzerinden hata bildirimi oluşturabilirsiniz.<br><br>Sorunu mümkün olduğunca ayrıntılı açıklamanız; kullandığınız uygulamanın sürümünü, cihaz veya işletim sistemi bilgilerini ve sorunun nasıl tekrarlandığını belirtmeniz, problemin daha hızlı incelenmesine yardımcı olur.'
-      },
-      {
-        q: '11. Yeni özellik veya geliştirme talebinde bulunabilir miyim?',
-        a: 'Evet.<br><br>MSK Labs kullanıcılarından gelen özellik taleplerini, geliştirme önerilerini ve iyileştirme fikirlerini değerlendirmektedir.<br><br>Bir özelliğin uygulanıp uygulanmayacağı; teknik uygulanabilirlik, güvenlik, kullanıcı faydası, geliştirme maliyeti ve projenin genel yönelimi gibi kriterlere göre belirlenebilir.'
-      },
-      {
-        q: '12. MSK Labs\'a yeni bir uygulama fikri önerebilir miyim?',
-        a: 'Evet. Kullanıcılar MSK Labs\'a yeni uygulama fikirleri gönderebilir.<br><br>Önerinizin daha iyi değerlendirilebilmesi için uygulamanın hangi problemi çözdüğünü, kimlere fayda sağlayacağını ve temel olarak nasıl çalışmasını beklediğinizi açıklamanız önerilir.<br><br>Gönderilen fikirlerin değerlendirilmesi, uygulamanın mutlaka geliştirileceği veya yayınlanacağı anlamına gelmez.'
-      },
-      {
-        q: '13. Destek talebimi nasıl takip edebilirim?',
-        a: 'MSK Labs Destek & Talep Merkezi üzerinden gönderilen talepler bir destek bileti olarak değerlendirilir.<br><br>Talep oluştururken verilen bilgiler ve oluşturulan bilet numarası, ilgili başvurunun takip edilmesi ve değerlendirilmesi açısından önemlidir.'
-      },
-      {
-        q: '14. MSK Labs destek taleplerini yapay zekâ ile değerlendiriyor mu?',
-        a: 'MSK Labs destek sisteminde, gönderilen taleplerin sınıflandırılması ve ilgili kategoriye yönlendirilmesine yardımcı olmak amacıyla yapay zekâ destekli işlemler kullanılabilir.<br><br>Yapay zekâ desteğinin kullanılması, kullanıcı taleplerinin otomatik olarak sonuçlandırıldığı anlamına gelmez. Amaç, destek sürecinin daha düzenli ve verimli yürütülmesine yardımcı olmaktır.<br><br>Kişisel veya hassas bilgilerin destek talebine gereksiz şekilde eklenmemesi önerilir.'
-      },
-      {
-        q: '15. MSK Labs\'a nasıl ulaşabilirim?',
-        a: 'Uygulama hataları, özellik talepleri, yeni uygulama fikirleri ve diğer kullanıcı talepleri için öncelikle MSK Labs Destek & Talep Merkezi kullanılabilir.<br><br>Genel iletişim ve diğer konular için MSK Labs\'ın web sitesinde belirtilen iletişim kanalları kullanılabilir.<br><br>Uygulama ile ilgili teknik bir sorun bildiriyorsanız, uygulamanın adı ve sürümü ile birlikte sorunun ayrıntılarını paylaşmanız daha hızlı ve doğru değerlendirme yapılmasını sağlar.'
-      }
-    ],
-    'haydinamaza': [
-      {
-        q: 'Ezan sesi arka planda neden çalmadı?',
-        a: 'Android cihazlarda pil tasarrufu kısıtlamaları ezan alarmlarını engelleyebilir. Telefonunuzun Ayarlar > Uygulamalar > HaydiNamaza > Pil bölümüne girerek "Kısıtlamasız" seçeneğini işaretleyiniz.'
-      },
-      {
-        q: 'Kıble açısı yanlış gösteriyor, ne yapmalıyım?',
-        a: 'Pusula sensörünün doğru çalışması için telefonunuzu 8 çizecek şekilde havada bir iki defa sallayarak pusulayı kalibre ediniz ve etrafınızda mıknatıs/metal nesneler olmadığından emin olunuz.'
-      }
-    ],
-    'rekatsay': [
-      {
-        q: 'Secde algılama sensörü telefon kılıfıyla çalışır mı?',
-        a: 'Mesafe sensörünü kapatmayan ince ve şeffaf kılıflarla %100 uyumludur. Secde ederken alnınızı sensöre 5-10 cm yaklaştırmanız yeterlidir.'
-      }
-    ],
-    'emekli': [
-      {
-        q: 'Windows Masaüstü RAR şifresi nedir?',
-        a: 'Masaüstü uygulamalarımızın RAR indirme şifresi <strong>571</strong> (veya güncel sürüm için 175) olarak belirlenmiştir.'
-      }
-    ],
-    'deskpilot': [
-      {
-        q: 'Windows 11 açılışında otomatik başlatma nasıl ayarlanır?',
-        a: 'DeskPilot içi Ayarlar sekmesinden veya Windows Görev Yöneticisi > Başlangıç Uygulamaları menüsünden DeskPilot seçeneğini aktif edebilirsiniz.'
-      }
-    ]
+    tr: {
+      common: [
+        {
+          q: '1. MSK Labs nedir?',
+          a: 'MSK Labs; günlük yaşamı kolaylaştırmaya, belirli ihtiyaçlara pratik çözümler sunmaya ve kullanıcı deneyimini geliştirmeye yönelik yazılımlar geliştiren bağımsız bir yazılım ve teknoloji projesidir.<br><br>MSK Labs bünyesinde Android, masaüstü ve web başta olmak üzere farklı platformlara yönelik uygulamalar geliştirilmektedir. Proje; yalnızca uygulama geliştirmeyi değil, aynı zamanda sürdürülebilir, güvenilir ve kullanıcı odaklı bir yazılım ekosistemi oluşturmayı amaçlamaktadır.'
+        },
+        {
+          q: '2. MSK Labs uygulamaları ücretsiz mi?',
+          a: 'MSK Labs bünyesinde yayınlanan uygulamaların önemli bir bölümü kullanıcıların ücretsiz olarak kullanabilmesi amacıyla geliştirilmektedir.<br><br>Her uygulamanın lisans, kullanım ve dağıtım koşulları kendi ürün sayfasında belirtilir. Bir uygulama için farklı bir kullanım koşulu bulunuyorsa ilgili uygulamanın açıklaması esas alınmalıdır.<br><br>Ücretli olan uygulamalar henüz bulunmamaktadır. İleride ücretli olarak sunulacak uygulamalar ayrı bir kategoride yayınlanacaktır.'
+        },
+        {
+          q: '3. MSK Labs uygulamalarında reklam bulunuyor mu?',
+          a: 'MSK Labs\'ın temel yaklaşımı, kullanıcı deneyimini gereksiz ve uygulamayı aktif kullandığı esnade birden yüzüne patlayan reklam yapıları ile bozmadan faydalı ve kullanılabilir uygulamalar geliştirmektir.<br><br>Uygulamaların kendi ana fonksiyonel yapılarında reklam mümkün olduğunca hiçbir zaman bulunmayacak veya kullanıcıyı zorla (açılış ve modül geçişlerinde) izlemek zorunda bırakan ve beklemediği bir anda karşısına çıkan reklam yapıları kullanılmayacaktır.<br><br>Uygulamaların tüm zamanlar boyunca ücretsiz kalabilmesi için Bize Destek Olun, Biz Kimiz, Hakkımızda, Güncelleme Bilgileri vs. gibi ayarlar kısmındaki kullanıcı istediğinde baktığı kısımlarda yine kullanıcıyı rahatsız etmeyecek şekilde reklam/reklamlar bulunabilir.<br><br>Bununla birlikte <a href="http://www.msklabs.org" target="_blank" style="color:#0284c7; font-weight:600;">http://www.msklabs.org</a> adresindeki web sitesinde, hem mobil hem de masaüstü/web görünümünde reklam (tüm sürelerde ücretsiz kalabilmek için) bulunabilir.'
+        },
+        {
+          q: '4. MSK Labs uygulamalarını nereden indirebilirim?',
+          a: 'MSK Labs uygulamalarına web sitesindeki ilgili uygulama sayfalarından ulaşabilirsiniz.<br><br>Uygulamanın platformuna ve dağıtım yöntemine göre Google Play veya ilgili resmi indirme kaynağına yönlendirme yapılabilir. Güvenliğiniz için uygulamaları mümkün olduğunca MSK Labs tarafından belirtilen resmi kaynaklardan indirmeniz önerilir.'
+        },
+        {
+          q: '5. MSK Labs hangi platformlar için uygulama geliştiriyor?',
+          a: 'MSK Labs\'ın mevcut geliştirme odağında özellikle Android, Windows ve Web platformları bulunmaktadır. Bunun yanında farklı platformlarda aynı anda çalışabilen uygulama yapıları da geliştirilmektedir.<br><br>Bununla birlikte uygulamaların platform desteği ürünün teknik yapısına göre değişebilir. Bir uygulamanın desteklediği işletim sistemi ve platformlar, ilgili uygulamanın ürün sayfasında belirtilir.'
+        },
+        {
+          q: '6. MSK Labs uygulamaları internet bağlantısı olmadan çalışabilir mi?',
+          a: 'Bu durum uygulamanın çalışma modeline bağlıdır.<br><br>İnternet bağlantısına ihtiyaç duymayan özellikler mümkün olduğunca cihaz üzerinde, yerel olarak çalışacak şekilde tasarlanabilir. Ancak çevrim içi veri, harita, güncel bilgiler, üçüncü taraf servisler veya sunucu tabanlı özellikler kullanan uygulamalar internet bağlantısına ihtiyaç duyabilir.<br><br>Bir uygulamanın çevrim dışı çalışma özellikleri ürün sayfasında ayrıca belirtilir.'
+        },
+        {
+          q: '7. MSK Labs uygulamaları hangi kişisel verileri topluyor?',
+          a: 'MSK Labs\'ın yaklaşımı, uygulamanın çalışması için gerekli olmayan kişisel verilerin gereksiz şekilde toplanmaması ve kesinlikle herhangi bir amaçla, MSK Labs bünyesinde veya başka mecralarda kullanılmamasıdır.<br><br>Bununla birlikte her uygulamanın teknik yapısı ve ihtiyaç duyduğu veriler farklı olabilir. Bir uygulamanın hangi verilere eriştiği, hangi izinleri kullandığı ve verilerin nasıl işlendiği ilgili uygulamanın gizlilik açıklamalarında ve Gizlilik Politikası\'nda belirtilir.'
+        },
+        {
+          q: '8. Uygulamalar neden konum, bildirim veya başka izinler istiyor?',
+          a: 'Bir uygulamanın istediği izinler, uygulamanın sunduğu özelliklerle bağlantılıdır.<br><br>Örneğin konum tabanlı bir uygulamanın yakındaki belirli noktaları gösterebilmesi için konum bilgisine ihtiyaç duyulabilir. Bildirim kullanan bir uygulamanın ise bildirim gönderebilmek için bildirim iznine ihtiyacı olabilir.<br><br>MSK Labs uygulamalarında izinlerin mümkün olduğunca uygulamanın gerekli işlevleriyle sınırlı tutulması amaçlanmaktadır.'
+        },
+        {
+          q: '9. MSK Labs uygulamalarında verilerim nerede saklanıyor?',
+          a: 'Verilerin saklanma yöntemi uygulamaya göre değişir.<br><br>Bazı uygulamalar verileri doğrudan cihaz üzerinde yerel olarak saklayabilir. Çevrim içi hizmet kullanan uygulamalarda ise belirli veriler üçüncü taraf hizmetler veya sunucular üzerinden işlenebilir.<br><br>Üçüncü taraf hizmetler tarafından işlenmesi gereken veriler, ilgili hizmetin gerektirdiği işlem tamamlandıktan sonra MSK Labs tarafından kalıcı olarak saklanmaz ve ihtiyaç sona erdiğinde silinir.<br><br>MSK Labs\'ın kendi sunucu altyapısında kullanıcılara ait kişisel verilerin kalıcı olarak tutulması amaçlanmamaktadır.<br><br>Hangi verilerin nerede ve hangi amaçla işlendiği konusunda ilgili uygulamanın gizlilik açıklaması ve MSK Labs Gizlilik Politikası esas alınmalıdır.'
+        },
+        {
+          q: '10. Bir uygulamada hata veya sorun bulursam ne yapmalıyım?',
+          a: 'Bir uygulamada hata, teknik sorun veya beklenmeyen bir davranışla karşılaşırsanız MSK Labs Destek & Talep Merkezi üzerinden hata bildirimi oluşturabilirsiniz.<br><br>Sorunu mümkün olduğunca ayrıntılı açıklamanız; kullandığınız uygulamanın sürümünü, cihaz veya işletim sistemi bilgilerini ve sorunun nasıl tekrarlandığını belirtmeniz, problemin daha hızlı incelenmesine yardımcı olur.'
+        },
+        {
+          q: '11. Yeni özellik veya geliştirme talebinde bulunabilir miyim?',
+          a: 'Evet.<br><br>MSK Labs kullanıcılarından gelen özellik taleplerini, geliştirme önerilerini ve iyileştirme fikirlerini değerlendirmektedir.<br><br>Bir özelliğin uygulanıp uygulanmayacağı; teknik uygulanabilirlik, güvenlik, kullanıcı faydası, geliştirme maliyeti ve projenin genel yönelimi gibi kriterlere göre belirlenebilir.'
+        },
+        {
+          q: '12. MSK Labs\'a yeni bir uygulama fikri önerebilir miyim?',
+          a: 'Evet. Kullanıcılar MSK Labs\'a yeni uygulama fikirleri gönderebilir.<br><br>Önerinizin daha iyi değerlendirilebilmesi için uygulamanın hangi problemi çözdüğünü, kimlere fayda sağlayacağını ve temel olarak nasıl çalışmasını beklediğinizi açıklamanız önerilir.<br><br>Gönderilen fikirlerin değerlendirilmesi, uygulamanın mutlaka geliştirileceği veya yayınlanacağı anlamına gelmez.'
+        },
+        {
+          q: '13. Destek talebimi nasıl takip edebilirim?',
+          a: 'MSK Labs Destek & Talep Merkezi üzerinden gönderilen talepler bir destek bileti olarak değerlendirilir.<br><br>Talep oluştururken verilen bilgiler ve oluşturulan bilet numarası, ilgili başvurunun takip edilmesi ve değerlendirilmesi açısından önemlidir.'
+        },
+        {
+          q: '14. MSK Labs destek taleplerini yapay zekâ ile değerlendiriyor mu?',
+          a: 'MSK Labs destek sisteminde, gönderilen taleplerin sınıflandırılması ve ilgili kategoriye yönlendirilmesine yardımcı olmak amacıyla yapay zekâ destekli işlemler kullanılabilir.<br><br>Yapay zekâ desteğinin kullanılması, kullanıcı taleplerinin otomatik olarak sonuçlandırıldığı anlamına gelmez. Amaç, destek sürecinin daha düzenli ve verimli yürütülmesine yardımcı olmaktır.<br><br>Kişisel veya hassas bilgilerin destek talebine gereksiz şekilde eklenmemesi önerilir.'
+        },
+        {
+          q: '15. MSK Labs\'a nasıl ulaşabilirim?',
+          a: 'Uygulama hataları, özellik talepleri, yeni uygulama fikirleri ve diğer kullanıcı talepleri için öncelikle MSK Labs Destek & Talep Merkezi kullanılabilir.<br><br>Genel iletişim ve diğer konular için MSK Labs\'ın web sitesinde belirtilen iletişim kanalları kullanılabilir.<br><br>Uygulama ile ilgili teknik bir sorun bildiriyorsanız, uygulamanın adı ve sürümü ile birlikte sorunun ayrıntılarını paylaşmanız daha hızlı ve doğru değerlendirme yapılmasını sağlar.'
+        }
+      ],
+      haydinamaza: [
+        {
+          q: 'Ezan sesi arka planda neden çalmadı?',
+          a: 'Android cihazlarda pil tasarrufu kısıtlamaları ezan alarmlarını engelleyebilir. Telefonunuzun Ayarlar > Uygulamalar > HaydiNamaza > Pil bölümüne girerek "Kısıtlamasız" seçeneğini işaretleyiniz.'
+        },
+        {
+          q: 'Kıble açısı yanlış gösteriyor, ne yapmalıyım?',
+          a: 'Pusula sensörünün doğru çalışması için telefonunuzu 8 çizecek şekilde havada bir iki defa sallayarak pusulayı kalibre ediniz ve etrafınızda mıknatıs/metal nesneler olmadığından emin olunuz.'
+        }
+      ],
+      rekatsay: [
+        {
+          q: 'Secde algılama sensörü telefon kılıfıyla çalışır mı?',
+          a: 'Mesafe sensörünü kapatmayan ince ve şeffaf kılıflarla %100 uyumludur. Secde ederken alnınızı sensöre 5-10 cm yaklaştırmanız yeterlidir.'
+        }
+      ],
+      emekli: [
+        {
+          q: 'Windows Masaüstü RAR şifresi nedir?',
+          a: 'Masaüstü uygulamalarımızın RAR indirme şifresi <strong>571</strong> (veya güncel sürüm için 175) olarak belirlenmiştir.'
+        }
+      ],
+      deskpilot: [
+        {
+          q: 'Windows 11 açılışında otomatik başlatma nasıl ayarlanır?',
+          a: 'DeskPilot içi Ayarlar sekmesinden veya Windows Görev Yöneticisi > Başlangıç Uygulamaları menüsünden DeskPilot seçeneğini aktif edebilirsiniz.'
+        }
+      ]
+    },
+    en: {
+      common: [
+        {
+          q: '1. What is MSK Labs?',
+          a: 'MSK Labs is an independent software and technology project dedicated to simplifying daily life, providing practical solutions to specific needs, and enhancing user experience.<br><br>Applications for various platforms, including Android, Desktop, and Web, are developed within MSK Labs. The project aims not only to build applications, but also to establish a sustainable, reliable, and user-centric software ecosystem.'
+        },
+        {
+          q: '2. Are MSK Labs applications free?',
+          a: 'A significant portion of the applications published by MSK Labs is developed for users to use free of charge.<br><br>The license, usage, and distribution terms of each application are specified on its own product page. If different terms apply to an application, its product description shall prevail.<br><br>There are currently no paid applications. Applications offered for a fee in the future will be published in a separate category.'
+        },
+        {
+          q: '3. Are there ads in MSK Labs applications?',
+          a: 'MSK Labs\' core approach is to build useful and usable applications without disrupting user experience with unnecessary pop-up ads during active use.<br><br>Ads will never be present in the main functional core of the applications, nor will intrusive ads be used that force users to watch or unexpectedly pop up during opening and module transitions.<br><br>To keep applications free forever, non-intrusive ads may be placed in optional settings sections like Support Us, Who We Are, About Us, and Update Info.<br><br>Additionally, advertisements may be displayed on both mobile and desktop/web views of <a href="http://www.msklabs.org" target="_blank" style="color:#0284c7; font-weight:600;">http://www.msklabs.org</a> to maintain long-term free access.'
+        },
+        {
+          q: '4. Where can I download MSK Labs applications?',
+          a: 'You can access MSK Labs applications through their respective product pages on the website.<br><br>Depending on the platform and distribution method, you may be redirected to Google Play or official download sources. For your security, please download applications only from official sources specified by MSK Labs.'
+        },
+        {
+          q: '5. Which platforms does MSK Labs develop apps for?',
+          a: 'MSK Labs currently focuses on Android, Windows, and Web platforms. Multi-platform application architectures are also actively developed.<br><br>Platform support may vary depending on the technical structure of each application. Supported operating systems are specified on each application\'s product page.'
+        },
+        {
+          q: '6. Can MSK Labs applications work without an internet connection?',
+          a: 'This depends on the operational model of each application.<br><br>Features that do not require an internet connection are designed to run locally on the device whenever possible. However, apps using live data, maps, third-party services, or cloud backend features will require internet connectivity.<br><br>Offline support details are stated on each product page.'
+        },
+        {
+          q: '7. What personal data do MSK Labs applications collect?',
+          a: 'MSK Labs\' policy is never to collect unnecessary personal data that is not essential for app functionality, and never to use it for secondary purposes.<br><br>The required data depends on each application\'s technical scope. Data access permissions and processing details are clearly disclosed in the app\'s privacy notices and the Privacy Policy.'
+        },
+        {
+          q: '8. Why do applications request location, notification, or other permissions?',
+          a: 'Permissions requested by an application are directly linked to the features it offers.<br><br>For example, a location-based app requires location permissions to display nearby points of interest, while an app using alerts needs notification permissions.<br><br>MSK Labs strictly limits app permissions to essential features only.'
+        },
+        {
+          q: '9. Where is my data stored in MSK Labs applications?',
+          a: 'Data storage methods vary by application.<br><br>Some apps store data locally on your device. Apps using cloud services process necessary data through secure third-party servers.<br><br>Data processed by third-party APIs is not permanently stored by MSK Labs and is deleted once the request ends. MSK Labs does not store personal user data permanently on its own servers.'
+        },
+        {
+          q: '10. What should I do if I find a bug or issue in an application?',
+          a: 'If you encounter a bug, technical issue, or unexpected behavior in an application, you can submit a report via the MSK Labs Support & Feedback Center.<br><br>Providing details such as app version, device model, operating system, and reproduction steps helps resolve issues quickly.'
+        },
+        {
+          q: '11. Can I request new features or enhancements?',
+          a: 'Yes.<br><br>MSK Labs welcomes feature requests, feedback, and improvement ideas from users.<br><br>Implementation decisions depend on technical feasibility, security, user benefit, development cost, and project roadmap.'
+        },
+        {
+          q: '12. Can I propose a new app idea to MSK Labs?',
+          a: 'Yes. Users can submit new application concepts to MSK Labs.<br><br>For better evaluation, please explain what problem the app solves, who it benefits, and how it should function.<br><br>Submitting an idea does not guarantee development or publication.'
+        },
+        {
+          q: '13. How can I track my support request?',
+          a: 'Requests submitted through the MSK Labs Support & Feedback Center are assigned a support ticket number.<br><br>Please keep your ticket details and number for tracking and follow-up communication.'
+        },
+        {
+          q: '14. Does MSK Labs use AI to evaluate support requests?',
+          a: 'AI tools may be used in the MSK Labs support workflow to assist with request categorization and routing.<br><br>AI assistance does not mean automated rejection or instant resolution; it exists to improve workflow efficiency. Please avoid including sensitive personal data in support tickets.'
+        },
+        {
+          q: '15. How can I contact MSK Labs?',
+          a: 'For bug reports, feature requests, and app proposals, please use the MSK Labs Support & Feedback Center.<br><br>For general inquiries, use the contact channels listed on the website. Providing app name and version speeds up technical support response.'
+        }
+      ],
+      haydinamaza: [
+        {
+          q: 'Why didn\'t the Adhan sound play in the background?',
+          a: 'Battery optimization settings on Android devices may block Adhan alarms. Go to Settings > Apps > HaydiNamaza > Battery on your phone and select "Unrestricted".'
+        },
+        {
+          q: 'The Qibla direction seems inaccurate, what should I do?',
+          a: 'To calibrate the compass sensor, wave your phone in a figure-8 pattern in the air a couple of times, and ensure there are no magnetic or metallic objects nearby.'
+        }
+      ],
+      rekatsay: [
+        {
+          q: 'Does the prostration sensor work with a phone case?',
+          a: 'It is 100% compatible with thin or clear cases that do not block the proximity sensor. Simply bring your forehead 5-10 cm close to the sensor during prostration.'
+        }
+      ],
+      emekli: [
+        {
+          q: 'What is the Windows Desktop RAR archive password?',
+          a: 'The RAR extraction password for desktop applications is set to <strong>571</strong> (or 175 for newer versions).'
+        }
+      ],
+      deskpilot: [
+        {
+          q: 'How to set auto-start on Windows 11 boot?',
+          a: 'You can enable auto-start within DeskPilot Settings tab or via Windows Task Manager > Startup Apps menu.'
+        }
+      ]
+    },
+    ar: {
+      common: [
+        {
+          q: '1. ما هو MSK Labs؟',
+          a: 'مشروع MSK Labs هو مشروع برمجيات وتكنولوجيا مستقل يهدف إلى تسهيل الحياة اليومية وتقديم حلول عملية لاحتياجات محددة وتحسين تجربة المستخدم.<br><br>يتم تطوير تطبيقات لمنصات مختلفة في MSK Labs، بما في ذلك Android والمكتب والويب. لا يهدف المشروع فقط إلى بناء التطبيقات، بل يهدف أيضًا إلى إنشاء بيئة برمجية مستدامة وموثوقة ومحورية حول المستخدم.'
+        },
+        {
+          q: '2. هل تطبيقات MSK Labs مجانية؟',
+          a: 'تم تطوير جزء كبير من التطبيقات التي تنشرها MSK Labs ليتسنى للمستخدمين استخدامها مجانًا.<br><br>تتم طباعة شروط الترخيص والاستخدام والتوزيع لكل تطبيق على صفحة المنتج الخاصة به.<br><br>لا توجد تطبيقات مدفوعة حاليًا. وسيتم نشر التطبيقات المدفوعة مستقبلاً في فئة منفصلة.'
+        },
+        {
+          q: '3. هل توجد إعلانات في تطبيقات MSK Labs؟',
+          a: 'إن النهج الأساسي لـ MSK Labs هو تطوير تطبيقات مفيدة وقابلة للاستخدام دون إزعاج تجربة المستخدم بإعلانات مفاجئة أثناء الاستخدام النشط.<br><br>لن تتضمن الوظائف الأساسية للتطبيقات إعلانات بقدر الإمكان، ولن يتم استخدام إعلانات قسرية أو مزعجة تظهر فجأة أثناء الفتح أو التنقل.<br><br>لإبقاء التطبيقات مجانية بشكل دائم، قد توجد إعلانات غير مزعجة في أقسام الإعدادات مثل ادعمنا، من نحن، وعن الشركة.<br><br>بالإضافة إلى ذلك، قد توجد إعلانات على الموقع الإلكتروني <a href="http://www.msklabs.org" target="_blank" style="color:#0284c7; font-weight:600;">http://www.msklabs.org</a> في عرض الجوال والمكتب على حد سواء.'
+        },
+        {
+          q: '4. من أين يمكنني تحميل تطبيقات MSK Labs؟',
+          a: 'يمكنك الوصول إلى تطبيقات MSK Labs عبر صفحات المنتجات المخصصة لها على الموقع الإلكتروني.<br><br>حسب المنصة وطريقة التوزيع، قد يتم توجيهك إلى Google Play أو المصادر الرسمية. لحمايتك، يُرجى تحميل التطبيقات فقط من المصادر الرسمية المحددة بواسطة MSK Labs.'
+        },
+        {
+          q: '5. ما هي المنصات التي تطور MSK Labs تطبيقات لها؟',
+          a: 'تركز MSK Labs حاليًا على منصات Android و Windows و Web. كما يتم تطوير تطبيقات تعمل على منصات متعددة في وقت واحد.<br><br>قد يختلف دعم المنصة حسب البنية التقنية لكل تطبيق، وتظهر المنصات المدعومة في صفحة كل منتج.'
+        },
+        {
+          q: '6. هل يمكن لتطبيقات MSK Labs العمل بدون اتصال بالإنترنت؟',
+          a: 'يعتمد ذلك على نموذج عمل كل تطبيق.<br><br>تم تصميم الميزات التي لا تتطلب اتصالاً بالإنترنت لتعمل محليًا على الجهاز قدر الإمكان. أما التطبيقات التي تستخدم بيانات مباشرة أو خرائط أو خدمات سحابية فستحتاج إلى الاتصال بالإنترنت.'
+        },
+        {
+          q: '7. ما هي البيانات الشخصية التي تجمعها تطبيقات MSK Labs؟',
+          a: 'نهج MSK Labs هو عدم جمع البيانات الشخصية غير الضرورية لعمل التطبيق، وعدم استخدامها مطلقًا لأي غرض آخر.<br><br>تختلف البيانات المطلوبة باختلاف البنية التقنية لكل تطبيق، وتوضح تفاصيل الخصوصية في سياسة الخصوصية الخاصة بالمنتج.'
+        },
+        {
+          q: '8. لماذا تطلب التطبيقات أذونات الموقع أو الإشعارات أو أذونات أخرى؟',
+          a: 'ترتبط الأذونات التي يطلبها التطبيق بميزاته مباشرة.<br><br>على سبيل المثال، يحتاج التطبيق المعتمد على الموقع إلى إذن الموقع لعرض النقاط القريبة. تلتزم MSK Labs بتقييد الأذونات إلى الحد الأدنى الوظيفي فقط.'
+        },
+        {
+          q: '9. أين يتم تخزين بياناتي في تطبيقات MSK Labs؟',
+          a: 'تختلف طريقة تخزين البيانات حسب التطبيق.<br><br>تخزن بعض التطبيقات البيانات محليًا على جهازك. وفي الخدمات السحابية يتم معالجة البيانات عبر خوادم موثوقة، ولا تحتفظ MSK Labs بالبيانات الشخصية للمستخدمين بشكل دائم على خوادمها.'
+        },
+        {
+          q: '10. ماذا أفعل إذا وجدت خطأً أو مشكلة في أحد التطبيقات؟',
+          a: 'إذا واجهت خطأً أو مشكلة تقنية، يمكنك تقديم بلاغ عن طريق مركز الدعم والطلبات في MSK Labs.<br><br>تضمين تفاصيل التطبيق وإصداره ومعلومات الجهاز يسرع من عملية الفحص والمعالجة.'
+        },
+        {
+          q: '11. هل يمكنني طلب ميزة جديدة أو تحسين؟',
+          a: 'نعم.<br><br>ترحب MSK Labs باقتراحات الميزات والأفكار الجديدة من المستخدمين.<br><br>يتم تقييم كل طلب بناءً على الجدوى التقنية والأمان والفائدة والتكلفة.'
+        },
+        {
+          q: '12. هل يمكنني اقتراح فكرة تطبيق جديدة لـ MSK Labs؟',
+          a: 'نعم، يمكنك تقديم أفكار تطبيقات جديدة لـ MSK Labs.<br><br>يُفضل توضيح المشكلة التي يحلها التطبيق والفئة المستهدفة وكيفية عمله. لا يعني تقديم الفكرة قبولها للتطوير التلقائي.'
+        },
+        {
+          q: '13. كيف يمكنني متابعة طلب الدعم الخاص بي؟',
+          a: 'يتم تقييم الطلبات المقدمة عبر مركز الدعم كـ تذكرة دعم.<br><br>احتفظ برقم التذكرة والمعلومات المقدمة لمتابعة حالة الطلب.'
+        },
+        {
+          q: '14. هل تستخدم MSK Labs الذكاء الاصطناعي لتقييم طلبات الدعم؟',
+          a: 'قد يُستخدم الذكاء الاصطناعي لتصنيف الطلبات وتوجيهها في نظام الدعم.<br><br>استخدام الذكاء الاصطناعي لا يعني الرد التلقائي النهائي، بل يهدف لتنظيم وتحسين كفاءة خدمة الدعم.'
+        },
+        {
+          q: '15. كيف يمكنني الاتصال بـ MSK Labs؟',
+          a: 'لتقارير الأخطاء وطلبات الميزات واقتراحات التطبيقات، يُفضل استخدام مركز الدعم والطلبات.<br><br>للتواصل العام، تتوفر قنوات الاتصال الرسمية على الموقع الإلكتروني.'
+        }
+      ],
+      haydinamaza: [
+        {
+          q: 'لماذا لم يعمل صوت الأذان في الخلفية؟',
+          a: 'قد تمنع قيود توفير البطارية في أجهزة أندرويد من تشغيل الأذان. انتقل إلى الإعدادات > التطبيقات > HaydiNamaza > البطارية وحدد "غير مقيد".'
+        },
+        {
+          q: 'اتجاه القبلة غير دقيق، ماذا أفعل؟',
+          a: 'لمعايرة مستشعر البوصلة، حرك هاتفك في الهواء على شكل رقم 8 مرتين، وتأكد من عدم وجود أجسام مغناطيسية أو معدنية بالقرب منك.'
+        }
+      ],
+      rekatsay: [
+        {
+          q: 'هل يعمل مستشعر السجود مع غطاء الهاتف؟',
+          a: 'متوافق بنسبة 100% مع الأغطية الرفيعة أو الشفافة التي لا تغطي مستشعر القرب. يكفي تقريب الجبهة مسافة 5-10 سم من المستشعر عند السجود.'
+        }
+      ],
+      emekli: [
+        {
+          q: 'ما هي كلمة سر ملف RAR لتطبيق سطح المكتب؟',
+          a: 'كلمة مرور فك ضغط ملف RAR لتطبيقات سطح المكتب هي <strong>571</strong> (أو 175 للإصدارات الحديثة).'
+        }
+      ],
+      deskpilot: [
+        {
+          q: 'كيفية ضبط التشغيل التلقائي عند بدء تشغيل Windows 11؟',
+          a: 'يمكنك تفعيل التشغيل التلقائي من تبويب الإعدادات داخل DeskPilot أو عبر مدير المهام في Windows > تطبيقات البدء.'
+        }
+      ]
+    }
   };
 
   let currentAppFaqs = [];
+
+  function loadFaqsForLang(lang) {
+    if (!lang) {
+      try { lang = localStorage.getItem('user_lang'); } catch(e) {}
+    }
+    lang = lang || 'tr';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const appId = (urlParams.get('app') || '').toLowerCase().trim();
+
+    const langDb = FAQ_DATABASE[lang] || FAQ_DATABASE['tr'];
+    const specificFaqs = (appId && langDb[appId]) ? langDb[appId] : [];
+    const commonFaqs = langDb['common'] || [];
+
+    currentAppFaqs = [...specificFaqs, ...commonFaqs];
+    filterFaq();
+  }
 
   function setLang(lang) {
     if (!lang) lang = 'tr';
     try { localStorage.setItem('user_lang', lang); } catch(e) {}
     document.body.className = 'lang-' + lang;
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
     document.querySelectorAll('.lang-switcher button').forEach(function(btn) {
       if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      else btn.classList.remove('active');
+      else if (btn.getAttribute('data-lang')) btn.classList.remove('active');
     });
+
+    loadFaqsForLang(lang);
   }
+
+  window.addEventListener('languageChanged', function(e) {
+    if (e.detail && e.detail.lang) {
+      loadFaqsForLang(e.detail.lang);
+    }
+  });
 
   function toggleFaq(btn) {
     const card = btn.parentElement;
@@ -425,14 +639,19 @@
     container.innerHTML = '';
 
     if (!faqList || faqList.length === 0) {
-      container.innerHTML = '<div style="text-align:center; padding:2rem; color:#64748b;">Aradığınız kriterlere uygun soru bulunamadı. Lütfen canlı destek formuyla bize iletin.</div>';
+      const currentLang = localStorage.getItem('user_lang') || 'tr';
+      const emptyMsg = currentLang === 'en' 
+        ? 'No matching questions found. Please submit your inquiry via the support form.'
+        : currentLang === 'ar'
+        ? 'لم يتم العثور على أسئلة مطابقة. يُرجى تقديم استفسارك عبر نموذج الدعم المباشر.'
+        : 'Aradığınız kriterlere uygun soru bulunamadı. Lütfen canlı destek formuyla bize iletin.';
+      container.innerHTML = `<div style="text-align:center; padding:2rem; color:#64748b;">${emptyMsg}</div>`;
       return;
     }
 
     faqList.forEach((item, index) => {
       const card = document.createElement('div');
-      // İlk kartı varsayılan olarak açık tut, diğerlerini kapalı tut (Akordeon Mantığı)
-      card.className = 'faq-item-card' + (index === 0 ? ' open' : '');
+      card.className = 'faq-item-card';
       card.innerHTML = `
         <button class="faq-question-btn" onclick="toggleFaq(this)">
           <span class="faq-question-title">${item.q}</span>
@@ -466,8 +685,9 @@
     const langParam = urlParams.get('lang');
     let savedLang = null;
     try { savedLang = localStorage.getItem('user_lang'); } catch(e) {}
+    const activeLang = langParam || savedLang || 'tr';
 
-    setLang(langParam || savedLang || 'tr');
+    setLang(activeLang);
 
     // Destek Butonuna App İlettiyse Parametre Ekle
     if (appId) {
@@ -477,15 +697,8 @@
     // Header Rozet Bilgisini Güncelle
     if (appId && APPS_CONFIG[appId]) {
       document.getElementById('appNameText').innerText = APPS_CONFIG[appId].name + ' – Sıkça Sorulan Sorular';
-      document.getElementById('appIconBox').innerText = APPS_CONFIG[appId].icon;
+      document.getElementById('appIconBox').innerHTML = APPS_CONFIG[appId].icon;
     }
-
-    // SSS Veri Listesini Oluştur (Özel Uygulama + Genel Sorular)
-    const specificFaqs = FAQ_DATABASE[appId] || [];
-    const commonFaqs = FAQ_DATABASE['common'] || [];
-
-    currentAppFaqs = [...specificFaqs, ...commonFaqs];
-    renderFaqs(currentAppFaqs);
   })();
 </script>
 
