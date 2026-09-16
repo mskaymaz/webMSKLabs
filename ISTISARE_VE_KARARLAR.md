@@ -259,3 +259,357 @@ Aşağıdaki bağlantılar Cloudflare Pages üzerinde canlı yayında olan tüm 
 ### 📄 12.3 Hukuki Metin ve Ürün Söylemi Hizalaması / Legal Policy Alignment Rule (P1)
 * **Türkçe:** Ana sayfadaki "Ücretsiz ve Reklamsız" söylemi ile `privacy.html` / `terms.html` içindeki AdMob/AdSense çerez bildirimleri 100% uyumlu hale getirilecek; ürünün gerçek durumuyla hukuki metinleri çelişmeyecektir.
 * **English:** Homepage "Free & Ad-free" portfolio messaging must be harmonized with Privacy Policy and Terms of Service cookie/advertising disclosures.
+
+---
+
+## 📐 13. SAYFA SPESİFİKASYONLARI (PAGE SPECIFICATIONS)
+## 📐 13. PAGE TYPE SPECIFICATIONS — AI AGENT REFERENCE GUIDE
+
+> **Purpose (EN):** This section is the authoritative reference for all current and future pages in the MSK Labs web platform. Any new page added to the repository MUST conform to the specifications defined here. In case of conflict between a page's implementation and this document, this document takes precedence. Changes to the platform-wide standard must be made here first, then applied across all affected files.
+>
+> **Amaç (TR):** Bu bölüm, MSK Labs web platformuna eklenen veya eklenecek tüm sayfaların yetkili referans kaynağıdır. Depoya eklenen her yeni sayfa burada tanımlanan spesifikasyonlara uymak zorundadır. Bir sayfanın uygulaması ile bu belge arasında çelişki olursa, bu belge geçerlidir. Platform genelinde bir standart değiştirilecekse önce burada değiştirilmeli, ardından tüm ilgili dosyalara yayılmalıdır.
+
+---
+
+### 📌 13.0 Evrensel Sayfa Gereksinimleri (Universal Page Requirements)
+
+**EN:** Every page in this repository — without exception — must satisfy the following baseline requirements:
+**TR:** Depodaki her sayfa, istisna olmaksızın aşağıdaki temel gereksinimleri karşılamak zorundadır:
+
+| Requirement | Value / Rule |
+|---|---|
+| `<html lang="">` | Dynamically set to `tr` / `en` / `ar` via `setLang()` in `layout.js` |
+| `<html dir="">` | `ltr` for TR & EN, `rtl` for AR — set automatically by `setLang()` |
+| `<body class="">` | Must carry `lang-tr`, `lang-en`, or `lang-ar` class; managed by `setLang()` |
+| Theme attribute | `data-theme="light"` or `data-theme="dark"` on `<html>` — managed by `layout.js` |
+| Global CSS | `<link rel="stylesheet" href="[../]assets/css/global.css?v=XX">` (bump `vXX` on every CSS change) |
+| Analytics | `<script src="[../]assets/js/analytics.js">` |
+| Config | `<script src="[../]assets/js/config.js">` |
+| Layout module | `<script src="[../]assets/js/layout.js">` (injects header nav + 2-row footer automatically) |
+| Favicon | `<link rel="icon" href="[../]img/MSKLabs_favicon.png">` |
+| Flash prevention | Inline dark-mode pre-check script in `<head>` before any CSS |
+| Language persistence | `localStorage.getItem('user_lang')` read on load; URL `?lang=xx` overrides stored preference |
+
+**TR — Kısa Özet:** Her sayfada: global CSS (önbellek sürümü artırılmış `?v=XX`), analytics.js, config.js, layout.js scripti zorunludur. Tema ve dil `layout.js` tarafından otomatik yönetilir. Favicon her sayfada tanımlanmalıdır.
+
+---
+
+### 📌 13.1 Çok Dilli Yapı Standardı (Multilingual Content Standard)
+
+**EN:** All user-visible text in HTML files must be wrapped in language-class spans. Never hard-code a single-language string in a visible element unless that element's content is rendered purely by JavaScript with its own language-switching logic.
+
+**TR:** HTML dosyalarındaki tüm kullanıcıya görünür metin, dil sınıfı span'ları içine alınmalıdır. JavaScript tarafından ayrıca yönetilmediği sürece tek dil string'i asla doğrudan yazılamaz.
+
+```html
+<!-- CORRECT / DOĞRU -->
+<span class="lang-tr">Türkçe metin</span>
+<span class="lang-en">English text</span>
+<span class="lang-ar">النص العربي</span>
+
+<!-- Input / Textarea placeholders — CORRECT / DOĞRU -->
+<input
+  data-lang-tr-placeholder="Türkçe açıklama"
+  data-lang-en-placeholder="English description"
+  data-lang-ar-placeholder="وصف عربي"
+  placeholder="Türkçe açıklama">
+```
+
+**CSS visibility rule:** `body.lang-tr .lang-en, body.lang-tr .lang-ar { display: none; }` — defined once in `global.css`. Do not re-define per-page.
+
+**TR — Kural:** `placeholder` değerleri `data-lang-*-placeholder` nitelikleri ile tanımlanır; `layout.js` içindeki `setLang()` fonksiyonu bu nitelikleri okuyarak `placeholder` değerini dinamik olarak günceller.
+
+---
+
+### 📌 13.2 Sayfa Yerleşim Şablonu (Universal Layout Template)
+
+**EN:** All pages use the following standard three-column layout wrapper. The left and right aside columns are desktop-only ad slots; the center column is the main content area.
+
+**TR:** Tüm sayfalar aşağıdaki standart üç sütunlu yerleşim sarmalayıcısını kullanır. Sol ve sağ `aside` kolonları masaüstü reklam alanlarıdır; ortadaki kolon ana içerik alanıdır.
+
+```html
+<header class="site-header">          <!-- layout.js tarafından doldurulur -->
+  <div class="site-header-inner">
+    <a href="index.html" class="bizce-center-logo-link">
+      <img src="img/MSKLabsLogo.svg" class="site-header-logo">
+    </a>
+    <div class="lang-switcher">
+      <button onclick="setLang('tr')" data-lang="tr" class="active">TR</button>
+      <button onclick="setLang('en')" data-lang="en">EN</button>
+      <button onclick="setLang('ar')" data-lang="ar" class="lang-btn-arabic">
+        <img src="img/ElArabiye.svg" class="arabic-btn-icon">
+      </button>
+      <button id="themeToggleBtn" onclick="toggleTheme()" class="theme-toggle-btn">🌙</button>
+    </div>
+  </div>
+</header>
+
+<nav class="top-main-nav"></nav>       <!-- layout.js tarafından enjekte edilir -->
+
+<div class="layout-wrapper">
+  <aside class="desktop-ad desktop-ad-left">
+    <div class="ad-placeholder">Masaüstü Sol Reklam<br>(120x300)</div>
+  </aside>
+
+  <div class="portfolio-container">
+    <!-- SAYFA İÇERİĞİ BURAYA -->
+  </div>
+
+  <aside class="desktop-ad desktop-ad-right">
+    <div class="ad-placeholder">Masaüstü Sağ Reklam<br>(120x300)</div>
+  </aside>
+</div>
+
+<footer class="site-footer"></footer>  <!-- layout.js tarafından doldurulur -->
+<script src="assets/js/layout.js"></script>
+```
+
+---
+
+### 📌 13.3 Sayfa Türleri ve Spesifikasyonları (Page Type Specifications)
+
+---
+
+#### 🅐 TİP A — Kurumsal Çekirdek Sayfalar (Corporate Core Pages)
+
+**EN:** Static informational pages forming the institutional backbone of the site. Content is hardcoded in HTML with multilingual spans. No dynamic data loading required. These pages use the full universal layout template (header + 3-column wrapper + footer).
+
+**TR:** Sitenin kurumsal omurgasını oluşturan statik bilgi sayfaları. İçerik HTML'de çok dilli span'larla sabit olarak kodlanmıştır. Dinamik veri yükleme gerekmez. Tam evrensel yerleşim şablonunu kullanırlar.
+
+**Files / Dosyalar:** `index.html`, `about.html`, `contact.html`, `who-we-are.html`
+
+| Özellik / Feature | Değer / Value |
+|---|---|
+| Header | Standard `site-header` with logo + lang-switcher + theme toggle |
+| Navigation | `top-main-nav` — injected by `layout.js` |
+| Layout | `layout-wrapper` → left-ad + `portfolio-container` + right-ad |
+| Page title | `<h1 class="page-title">` with `lang-tr/en/ar` spans |
+| Footer | 2-row footer injected by `layout.js` |
+| Lang switcher | ✅ TR / EN / AR |
+| Theme toggle | ✅ Light / Dark |
+| RTL support | ✅ AR → `dir="rtl"` auto via `setLang()` |
+| Dynamic data | ❌ None |
+| Query params | ❌ None |
+
+---
+
+#### 🅑 TİP B — Hukuki ve Politika Sayfaları (Legal & Policy Pages)
+
+**EN:** Dynamically configured legal pages. The `?app=`, `?ver=`, `?os=`, `?lang=` URL parameters determine which app's policy content is displayed. Content exists as large `<div class="lang-tr/en/ar">` blocks (not individual span wraps) due to the length of legal text. Both pages share identical template structure.
+
+**TR:** Dinamik olarak yapılandırılan hukuki sayfalar. URL parametreleri (`?app=`, `?ver=`, `?os=`, `?lang=`) hangi uygulamanın politika içeriğinin gösterileceğini belirler. Hukuki metnin uzunluğu nedeniyle içerik bireysel span'lar yerine büyük `<div class="lang-tr/en/ar">` blokları olarak yapılandırılmıştır.
+
+**Files / Dosyalar:** `privacy.html`, `terms.html`
+
+| Özellik / Feature | Değer / Value |
+|---|---|
+| Header | Standard |
+| Navigation | Injected by `layout.js` |
+| Layout | Standard 3-column |
+| Dynamic header card | App name, icon, version, OS badge — populated from URL params via JS |
+| Print / PDF button | `🖨️ PDF / Yazdır` — `window.print()` |
+| Lang content blocks | Full-page `<div class="lang-tr/en/ar">` sections (not span-level) |
+| Query params | `?app=haydinamaza&ver=2.1.0&os=android&lang=tr` |
+| Lang switcher | ✅ TR / EN / AR |
+| Theme toggle | ✅ Light / Dark |
+| Dynamic data | ✅ App metadata from URL params |
+
+---
+
+#### 🅒 TİP C — Otomasyon Servis Sayfaları (Automation Service Pages)
+
+**EN:** Server-rendered dynamic pages that receive app context from URL query parameters and render tailored content. Each has a specific automation role. All share the universal layout template.
+
+**TR:** URL sorgu parametrelerinden uygulama bağlamı alan ve özelleştirilmiş içerik sunan dinamik servis sayfaları. Her birinin belirli bir otomasyon rolü vardır. Hepsi evrensel yerleşim şablonunu paylaşır.
+
+**Files / Dosyalar:** `faq.html`, `destek.html`, `changelog.html`, `roadmap.html`, `status.html`, `promo.html`, `review-route.html`, `dl.html`
+
+| Sayfa / Page | Rol / Role | Temel Parametre / Key Param |
+|---|---|---|
+| `faq.html` | Live-search accordion FAQ | `?app=` |
+| `destek.html` | Support ticket form + Telegram bot | `?app=&ver=&os=` |
+| `changelog.html` | App version release history | `?app=` |
+| `roadmap.html` | Community feature voting board | — |
+| `status.html` | System & service health monitor | — |
+| `promo.html` | Cross-app promotion engine | `?app=` |
+| `review-route.html` | Store review rating router | `?app=` |
+| `dl.html` | Smart download + QR code router | `?app=` |
+
+**Shared rules for all Type C pages / Tip C sayfaları için ortak kurallar:**
+
+| Özellik / Feature | Değer / Value |
+|---|---|
+| Layout | Standard 3-column `layout-wrapper` |
+| Header badge/card | Dynamic app name + icon from URL params (where applicable) |
+| Lang switcher | ✅ TR / EN / AR (all text elements must use `lang-*` spans) |
+| Theme toggle | ✅ Light / Dark |
+| Form inputs | Placeholders via `data-lang-*-placeholder` attributes |
+| `setLang()` | Must update all form placeholders, dynamic titles, search boxes |
+| Query param `?lang=` | Overrides stored `localStorage` language preference on load |
+| `languageChanged` event | Pages must listen to `window.addEventListener('languageChanged', ...)` for cross-module sync |
+
+**destek.html specific / destek.html özel kurallar:**
+- App badge shows app name + version + OS (from URL params; falls back to multilingual "MSK Labs General / Genel" spans)
+- All 3 form inputs (`subjectInput`, `messageInput`, `emailInput`) carry `data-lang-*-placeholder` attributes
+- `setLang()` in page script updates all 3 placeholders on every language switch
+- Ticket draft auto-saved to `localStorage`; ticket number generated client-side on submit
+
+**faq.html specific / faq.html özel kurallar:**
+- `faqSearchInput` carries `data-lang-*-placeholder` for live search
+- FAQ questions/answers rendered dynamically from `FAQ_DATABASE[lang][appId]` JS object
+- `loadFaqsForLang(lang)` called on every `setLang()` invocation
+- App name heading uses `lang-tr/en/ar` spans (or JS-injected spans when `?app=` param present)
+
+---
+
+#### 🅓 TİP D — Uygulama Detay Sayfaları (App Product Pages)
+
+**EN:** Per-application showcase pages located under `/apps/`. Each page presents a single application's icon, title, platform & development-status badges, description, feature grid, download section, and version-request panel. All app detail pages share the same structural template.
+
+**TR:** `/apps/` altındaki her uygulama için ayrı vitrin sayfaları. Her sayfa bir uygulamanın ikonu, başlığı, platform ve geliştirme durumu rozetleri, açıklaması, özellik ızgarası, indirme bölümü ve sürüm talep panelini sunar. Tüm uygulama detay sayfaları aynı yapısal şablonu paylaşır.
+
+**Files / Dosyalar:** `apps/haydinamaza.html`, `apps/rekatsay.html`, `apps/emekli.html`, `apps/enyakin.html`, `apps/deskpilot.html`, `apps/gcpiluyari.html`
+
+| Özellik / Feature | Değer / Value |
+|---|---|
+| Header | Standard `site-header` (with `../` relative paths) |
+| Navigation | `top-main-nav` injected by `../assets/js/layout.js` |
+| Layout | Standard 3-column with `../` relative asset paths |
+| App icon | `<div class="app-big-icon"><img src="../media/{app}/icon.png"></div>` |
+| App title | `<h1>{AppName}</h1>` — proper nouns, no translation |
+| Platform badge | `<span class="badge badge-platform">` with `lang-tr/en/ar` spans |
+| Status badge | `<span class="badge badge-status">` with `lang-tr/en/ar` spans |
+| Download button | `<a href="#download-section" class="hero-download-btn">` with `lang-*` spans |
+| Right panel | Global language status + EN/AR version request buttons |
+| Translation box | `<div class="translation-request-box lang-en lang-ar">` — visible only in EN/AR |
+| Description | `<div class="app-description">` with `lang-*` spans |
+| Features section | `<div class="features-grid">` with `lang-*` spans per feature box |
+| Download section | `id="download-section"` — store links or status-btn if not released |
+| Lang switcher | ✅ TR / EN / AR |
+| Theme toggle | ✅ Light / Dark |
+| RTL support | ✅ Auto via `setLang()` in `layout.js` |
+
+**Badge text translations / Rozet çeviri standardı:**
+
+| Badge Type | TR | EN | AR |
+|---|---|---|---|
+| Mobile platform | 📱 Mobil Çözüm | 📱 Mobile Solution | 📱 حل المحمول |
+| Desktop platform | 💻 Masaüstü Sistem | 💻 Desktop App | 💻 تطبيق سطح المكتب |
+| In development | 🛠️ Geliştirme Devam Ediyor | 🛠️ Development In Progress | 🛠️ التطوير قيد التقدم |
+| Published / Live | ✅ Yayında | ✅ Live | ✅ منشور |
+| Beta | 🧪 Beta Aşaması | 🧪 Beta Stage | 🧪 مرحلة التجريب |
+
+---
+
+#### 🅔 TİP E — Blog ve Yayın Sayfaları (Blog & Publishing Pages)
+
+**EN:** The Bizce & Anıltılar publishing platform. A single-page application where `blog.html` is the shell and `blog.js` handles all content rendering, filtering, TTS, and pagination. New articles are added to the `ARTICLES` array inside `blog.js` — no new HTML files needed.
+
+**TR:** Bizce ve Anıltılar yayın platformu. `blog.html` kabuk sayfadır; `blog.js` tüm içerik render'ını, filtrelemeyi, TTS'i ve sayfalamayı yönetir. Yeni makaleler `blog.js` içindeki `ARTICLES` dizisine eklenir — yeni HTML dosyası oluşturulmaz.
+
+**Files / Dosyalar:** `blog/blog.html`, `blog/blog.js`
+
+| Özellik / Feature | Değer / Value |
+|---|---|
+| URL pattern | `blog/blog.html?type=bizce` or `?type=anilts` |
+| Content rendering | All articles rendered by `blog.js` from `ARTICLES[]` array |
+| Language | Articles have `lang` field; `blog.js` filters by `lang === activeLang` OR `lang === 'all'` |
+| TTS | Built-in Text-to-Speech; default voice: Male (👨); switchable to Female (👩) |
+| TTS speeds | 1.0x, 1.25x, 1.5x |
+| Layout | `layout-wrapper` with left-ad + content + right-ad |
+| Lang switcher | ✅ TR / EN / AR |
+| Theme toggle | ✅ Light / Dark |
+| New article rule | Add object to `ARTICLES[]` in `blog.js` — do NOT create new HTML files |
+
+**Article object schema / Makale nesne şeması:**
+```js
+{
+  id: 'unique-slug',
+  type: 'bizce',           // 'bizce' | 'anilts'
+  lang: 'tr',              // 'tr' | 'en' | 'ar' | 'all'
+  date: '2026-09-16',
+  title: 'Başlık',
+  summary: 'Kısa özet...',
+  content: 'Tam metin HTML...',
+  image: '../media/blog/image.webp'  // optional
+}
+```
+
+---
+
+#### 🅕 TİP F — Yönetim ve Dizin Sayfaları (Admin & Directory Pages)
+
+**EN:** Internal pages for site management and navigation. Not linked from main navigation. Access is PIN-protected (ist.html) or open-index (pages.html).
+
+**TR:** Site yönetimi ve navigasyonu için dahili sayfalar. Ana navigasyondan bağlantı verilmez. Erişim PIN korumalıdır (ist.html) veya açık indeksdir (pages.html).
+
+**Files / Dosyalar:** `ist.html` (PIN: 175), `pages.html`
+
+| Özellik / Feature | Değer / Value |
+|---|---|
+| Layout | Standard 3-column |
+| Access | `ist.html` → PIN: **175**; `pages.html` → open |
+| ist.html content | Visitor stats, download counters, AdSense metrics |
+| pages.html content | Central directory of all site pages with multilingual category titles |
+| Lang switcher | ✅ TR / EN / AR |
+| Theme toggle | ✅ Light / Dark |
+
+---
+
+### 📌 13.4 Yeni Sayfa Ekleme Kontrol Listesi (New Page Checklist)
+
+**EN:** When adding any new page to the repository, verify ALL of the following before committing:
+**TR:** Depoya yeni bir sayfa eklenirken commit öncesinde aşağıdakilerin TAMAMI kontrol edilmelidir:
+
+- [ ] **EN:** Flash-prevention inline script in `<head>` (reads `user_theme` from localStorage)
+  **TR:** `<head>` içinde tema flaşını önleyen inline script mevcut
+- [ ] **EN:** Global CSS linked with current `?v=XX` version param
+  **TR:** Global CSS doğru `?v=XX` sürümüyle bağlı
+- [ ] **EN:** `config.js`, `analytics.js`, `layout.js` scripts included (in this order, before `</body>`)
+  **TR:** `config.js`, `analytics.js`, `layout.js` scriptleri `</body>` öncesinde sırayla dahil edilmiş
+- [ ] **EN:** `<header class="site-header">` and `<footer class="site-footer">` present (layout.js targets these)
+  **TR:** `<header class="site-header">` ve `<footer class="site-footer">` etiketleri mevcut
+- [ ] **EN:** `<nav class="top-main-nav">` empty element present (layout.js injects links)
+  **TR:** Boş `<nav class="top-main-nav">` elementi mevcut
+- [ ] **EN:** `<body class="lang-tr">` initial class set (layout.js updates on load)
+  **TR:** `<body class="lang-tr">` başlangıç sınıfı ayarlı
+- [ ] **EN:** Lang-switcher buttons (`TR`, `EN`, AR icon) inside header `<div class="lang-switcher">`
+  **TR:** Dil değiştirici butonlar header içinde `<div class="lang-switcher">` içinde
+- [ ] **EN:** `<html lang="tr">` initial attribute set
+  **TR:** `<html lang="tr">` başlangıç özelliği ayarlı
+- [ ] **EN:** ALL visible text wrapped in `lang-tr` / `lang-en` / `lang-ar` spans
+  **TR:** Tüm görünür metin `lang-tr/en/ar` span'larına sarılmış
+- [ ] **EN:** All `<input>` and `<textarea>` elements carry `data-lang-*-placeholder` attributes
+  **TR:** Tüm `<input>` ve `<textarea>` elementleri `data-lang-*-placeholder` niteliklerini taşıyor
+- [ ] **EN:** If page has a local `setLang()`, it dispatches `window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }))`
+  **TR:** Sayfada yerel `setLang()` varsa `languageChanged` custom event dispatch ediyor
+- [ ] **EN:** 3-column `layout-wrapper` with left + right ad aside slots present
+  **TR:** Sol ve sağ reklam alanları olan `layout-wrapper` mevcut
+- [ ] **EN:** Favicon link tags present (`icon`, `shortcut icon`, `apple-touch-icon`)
+  **TR:** Favicon bağlantı etiketleri mevcut
+- [ ] **EN:** `<h1>` page title uses `lang-*` spans (one `<h1>` per page — SEO rule)
+  **TR:** `<h1>` sayfa başlığı `lang-*` span'larını kullanıyor (sayfada tek `<h1>` — SEO kuralı)
+- [ ] **EN:** `<meta name="description">` and `<title>` tag set appropriately
+  **TR:** `<meta name="description">` ve `<title>` etiketi uygun biçimde ayarlı
+- [ ] **EN:** For `/apps/` pages, all badge text uses `lang-*` spans per the badge translation table (§13.3D)
+  **TR:** `/apps/` sayfalarında tüm rozet metinleri §13.3D'deki çeviri tablosuna göre `lang-*` span'lara sarılmış
+
+---
+
+### 📌 13.5 Bileşen Değişiklik Protokolü (Component Change Protocol)
+
+**EN:** When a platform-wide component needs to be changed (navigation, footer, language logic, theme logic, form placeholder mechanism), follow this strict sequence:
+**TR:** Platform genelinde bir bileşen değiştirilmesi gerektiğinde (navigasyon, footer, dil mantığı, tema mantığı, form placeholder mekanizması) aşağıdaki sıra izlenir:
+
+1. **Update this document first / Önce bu belgeyi güncelle** — record the new standard in §13
+2. **Update `assets/js/layout.js`** — for nav/footer/theme/lang changes
+3. **Update `assets/css/global.css`** — for CSS token/variable changes; bump `?v=XX`
+4. **Propagate to all affected static HTML files** — for inline elements not covered by layout.js
+5. **Commit with clear message** — reference section number from this document
+
+**TR:** Sıra: (1) Bu belge → (2) `layout.js` → (3) `global.css` → (4) etkilenen HTML dosyaları → (5) commit.
+
+---
+
+> **Son Güncelleme / Last Updated:** 16 Eylül 2026 / September 16, 2026  
+> Bu bölüm yaşayan bir belgedir. Platform standartları değiştikçe buradaki spesifikasyonlar güncellenir.  
+> *This section is a living document. Specifications are updated as platform standards evolve.*
