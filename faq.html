@@ -252,8 +252,16 @@
       <div class="app-meta-box">
         <div class="app-meta-icon" id="appIconBox">💡</div>
         <div class="app-meta-info">
-          <h2 id="appNameText">MSK Labs – Sıkça Sorulan Sorular</h2>
-          <p id="appMetaSub">MSK Labs, ücretsiz ve kullanıcı odaklı yazılımlar geliştiren bağımsız bir teknoloji projesidir. Uygulamalar; gizlilik, kullanım kolaylığı, performans ve mümkün olduğunca yerel çalışma prensipleri dikkate alınarak geliştirilmektedir. Aşağıda MSK Labs, uygulamalar, indirme, gizlilik, destek ve kullanıcı talepleri hakkında en sık sorulabilecek soruların yanıtlarını bulabilirsiniz.</p>
+          <h2 id="appNameText">
+            <span class="lang-tr">MSK Labs – Sıkça Sorulan Sorular</span>
+            <span class="lang-en">MSK Labs – Frequently Asked Questions</span>
+            <span class="lang-ar">MSK Labs – الأسئلة الشائعة</span>
+          </h2>
+          <p id="appMetaSub">
+            <span class="lang-tr">MSK Labs, ücretsiz ve kullanıcı odaklı yazılımlar geliştiren bağımsız bir teknoloji projesidir. Uygulamalar; gizlilik, kullanım kolaylığı, performans ve mümkün olduğunca yerel çalışma prensipleri dikkate alınarak geliştirilmektedir. Aşağıda MSK Labs, uygulamalar, indirme, gizlilik, destek ve kullanıcı talepleri hakkında en sık sorulabilecek soruların yanıtlarını bulabilirsiniz.</span>
+            <span class="lang-en">MSK Labs is an independent technology project developing free, user-centric software. Applications are designed prioritizing privacy, usability, performance, and offline-first principles. Below you can find answers to the most frequently asked questions about MSK Labs, applications, downloads, privacy, support, and requests.</span>
+            <span class="lang-ar">مشروع MSK Labs هو مشروع تكنولوجي مستقل يطور برمجيات مجانية ومحورية حول المستخدم. يتم تصميم التطبيقات بالتركيز على الخصوصية، سهولة الاستخدام، الأداء، والعمل المحلي قدر الإمكان. تجدون أدناه إجابات على الأسئلة الأكثر شيوعًا حول MSK Labs والتطبيقات والتحميل والخصوصية والدعم والطلبات.</span>
+          </p>
         </div>
       </div>
     </div>
@@ -261,7 +269,11 @@
     <!-- Canlı Arama Kutusu -->
     <div class="faq-search-box">
       <span class="faq-search-icon">🔍</span>
-      <input type="text" id="faqSearchInput" class="faq-search-input" placeholder="Soru veya anahtar kelime yazın... (örn: gizlilik, reklam, izinler, indirme)" oninput="filterFaq()">
+      <input type="text" id="faqSearchInput" class="faq-search-input"
+        data-lang-tr-placeholder="Soru veya anahtar kelime yazın... (örn: gizlilik, reklam, izinler, indirme)"
+        data-lang-en-placeholder="Type a question or keyword... (e.g. privacy, ads, permissions, download)"
+        data-lang-ar-placeholder="اكتب سؤالاً أو كلمة رئيسية... (مثال: الخصوصية، الإعلانات، الأذونات، التحميل)"
+        placeholder="Soru veya anahtar kelime yazın... (örn: gizlilik, reklam, izinler, indirme)" oninput="filterFaq()">
     </div>
 
     <!-- Akordeon SSS Listesi -->
@@ -279,9 +291,10 @@
       <p>
         <span class="lang-tr">Destek &amp; Talep Merkezimiz üzerinden hata bildirimi, yeni özellik veya uygulama fikri iletebilirsiniz.</span>
         <span class="lang-en">Submit bug reports, feature requests or new app ideas via our Support Center.</span>
+        <span class="lang-ar">يمكنك تقديم تقارير الأخطاء أو طلبات الميزات أو أفكار التطبيقات الجديدة عبر مركز الدعم والطلبات.</span>
       </p>
       <a href="destek.html" id="supportCtaBtn" class="support-cta-btn">
-        📩 <span class="lang-tr">Destek &amp; Talep Merkezi'ne Git</span><span class="lang-en">Go to Support Center</span>
+        📩 <span class="lang-tr">Destek &amp; Talep Merkezi'ne Git</span><span class="lang-en">Go to Support Center</span><span class="lang-ar">الانتقال إلى مركز الدعم والطلبات</span>
       </a>
     </div>
 
@@ -597,8 +610,28 @@
     }
     lang = lang || 'tr';
 
+    const searchInput = document.getElementById('faqSearchInput');
+    if (searchInput) {
+      const placeholders = {
+        tr: 'Soru veya anahtar kelime yazın... (örn: gizlilik, reklam, izinler, indirme)',
+        en: 'Type a question or keyword... (e.g. privacy, ads, permissions, download)',
+        ar: 'اكتب سؤالاً أو كلمة رئيسية... (مثال: الخصوصية، الإعلانات، الأذونات، التحميل)'
+      };
+      searchInput.placeholder = placeholders[lang] || placeholders.tr;
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const appId = (urlParams.get('app') || '').toLowerCase().trim();
+
+    if (appId && APPS_CONFIG[appId]) {
+      const appName = APPS_CONFIG[appId].name;
+      document.getElementById('appNameText').innerHTML = `
+        <span class="lang-tr">${appName} – Sıkça Sorulan Sorular</span>
+        <span class="lang-en">${appName} – Frequently Asked Questions</span>
+        <span class="lang-ar">${appName} – الأسئلة الشائعة</span>
+      `;
+      document.getElementById('appIconBox').innerHTML = APPS_CONFIG[appId].icon;
+    }
 
     const langDb = FAQ_DATABASE[lang] || FAQ_DATABASE['tr'];
     const specificFaqs = (appId && langDb[appId]) ? langDb[appId] : [];

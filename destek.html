@@ -80,10 +80,14 @@
       <div class="app-badge-info">
         <div class="app-badge-icon" id="appBadgeIcon">📱</div>
         <div>
-          <div class="app-badge-title" id="appBadgeTitle">MSK Labs Uygulaması</div>
+          <div class="app-badge-title" id="appBadgeTitle">
+            <span class="lang-tr">MSK Labs Genel</span>
+            <span class="lang-en">MSK Labs General</span>
+            <span class="lang-ar">MSK Labs عام</span>
+          </div>
           <div class="app-badge-meta">
-            <span><span class="lang-tr">Sürüm:</span><span class="lang-en">Version:</span><span class="lang-ar">الإصدار:</span> <strong id="appBadgeVersion" class="app-badge-tag">1.0.0</strong></span>
-            <span><span class="lang-tr">Sistem:</span><span class="lang-en">OS:</span><span class="lang-ar">النظام:</span> <strong id="appBadgeOs" class="app-badge-tag">Web / Bilinmeyen</strong></span>
+            <span><span class="lang-tr">Sürüm:</span><span class="lang-en">Version:</span><span class="lang-ar">الإصدار:</span> <strong id="appBadgeVersion" class="app-badge-tag">Web</strong></span>
+            <span><span class="lang-tr">Sistem:</span><span class="lang-en">OS:</span><span class="lang-ar">النظام:</span> <strong id="appBadgeOs" class="app-badge-tag"><span class="lang-tr">Windows / Web</span><span class="lang-en">Windows / Web</span><span class="lang-ar">ويندوز / الويب</span></strong></span>
           </div>
         </div>
       </div>
@@ -140,7 +144,11 @@
             <span class="lang-en">Subject / Short Summary</span>
             <span class="lang-ar">الموضوع / ملخص قصير</span>
           </label>
-          <input type="text" id="subjectInput" class="custom-input" placeholder="Örn: Profil sayfasında güncelleme hatası alıyorum" required oninput="saveDraft()">
+          <input type="text" id="subjectInput" class="custom-input"
+            data-lang-tr-placeholder="Örn: Profil sayfasında güncelleme hatası alıyorum"
+            data-lang-en-placeholder="E.g.: Getting update error on profile page"
+            data-lang-ar-placeholder="مثال: أواجه خطأ في التحديث في صفحة الملف الشخصي"
+            placeholder="Örn: Profil sayfasında güncelleme hatası alıyorum" required oninput="saveDraft()">
         </div>
 
         <!-- Detaylı Açıklama -->
@@ -150,7 +158,11 @@
             <span class="lang-en">Detailed Description</span>
             <span class="lang-ar">وصف تفصيلي</span>
           </label>
-          <textarea id="messageInput" class="custom-textarea" placeholder="Talebinizi veya karşılaştığınız senaryoyu detaylıca açıklayınız." required oninput="handleMessageInput()"></textarea>
+          <textarea id="messageInput" class="custom-textarea"
+            data-lang-tr-placeholder="Talebinizi veya karşılaştığınız senaryoyu detaylıca açıklayınız."
+            data-lang-en-placeholder="Explain your request or scenario in detail."
+            data-lang-ar-placeholder="يرجى شرح طلبك أو السيناريو بالتفصيل."
+            placeholder="Talebinizi veya karşılaştığınız senaryoyu detaylıca açıklayınız." required oninput="handleMessageInput()"></textarea>
           
           <div class="form-helper">
             <div class="draft-indicator" id="draftIndicator">
@@ -169,7 +181,11 @@
             <span class="lang-en">Email Address (Optional)</span>
             <span class="lang-ar">البريد الإلكتروني (اختياري)</span>
           </label>
-          <input type="email" id="emailInput" class="custom-input" placeholder="ornek@domain.com" oninput="saveDraft()">
+          <input type="email" id="emailInput" class="custom-input"
+            data-lang-tr-placeholder="ornek@domain.com"
+            data-lang-en-placeholder="example@domain.com"
+            data-lang-ar-placeholder="example@domain.com"
+            placeholder="ornek@domain.com" oninput="saveDraft()">
         </div>
 
         <button type="submit" class="submit-btn" id="submitBtn">
@@ -247,20 +263,28 @@
 <script>
   // Dynamic URL Param Parsing
   const urlParams = new URLSearchParams(window.location.search);
-  const appName = urlParams.get('app') || 'MSK Labs Genel';
-  const appVer = urlParams.get('ver') || 'Web';
-  const appOs = urlParams.get('os') || (navigator.platform.includes('Win') ? 'Windows' : 'Mobil/Diğer');
+  const rawAppParam = urlParams.get('app');
+  const appName = rawAppParam || 'MSK Labs Genel';
+  const rawVerParam = urlParams.get('ver');
+  const appVer = rawVerParam || 'Web';
+  const rawOsParam = urlParams.get('os');
+  const appOs = rawOsParam || (navigator.platform.includes('Win') ? 'Windows' : 'Mobil');
 
-  document.getElementById('appBadgeTitle').innerText = appName;
-  document.getElementById('appBadgeVersion').innerText = appVer;
-  document.getElementById('appBadgeOs').innerText = appOs;
+  if (rawAppParam) document.getElementById('appBadgeTitle').innerText = appName;
+  if (rawVerParam) document.getElementById('appBadgeVersion').innerText = appVer;
+  if (rawOsParam) document.getElementById('appBadgeOs').innerText = appOs;
 
   // Language Switcher Logic
   function setLang(lang) {
-    if (!lang) lang = 'tr';
+    if (!lang) {
+      try { lang = localStorage.getItem('user_lang'); } catch(e) {}
+    }
+    lang = lang || 'tr';
     try { localStorage.setItem('user_lang', lang); } catch(e) {}
     
     document.body.className = 'lang-' + lang;
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
     
     document.querySelectorAll('.lang-switcher button').forEach(function(btn) {
       if (btn.getAttribute('data-lang') === lang) {
@@ -269,7 +293,43 @@
         btn.classList.remove('active');
       }
     });
+
+    const subjectEl = document.getElementById('subjectInput');
+    if (subjectEl) {
+      const subjectPlaceholders = {
+        tr: 'Örn: Profil sayfasında güncelleme hatası alıyorum',
+        en: 'E.g.: Getting update error on profile page',
+        ar: 'مثال: أواجه خطأ في التحديث في صفحة الملف الشخصي'
+      };
+      subjectEl.placeholder = subjectPlaceholders[lang] || subjectPlaceholders.tr;
+    }
+
+    const messageEl = document.getElementById('messageInput');
+    if (messageEl) {
+      const messagePlaceholders = {
+        tr: 'Talebinizi veya karşılaştığınız senaryoyu detaylıca açıklayınız.',
+        en: 'Explain your request or scenario in detail.',
+        ar: 'يرجى شرح طلبك أو السيناريو بالتفصيل.'
+      };
+      messageEl.placeholder = messagePlaceholders[lang] || messagePlaceholders.tr;
+    }
+
+    const emailEl = document.getElementById('emailInput');
+    if (emailEl) {
+      const emailPlaceholders = {
+        tr: 'ornek@domain.com',
+        en: 'example@domain.com',
+        ar: 'example@domain.com'
+      };
+      emailEl.placeholder = emailPlaceholders[lang] || emailPlaceholders.tr;
+    }
   }
+
+  window.addEventListener('languageChanged', function(e) {
+    if (e.detail && e.detail.lang) {
+      setLang(e.detail.lang);
+    }
+  });
 
   // Category Selection
   function selectCategory(cat, element) {

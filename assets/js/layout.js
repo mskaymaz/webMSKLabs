@@ -209,6 +209,13 @@
       }
     });
 
+    // Update input and textarea placeholders dynamically based on active language
+    var elementsWithPlaceholders = document.querySelectorAll('[data-lang-' + lang + '-placeholder]');
+    elementsWithPlaceholders.forEach(function(el) {
+      var ph = el.getAttribute('data-lang-' + lang + '-placeholder');
+      if (ph) el.setAttribute('placeholder', ph);
+    });
+
     // Keep theme button state synced in module
     var currentTheme = document.documentElement.getAttribute('data-theme') || getSavedTheme();
     updateThemeToggleBtn(currentTheme);
