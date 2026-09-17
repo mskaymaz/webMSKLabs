@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /ist.html
+Disallow: /pages.html
 
 Sitemap: https://msklabs.org/sitemap.xml

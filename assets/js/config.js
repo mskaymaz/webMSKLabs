@@ -13,12 +13,12 @@ const SITE_CONFIG = {
     return (typeof window !== 'undefined' && window.MSK_APPS_DATA) ? window.MSK_APPS_DATA : this.apps;
   },
   apps: {
-    haydinamaza: { name: "Haydi Namaza", storeUrlAndroid: "https://play.google.com/store/apps/details?id=org.msklabs.haydinamaza" },
+    haydinamaza: { name: "HaydiNamaza", storeUrlAndroid: "https://play.google.com/store/apps/details?id=org.msklabs.haydinamaza" },
     rekatsay: { name: "RekatSay", storeUrlAndroid: "https://play.google.com/store/apps/details?id=org.msklabs.rekatsay" },
     emekli: { name: "Ne Zaman Emekli Olabilirim", storeUrlAndroid: "https://play.google.com/store/apps/details?id=org.msklabs.emekli" },
     enyakin: { name: "En Yakın Hizmet", storeUrlAndroid: "https://play.google.com/store/apps/details?id=org.msklabs.enyakin" },
     deskpilot: { name: "DeskPilot Pro", storeUrlWindows: "https://msklabs.org/dl.html?app=deskpilot" },
-    gcpiluyari: { name: "Geç Pil Uyarısı", storeUrlAndroid: "https://play.google.com/store/apps/details?id=org.msklabs.gcpiluyari" }
+    gcpiluyari: { name: "GC Pil Uyardı", storeUrlAndroid: "https://play.google.com/store/apps/details?id=org.msklabs.gcpiluyari" }
   }
 };
 

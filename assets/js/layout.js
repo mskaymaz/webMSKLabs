@@ -57,6 +57,13 @@
     function getLinkClass(keyword) {
       if (keyword === 'index' && (pageName === 'index.html' || pageName === '')) return ' active-nav-link';
       if (keyword !== 'index' && pageName.indexOf(keyword) !== -1) return ' active-nav-link';
+      // Blog sayfasında URL type parametresine göre footer aktif link vurgulama
+      if (pageName === 'blog.html') {
+        var bParams = new URLSearchParams(window.location.search);
+        var bType = (bParams.get('type') || bParams.get('cat') || 'bizce').toLowerCase();
+        if (keyword === bType) return ' active-nav-link';
+        if (!bParams.get('type') && !bParams.get('cat') && keyword === 'bizce') return ' active-nav-link';
+      }
       return '';
     }
 
@@ -106,6 +113,8 @@
       if (pageName === 'blog.html') {
         if (typeParam === 'anilts' || typeParam === 'aniltilar' || typeParam === 'anilti') {
           if (href.indexOf('type=anilts') !== -1 || href.indexOf('cat=anilts') !== -1) isActive = true;
+        } else if (typeParam === 'guncel') {
+          if (href.indexOf('type=guncel') !== -1 || href.indexOf('cat=guncel') !== -1) isActive = true;
         } else {
           if (href.indexOf('type=bizce') !== -1 || href.indexOf('cat=bizce') !== -1) isActive = true;
         }
