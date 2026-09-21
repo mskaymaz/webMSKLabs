@@ -2134,12 +2134,31 @@ body.lang-ar .static-page-card {
 }
 
 .hero-intro-title {
-  font-family: 'Montserrat', 'Inter', sans-serif;
-  font-size: 2.2rem;
-  font-weight: 500;
-  color: var(--text-main);
-  margin: 0 0 6px 0;
-  letter-spacing: 0;
+  margin: 0 0 8px 0;
+  text-align: center;
+}
+
+.hero-intro-logo-svg {
+  height: 44px;
+  width: auto;
+  max-width: 90%;
+  display: inline-block;
+  vertical-align: middle;
+  transition: filter 0.3s ease;
+}
+
+[data-theme="dark"] .hero-intro-logo-svg,
+body.dark-theme .hero-intro-logo-svg {
+  filter: brightness(0) invert(0.95);
+}
+
+.web-click-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  border-radius: 4px;
+  vertical-align: middle;
+  display: inline-block;
 }
 
 .hero-intro-subtitle {
