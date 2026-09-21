@@ -216,9 +216,19 @@
     return document.documentElement.getAttribute('lang') || 'tr';
   }
 
+  // Safe helper to extract localized title from blog post object
+  function getPostTitle(post) {
+    if (!post) return '';
+    var lang = getLang();
+    if (post[lang] && post[lang].title) return post[lang].title;
+    if (post.tr && post.tr.title) return post.tr.title;
+    if (typeof post.title === 'string') return post.title;
+    return '';
+  }
+
   // Render Category Dynamic Cards
   function renderBlogBox(type, latestElId, recElId) {
-    var posts = typeof blogPostsData !== 'undefined' ? blogPostsData : hubBlogData;
+    var posts = (typeof blogPostsData !== 'undefined' && blogPostsData.length > 0) ? blogPostsData : hubBlogData;
     var categoryPosts = posts.filter(function(p) { return p.type === type; });
     if (!categoryPosts || categoryPosts.length === 0) return;
 
@@ -233,8 +243,8 @@
     // Render Latest Post
     var latestEl = document.getElementById(latestElId);
     if (latestEl && latestPost) {
-      var latestTitleText = (latestPost.title && latestPost.title[lang]) || latestPost.title.tr || latestPost.title;
-      var latestUrl = 'blog/' + (latestPost.url || 'blog.html?type=' + type);
+      var latestTitleText = getPostTitle(latestPost);
+      var latestUrl = 'blog/blog.html?type=' + type + '&id=' + latestPost.id;
       latestEl.innerHTML = `
         <div class="hub-latest-title">
           <a href="${latestUrl}" style="color: var(--text-main); text-decoration: none;">${latestTitleText}</a>
@@ -246,8 +256,8 @@
     // Render Recommended Post
     var recEl = document.getElementById(recElId);
     if (recEl && recommendedPost) {
-      var recTitleText = (recommendedPost.title && recommendedPost.title[lang]) || recommendedPost.title.tr || recommendedPost.title;
-      var recUrl = 'blog/' + (recommendedPost.url || 'blog.html?type=' + type);
+      var recTitleText = getPostTitle(recommendedPost);
+      var recUrl = 'blog/blog.html?type=' + type + '&id=' + recommendedPost.id;
       recEl.innerHTML = `
         <div class="hub-rec-title" style="font-size:0.88rem; font-weight:600;">
           <a href="${recUrl}" style="color: var(--text-main); text-decoration: none;">${recTitleText}</a>
