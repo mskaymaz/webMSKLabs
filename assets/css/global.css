@@ -80,13 +80,21 @@ body {
 /* Logo Ayarları */
 .logo-container {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 22px;
 }
 
 .main-logo {
   max-width: 100%;
-  width: 240px;
+  width: 216px;
   height: auto;
+}
+
+.top-main-nav {
+  text-align: center;
+  margin: 0 0 1.25rem 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
 }
 
 /* Sayfa Ana Başlığı */
@@ -831,7 +839,7 @@ body.dark-theme .arabic-btn-icon {
 /* Reklam Alanları */
 .desktop-ad {
   width: 120px;
-  margin-top: var(--desktop-ad-top-margin, 235px); /* Navigasyon menüsünün bittiği yerin 15px altından başlar */
+  margin-top: var(--desktop-ad-top-margin, 195px); /* Navigasyon menüsünün bittiği yerin 15px altından başlar */
   position: sticky;
   top: 20px;
   flex-shrink: 0;
