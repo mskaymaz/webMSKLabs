@@ -35,7 +35,7 @@
 
   <!-- Masaüstü Sol Reklam (1280px üzerinde görünür) -->
   <aside class="desktop-ad desktop-ad-left">
-    <div class="ad-placeholder">Masaüstü Sol Reklam<br>(120x300)</div>
+    <div class="ad-placeholder">Masaüstü Sol Reklam<br>(120x600)</div>
   </aside>
 
   <!-- Ana İçerik Portföy Alanı -->
@@ -53,205 +53,169 @@
   <!-- Standart Üst Ana Navigasyon Menüsü (layout.js tarafından doldurulur) -->
   <nav class="top-main-nav"></nav>
   
-  
-  <h1 class="page-title">
-    <span class="lang-tr">Uygulama Portföyü</span>
-    <span class="lang-en">Application Portfolio</span>
-    <span class="lang-ar">محفظة التطبيقات</span>
-  </h1>
+  <!-- 4'LÜ MODÜLER İÇERİK MERKEZİ (HUB GRID) -->
+  <div class="hub-grid">
+    
+    <!-- KUTU 1: BİZCE (Sol Üst) -->
+    <div class="hub-card hub-card-clickable" id="hubCardBizce">
+      <div>
+        <div class="hub-card-header">
+          <h2 class="hub-card-title">
+            <span>✍️</span>
+            <span class="lang-tr">Bizce</span>
+            <span class="lang-en">Bizce</span>
+            <span class="lang-ar">بيزجه</span>
+          </h2>
+          <span class="hub-badge">
+            <span class="lang-tr">Makale &amp; Fikir</span>
+            <span class="lang-en">Essays &amp; Ideas</span>
+            <span class="lang-ar">مقالات وأفكار</span>
+          </span>
+        </div>
+        <p class="hub-intro-text">
+          <span class="lang-tr">Teknolojiye, hayata ve insanlığa derin bakış. Özgün fikir yazıları, felsefi incelemeler ve sesli makale okuma olanağı.</span>
+          <span class="lang-en">A deep perspective on technology, life, and humanity. Original thought essays and audio reader features.</span>
+          <span class="lang-ar">نظرة عميقة على التكنولوجيا والحياة والإنسانية. مقالات فكرية وقراءة صوتية.</span>
+        </p>
 
-  <div class="subtitle-notice">
-    <p class="notice-line-1">
-      <span class="lang-tr">Bu portföydeki uygulamalarımız ücretsiz ve reklamsız olacaktır.</span>
-      <span class="lang-en">Our applications in this portfolio will be free and ad-free.</span>
-      <span class="lang-ar">ستكون تطبيقاتنا في هذا المعرض مجانية وبدون إعلانات.</span>
-    </p>
-    <p class="notice-line-2">
-      <span class="lang-tr">Ücret gerektiren uygulamalar ayrı bir kategoride yayınlanır.</span>
-      <span class="lang-en">Paid applications are published under a separate category.</span>
-      <span class="lang-ar">يتم نشر التطبيقات المدفوعة في فئة منفصلة.</span>
-    </p>
-  </div>
-  
-  <!-- MOBİL ÇÖZÜMLER -->
-  <h2 class="category-title" id="apps">
-    <span class="lang-tr">Mobil Çözümler</span>
-    <span class="lang-en">Mobile Solutions</span>
-    <span class="lang-ar">حلول الهاتف المحمول</span>
-  </h2>
-  <div class="app-grid">
-    <a href="apps/haydinamaza.html" class="app-card">
-      <div class="app-icon"><img src="media/haydinamaza/icon.png" alt="HaydiNamaza"></div>
-      <h3 class="app-name">HaydiNamaza</h3>
-      <p class="app-vision">
-        <span class="lang-tr">Lokasyon bazlı ibadet planlaması ve zaman yönetimi otomasyonu.</span>
-        <span class="lang-en">Location-based worship planning and time management automation.</span>
-        <span class="lang-ar">تخطيط العبادة القائم على الموقع وأتمتة إدارة الوقت.</span>
-      </p>
-      <div class="lang-badges">
-        <span class="lang-badge active">TR</span>
-        <span class="lang-badge pending" title="Yakında / Coming Soon">EN</span>
-        <span class="lang-badge pending lang-badge-arabic" title="Yakında / Coming Soon"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-badge-icon"></span></div></a>
-    <a href="apps/rekatsay.html" class="app-card">
-      <div class="app-icon"><img src="media/rekatsay/icon.png" alt="RekatSay"></div>
-      <h3 class="app-name">RekatSay</h3>
-      <p class="app-vision">
-        <span class="lang-tr">Odaklanmayı artıran, minimalist ve etkileşimli takip aracı.</span>
-        <span class="lang-en">A minimalist and interactive tracking tool that increases focus.</span>
-        <span class="lang-ar">أداة تتبع تفاعلية وبسيطة تزيد من التركيز.</span>
-      </p>
-      <div class="lang-badges">
-        <span class="lang-badge active">TR</span>
-        <span class="lang-badge pending" title="Yakında / Coming Soon">EN</span>
-        <span class="lang-badge pending lang-badge-arabic" title="Yakında / Coming Soon"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-badge-icon"></span>
-      </div></a>
-    <a href="apps/enyakin.html" class="app-card">
-      <div class="app-icon"><img src="img/EnYakinLogo.svg" alt="En Yakın"></div>
-      <h3 class="app-name">
-        <span class="lang-tr">En Yakın</span>
-        <span class="lang-en">Nearest</span>
-        <span class="lang-ar">الأقرب</span>
-      </h3>
-      <p class="app-vision">
-        <span class="lang-tr">Kritik hizmet noktalarını anında tespit eden lokasyon motoru.</span>
-        <span class="lang-en">Location engine that instantly detects critical service points.</span>
-        <span class="lang-ar">محرك الموقع الذي يكتشف نقاط الخدمة الحرجة على الفور.</span>
-      </p>
-      <div class="lang-badges">
-        <span class="lang-badge active">TR</span>
-        <span class="lang-badge pending" title="Yakında / Coming Soon">EN</span>
-        <span class="lang-badge pending lang-badge-arabic" title="Yakında / Coming Soon"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-badge-icon"></span></div></a>
-  </div>
+        <!-- Dynamic Latest Post Box -->
+        <div class="hub-latest-box" id="bizceLatestContent"></div>
 
-  <!-- KATEGORİLER ARASI REKLAM ALANI -->
-      
-
-<div class="infeed-ad-container">
-    <div class="ad-placeholder">Kategoriler Arası Reklam Alanı (In-Feed Banner)</div>
-  </div>
-
-  <!-- MASAÜSTÜ SİSTEMLER -->
-  <h2 class="category-title">
-    <span class="lang-tr">Masaüstü Sistemler</span>
-    <span class="lang-en">Desktop Systems</span>
-    <span class="lang-ar">أنظمة سطح المكتب</span>
-  </h2>
-  <div class="app-grid">
-    <a href="apps/deskpilot.html" class="app-card">
-      <div class="app-icon"><img src="media/deskpilot/icon.png" alt="DeskPilot"></div>
-      <h3 class="app-name">DeskPilot</h3>
-      <p class="app-vision">
-        <span class="lang-tr">Operasyonel hızı artıran, eklenti tabanlı modüler verimlilik asistanı.</span>
-        <span class="lang-en">Plugin-based modular productivity assistant that increases operational speed.</span>
-        <span class="lang-ar">مساعد إنتاجية معياري قائم على المكونات الإضافية يزيد من سرعة التشغيل.</span>
-      </p>
-      <div class="lang-badges">
-        <span class="lang-badge active">TR</span>
-        <span class="lang-badge pending" title="Yakında / Coming Soon">EN</span>
-        <span class="lang-badge pending lang-badge-arabic" title="Yakında / Coming Soon"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-badge-icon"></span></div></a>
-    <a href="apps/gcpiluyari.html" class="app-card">
-      <div class="app-icon">🔋</div>
-      <h3 class="app-name">
-        <span class="lang-tr">GC Pil Uyarı</span>
-        <span class="lang-en">GC Battery Alert</span>
-        <span class="lang-ar">تنبيه بطارية GC</span>
-      </h3>
-      <p class="app-vision">
-        <span class="lang-tr">Donanım sağlığını koruyan arka plan izleme ve bildirim servisi.</span>
-        <span class="lang-en">Background monitoring and notification service protecting hardware health.</span>
-        <span class="lang-ar">خدمة المراقبة والإشعارات الخلفية التي تحمي صحة الأجهزة.</span>
-      </p>
-      <div class="lang-badges">
-        <span class="lang-badge active">TR</span>
-        <span class="lang-badge pending" title="Yakında / Coming Soon">EN</span>
-        <span class="lang-badge pending lang-badge-arabic" title="Yakında / Coming Soon"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-badge-icon"></span></div></a>
-    <a href="apps/emekli.html" class="app-card">
-      <div class="app-icon"><img src="media/emekli/icon.png" alt="Emekli"></div>
-      <h3 class="app-name">
-        <span class="lang-tr">Emekli</span>
-        <span class="lang-en">Retirement Counter</span>
-        <span class="lang-ar">عداد التقاعد</span>
-      </h3>
-      <p class="app-vision">
-        <span class="lang-tr">Emekliliğe kalan zamanı canlı takip eden masaüstü sayaç uygulaması.</span>
-        <span class="lang-en">Desktop widget app tracking remaining time to retirement in real-time.</span>
-        <span class="lang-ar">تطبيق ويدجت لسطح المكتب يتبع الوقت المتبقي حتى التقاعد بشكل مباشر.</span>
-      </p>
-      <div class="lang-badges">
-        <span class="lang-badge active">TR</span>
-        <span class="lang-badge pending" title="Yakında / Coming Soon">EN</span>
-        <span class="lang-badge pending lang-badge-arabic" title="Yakında / Coming Soon"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-badge-icon"></span></div></a>
-  </div>
-
-  <!-- SAYFA ALTI / KATEGORİ SONU REKLAM ALANI -->
-            <!-- DÜŞÜNCE & YAYINLAR -->
-  <h2 class="category-title">
-    <span class="lang-tr">Düşünce & Yayınlar</span>
-    <span class="lang-en">Thought & Publications</span>
-    <span class="lang-ar">الفكر والمنشورات</span>
-  </h2>
-  <div class="app-grid">
-    <a href="blog/blog.html?type=bizce" class="app-card">
-      <div class="app-icon" style="font-size: 2.2rem; display: flex; align-items: center; justify-content: center; border-radius: 12px;">✍️</div>
-      <h3 class="app-name">
-        <span class="lang-tr">Bizce</span>
-        <span class="lang-en">Bizce</span>
-        <span class="lang-ar">بيزجه</span>
-      </h3>
-      <p class="app-vision">
-        <span class="lang-tr">Teknolojiye, Hayata ve İnsanlığa Derin Bakış. Fikir yazıları ve sesli makale okuma platformu.</span>
-        <span class="lang-en">A deep perspective on technology, life, and humanity. Thought essays & audio reader.</span>
-        <span class="lang-ar">نظرة عميقة على التكنولوجيا والحياة والإنسانية. مقالات فكرية وقراءة صوتية.</span>
-      </p>
-      <div class="lang-badges">
-        <span class="lang-badge active">TR</span>
-        <span class="lang-badge active">EN</span>
-        <span class="lang-badge active lang-badge-arabic"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-badge-icon"></span>
+        <!-- Dynamic Recommendation Box (Filtered by read posts) -->
+        <div class="hub-rec-box" id="bizceRecContent"></div>
       </div>
-    </a>
-    <!-- Anıltılar Card -->
-    <a href="blog/blog.html?type=anilts" class="app-card">
-      <div class="app-icon" style="font-size: 2.2rem; display: flex; align-items: center; justify-content: center; border-radius: 12px;">📖</div>
-      <h3 class="app-name">
-        <span class="lang-tr">Anıltılar</span>
-        <span class="lang-en">Anıltılar (Memoirs)</span>
-        <span class="lang-ar">Anıltılar (ذكريات)</span>
-      </h3>
-      <p class="app-vision">
-        <span class="lang-tr">Yaşanmış tecrübeler, ders çıkarılacak hayat hikayeleri ve iz bırakan gerçek anılar.</span>
-        <span class="lang-en">Real-life memoirs, lived experiences, and inspiring life stories.</span>
-        <span class="lang-ar">قصص وحكايات واقعية من الحياة وتجارب وعبر.</span>
-      </p>
-      <div class="lang-badges">
-        <span class="lang-badge active">TR</span>
-        <span class="lang-badge active">EN</span>
-        <span class="lang-badge active lang-badge-arabic"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-badge-icon"></span>
-      </div>
-    </a>
-    <!-- Güncel Card -->
-    <a href="blog/blog.html?type=guncel" class="app-card">
-      <div class="app-icon" style="font-size: 2.2rem; display: flex; align-items: center; justify-content: center; border-radius: 12px;">📰</div>
-      <h3 class="app-name">
-        <span class="lang-tr">Güncel</span>
-        <span class="lang-en">News &amp; Updates</span>
-        <span class="lang-ar">الأخبار والتحديثات</span>
-      </h3>
-      <p class="app-vision">
-        <span class="lang-tr">MSK Labs duyuruları, platform haberleri, yeni sürüm notları ve teknoloji dünyasından gelişmeler.</span>
-        <span class="lang-en">MSK Labs announcements, platform news, release notes, and latest tech updates.</span>
-        <span class="lang-ar">إعلانات MSK Labs، أخبار المنصة، ملاحظات الإصدار والتحديثات التكنولوجية.</span>
-      </p>
-      <div class="lang-badges">
-        <span class="lang-badge active">TR</span>
-        <span class="lang-badge active">EN</span>
-        <span class="lang-badge active lang-badge-arabic"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-badge-icon"></span>
-      </div>
-    </a>
-  </div>
 
-  
+      <div class="hub-card-action">
+        <a href="blog/blog.html?type=bizce" class="hub-card-link">
+          <span class="lang-tr">Tüm Bizce Yazılarını Oku →</span>
+          <span class="lang-en">Read All Bizce Articles →</span>
+          <span class="lang-ar">اقرأ جميع المقالات ←</span>
+        </a>
+      </div>
+    </div>
 
-<div class="infeed-ad-container">
+    <!-- KUTU 2: UYGULAMALAR (Sağ Üst) -->
+    <div class="hub-card hub-card-clickable" id="hubCardApps">
+      <div>
+        <div class="hub-card-header">
+          <h2 class="hub-card-title">
+            <span>📱</span>
+            <span class="lang-tr">Uygulamalarımız</span>
+            <span class="lang-en">Our Apps</span>
+            <span class="lang-ar">تطبيقاتنا</span>
+          </h2>
+          <span class="hub-badge">
+            <span class="lang-tr">Portföy</span>
+            <span class="lang-en">Portfolio</span>
+            <span class="lang-ar">المعرض</span>
+          </span>
+        </div>
+        <p class="hub-intro-text">
+          <span class="lang-tr">Kullanıcı verisine ve gizliliğine saygılı, %100 ücretsiz ve reklamsız mobil ve masaüstü yazılım çözümleri.</span>
+          <span class="lang-en">User privacy-focused, 100% free, and ad-free mobile &amp; desktop software solutions.</span>
+          <span class="lang-ar">حلول برمجية للهواتف وسطح المكتب مجانية وبدون إعلانات ومحترمة للخصوصية.</span>
+        </p>
+
+        <!-- Horizontal App Carousel (Clicking inside an app icon opens app detail) -->
+        <div class="app-carousel-wrapper">
+          <div class="app-carousel-header">
+            <span class="lang-tr">Öne Çıkan Çözümler (Kaydırın)</span>
+            <span class="lang-en">Featured Solutions (Swipe)</span>
+            <span class="lang-ar">الحلول المميزة (اسحب)</span>
+          </div>
+          <div class="app-carousel" id="appCarouselFlow"></div>
+        </div>
+      </div>
+
+      <div class="hub-card-action">
+        <a href="apps.html" class="hub-card-link" onclick="event.stopPropagation();">
+          <span class="lang-tr">Tüm Uygulamaları İncele →</span>
+          <span class="lang-en">Explore All Applications →</span>
+          <span class="lang-ar">استكشف جميع التطبيقات ←</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- KUTU 3: GÜNCEL (Sol Alt) -->
+    <div class="hub-card hub-card-clickable" id="hubCardGuncel">
+      <div>
+        <div class="hub-card-header">
+          <h2 class="hub-card-title">
+            <span>📢</span>
+            <span class="lang-tr">Güncel</span>
+            <span class="lang-en">News &amp; Updates</span>
+            <span class="lang-ar">الأخبار</span>
+          </h2>
+          <span class="hub-badge">
+            <span class="lang-tr">Duyuru &amp; Haber</span>
+            <span class="lang-en">Announcements</span>
+            <span class="lang-ar">إعلانات</span>
+          </span>
+        </div>
+        <p class="hub-intro-text">
+          <span class="lang-tr">MSK Labs ekosistemindeki güncellemeler, yeni modül duyuruları, platform haberleri ve geliştirme notları.</span>
+          <span class="lang-en">Updates across the MSK Labs ecosystem, new module releases, platform announcements, and tech logs.</span>
+          <span class="lang-ar">تحديثات منصة MSK Labs، إعلانات الوحدات الجديدة وملاحظات التطوير.</span>
+        </p>
+
+        <!-- Dynamic Latest Announcement Box -->
+        <div class="hub-latest-box" id="guncelLatestContent"></div>
+
+        <!-- Dynamic Recommendation Box -->
+        <div class="hub-rec-box" id="guncelRecContent"></div>
+      </div>
+
+      <div class="hub-card-action">
+        <a href="blog/blog.html?type=guncel" class="hub-card-link">
+          <span class="lang-tr">Güncel Akışını İncele →</span>
+          <span class="lang-en">View All News →</span>
+          <span class="lang-ar">عرض جميع الأخبار ←</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- KUTU 4: ANILTILAR (Sağ Alt) -->
+    <div class="hub-card hub-card-clickable" id="hubCardAnilts">
+      <div>
+        <div class="hub-card-header">
+          <h2 class="hub-card-title">
+            <span>📜</span>
+            <span class="lang-tr">Anıltılar</span>
+            <span class="lang-en">Anıltılar (Memoirs)</span>
+            <span class="lang-ar">ذكريات</span>
+          </h2>
+          <span class="hub-badge">
+            <span class="lang-tr">Hatırat &amp; Tecrübe</span>
+            <span class="lang-en">Memoirs &amp; Life</span>
+            <span class="lang-ar">ذكريات وعبر</span>
+          </span>
+        </div>
+        <p class="hub-intro-text">
+          <span class="lang-tr">Yaşanmış tecrübeler, ders çıkarılacak samimi anlatılar, insan hikayeleri ve iz bırakan unutulmaz anılar.</span>
+          <span class="lang-en">Real-life memoirs, lived experiences, life lessons, and inspiring personal stories.</span>
+          <span class="lang-ar">قصص واقعية وتجارب حياة مجهولة الأسماء تحمل دروساً وإلهاماً.</span>
+        </p>
+
+        <!-- Dynamic Latest Memoir Box -->
+        <div class="hub-latest-box" id="aniltsLatestContent"></div>
+
+        <!-- Dynamic Recommendation Box -->
+        <div class="hub-rec-box" id="aniltsRecContent"></div>
+      </div>
+
+      <div class="hub-card-action">
+        <a href="blog/blog.html?type=anilts" class="hub-card-link">
+          <span class="lang-tr">Anıltıları Okumaya Başla →</span>
+          <span class="lang-en">Read Memoirs →</span>
+          <span class="lang-ar">ابدأ قراءة الذكريات ←</span>
+        </a>
+      </div>
+    </div>
+
+  </div> <!-- .hub-grid Bitişi -->
+
+  <!-- SAYFA ALTI REKLAM ALANI -->
+  <div class="infeed-ad-container">
     <div class="ad-placeholder">Sayfa Altı Reklam Alanı (Bottom Banner)</div>
   </div>
 
@@ -259,7 +223,7 @@
 
   <!-- Masaüstü Sağ Reklam (1280px üzerinde görünür) -->
   <aside class="desktop-ad desktop-ad-right">
-    <div class="ad-placeholder">Masaüstü Sağ Reklam<br>(120x300)</div>
+    <div class="ad-placeholder">Masaüstü Sağ Reklam<br>(120x600)</div>
   </aside>
 
 </div> <!-- .layout-wrapper Bitişi -->
@@ -297,5 +261,6 @@
   <!-- Standart Alt Footer Menüsü (layout.js tarafından doldurulur) -->
   <footer class="site-footer"></footer>
   <script src="assets/js/layout.js"></script>
+  <script src="assets/js/hub-engine.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Akıllı İndirme & Yönlendirme | MSK Labs</title>
+  <meta name="description" content="MSK Labs uygulamaları için cihaza özel otomatik indirme ve yönlendirme bağlantısı.">
+  <script>!function(){var t=localStorage.getItem("user_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"===t&&document.documentElement.setAttribute("data-theme","dark")}()</script>
+  <link rel="canonical" href="https://msklabs.org/download.html">
+  <meta property="og:title" content="Akıllı İndirme | MSK Labs">
+  <meta property="og:description" content="MSK Labs uygulamaları için cihaza özel otomatik indirme ve yönlendirme.">
+  <meta property="og:url" content="https://msklabs.org/download.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://msklabs.org/img/MSKLabsLogo.svg">
+  <link rel="stylesheet" href="assets/css/global.css?v=26">
+  <style>
+    .dl-card {
+      background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    .dl-app-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: #ffffff;
+      margin: 0 auto 1.25rem auto;
+      box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4);
+    }
+    .dl-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0 0 0.5rem 0;
+    }
+    .dl-subtitle {
+      font-size: 0.95rem;
+      color: #334155;
+      margin: 0 0 2rem 0;
+    }
+    .qr-container {
+      background: #ffffff;
+      padding: 1rem;
+      border-radius: 16px;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    .qr-container img {
+      width: 160px;
+      height: 160px;
+      display: block;
+    }
+    @media (max-width: 600px) {
+      .qr-container img {
+        width: 120px;
+        height: 120px;
+      }
+    }
+    .dl-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+    .dl-store-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 0.9rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      color: #ffffff;
+      transition: all 0.25s ease;
+    }
+    .dl-playstore {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+    .dl-appstore {
+      background: linear-gradient(135deg, #0ea5e9, #2563eb);
+    }
+    .dl-direct {
+      background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #1e293b;
+    }
+    .dl-store-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- MSK Labs Favicon -->
+  <link rel="icon" type="image/png" href="img/MSKLabs_favicon.png">
+  <link rel="shortcut icon" href="img/MSKLabs_favicon.png" type="image/x-icon">
+  <link rel="apple-touch-icon" href="img/MSKLabs_favicon.png">
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/analytics.js"></script>
+</head>
+<body class="lang-tr">
+
+<div class="layout-wrapper">
+
+  <aside class="desktop-ad desktop-ad-left">
+    <div class="ad-placeholder">Masaüstü Sol Reklam<br>(120x600)</div>
+  </aside>
+
+  <div class="portfolio-container">
+  
+    <div class="lang-switcher">
+      <button onclick="setLang('tr')" data-lang="tr" class="active" title="Türkçe">TR</button>
+      <button onclick="setLang('en')" data-lang="en" title="English">EN</button>
+      <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img src="img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
+    </div>
+
+    <div class="logo-container">
+      <img src="img/MSKLabsLogo.svg" alt="MSK Labs" class="main-logo">
+    </div>
+  <!-- Standart Üst Ana Navigasyon Menüsü (layout.js tarafından doldurulur) -->
+  <nav class="top-main-nav"></nav>
+
+    <div class="dl-card">
+      <div class="dl-app-icon" id="appIconBox">📲</div>
+      <h1 class="dl-title" id="appNameText">MSK Labs Uygulaması İndir</h1>
+      <p class="dl-subtitle" id="deviceDetectText">Cihazınız algılanıyor...</p>
+
+      <!-- Dynamic QR Code -->
+      <div class="qr-container">
+        <img id="qrImage" src="" alt="İndirme QR Kodu">
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="dl-btn-group">
+        <a href="#" id="playStoreBtn" class="dl-store-btn dl-playstore">
+          🤖 <span>Google Play Store'dan İndir</span>
+        </a>
+        <a href="#" id="appStoreBtn" class="dl-store-btn dl-appstore">
+          🍏 <span>App Store'dan İndir</span>
+        </a>
+        <a href="#" id="directUrlBtn" class="dl-store-btn dl-direct">
+          🌐 <span>Uygulama Tanıtım Sayfası</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <aside class="desktop-ad desktop-ad-right">
+    <div class="ad-placeholder">Masaüstü Sağ Reklam<br>(120x600)</div>
+  </aside>
+
+</div>
+
+<script>
+  const APPS_CONFIG = {
+    'haydinamaza': {
+      name: 'HaydiNamaza',
+      icon: '<img src="media/haydinamaza/icon.png" alt="HaydiNamaza">',
+      play_store: 'https://play.google.com/store/apps/details?id=org.msklabs.haydinamaza',
+      app_store: 'https://apps.apple.com/app/haydinamaza',
+      page_url: 'apps/haydinamaza.html'
+    },
+    'rekatsay': {
+      name: 'RekatSay',
+      icon: '<img src="media/rekatsay/icon.png" alt="RekatSay">',
+      play_store: 'https://play.google.com/store/apps/details?id=org.msklabs.rekatsay',
+      app_store: 'https://apps.apple.com/app/rekatsay',
+      page_url: 'apps/rekatsay.html'
+    },
+    'emekli': {
+      name: 'Emekli Sayaç',
+      icon: '<img src="media/emekli/icon.png" alt="Emekli">',
+      play_store: 'https://play.google.com/store/apps/details?id=org.msklabs.emekli',
+      app_store: 'https://apps.apple.com/app/emekli',
+      page_url: 'apps/emekli.html'
+    },
+    'enyakin': {
+      name: 'En Yakın',
+      icon: '<img src="img/EnYakinLogo.svg" alt="En Yakın">',
+      play_store: 'https://play.google.com/store/apps/details?id=org.msklabs.enyakin',
+      app_store: 'https://apps.apple.com/app/enyakin',
+      page_url: 'apps/enyakin.html'
+    },
+    'deskpilot': {
+      name: 'DeskPilot Masaüstü',
+      icon: '<img src="media/deskpilot/icon.png" alt="DeskPilot">',
+      play_store: 'https://msklabs.org/apps/deskpilot.html',
+      app_store: 'https://msklabs.org/apps/deskpilot.html',
+      page_url: 'apps/deskpilot.html'
+    },
+    'gcpiluyari': {
+      name: 'GC Pil Uyarı',
+      icon: '<img src="media/gcpiluyari/icon.png" alt="GC Pil Uyarı">',
+      play_store: 'https://play.google.com/store/apps/details?id=org.msklabs.gcpiluyari',
+      app_store: 'https://apps.apple.com/app/gcpiluyari',
+      page_url: 'apps/gcpiluyari.html'
+    }
+  };
+
+  const DEFAULT_APP = {
+    name: 'MSK Labs Portföyü',
+    icon: '<img src="img/MSKLabs_favicon.png" alt="MSK Labs">',
+    play_store: 'https://msklabs.org/index.html',
+    app_store: 'https://msklabs.org/index.html',
+    page_url: 'index.html'
+  };
+
+  function setLang(lang) {
+    if (!lang) lang = 'tr';
+    try { localStorage.setItem('user_lang', lang); } catch(e) {}
+    document.body.className = 'lang-' + lang;
+    document.querySelectorAll('.lang-switcher button').forEach(function(btn) {
+      if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+  }
+
+  (function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const appId = (urlParams.get('app') || '').toLowerCase().trim();
+    const autoRedirect = urlParams.get('noredirect') === null;
+    const langParam = urlParams.get('lang');
+    let savedLang = null;
+    try { savedLang = localStorage.getItem('user_lang'); } catch(e) {}
+
+    setLang(langParam || savedLang || 'tr');
+
+    const appData = APPS_CONFIG[appId] || DEFAULT_APP;
+    document.getElementById('appNameText').innerText = appData.name;
+    document.getElementById('appIconBox').innerHTML = appData.icon;
+
+    document.getElementById('playStoreBtn').href = appData.play_store;
+    document.getElementById('appStoreBtn').href = appData.app_store;
+    document.getElementById('directUrlBtn').href = appData.page_url;
+
+    // Generate Dynamic QR Code
+    const currentFullUrl = window.location.href;
+    document.getElementById('qrImage').src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(currentFullUrl);
+
+    // Device Detection Engine
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isAndroid = /android/i.test(ua);
+    const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+
+    const deviceText = document.getElementById('deviceDetectText');
+
+    if (isAndroid) {
+      deviceText.innerText = '📱 Android Cihaz Algılandı — Google Play Store\'a Yönlendiriliyorsunuz...';
+      if (autoRedirect && appData.play_store) {
+        setTimeout(() => { window.location.href = appData.play_store; }, 1200);
+      }
+    } else if (isIOS) {
+      deviceText.innerText = '🍏 iOS Cihaz Algılandı — App Store\'a Yönlendiriliyorsunuz...';
+      if (autoRedirect && appData.app_store) {
+        setTimeout(() => { window.location.href = appData.app_store; }, 1200);
+      }
+    } else {
+      deviceText.innerText = '🖥️ Masaüstü Cihaz — Telefondan yüklemek için QR Kodu okutabilirsiniz.';
+    }
+  })();
+</script>
+
+<footer class="site-footer"></footer>
+<script src="assets/js/layout.js"></script>
+</body>
+</html>

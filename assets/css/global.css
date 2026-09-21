@@ -18,6 +18,7 @@
   --accent-color: #0284c7;
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.06);
+  --desktop-ad-top-margin: 315px; /* Ana menünün bittiği alt çizginin 95px altındaki dikey reklam başlama mesafesi */
 }
 
 [data-theme="dark"], body.dark-theme {
@@ -93,8 +94,21 @@ body {
   font-size: 2.5rem;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 50px;
+  margin-top: 10px;
+  margin-bottom: 8px;
   color: var(--text-main);
+}
+
+.subtitle-notice {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.subtitle-notice p {
+  margin: 2px 0;
+  line-height: 1.4;
+  font-size: 0.95rem;
+  color: var(--text-muted);
 }
 
 /* Kategori Başlıkları */
@@ -817,27 +831,36 @@ body.dark-theme .arabic-btn-icon {
 /* Reklam Alanları */
 .desktop-ad {
   width: 120px;
-  margin-top: 385px; /* Ana sayfa ve kurumsal sayfalarda sayfa başlığı (Uygulama Portföyü vb.) alt hizasından başlar */
+  margin-top: var(--desktop-ad-top-margin, 235px); /* Navigasyon menüsünün bittiği yerin 15px altından başlar */
   position: sticky;
   top: 20px;
   flex-shrink: 0;
 }
 
-/* Üst Sabit Header (site-header / bizce-header) Bulunan İç Sayfalarda (Bizce, Anıltılar, Blog ve Uygulama Detay) Reklam Başlangıcı */
+.desktop-ad-left {
+  width: 120px;
+}
+
+.desktop-ad-right {
+  width: 120px;
+}
+
+/* Üst Sabit Header Bulunan İç Sayfalarda Reklam Başlangıcı */
 body:has(.site-header) .desktop-ad,
 body:has(.bizce-header) .desktop-ad,
 .site-header ~ .layout-wrapper .desktop-ad,
 .bizce-header ~ .layout-wrapper .desktop-ad,
 .site-header ~ nav ~ .layout-wrapper .desktop-ad,
 .bizce-header ~ nav ~ .layout-wrapper .desktop-ad {
-  margin-top: 0;
+  margin-top: 95px;
+  top: 80px;
 }
 
 .ad-placeholder {
-  background: #f4f5f7;
-  border: 1px dashed #cccccc;
-  border-radius: 8px;
-  color: #888888;
+  background: var(--bg-surface, #f4f5f7);
+  border: 1px dashed var(--border-color, #cccccc);
+  border-radius: 12px;
+  color: var(--text-subtle, #888888);
   font-size: 0.85rem;
   display: flex;
   align-items: center;
@@ -848,16 +871,21 @@ body:has(.bizce-header) .desktop-ad,
 }
 
 .desktop-ad .ad-placeholder {
-  height: 300px;
+  height: 600px;
 }
 
 .infeed-ad-container {
-  margin: 45px 0 25px 0;
+  margin: 20px auto;
+  max-width: 728px;
   width: 100%;
 }
 
 .infeed-ad-container .ad-placeholder {
-  height: 120px;
+  height: 90px;
+  max-height: 90px;
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 0.8rem;
 }
 
 /* Yan Reklam Gizleme Breakpoint'i (Tablet ve Mobil 1080px ve altı cihazlar) */
@@ -1802,3 +1830,385 @@ body.lang-ar .static-page-card {
   background: rgba(2, 132, 199, 0.25) !important;
   border-color: var(--primary-color) !important;
 }
+
+/* ==========================================================================
+   4-BOX MODULAR HUB & APP CAROUSEL STYLES
+   ========================================================================== */
+.hub-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin: 25px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .hub-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.hub-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.hub-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-color);
+}
+
+.hub-card-clickable {
+  cursor: pointer;
+}
+
+.hub-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.hub-card-title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.hub-card-title span:first-child {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.hub-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: var(--bg-surface);
+  color: var(--primary-color);
+  border: 1px solid var(--border-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.hub-intro-text {
+  font-size: 0.93rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0 0 14px 0;
+}
+
+.hub-latest-box {
+  background: var(--bg-surface);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border-subtle);
+}
+
+.hub-latest-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 4px;
+}
+
+.hub-latest-title {
+  font-size: 0.94rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.hub-latest-title a {
+  color: var(--text-main);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.hub-latest-title a:hover {
+  color: var(--primary-color);
+}
+
+.hub-rec-box {
+  background: rgba(37, 99, 235, 0.04);
+  border-left: 3px solid var(--primary-color);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+}
+
+[data-theme="dark"] .hub-rec-box {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.hub-rec-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hub-card-action {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: 8px;
+}
+
+.hub-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: gap 0.2s ease;
+}
+
+.hub-card-link:hover {
+  gap: 10px;
+}
+
+/* App Carousel inside Card 2 */
+.app-carousel-wrapper {
+  margin: 12px 0 16px 0;
+}
+
+.app-carousel-header {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-subtle);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.app-carousel {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 4px 2px 8px 2px;
+  scrollbar-width: thin;
+}
+
+.app-carousel-item {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: 90px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 6px;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.app-carousel-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.app-carousel-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 6px auto;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: var(--bg-card);
+}
+
+.app-carousel-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.app-carousel-name {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.app-carousel-status {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-top: 4px;
+  display: inline-block;
+}
+
+.app-carousel-status.active {
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
+}
+
+.app-carousel-status.pending {
+  background: rgba(234, 179, 8, 0.15);
+  color: #ca8a04;
+}
+
+/* Hakkımızda / Biz Kimiz Hero Image & Text Block */
+.about-hero-container {
+  width: 100%;
+  margin: 6px 0 24px 0;
+  text-align: center;
+}
+
+.about-hero-img {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  object-fit: cover;
+  display: block;
+}
+
+.biz-kimiz-text-container {
+  text-align: center;
+  max-width: 680px;
+  margin: 35px auto 10px auto;
+  padding: 10px 0;
+}
+
+.biz-kimiz-top-slogan {
+  font-family: 'Rajdhani', 'Inter', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+  line-height: 1.35;
+}
+
+.biz-kimiz-pill-box {
+  background-color: #dcfce7;
+  border: 1px solid #bbf7d0;
+  border-radius: 20px;
+  padding: 18px 24px;
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: #14532d;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08);
+}
+
+[data-theme="dark"] .biz-kimiz-pill-box {
+  background-color: #14532d;
+  border-color: #166534;
+  color: #f0fdf4;
+}
+
+.biz-kimiz-italic-notice {
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.biz-kimiz-contact-pill {
+  background-color: #dcfce7;
+  border: 1px solid #bbf7d0;
+  border-radius: 20px;
+  padding: 16px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08);
+}
+
+[data-theme="dark"] .biz-kimiz-contact-pill {
+  background-color: #14532d;
+  border-color: #166534;
+}
+
+.biz-kimiz-contact-title {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #14532d;
+  margin-bottom: 4px;
+}
+
+[data-theme="dark"] .biz-kimiz-contact-title {
+  color: #f0fdf4;
+}
+
+.biz-kimiz-contact-email {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.biz-kimiz-contact-email:hover {
+  opacity: 0.8;
+}
+
+[data-theme="dark"] .biz-kimiz-contact-email {
+  color: #ffffff;
+}
+
+.biz-kimiz-web-url {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.biz-kimiz-web-url:hover {
+  transform: scale(1.03);
+}
+
+.biz-kimiz-bottom-tagline {
+  font-family: 'Rajdhani', 'Inter', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}

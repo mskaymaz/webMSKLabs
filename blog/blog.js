@@ -243,6 +243,15 @@ function switchSection(sec) {
   currentSubFilter = 'all';
   currentPost = null;
 
+  // Sync browser address bar URL parameters smoothly
+  try {
+    var langParam = currentLang && currentLang !== 'tr' ? '&lang=' + currentLang : '';
+    var newUrl = 'blog.html?type=' + sec + langParam;
+    if (window.location.search.indexOf('type=' + sec) === -1) {
+      window.history.pushState({ section: sec }, '', newUrl);
+    }
+  } catch(e) {}
+
   var listView = document.getElementById('listView');
   var readerView = document.getElementById('readerView');
   if (readerView) readerView.style.display = 'none';
