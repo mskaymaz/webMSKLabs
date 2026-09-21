@@ -144,13 +144,6 @@
       url: "apps/haydinamaza.html"
     },
     {
-      id: "deskpilot",
-      name: { tr: "DeskPilot", en: "DeskPilot", ar: "DeskPilot" },
-      iconImg: "media/deskpilot/icon.png",
-      status: "active",
-      url: "apps/deskpilot.html"
-    },
-    {
       id: "rekatsay",
       name: { tr: "RekatSay", en: "RekatSay", ar: "RekatSay" },
       iconImg: "media/rekatsay/icon.png",
@@ -158,39 +151,53 @@
       url: "apps/rekatsay.html"
     },
     {
-      id: "enyakin",
-      name: { tr: "En Yakın", en: "En Yakın", ar: "الأقرب" },
-      iconImg: "img/EnYakinLogo.svg",
-      status: "active",
-      url: "apps/enyakin.html"
-    },
-    {
       id: "emekli",
-      name: { tr: "Emekli Sayaç", en: "Emekli Counter", ar: "عداد التقاعد" },
+      name: { tr: "Emekli", en: "Retirement Counter", ar: "عداد التقاعد" },
       iconImg: "media/emekli/icon.png",
       status: "active",
       url: "apps/emekli.html"
     },
     {
       id: "gcpiluyari",
-      name: { tr: "GÇP Pil Uyarı", en: "GC Battery Alert", ar: "تنبيه البطارية" },
+      name: { tr: "GÇ Pil Uyarı", en: "GC Battery Alert", ar: "تنبيه البطارية" },
       iconEmoji: "🔋",
-      status: "active",
+      status: "dev",
       url: "apps/gcpiluyari.html"
     },
     {
-      id: "kutupane",
-      name: { tr: "Kütüphanem", en: "My Library", ar: "مكتبتي" },
-      iconEmoji: "📚",
-      status: "pending",
-      url: "pages.html#upcoming"
+      id: "deskpilot",
+      name: { tr: "DeskPilot", en: "DeskPilot", ar: "DeskPilot" },
+      iconImg: "media/deskpilot/icon.png",
+      status: "dev",
+      url: "apps/deskpilot.html"
     },
     {
-      id: "protask",
-      name: { tr: "ProTask", en: "ProTask", ar: "ProTask" },
-      iconEmoji: "✅",
-      status: "pending",
-      url: "pages.html#upcoming"
+      id: "enyakin",
+      name: { tr: "En Yakın", en: "Nearest", ar: "الأقرب" },
+      iconImg: "img/EnYakinLogo.svg",
+      status: "dev",
+      url: "apps/enyakin.html"
+    },
+    {
+      id: "notes",
+      name: { tr: "Notes", en: "Notes", ar: "ملاحظات" },
+      iconEmoji: "📝",
+      status: "planning",
+      url: "apps.html#upcoming"
+    },
+    {
+      id: "docuedit",
+      name: { tr: "DocuEdit", en: "DocuEdit", ar: "DocuEdit" },
+      iconEmoji: "📄",
+      status: "planning",
+      url: "apps.html#upcoming"
+    },
+    {
+      id: "pdflayout",
+      name: { tr: "PDF Layout", en: "PDF Layout", ar: "PDF Layout" },
+      iconEmoji: "🖨️",
+      status: "planning",
+      url: "apps.html#upcoming"
     }
   ];
 
@@ -218,45 +225,30 @@
     var lang = getLang();
     var readIds = getReadPosts();
 
-    // 1. Latest Post (Top of category array or newest date)
+    var unreadPosts = categoryPosts.filter(function(p) { return readIds.indexOf(p.id) === -1; });
+
     var latestPost = categoryPosts[0];
+    var recommendedPost = unreadPosts.length > 0 ? unreadPosts[0] : (categoryPosts[1] || categoryPosts[0]);
+
+    // Render Latest Post
     var latestEl = document.getElementById(latestElId);
-    if (latestEl) {
-      var titleText = (latestPost[lang] && latestPost[lang].title) || latestPost.tr.title;
-      var postUrl = 'blog/blog.html?type=' + type + '&id=' + latestPost.id;
+    if (latestEl && latestPost) {
+      var latestTitleText = (latestPost.title && latestPost.title[lang]) || latestPost.title.tr || latestPost.title;
+      var latestUrl = 'blog/' + (latestPost.url || 'blog.html?type=' + type);
       latestEl.innerHTML = `
-        <div class="hub-latest-label">
-          <span class="lang-tr">📌 Son Yayınlanan Yazı</span>
-          <span class="lang-en">📌 Latest Published Article</span>
-          <span class="lang-ar">📌 أحدث مقال منشور</span>
-        </div>
         <div class="hub-latest-title">
-          <a href="${postUrl}">${titleText}</a>
+          <a href="${latestUrl}" style="color: var(--text-main); text-decoration: none;">${latestTitleText}</a>
         </div>
-        <div class="hub-latest-date" style="font-size:0.75rem; color: var(--text-subtle); margin-top:2px;">${latestPost.date}</div>
+        <div class="hub-latest-date">${latestPost.date || '2026'}</div>
       `;
     }
 
-    // 2. Recommendation Post (Unread first, fallback to random)
-    var unreadPosts = categoryPosts.filter(function(p) { return readIds.indexOf(p.id) === -1; });
-    var recPost = null;
-    if (unreadPosts.length > 0) {
-      recPost = unreadPosts[Math.floor(Math.random() * unreadPosts.length)];
-    } else {
-      recPost = categoryPosts[Math.floor(Math.random() * categoryPosts.length)];
-    }
-
+    // Render Recommended Post
     var recEl = document.getElementById(recElId);
-    if (recEl && recPost) {
-      var recTitleText = (recPost[lang] && recPost[lang].title) || recPost.tr.title;
-      var recUrl = 'blog/blog.html?type=' + type + '&id=' + recPost.id;
+    if (recEl && recommendedPost) {
+      var recTitleText = (recommendedPost.title && recommendedPost.title[lang]) || recommendedPost.title.tr || recommendedPost.title;
+      var recUrl = 'blog/' + (recommendedPost.url || 'blog.html?type=' + type);
       recEl.innerHTML = `
-        <div class="hub-rec-label">
-          <span>💡</span>
-          <span class="lang-tr">Bunu da Tavsiye Ederiz</span>
-          <span class="lang-en">Recommended for You</span>
-          <span class="lang-ar">نوصي بهذا أيضاً</span>
-        </div>
         <div class="hub-rec-title" style="font-size:0.88rem; font-weight:600;">
           <a href="${recUrl}" style="color: var(--text-main); text-decoration: none;">${recTitleText}</a>
         </div>
@@ -275,9 +267,15 @@
     hubAppsData.forEach(function(app) {
       var name = (app.name && app.name[lang]) || app.name.tr;
       var iconMarkup = app.iconImg ? `<img src="${app.iconImg}" alt="${name}">` : app.iconEmoji;
-      var statusBadge = app.status === 'active' ? 
-        `<span class="app-carousel-status active"><span class="lang-tr">Aktif</span><span class="lang-en">Active</span><span class="lang-ar">نشط</span></span>` : 
-        `<span class="app-carousel-status pending"><span class="lang-tr">Yakında</span><span class="lang-en">Soon</span><span class="lang-ar">قريباً</span></span>`;
+      
+      var statusBadge = '';
+      if (app.status === 'active') {
+        statusBadge = `<span class="app-carousel-status active"><span class="lang-tr">Yayında</span><span class="lang-en">Active</span><span class="lang-ar">مباشر</span></span>`;
+      } else if (app.status === 'dev') {
+        statusBadge = `<span class="app-carousel-status pending" style="background: rgba(245, 158, 11, 0.15); color: #d97706;"><span class="lang-tr">Yapımda</span><span class="lang-en">Dev</span><span class="lang-ar">تطوير</span></span>`;
+      } else {
+        statusBadge = `<span class="app-carousel-status pending" style="background: rgba(2, 132, 199, 0.15); color: #0284c7;"><span class="lang-tr">Planlama</span><span class="lang-en">Pipeline</span><span class="lang-ar">تخطيط</span></span>`;
+      }
 
       html += `
         <a href="${app.url}" class="app-carousel-item" onclick="event.stopPropagation();">
