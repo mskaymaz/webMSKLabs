@@ -1,490 +1,630 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSKLabs.org - HaydiNamaza</title>
-    <meta name="description" content="HaydiNamaza - Lokasyon bazlı ibadet planlaması ve zaman yönetimi otomasyonu.">
-    
-    <meta name="theme-color" content="#0f172a">
-    <link rel="canonical" href="https://msklabs.org/apps/haydinamaza.html">
-    <meta property="og:title" content="HaydiNamaza | MSK Labs">
-    <meta property="og:description" content="Lokasyon bazlı ibadet planlaması ve zaman yönetimi otomasyonu.">
-    <meta property="og:url" content="https://msklabs.org/apps/haydinamaza.html">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://msklabs.org/img/MSKLabsLogo.svg">
-    <script>!function(){var t=localStorage.getItem("user_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"===t&&document.documentElement.setAttribute("data-theme","dark")}()</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MSKLabs.org - HaydiNamaza</title>
+  <meta name="description" content="HaydiNamaza - Lokasyon bazlı ibadet planlaması ve zaman yönetimi otomasyonu.">
 
-    <!-- Google Fonts: Inter & Global Stylesheet -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/global.css?v=25">
-    
-    <style>
-      /* Üst Navigasyon (Geri Dön & Dil) */
-      .top-nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
+  <meta name="theme-color" content="#0f172a">
+  <link rel="canonical" href="https://msklabs.org/apps/haydinamaza.html">
+  <meta property="og:title" content="HaydiNamaza | MSK Labs">
+  <meta property="og:description" content="Lokasyon bazlı ibadet planlaması ve zaman yönetimi otomasyonu.">
+  <meta property="og:url" content="https://msklabs.org/apps/haydinamaza.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://msklabs.org/img/MSKLabsLogo.svg">
+  <script>!function () { var t = localStorage.getItem("user_theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); "dark" === t && document.documentElement.setAttribute("data-theme", "dark") }()</script>
+
+  <!-- Google Fonts: Inter & Global Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css?v=25">
+
+  <style>
+    /* Üst Navigasyon (Geri Dön & Dil) */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #555;
+      font-weight: 600;
+      font-size: 0.95rem;
+      background: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: #f5f7fa;
+      color: #1a1a1a;
+      transform: translateX(-3px);
+    }
+
+    /* Uygulama Hero Kartı */
+    .detail-card {
+      background: #ffffff;
+      border: 1px solid #f0f0f0;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
+      margin-bottom: 30px;
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+
+
+    .app-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .app-title-group h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0;
+      color: #1a1a1a;
+    }
+
+    .badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-platform {
+      background: #eef2ff;
+      color: #4f46e5;
+    }
+
+    .badge-status {
+      background: #fffbeb;
+      color: #b45309;
+      border: 1px solid #fef3c7;
+    }
+
+    .app-description {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #4b5563;
+      margin-bottom: 30px;
+    }
+
+    /* Öne Çıkan Özellikler */
+    .features-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #1f2937;
+      border-bottom: 2px solid #f3f4f6;
+      padding-bottom: 8px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .feature-box {
+      background: #f9fafb;
+      border: 1px solid #f3f4f6;
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+
+    .feature-box h4 {
+      margin: 0 0 6px 0;
+      font-size: 1rem;
+      color: #111827;
+    }
+
+    .feature-box p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #6b7280;
+      line-height: 1.45;
+    }
+
+    .action-btn-container {
+      text-align: center;
+      padding-top: 10px;
+    }
+
+    .status-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #f3f4f6;
+      color: #4b5563;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 10px;
+      border: 1px dashed #d1d5db;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .portfolio-container {
+        padding: 20px 12px 40px 12px;
       }
 
-      .back-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        color: #555;
-        font-weight: 600;
-        font-size: 0.95rem;
-        background: #fff;
-        padding: 8px 16px;
-        border-radius: 8px;
-        border: 1px solid #e0e0e0;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
-        transition: all 0.2s ease;
-      }
-
-      .back-btn:hover {
-        background: #f5f7fa;
-        color: #1a1a1a;
-        transform: translateX(-3px);
-      }
-
-      /* Uygulama Hero Kartı */
       .detail-card {
-        background: #ffffff;
-        border: 1px solid #f0f0f0;
-        border-radius: 16px;
-        padding: 40px;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.03);
-        margin-bottom: 30px;
+        padding: 24px 16px;
       }
 
       .app-header {
-        display: flex;
-        align-items: center;
-        gap: 24px;
-        margin-bottom: 24px;
+        gap: 16px;
       }
 
-
-
-      .app-title-group {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
+      .app-big-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 32px;
+        border-radius: 14px;
       }
 
       .app-title-group h1 {
-        font-size: 2rem;
-        font-weight: 700;
-        margin: 0;
-        color: #1a1a1a;
-      }
-
-      .badges {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-
-      .badge {
-        font-size: 0.82rem;
-        font-weight: 600;
-        padding: 4px 10px;
-        border-radius: 20px;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-      }
-
-      .badge-platform {
-        background: #eef2ff;
-        color: #4f46e5;
-      }
-
-      .badge-status {
-        background: #fffbeb;
-        color: #b45309;
-        border: 1px solid #fef3c7;
+        font-size: 1.5rem;
       }
 
       .app-description {
-        font-size: 1.1rem;
-        line-height: 1.7;
-        color: #4b5563;
-        margin-bottom: 30px;
-      }
-
-      /* Öne Çıkan Özellikler */
-      .features-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 16px;
-        color: #1f2937;
-        border-bottom: 2px solid #f3f4f6;
-        padding-bottom: 8px;
+        font-size: 0.95rem;
       }
 
       .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 16px;
-        margin-bottom: 30px;
+        grid-template-columns: 1fr;
       }
-
-      .feature-box {
-        background: #f9fafb;
-        border: 1px solid #f3f4f6;
-        border-radius: 12px;
-        padding: 16px 20px;
-      }
-
-      .feature-box h4 {
-        margin: 0 0 6px 0;
-        font-size: 1rem;
-        color: #111827;
-      }
-
-      .feature-box p {
-        margin: 0;
-        font-size: 0.9rem;
-        color: #6b7280;
-        line-height: 1.45;
-      }
-
-      .action-btn-container {
-        text-align: center;
-        padding-top: 10px;
-      }
-
-      .status-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        background: #f3f4f6;
-        color: #4b5563;
-        font-weight: 600;
-        padding: 14px 28px;
-        border-radius: 10px;
-        border: 1px dashed #d1d5db;
-        font-size: 1rem;
-      }
-
-      @media (max-width: 600px) {
-        .portfolio-container { padding: 20px 12px 40px 12px; }
-        .detail-card { padding: 24px 16px; }
-        .app-header { gap: 16px; }
-        .app-big-icon { width: 60px; height: 60px; font-size: 32px; border-radius: 14px; }
-        .app-title-group h1 { font-size: 1.5rem; }
-        .app-description { font-size: 0.95rem; }
-        .features-grid { grid-template-columns: 1fr; }
-      }
-    </style>
-    <!-- MSK Labs Favicon & Kısayol İkonları -->
-    <link rel="icon" type="image/png" href="../img/MSKLabs_favicon.png">
-    <link rel="shortcut icon" href="../img/MSKLabs_favicon.png" type="image/x-icon">
-    <link rel="apple-touch-icon" href="../img/MSKLabs_favicon.png">
+    }
+  </style>
+  <!-- MSK Labs Favicon & Kısayol İkonları -->
+  <link rel="icon" type="image/png" href="../img/MSKLabs_favicon.png">
+  <link rel="shortcut icon" href="../img/MSKLabs_favicon.png" type="image/x-icon">
+  <link rel="apple-touch-icon" href="../img/MSKLabs_favicon.png">
   <script src="../assets/js/config.js"></script>
   <script src="../assets/js/analytics.js"></script>
   <script src="../assets/js/layout.js"></script>
 </head>
+
 <body class="lang-tr">
 
-<header class="site-header">
-  <div class="site-header-inner">
-    <a href="../index.html" class="bizce-center-logo-link" title="MSK Labs Ana Sayfa">
-      <img src="../img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="site-header-logo">
-    </a>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="../index.html" class="bizce-center-logo-link" title="MSK Labs Ana Sayfa">
+        <img src="../img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="site-header-logo">
+      </a>
 
-    <div class="lang-switcher">
-      <button onclick="setLang('tr')" data-lang="tr" class="active" title="Türkçe">TR</button>
-      <button onclick="setLang('en')" data-lang="en" title="English">EN</button>
-      <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img src="../img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
-      <button id="themeToggleBtn" onclick="toggleTheme()" class="theme-toggle-btn" title="Tema Değiştir">🌙</button>
+      <div class="lang-switcher">
+        <button onclick="setLang('tr')" data-lang="tr" class="active" title="Türkçe">TR</button>
+        <button onclick="setLang('en')" data-lang="en" title="English">EN</button>
+        <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img
+            src="../img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="theme-toggle-btn" title="Tema Değiştir">🌙</button>
+      </div>
     </div>
+  </header>
+
+  <!-- Standart Ust Ana Navigasyon Menusu -->
+  <nav class="top-main-nav">
+    <a href="../index.html"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span
+        class="lang-ar">الرئيسية</span></a>
+    <a href="../blog/blog.html?type=bizce"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span
+        class="lang-ar">بيزجه</span></a>
+    <a href="../blog/blog.html?type=anilts"><span class="lang-tr">Anıltılar</span><span
+        class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span></a>
+    <a href="../index.html#apps"><span class="lang-tr">Uygulamalarımız</span><span class="lang-en">Our Apps</span><span
+        class="lang-ar">تطبيقاتنا</span></a>
+    <a href="../about.html"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span
+        class="lang-ar">عن الشركة</span></a>
+    <a href="../destek.html"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp;
+        Feedback</span><span class="lang-ar">الدعم والطلبات</span></a>
+    <a href="../contact.html"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span
+        class="lang-ar">اتصل بنا</span></a>
+  </nav>
+
+  <div class="layout-wrapper">
+
+    <!-- Masaüstü Sol Reklam -->
+    <aside class="desktop-ad desktop-ad-left">
+      <div class="ad-placeholder">Masaüstü Sol Reklam<br>(120x300)</div>
+    </aside>
+
+    <!-- Ana Detay İçeriği -->
+    <div class="portfolio-container">
+
+      <!-- Dil Destek Uyarısı & Çeviri Talebi Kutusu (Sadece EN ve AR dillerinde görünür) -->
+      <div class="translation-request-box lang-en lang-ar">
+        <div class="request-content">
+          <div class="request-text">
+            <span class="lang-en">ℹ️ This application currently supports <strong>Turkish</strong>. Would you like to
+              request English translation?</span>
+            <span class="lang-ar">ℹ️ هذا التطبيق يدعم حالياً اللغة <strong>التركية</strong>. هل ترغب في طلب الترجمة إلى
+              العربية؟</span>
+          </div>
+          <a href="#" class="request-btn contact-email-link" data-subject="[Translation Request] HaydiNamaza"
+            data-body="Hello MSK Labs Team, I would like to request the HaydiNamaza application to be translated to my language. Thank you!">
+            <span class="lang-en">📩 Request Translation</span>
+            <span class="lang-ar">📩 طلب الترجمة</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Uygulama Kartı -->
+      <div class="detail-card">
+        <div class="app-header">
+          <div class="app-big-icon"><img src="../media/haydinamaza/icon.png" alt="HaydiNamaza"></div>
+          <div class="app-title-group">
+            <h1>HaydiNamaza</h1>
+            <div class="badges">
+              <span class="badge badge-platform">
+                <span class="lang-tr">📱 Mobil Çözüm</span>
+                <span class="lang-en">📱 Mobile Solution</span>
+                <span class="lang-ar">📱 حل المحمول</span>
+              </span>
+              <span class="badge badge-status">
+                <span class="lang-tr">🛠️ Geliştirme Devam Ediyor</span>
+                <span class="lang-en">🛠️ Development In Progress</span>
+                <span class="lang-ar">🛠️ التطوير قيد التقدم</span>
+              </span>
+            </div>
+            <a href="#download-section" class="hero-download-btn">
+              <span class="lang-tr">🚀 Uygulamayı İndir</span>
+              <span class="lang-en">🚀 Download App</span>
+              <span class="lang-ar">🚀 تنزيل التطبيق</span>
+            </a>
+          </div>
+
+          <!-- Sağ Taraf: Global Dil Durumu & Laboratuvar Talep Butonları -->
+          <div class="app-header-right">
+            <div class="global-status-panel">
+              <span class="lang-tr">🌐 Dil Durumu: <strong class="status-tag active">TR (Aktif)</strong></span>
+              <span class="lang-en">🌐 Language Status: <strong class="status-tag active">TR (Active)</strong></span>
+              <span class="lang-ar">🌐 حالة اللغة: <strong class="status-tag active">TR (نشط)</strong></span>
+            </div>
+            <a href="#" class="lab-request-btn contact-email-link lang-en"
+              data-subject="[EN Version Request] HaydiNamaza"
+              data-body="Hello MSK Labs Team, I would like to request the English (EN) version of HaydiNamaza. Thank you!">
+              📩 Request EN Version from Lab
+            </a>
+            <small class="email-note lang-en">Or send email to: <strong
+                class="contact-email-text">msklabs.org@gmail.com</strong></small>
+
+            <a href="#" class="lab-request-btn contact-email-link lang-ar"
+              data-subject="[AR Version Request] HaydiNamaza"
+              data-body="Hello MSK Labs Team, I would like to request the Arabic version of HaydiNamaza. Thank you!">
+              📩 طلب إصدار اللغة العربية من المختبر
+            </a>
+            <small class="email-note lang-ar">أو أرسل بريداً إلى: <strong
+                class="contact-email-text">msklabs.org@gmail.com</strong></small>
+          </div>
+        </div>
+
+        <div class="app-description">
+          <span class="lang-tr"><strong>Haydi Namaza</strong>; günlük namaz vakitlerinizi takip etmenizi, kıble yönünüzü kolayca bulmanızı, günlük hatırlatma maksatlı yayınlanan dinî içeriklere ulaşmanızı ve vakit bildirimlerinizi tamamen kendi tercihlerinize göre kişiselleştirmenizi sağlayan modern bir mobil yardımcı uygulamadır. Sade arayüz, çevrimdışı kullanım kolaylığı, tam kullanıcı kontrolü ve veri şeffaflığı ilkeleriyle geliştirilmektedir. Hesap açma zorunluluğu bulunmaz; verileriniz ve kişisel ayarlarınız güvende kalacak şekilde doğrudan kendi cihazınızda saklanır.</span>
+          <span class="lang-en"><strong>Haydi Namaza</strong> is a modern mobile assistant application that allows you to track your daily prayer times, easily find the Qibla direction, access daily religious reminder content, and fully customize your prayer notifications. Developed with principles of a clean interface, offline-first convenience, full user control, and data transparency. No account creation required; your data and preferences remain safe on your device.</span>
+          <span class="lang-ar">تطبيق <strong>"Haydi Namaza"</strong> هو تطبيق محمول حديث يتيح لك متابعة أوقات الصلاة اليومية، وإيجاد اتجاه القبلة بسهولة، والوصول إلى المحتويات الدينية التذكيرية اليومية، وتخصيص إشعارات أوقات الصلاة بالكامل وفقاً لتفضيلاتك. يتم تطويره وفق مبادئ الواجهة البسيطة، سهولة الاستخدام بدون إنترنت، التحكم الكامل للمستخدم، وشفافية البيانات. لا يتطلب إنشاء حساب؛ تبقى بياناتك وتفضيلاتك آمنة على جهازك.</span>
+        </div>
+
+        <div class="features-title">
+          <span class="lang-tr">Öne Çıkan Özellikler</span>
+          <span class="lang-en">Key Features</span>
+          <span class="lang-ar">الميزات الرئيسية</span>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-box">
+            <h4>🕋 
+              <span class="lang-tr">Namaz Vakitleri &amp; Canlı Sayaç / Widgetler</span>
+              <span class="lang-en">Prayer Times &amp; Live Countdown / Widgets</span>
+              <span class="lang-ar">أوقات الصلاة والعداد التنازلي / أدوات الواجهة</span>
+            </h4>
+            <p>
+              <span class="lang-tr">İmsak, Güneş, Öğle, İkindi, Akşam ve Yatsı vakitleri, canlı geri sayım sayacı, farklı boyutlarda widget seçenekleri ve Diyanet İşleri Başkanlığı uyumlu vakit hesaplama desteği.</span>
+              <span class="lang-en">Track Imsak, Sunrise, Dhuhr, Asr, Maghrib, and Isha prayer times with live countdown timer, multiple size widget options, and Diyanet-compatible calculations.</span>
+              <span class="lang-ar">متابعة أوقات الإمساك، الشروق، الظهر، العصر، المغرب، والعشاء مع عداد تنازلي مباشر، أدوات واجهة (Widget) بأحجام متعددة، وحسابات متوافقة مع رئاسة الشؤون الدينية.</span>
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h4>➕ 
+              <span class="lang-tr">İhtiyacınıza Göre Nafile Vakitler Ekleyin</span>
+              <span class="lang-en">Add Custom &amp; Nafilah Times</span>
+              <span class="lang-ar">إضافة أوقات الصلاة النوافل والمخصصة</span>
+            </h4>
+            <p>
+              <span class="lang-tr">Yalnızca 6 temel vakitle sınırlı kalmayın; nafile veya özel takip etmek istediğiniz vakitleri listeye ekleyebilir, düzenleyebilir ve dilediğiniz zaman silebilirsiniz.</span>
+              <span class="lang-en">Not limited to 6 basic prayer times; easily add, customize, track, and delete nafilah (voluntary) or custom prayer times according to your needs.</span>
+              <span class="lang-ar">لا تقتصر على 6 أوقات أساسية؛ يمكنك إضافة أوقات صلاة نافلة أو مخصصة لمتابعتها، تعديلها، وحذفها بسهولة في أي وقت.</span>
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h4>⚠️ 
+              <span class="lang-tr">Kerahat Vakitleri &amp; Akıllı Görsel Uyarı</span>
+              <span class="lang-en">Kerahat Times &amp; Smart Visual Alert</span>
+              <span class="lang-ar">أوقات الكراهة والتنبيه البصري الذكي</span>
+            </h4>
+            <p>
+              <span class="lang-tr">Kerahat vakitlerinde ana ekrandaki sayaç kartında canlı görsel uyarı belirir; kerahat süreleri tercih ettiğiniz fıkhi yapıya göre dakika bazında ayarlanabilir.</span>
+              <span class="lang-en">Live visual alert appears on the countdown card during Kerahat times; durations can be customized in minutes according to your preferred Fiqh rules.</span>
+              <span class="lang-ar">تنبيه بصري مباشر على بطاقة العداد أثناء أوقات الكراهة؛ مع إمكانية تعديل دقيقة بالدقائق وفق المذهب الفقهي المفضل لديك.</span>
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h4>🧭 
+              <span class="lang-tr">Güvenilir ve Kolay Kıble Yönü Tespiti</span>
+              <span class="lang-en">Reliable &amp; Easy Qibla Direction</span>
+              <span class="lang-ar">تحديد اتجاه القبلة الموثوق والسهل</span>
+            </h4>
+            <p>
+              <span class="lang-tr">Cihaz pusula sensörleri ve konum özelliklerini kullanarak ekrandaki pratik yön göstergeleri ile Kıble istikametini karmaşa olmadan kolayca tespit edin.</span>
+              <span class="lang-en">Easily determine the Qibla direction without complex technical jargon using your device's compass sensors, location services, and clear visual indicators.</span>
+              <span class="lang-ar">تحديد اتجاه القبلة بسهولة وأمان دون تعقيدات تقنية من خلال مستشعرات البوصلة والموقع والمؤشرات البصرية الواضحة.</span>
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h4>📖 
+              <span class="lang-tr">Günlük Dinî İçerikler &amp; Sesli Okuma (TTS)</span>
+              <span class="lang-en">Daily Religious Content &amp; Audio (TTS)</span>
+              <span class="lang-ar">المحتوى الديني اليومي والقراءة الصوتية</span>
+            </h4>
+            <p>
+              <span class="lang-tr">Doğrulanmış Ayet, Hadis, Esma-i Hüsna ve Allah'ın Sıfatları; Türkçe canlı sesli okuma (TTS), bas-durdur kontrolleri ve akıcı panel geçişleri.</span>
+              <span class="lang-en">Verified Ayah, Hadith, Asma-ul-Husna, and Attributes; live Turkish Text-to-Speech (TTS) reading with tap-to-stop controls and smooth page swiping.</span>
+              <span class="lang-ar">آيات، أحاديث، الأسماء الحسنى، وصفات الله الموثوقة؛ قراءة صوتية باللغة التركية (TTS) مع إمكانية الإيقاف الفوري والتمرير السلس.</span>
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h4>🔇 
+              <span class="lang-tr">Namazda Sessiz Kal Otomasyonu</span>
+              <span class="lang-en">Auto Prayer Silence Mode</span>
+              <span class="lang-ar">أتمتة وضع الصمت أثناء الصلاة</span>
+            </h4>
+            <p>
+              <span class="lang-tr">Namaz vakti girdiğinde telefonunuzu otomatik olarak sessiz/titreşim moduna alır ve belirlenen süre sonunda ses seviyesini eski haline geri döndürür.</span>
+              <span class="lang-en">Automatically switches your phone to silent/vibrate mode when prayer time starts, and restores original volume settings after the set duration.</span>
+              <span class="lang-ar">تحويل الهاتف تلقائياً إلى وضع الصمت أو الاهتزاز عند دخول وقت الصلاة، وإعادة ضبط مستوى الصوت السابق بعد انتهاء المدة المحددة.</span>
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h4>⚙️ 
+              <span class="lang-tr">Özelleştirilebilir Bildirimler &amp; Sesli Hatırlatma</span>
+              <span class="lang-en">Custom Notifications &amp; Voice Reminders</span>
+              <span class="lang-ar">إشعارات مخصصة والتذكير الصوتي</span>
+            </h4>
+            <p>
+              <span class="lang-tr">Ana ve nafile vakitler için birleşik ses/titreşim toggle ayarları; ezan öncesi belirlediğiniz sürede kişisel metninizi Türkçe sesli okuyan akıllı hatırlatıcı.</span>
+              <span class="lang-en">Unified audio/vibration toggles for main and nafilah times; smart pre-prayer reminder reading your custom text aloud prior to prayer time.</span>
+              <span class="lang-ar">مفاتيح موحدة للصوت والاهتزاز للأوقات الأساسية والنوافل؛ تذكير ذكي يقرأ نصك المخصص بصوت عالٍ قبل دخول الوقت بمدة محددة.</span>
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h4>📍 
+              <span class="lang-tr">Konum Yönetimi &amp; Favori Şehirler</span>
+              <span class="lang-en">Location Management &amp; Favorites</span>
+              <span class="lang-ar">إدارة المواقع والمدن المفضلة</span>
+            </h4>
+            <p>
+              <span class="lang-tr">Türkiye ve dünya üzerindeki şehir ve ilçeler arasından arama yapma, konum seçimi ve sık ziyaret edilen yerleri favorilere ekleyerek hızlı erişim.</span>
+              <span class="lang-en">Search and select cities/districts across Turkey and worldwide, save favorite locations, and switch quickly between your saved places.</span>
+              <span class="lang-ar">البحث واختيار المدن والأقضية في تركيا وحول العالم، إضافة المواقع المفضلة، والتنقل السريع بين الأماكن المحفوظة.</span>
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h4>⚡ 
+              <span class="lang-tr">%100 Çevrimdışı Kullanım (7 Günlük Önbellek) &amp; Gizlilik</span>
+              <span class="lang-en">100% Offline (7-Day Cache) &amp; Privacy</span>
+              <span class="lang-ar">100% عمل بدون إنترنت (تخزين 7 أيام) والخصوصية</span>
+            </h4>
+            <p>
+              <span class="lang-tr">İnternet sağlandığında 7 günlük vakit verilerini otomatik çevrimdışına alır; hesap gerektirmez, kişisel verileri cihazda saklar ve pil dostudur.</span>
+              <span class="lang-en">Automatically caches 7-day prayer data for offline use when connected; no account required, stores settings on-device, and uses minimal battery.</span>
+              <span class="lang-ar">التخزين التلقائي لأوقات الصلاة لمدة 7 أيام عند الاتصال بالإنترنت للاستخدام بدون إنترنت؛ لا يتطلب حساباً، يحفظ البيانات محلياً، وموفر للبطارية.</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- İndirme ve Yayın Kanalları Alanı -->
+        <div id="download-section" class="download-section">
+          <div class="download-section-title">
+            <span class="lang-tr">📥 İndirme Seçenekleri ve Yayın Kanalları</span>
+            <span class="lang-en">📥 Download Options & Release Channels</span>
+            <span class="lang-ar">📥 خيارات التنزيل وقنوات الإصدار</span>
+          </div>
+
+          <div class="download-grid">
+            <!-- Google Play Store (Pasif) -->
+            <div class="download-card disabled">
+              <div class="download-card-header">
+                <div class="download-card-icon">
+                  <img src="assets/img/store/google-play.png" alt="Google Play" class="store-brand-icon">
+                </div>
+                <div class="download-card-title">Google Play</div>
+              </div>
+              <div class="download-card-status">
+                <span class="lang-tr">Yakında Kullanılabilir Olacaksınız</span>
+                <span class="lang-en">Will be available soon</span>
+                <span class="lang-ar">ستكون متاحة قريباً</span>
+              </div>
+              <span class="download-tag tag-soon">
+                <span class="lang-tr">🛠️ Hazırlanıyor</span>
+                <span class="lang-en">🛠️ In Progress</span>
+                <span class="lang-ar">🛠️ قيد التحضير</span>
+              </span>
+            </div>
+
+            <!-- GitHub Direct APK Download (Aktif) -->
+            <a href="https://raw.githubusercontent.com/mskaymaz/AllApp/main/releases/HaydiNamaza.apk"
+              download="HaydiNamaza.apk" class="download-card">
+              <div class="download-card-header">
+                <div class="download-card-icon">
+                  <img src="assets/img/store/github.png" alt="GitHub" class="store-brand-icon">
+                </div>
+                <div class="download-card-title">GitHub (APK)</div>
+              </div>
+              <div class="download-card-status">
+                <span class="lang-tr">Android Sürümünü İndir (APK)</span>
+                <span class="lang-en">Download Android Version (APK)</span>
+                <span class="lang-ar">تنزيل إصدار أندرويد (APK)</span>
+              </div>
+              <span class="download-tag tag-active">
+                <span class="lang-tr">⚡ Doğrudan İndir</span>
+                <span class="lang-en">⚡ Direct Download</span>
+                <span class="lang-ar">⚡ تنزيل مباشر</span>
+              </span>
+            </a>
+
+            <!-- Google Drive Direct APK Download (Aktif) -->
+            <a href="https://drive.google.com/uc?export=download&id=1nMtU6tlxZw2U7x1OM_R49_HtViIGpCGe" target="_blank"
+              class="download-card">
+              <div class="download-card-header">
+                <div class="download-card-icon">
+                  <img src="assets/img/store/google-drive.png" alt="Google Drive" class="store-brand-icon">
+                </div>
+                <div class="download-card-title">Google Drive (APK)</div>
+              </div>
+              <div class="download-card-status">
+                <span class="lang-tr">Android Sürümünü İndir (Google Drive)</span>
+                <span class="lang-en">Download Android Version (Google Drive)</span>
+                <span class="lang-ar">تنزيل إصدار أندرويد (Google Drive)</span>
+              </div>
+              <span class="download-tag tag-active">
+                <span class="lang-tr">⚡ Doğrudan İndir</span>
+                <span class="lang-en">⚡ Direct Download</span>
+                <span class="lang-ar">⚡ تنزيل مباشر</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sayfa Altı Reklam Alanı -->
+
+
+      <div class="infeed-ad-container">
+        <div class="ad-placeholder">Sayfa Altı Reklam Alanı (Bottom Banner)</div>
+      </div>
+
+    </div> <!-- .portfolio-container Bitişi -->
+
+    <!-- Masaüstü Sağ Reklam -->
+    <aside class="desktop-ad desktop-ad-right">
+      <div class="ad-placeholder">Masaüstü Sağ Reklam<br>(120x300)</div>
+    </aside>
+
   </div>
-</header>
 
-<!-- Standart Ust Ana Navigasyon Menusu -->
-<nav class="top-main-nav">
-  <a href="../index.html"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a>
-  <a href="../blog/blog.html?type=bizce"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a>
-  <a href="../blog/blog.html?type=anilts"><span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span></a>
-  <a href="../index.html#apps"><span class="lang-tr">Uygulamalarımız</span><span class="lang-en">Our Apps</span><span class="lang-ar">تطبيقاتنا</span></a>
-  <a href="../about.html"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a>
-  <a href="../destek.html"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a>
-  <a href="../contact.html"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a>
-</nav>
+  <script>
+    // MERKEZİ SİTE KONFİGÜRASYONU (Blogger & HTML Uyumlu)
+    var SITE_CONFIG = {
+      contactEmail: "msklabs.org@gmail.com"
+    };
 
-<div class="layout-wrapper">
+    // E-posta adreslerini ve mailto bağlantılarını merkezi konfigürasyondan doldurur
+    function syncCentralConfig() {
+      var email = (window.SITE_CONFIG && window.SITE_CONFIG.contactEmail) ? window.SITE_CONFIG.contactEmail : "msklabs.org@gmail.com";
 
-  <!-- Masaüstü Sol Reklam -->
-  <aside class="desktop-ad desktop-ad-left">
-    <div class="ad-placeholder">Masaüstü Sol Reklam<br>(120x300)</div>
-  </aside>
+      // Metin etiketlerini güncelle
+      document.querySelectorAll('.contact-email-text').forEach(function (el) {
+        el.textContent = email;
+      });
 
-  <!-- Ana Detay İçeriği -->
-  <div class="portfolio-container">
-    
-    <!-- Dil Destek Uyarısı & Çeviri Talebi Kutusu (Sadece EN ve AR dillerinde görünür) -->
-    <div class="translation-request-box lang-en lang-ar">
-      <div class="request-content">
-        <div class="request-text">
-          <span class="lang-en">ℹ️ This application currently supports <strong>Turkish</strong>. Would you like to request English translation?</span>
-          <span class="lang-ar">ℹ️ هذا التطبيق يدعم حالياً اللغة <strong>التركية</strong>. هل ترغب في طلب الترجمة إلى العربية؟</span>
-        </div>
-        <a href="#" class="request-btn contact-email-link" data-subject="[Translation Request] HaydiNamaza" data-body="Hello MSK Labs Team, I would like to request the HaydiNamaza application to be translated to my language. Thank you!">
-          <span class="lang-en">📩 Request Translation</span>
-          <span class="lang-ar">📩 طلب الترجمة</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Uygulama Kartı -->
-    <div class="detail-card">
-      <div class="app-header">
-        <div class="app-big-icon"><img src="../media/haydinamaza/icon.png" alt="HaydiNamaza"></div>
-        <div class="app-title-group">
-          <h1>HaydiNamaza</h1>
-          <div class="badges">
-            <span class="badge badge-platform">
-              <span class="lang-tr">📱 Mobil Çözüm</span>
-              <span class="lang-en">📱 Mobile Solution</span>
-              <span class="lang-ar">📱 حل المحمول</span>
-            </span>
-            <span class="badge badge-status">
-              <span class="lang-tr">🛠️ Geliştirme Devam Ediyor</span>
-              <span class="lang-en">🛠️ Development In Progress</span>
-              <span class="lang-ar">🛠️ التطوير قيد التقدم</span>
-            </span>
-          </div>
-          <a href="#download-section" class="hero-download-btn">
-            <span class="lang-tr">🚀 Uygulamayı İndir</span>
-            <span class="lang-en">🚀 Download App</span>
-            <span class="lang-ar">🚀 تنزيل التطبيق</span>
-          </a>
-        </div>
-
-        <!-- Sağ Taraf: Global Dil Durumu & Laboratuvar Talep Butonları -->
-        <div class="app-header-right">
-          <div class="global-status-panel">
-            <span class="lang-tr">🌐 Dil Durumu: <strong class="status-tag active">TR (Aktif)</strong></span>
-            <span class="lang-en">🌐 Language Status: <strong class="status-tag active">TR (Active)</strong></span>
-            <span class="lang-ar">🌐 حالة اللغة: <strong class="status-tag active">TR (نشط)</strong></span>
-          </div>
-          <a href="#" class="lab-request-btn contact-email-link lang-en" data-subject="[EN Version Request] HaydiNamaza" data-body="Hello MSK Labs Team, I would like to request the English (EN) version of HaydiNamaza. Thank you!">
-            📩 Request EN Version from Lab
-          </a>
-          <small class="email-note lang-en">Or send email to: <strong class="contact-email-text">msklabs.org@gmail.com</strong></small>
-
-          <a href="#" class="lab-request-btn contact-email-link lang-ar" data-subject="[AR Version Request] HaydiNamaza" data-body="Hello MSK Labs Team, I would like to request the Arabic version of HaydiNamaza. Thank you!">
-            📩 طلب إصدار اللغة العربية من المختبر
-          </a>
-          <small class="email-note lang-ar">أو أرسل بريداً إلى: <strong class="contact-email-text">msklabs.org@gmail.com</strong></small>
-        </div>
-      </div>
-
-      <div class="app-description">
-        <span class="lang-tr">Lokasyon bazlı ibadet planlaması ve zaman yönetimi otomasyonu. Konumunuza özel hassas vakit hesaplamaları ve kişiselleştirilebilir bildirim sistemi.</span>
-        <span class="lang-en">Location-based worship planning and time management automation. Accurate prayer time calculations tailored to your location with customizable notification system.</span>
-        <span class="lang-ar">تخطيط العبادة القائم على الموقع وأتمتة إدارة الوقت. حسابات دقيقة لأوقات الصلاة مخصصة لموقعك مع نظام إشعارات قابل للتخصيص.</span>
-      </div>
-
-      <div class="features-title">
-        <span class="lang-tr">Öne Çıkan Özellikler</span>
-        <span class="lang-en">Key Features</span>
-        <span class="lang-ar">الميزات الرئيسية</span>
-      </div>
-
-      <div class="features-grid">
-        <div class="feature-box">
-          <h4>📍 
-            <span class="lang-tr">Lokasyon Doğruluğu</span>
-            <span class="lang-en">Location Accuracy</span>
-            <span class="lang-ar">دقة الموقع</span>
-          </h4>
-          <p>
-            <span class="lang-tr">GPS ve konum servisleri ile anlık vakit güncellemesi.</span>
-            <span class="lang-en">Instant time updates via GPS and location services.</span>
-            <span class="lang-ar">تحديثات فورية للوقت عبر نظام GPS وخدمات الموقع.</span>
-          </p>
-        </div>
-
-        <div class="feature-box">
-          <h4>🔔 
-            <span class="lang-tr">Akıllı Bildirimler</span>
-            <span class="lang-en">Smart Notifications</span>
-            <span class="lang-ar">إشعارات ذكية</span>
-          </h4>
-          <p>
-            <span class="lang-tr">Vakit öncesi ve anında kişiselleştirilebilir uyarılar.</span>
-            <span class="lang-en">Customizable alerts before and at prayer times.</span>
-            <span class="lang-ar">تنبيهات قابلة للتخصيص قبل وأثناء أوقات الصلاة.</span>
-          </p>
-        </div>
-
-        <div class="feature-box">
-          <h4>⚡ 
-            <span class="lang-tr">Hafif ve Hızlı</span>
-            <span class="lang-en">Lightweight & Fast</span>
-            <span class="lang-ar">خفيف وسريع</span>
-          </h4>
-          <p>
-            <span class="lang-tr">Pil ve sistem kaynaklarını minimum düzeyde kullanan mimari.</span>
-            <span class="lang-en">Architecture that uses minimal battery and system resources.</span>
-            <span class="lang-ar">بنية تستخدم الحد الأدنى من البطارية وموارد النظام.</span>
-          </p>
-        </div>
-      </div>
-
-      <!-- İndirme ve Yayın Kanalları Alanı -->
-      <div id="download-section" class="download-section">
-        <div class="download-section-title">
-          <span class="lang-tr">📥 İndirme Seçenekleri ve Yayın Kanalları</span>
-          <span class="lang-en">📥 Download Options & Release Channels</span>
-          <span class="lang-ar">📥 خيارات التنزيل وقنوات الإصدار</span>
-        </div>
-
-        <div class="download-grid">
-          <!-- Google Play Store (Pasif) -->
-          <div class="download-card disabled">
-            <div class="download-card-header">
-              <div class="download-card-icon">
-                <img src="assets/img/store/google-play.png" alt="Google Play" class="store-brand-icon">
-              </div>
-              <div class="download-card-title">Google Play</div>
-            </div>
-            <div class="download-card-status">
-              <span class="lang-tr">Yakında Kullanılabilir Olacaksınız</span>
-              <span class="lang-en">Will be available soon</span>
-              <span class="lang-ar">ستكون متاحة قريباً</span>
-            </div>
-            <span class="download-tag tag-soon">
-              <span class="lang-tr">🛠️ Hazırlanıyor</span>
-              <span class="lang-en">🛠️ In Progress</span>
-              <span class="lang-ar">🛠️ قيد التحضير</span>
-            </span>
-          </div>
-
-          <!-- GitHub Direct APK Download (Aktif) -->
-          <a href="https://raw.githubusercontent.com/mskaymaz/AllApp/main/releases/HaydiNamaza.apk" download="HaydiNamaza.apk" class="download-card">
-            <div class="download-card-header">
-              <div class="download-card-icon">
-                <img src="assets/img/store/github.png" alt="GitHub" class="store-brand-icon">
-              </div>
-              <div class="download-card-title">GitHub (APK)</div>
-            </div>
-            <div class="download-card-status">
-              <span class="lang-tr">Android Sürümünü İndir (APK)</span>
-              <span class="lang-en">Download Android Version (APK)</span>
-              <span class="lang-ar">تنزيل إصدار أندرويد (APK)</span>
-            </div>
-            <span class="download-tag tag-active">
-              <span class="lang-tr">⚡ Doğrudan İndir</span>
-              <span class="lang-en">⚡ Direct Download</span>
-              <span class="lang-ar">⚡ تنزيل مباشر</span>
-            </span>
-          </a>
-
-          <!-- Google Drive Direct APK Download (Aktif) -->
-          <a href="https://drive.google.com/uc?export=download&id=1nMtU6tlxZw2U7x1OM_R49_HtViIGpCGe" target="_blank" class="download-card">
-            <div class="download-card-header">
-              <div class="download-card-icon">
-                <img src="assets/img/store/google-drive.png" alt="Google Drive" class="store-brand-icon">
-              </div>
-              <div class="download-card-title">Google Drive (APK)</div>
-            </div>
-            <div class="download-card-status">
-              <span class="lang-tr">Android Sürümünü İndir (Google Drive)</span>
-              <span class="lang-en">Download Android Version (Google Drive)</span>
-              <span class="lang-ar">تنزيل إصدار أندرويد (Google Drive)</span>
-            </div>
-            <span class="download-tag tag-active">
-              <span class="lang-tr">⚡ Doğrudan İndir</span>
-              <span class="lang-en">⚡ Direct Download</span>
-              <span class="lang-ar">⚡ تنزيل مباشر</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sayfa Altı Reklam Alanı -->
-            
-
-<div class="infeed-ad-container">
-      <div class="ad-placeholder">Sayfa Altı Reklam Alanı (Bottom Banner)</div>
-    </div>
-
-  </div> <!-- .portfolio-container Bitişi -->
-
-  <!-- Masaüstü Sağ Reklam -->
-  <aside class="desktop-ad desktop-ad-right">
-    <div class="ad-placeholder">Masaüstü Sağ Reklam<br>(120x300)</div>
-  </aside>
-
-</div>
-
-<script>
-  // MERKEZİ SİTE KONFİGÜRASYONU (Blogger & HTML Uyumlu)
-  var SITE_CONFIG = {
-    contactEmail: "msklabs.org@gmail.com"
-  };
-
-  // E-posta adreslerini ve mailto bağlantılarını merkezi konfigürasyondan doldurur
-  function syncCentralConfig() {
-    var email = (window.SITE_CONFIG && window.SITE_CONFIG.contactEmail) ? window.SITE_CONFIG.contactEmail : "msklabs.org@gmail.com";
-    
-    // Metin etiketlerini güncelle
-    document.querySelectorAll('.contact-email-text').forEach(function(el) {
-      el.textContent = email;
-    });
-
-    // Mailto bağlantılarını güncelle
-    document.querySelectorAll('a.contact-email-link').forEach(function(a) {
-      var subject = a.getAttribute('data-subject') || 'Talep';
-      var body = a.getAttribute('data-body') || '';
-      a.setAttribute('href', 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body));
-    });
-  }
-
-  // Sayfa Yüklenme Anında Çalışacak Ana Blok
-  (function() {
-    syncCentralConfig();
-
-    var urlParams = new URLSearchParams(window.location.search);
-    var langParam = urlParams.get('lang');
-    var savedLang = null;
-    try {
-      savedLang = localStorage.getItem('user_lang');
-    } catch(e) {}
-    
-    var activeLang = langParam || savedLang || 'tr';
-    if (typeof setLang === 'function') {
-      setLang(activeLang);
+      // Mailto bağlantılarını güncelle
+      document.querySelectorAll('a.contact-email-link').forEach(function (a) {
+        var subject = a.getAttribute('data-subject') || 'Talep';
+        var body = a.getAttribute('data-body') || '';
+        a.setAttribute('href', 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body));
+      });
     }
-  })();
-</script>
+
+    // Sayfa Yüklenme Anında Çalışacak Ana Blok
+    (function () {
+      syncCentralConfig();
+
+      var urlParams = new URLSearchParams(window.location.search);
+      var langParam = urlParams.get('lang');
+      var savedLang = null;
+      try {
+        savedLang = localStorage.getItem('user_lang');
+      } catch (e) { }
+
+      var activeLang = langParam || savedLang || 'tr';
+      if (typeof setLang === 'function') {
+        setLang(activeLang);
+      }
+    })();
+  </script>
 
 
   <!-- Standart Alt Footer Menusu -->
-  <footer class="site-footer" style="text-align: center; padding: 1.5rem 1rem; border-top: 1px solid #cbd5e1; margin-top: 2.5rem; font-size: 0.85rem; color: #64748b;">
+  <footer class="site-footer"
+    style="text-align: center; padding: 1.5rem 1rem; border-top: 1px solid #cbd5e1; margin-top: 2.5rem; font-size: 0.85rem; color: #64748b;">
     <div class="footer-links" style="margin-bottom: 0.75rem; font-weight: 600;">
-      <a href="../index.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a> |
-      <a href="../blog/blog.html?type=bizce" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a> |
-      <a href="../blog/blog.html?type=anilts" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span></a> |
-      <a href="../about.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a> |
-      <a href="../destek.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a> |
-      <a href="../contact.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a> |
-      <a href="../who-we-are.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Biz Kimiz</span><span class="lang-en">Who We Are</span><span class="lang-ar">من نحن</span></a> |
-      <a href="../faq.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">SSS</span><span class="lang-en">FAQ</span><span class="lang-ar">الأسئلة الشائعة</span></a> |
-      <a href="../privacy.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Gizlilik Politikası</span><span class="lang-en">Privacy Policy</span><span class="lang-ar">سياسة الخصوصية</span></a> |
-      <a href="../terms.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Kullanım Koşulları</span><span class="lang-en">Terms of Service</span><span class="lang-ar">شروط الخدمة</span></a>
+      <a href="../index.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span
+          class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a> |
+      <a href="../blog/blog.html?type=bizce" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span
+          class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a> |
+      <a href="../blog/blog.html?type=anilts" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span
+          class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span
+          class="lang-ar">Anıltılar</span></a> |
+      <a href="../about.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span
+          class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن
+          الشركة</span></a> |
+      <a href="../destek.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span
+          class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span
+          class="lang-ar">الدعم والطلبات</span></a> |
+      <a href="../contact.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span
+          class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a> |
+      <a href="../who-we-are.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span
+          class="lang-tr">Biz Kimiz</span><span class="lang-en">Who We Are</span><span class="lang-ar">من نحن</span></a>
+      |
+      <a href="../faq.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span
+          class="lang-tr">SSS</span><span class="lang-en">FAQ</span><span class="lang-ar">الأسئلة الشائعة</span></a> |
+      <a href="../privacy.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span
+          class="lang-tr">Gizlilik Politikası</span><span class="lang-en">Privacy Policy</span><span
+          class="lang-ar">سياسة الخصوصية</span></a> |
+      <a href="../terms.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span
+          class="lang-tr">Kullanım Koşulları</span><span class="lang-en">Terms of Service</span><span
+          class="lang-ar">شروط الخدمة</span></a>
     </div>
     <p class="copyright-line" style="margin: 0;">© 2026 MSK Labs. Tüm hakları saklıdır.</p>
   </footer>
 </body>
+
 </html>
