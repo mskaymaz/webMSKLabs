@@ -1,7 +1,7 @@
 /* ======================================================
    MSK LABS - GLOBAL DESIGN SYSTEM & STYLESHEET
    ====================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Flex:wght@300;400;500;600;700&display=swap');
 
 :root {
   /* Light Theme Tokens (Default) */
@@ -2153,12 +2153,18 @@ body.dark-theme .hero-intro-logo-svg {
 }
 
 .web-click-icon {
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
-  border-radius: 4px;
   vertical-align: middle;
   display: inline-block;
+  margin-right: 8px;
+  transition: filter 0.3s ease;
+}
+
+[data-theme="dark"] .web-click-icon,
+body.dark-theme .web-click-icon {
+  filter: brightness(0) invert(0.95);
 }
 
 .hero-intro-subtitle {
@@ -2199,13 +2205,13 @@ body.dark-theme .hero-intro-logo-svg {
 }
 
 .biz-kimiz-top-slogan {
-  font-family: 'Rajdhani', 'Inter', sans-serif;
+  font-family: 'Roboto Flex', 'Inter', sans-serif;
   font-size: 1.35rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--text-main);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.2px;
   margin-bottom: 20px;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .biz-kimiz-pill-box {
@@ -2294,10 +2300,10 @@ body.dark-theme .hero-intro-logo-svg {
 }
 
 .biz-kimiz-bottom-tagline {
-  font-family: 'Rajdhani', 'Inter', sans-serif;
+  font-family: 'Roboto Flex', 'Inter', sans-serif;
   font-size: 1.15rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--text-main);
-  letter-spacing: 0.5px;
-  line-height: 1.4;
+  letter-spacing: 0.2px;
+  line-height: 1.45;
 }
