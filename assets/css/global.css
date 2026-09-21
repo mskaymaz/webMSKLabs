@@ -1,6 +1,7 @@
 /* ======================================================
    MSK LABS - GLOBAL DESIGN SYSTEM & STYLESHEET
    ====================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap');
 
 :root {
   /* Light Theme Tokens (Default) */
@@ -2133,11 +2134,12 @@ body.lang-ar .static-page-card {
 }
 
 .hero-intro-title {
-  font-size: 2.2rem;
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-size: 2.35rem;
   font-weight: 800;
   color: var(--text-main);
   margin: 0 0 6px 0;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   background: linear-gradient(135deg, var(--text-main) 40%, var(--primary-color) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
