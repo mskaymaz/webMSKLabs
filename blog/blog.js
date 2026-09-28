@@ -161,28 +161,28 @@ var blogPostsData = [
     }
   },
   {
-    "id": 6,
+    "id": 7,
     "type": "guncel",
-    "category": "Duyurular & Yenilikler",
-    "category_en": "Announcements & News",
-    "category_ar": "الإعلانات والجديد",
-    "date": "14 Eylül 2026",
-    "readTime": "2 dk okuma",
+    "category": "Manifesto & İlk Makale",
+    "category_en": "Manifesto & First Article",
+    "category_ar": "البيان والمقال الأول",
+    "date": "28 Eylül 2026",
+    "readTime": "6 dk okuma",
     "icon": "📢",
     "tr": {
-      "title": "MSK Labs Platform Güncellemesi ve Yeni Özellikler",
-      "summary": "Platformumuz genelinde yapılan performans iyileştirmeleri, çoklu dil güncellemeleri ve yeni modül duyuruları.",
-      "content": "<p>MSK Labs ekibi olarak platformumuzu sürekli geliştirmeye devam ediyoruz. Son güncellemelerimiz ile birlikte performans optimizasyonları ve yeni modül altyapısı yayına alındı.</p>"
+      "title": "GÜNCEL Nedir? — Görünenin Ötesine Bakmak",
+      "summary": "GÜNCEL, MSK Labs'ın yaşanan güncel olaylara kendi bakış açısıyla yaklaşmak ve olayları yalnızca görünen yönleriyle değil, mümkün olduğunca arka planıyla birlikte değerlendirmek amacıyla oluşturduğu bir bölümdür.",
+      "content": "<p>Gün içerisinde yüzlerce haberle, görüntüyle, yorumla ve bilgiyle karşılaşıyoruz. Dünyanın herhangi bir yerinde meydana gelen bir olay, birkaç saniye içerisinde telefonumuzun ekranına ulaşabiliyor.</p><p>Fakat bir haberin bize ulaşması, onu gerçekten anladığımız anlamına geliyor mu?</p><p>GÜNCEL, MSK Labs'ın yaşanan güncel olaylara kendi bakış açısıyla yaklaşmak ve olayları yalnızca görünen yönleriyle değil, mümkün olduğunca arka planıyla birlikte değerlendirmek amacıyla oluşturduğu bir bölümdür.</p><p>Burada amacımız yalnızca “Ne oldu?” sorusuna cevap vermek değildir.</p><p>Asıl sormaya çalıştığımız sorular şunlardır:</p><ul><li>Neden oldu?</li><li>Nasıl bu noktaya geldi?</li><li>Bize ne anlatıyor?</li><li>Bunun arkasında başka hangi gelişmeler bulunuyor?</li><li>Ve belki de en önemlisi: Görünenin arkasında ne var?</li></ul><h3>GÜNCEL'de neler olacak?</h3><p>GÜNCEL'in konusu yalnızca belirli bir alanla sınırlı değildir. Teknolojiden bilime, ekonomiden toplumsal olaylara, ülkelerin yaşadığı gelişmelerden dünyada meydana gelen önemli olaylara kadar güncel olan ve insanların hayatını ilgilendiren her konu GÜNCEL'in konusu olabilir.</p><p>Ancak burada bir haber ajansı veya günlük gazete mantığıyla hareket etmeyeceğiz. Bir olayın gerçekleştiğini tekrar etmek yerine, o olayın ne ifade ettiğini anlamaya çalışacağız. Çünkü bazen bir haberin kendisinden daha önemli olan şey, o haberin ortaya çıkmasına neden olan şartlardır.</p><p>Bazen de insanların önünde yalnızca olayın görünen kısmı vardır. Oysa olayın arka planında farklı gelişmeler, farklı hesaplar veya henüz fark edilmeyen sonuçlar bulunabilir. GÜNCEL, mümkün olduğunca bu noktaları sorgulamaya ve tespit edebildiklerini kullanıcı için vurgulamaya çalışacak.</p><h3>Biz olaylara nasıl bakıyoruz?</h3><p>MSK Labs ekibi Müslümandır. Dolayısıyla olaylara bakışımızın tamamen değerlerden bağımsız veya herhangi bir ölçütten yoksun olması beklenemez. Biz doğruluktan, adaletten, güvenilirlikten, selametten ve insanın iyiliğinden yana Müslümanca bir yaklaşımı esas alıyoruz.</p><p>Güncel bir olayı değerlendirirken de kendi anlayışımız doğrultusunda doğru olduğunu düşündüğümüz şeyi açıkça ifade etmeye çalışacağız. Elbette MSK Labs olarak yanılmaz olduğumuzu iddia etmiyoruz. Bir olayı yanlış değerlendirebilir, eksik bilgiye ulaşabilir veya bir konuda hata yapabiliriz. Fakat bildiğimizi doğru aktarmaya, ulaşabildiğimiz bilgileri değerlendirmeye ve kanaatimizi eğip bükmeden ortaya koymaya çalışacağız.</p><h3>Kaynaklar ve doğrulama</h3><p>Bugünün bilgi dünyasında bilgiye ulaşmak geçmişe göre çok daha kolay. Fakat doğru bilgiye ulaşmak aynı ölçüde kolay değil. Sosyal medya, internet siteleri ve farklı haber kaynakları aynı olay hakkında birbirinden tamamen farklı bilgiler sunabiliyor. Bilginin çok hızlı yayıldığı bir ortamda yanlış bilgi de aynı hızla yayılabileri.</p><p>Bu nedenle GÜNCEL yazılarında ulaşabildiğimiz kaynakları, verileri ve bilgileri mümkün olduğunca değerlendirmeye çalışacağız. Bunun yanında MSK Labs'ın sahip olduğu İslami düşünce ve kaynaklardan hareketle olayları değerlendireceğiz. Buradaki amacımız herhangi bir olayı yalnızca başkalarının nasıl yorumladığı üzerinden değerlendirmek değil; kendi ölçülerimiz içerisinde yeniden düşünmek ve sorgulamak.</p><h3>Tarafsız olmak mı, doğru olandan yana olmak mı?</h3><p>GÜNCEL'in önemli özelliklerinden biri de burada ortaya çıkıyor. Biz kendimizi hiçbir değerin olmadığı bir noktada duran ve her görüşe eşit mesafede yaklaşmak zorunda olan bir yapı olarak tanımlamıyoruz. Biz Müslümanız. Bu nedenle doğru olduğunu düşündüğümüz şeyden, adaletten ve HAKK’tan yana olmayı temel bir sorumluluk olarak görüyoruz.</p><p>Bu, her konuda doğru olduğumuzu ve doğru bilgiye ulaştığımızı iddia ettiğimiz anlamına gelmez. Tam tersine, yanılabileceğimizi bilerek doğruyu aramaya devam edeceğimiz anlamına gelir. Bir olay karşısında haksızlık görüyorsak bunu haksızlık olarak ifade etmekten, doğru olduğunu düşündüğümüz bir yaklaşımı savunmaktan veya yanlış gördüğümüz bir uygulamayı eleştirmekten kaçınmayacağız.</p><h3>Görünen ve görünmeyen</h3><p>GÜNCEL yazılarında özellikle üzerinde duracağımız noktalardan biri de olayların arka planıdır. Bir olay meydana gelir, haber yayınlanır, görüntüler paylaşılır, insanlar yorum yapar ve kısa süre sonra başka bir gündem gelir. Fakat bazen asıl önemli sorular cevaplanmadan konu kapanır:</p><ul><li>Bu olay neden şimdi gerçekleşti?</li><li>Kimleri etkiliyor?</li><li>Hangi sonuçları doğurabilir?</li><li>Daha önce yaşanan hangi gelişmelerle bağlantılı olabilir?</li><li>Bize neyi kabul ettirmeye veya neye yönlendirmeye çalışıyor olabilir?</li></ul><p>İşte GÜNCEL, bu soruları sormaya çalışacak. Burada önemli bir ayrım yapıyoruz: Bir olayın arka planını sorgulamak, elde olmayan bilgileri gerçekmiş gibi anlatmak anlamına gelmez. Bu nedenle değerlendirme ile kesin bilgi arasındaki ayrımı mümkün olduğunca korumaya çalışacağız.</p><h3>GÜNCEL'in amacı ne?</h3><p>GÜNCEL'in temel amacı okuyucunun yalnızca daha fazla haber okuması değildir. Tam tersine, daha fazla düşünmesini istiyoruz. Bir haberi gördüğünde hemen kabul etmek yerine sorgulamasını, bir olay hakkında ilk duyduğu bilgiyle yetinmemesini, görünen ile gerçek arasındaki farkı düşünmesini istiyoruz.</p><h3>BİZCE, ANILTILAR ve GÜNCEL</h3><p>MSK Labs içerisinde bu üç bölümün birbirinden farklı bir görevi bulunıyor:</p><p><strong>BİZCE</strong>, kavramlara, fikirlere, geçmişte yaşanmış olaylara ve insan hayatını ilgilendiren çeşitli meselelere MSK Labs'ın düşünce çizgisinden bakar.<br><strong>ANILTILAR</strong>, gerçek hayatta yaşanmış olayları ve bu olaylardan çıkarılabilecek tecrübeleri anlatır.<br><strong>GÜNCEL</strong> ise bugün yaşananlara bakar.</p><p>Böylece üç bölüm birbirini tamamlar:<br><strong>BİZCE düşünür. ANILTILAR yaşanmışlığı anlatır. GÜNCEL yaşananı sorgular.</strong></p><h3>Sonuç olarak</h3><p>GÜNCEL'i oluştururken kendimize basit bir görev koyuyoruz: Görünenle yetinmemek, daha fazla düşünmek ve düşündürmek, daha fazla sorgulamak ve sorgulatmak. GÜNCEL, o pencereyi biraz daha genişletmek için var.</p>"
     },
     "en": {
-      "title": "MSK Labs Platform Update and New Features",
-      "summary": "Performance enhancements, multi-language updates, and new module announcements across our platform.",
-      "content": "<p>At MSK Labs, we continuously improve our platform. With our latest updates, performance optimizations and new module infrastructure have been deployed live.</p>"
+      "title": "What is GÜNCEL? — Looking Beyond the Surface",
+      "summary": "GÜNCEL is the section created by MSK Labs to approach current events from its own perspective and evaluate them beyond surface details along with their background.",
+      "content": "<p>Every day we encounter hundreds of news items, images, comments, and pieces of information. An event happening anywhere in the world reaches our phone screens within seconds.</p><p>But does receiving news mean we truly understand it?</p><p>GÜNCEL is created by MSK Labs to approach current events from its own perspective and to evaluate them beyond surface details, along with their underlying context whenever possible.</p><p>Our goal here is not merely to answer 'What happened?'</p><p>The core questions we seek to ask are:</p><ul><li>Why did it happen?</li><li>How did it reach this point?</li><li>What is it telling us?</li><li>What other developments lie behind it?</li><li>And perhaps most importantly: What lies behind the visible surface?</li></ul><h3>What will be in GÜNCEL?</h3><p>The scope of GÜNCEL is not restricted to a single domain. Anything current and relevant to human lives—from technology and science to economics, social affairs, and global developments—can be covered here.</p><p>However, we will not operate like a news agency or daily newspaper. Instead of repeating that an event occurred, we will strive to understand what it signifies. Because often, what is more important than the news item itself is the set of conditions that brought it about.</p><p>Sometimes, only the visible portion of an event is before the public, while background calculations or unnoticed consequences remain hidden. GÜNCEL will strive to question these points and highlight what it uncovers for the reader.</p><h3>How do we view events?</h3><p>The MSK Labs team is Muslim. Therefore, our perspective cannot be expected to be detached from values or lacking clear criteria. We embrace a principled approach grounded in truth, justice, trustworthiness, peace, and human well-being.</p><p>When evaluating a current event, we will openly state what we believe to be true according to our principles. Naturally, we do not claim infallibility. We might misjudge an event, obtain incomplete info, or make errors. But we commit to conveying what we know honestly and stating our convictions without bending them.</p><h3>Sources and Verification</h3><p>In today's information age, reaching info is far easier than before, but reaching accurate info is not equally simple. Social media and news outlets can present contradictory accounts of the same event, and false information spreads just as fast as the truth.</p><p>Hence, in GÜNCEL articles, we will carefully evaluate available sources, data, and evidence. Additionally, we will analyze events through Islamic thought and foundational references. Our goal is not to judge events solely by how others interpret them, but to re-examine and question them within our own principles.</p><h3>Being Neutral or Standing for Truth?</h3><p>This is where a key trait of GÜNCEL emerges. We do not define ourselves as an entity standing in a vacuum without values, obligated to maintain equal distance to all viewpoints. We are Muslims. Therefore, we regard standing for truth, justice, and HAKK (Truth/Righteousness) as a fundamental responsibility.</p><h3>Three Pillars: BİZCE, ANILTILAR, GÜNCEL</h3><p><strong>BİZCE thinks. ANILTILAR recounts lived experiences. GÜNCEL questions current events.</strong></p>"
     },
     "ar": {
-      "title": "تحديث منصة MSK Labs والميزات الجديدة",
-      "summary": "تحسينات الأداء، تحديثات متعددة اللغات، وإعلانات الوحدات الجديدة على منصتنا.",
-      "content": "<p>في MSK Labs، نواصل تحسين منصتنا باستمرار. مع أحدث التحديثات لدينا، تم إطلاق تحسينات الأداء وبنية التحتية للوحدات الجديدة.</p>"
+      "title": "ما هو GÜNCEL؟ — النظر إلى ما وراء الظاهر",
+      "summary": "قسم GÜNCEL هو المساحة التي يتناول فيها MSK Labs الأحداث الجارية من منظوره الخاص لتقييمها خلفياتها وسياقاتها.",
+      "content": "<p>نتعرض يومياً لمئات الأخبار والصور والتعليقات والمعلومات. حدث يقع في أي مكان في العالم يصل إلى شاشات هواتفنا في غضون ثوانٍ.</p><p>ولكن هل وصول الخبر يعني فهمه حقاً؟</p><p>أنشئ قسم GÜNCEL ليتناول الأحداث الجارية من منظور MSK Labs الخاص وتقييمها ليس فقط بظواهرها بل بخلفياتها وسياقاتها بقدر الإمكان.</p><p>هدفنا هنا ليس مجرد الإجابة على سؤال 'ماذا حدث؟'</p><p>الأسئلة الأساسية التي نحاول طرحها هي:</p><ul><li>لماذا حدث ذلك؟</li><li>كيف وصل الأمر إلى هذه النقطة؟</li><li>ماذا يخبرنا هذا الحدث؟</li><li>ما هي التطورات الأخرى التي تقف وراءه؟</li><li>والأهم من ذلك: ماذا يوجد وراء الظاهر؟</li></ul><h3>ماذا سيكون في GÜNCEL؟</h3><p>مواضيع GÜNCEL ليست محصورة في مجال معين. من التكنولوجيا والعلوم إلى الاقتصاد والأحداث المجتمعية والتطورات العالمية، كل موضوع يهم حياة الناس يمكن أن يكون جزءاً من GÜNCEL.</p><p>لكننا لن نعمل بمنطق وكالة أنباء أو صحيفة يومية. بدلاً من تكرار أن حادثة قد وقعت، سنحاول فهم ما تعنيه. لأن الظروف التي أدت إلى ظهور الخبر غالباً ما تكون أهم من الخبر نفسه.</p><h3>كيف ننظر إلى الأحداث؟</h3><p>فريق MSK Labs مسلمون. لذلك لا يُتوقع أن تكون نظرتنا خالية من القيم أو المعايير. نحن نتبنى نهجاً إسلامياً قائماً على الصدق والعدل والأمانة والسلام وخير الإنسان.</p><p>عند تقييم أي حدث، سنعبر بوضوح عما نعتقد أنه الحق. وبالطبع لا ندعي العصمة من الخطأ، ولكننا نلتزم بنقل ما نعلمه بصدق دون تحريف.</p><h3>النزاهة والوقوف مع الحق</h3><p>نحن لا نعرّف أنفسنا ككيان يقف في منطقة محايدة بلا قيم. نحن مسلمون، ولذلك نرى أن الوقوف مع الحق والعدل مسؤولية أساسية.</p><h3>الأركان الثلاثة: BİZCE, ANILTILAR, GÜNCEL</h3><p><strong>BİZCE يفكر. ANILTILAR يروي التجارب. GÜNCEL يسائل الأحداث.</strong></p>"
     }
   }
 ];
@@ -444,10 +444,10 @@ function renderPosts() {
     return p.type === currentSection;
   });
 
-  var featuredPosts = filtered.slice(0, 4);
-  var remainingPosts = filtered.slice(4);
+  var featuredPosts = filtered.slice(0, 3);
+  var remainingPosts = filtered.slice(3);
 
-  // 1. İLK 4 ÖNE ÇIKAN KART
+  // 1. İLK 3 ÖNE ÇIKAN KART
   for (var i = 0; i < featuredPosts.length; i++) {
     var post = featuredPosts[i];
     var langData = post[currentLang] || post['tr'];
@@ -493,7 +493,7 @@ function renderPosts() {
     grid.appendChild(card);
   }
 
-  // 2. 4'TEN SONRAKİ YAZILAR İÇİN KOMPAKT LİSTE
+  // 2. 3'TEN SONRAKİ YAZILAR İÇİN KOMPAKT LİSTE
   if (remainingPosts.length > 0 && listSection && listContainer) {
     listSection.style.display = 'block';
     if (listTitle) {
@@ -698,6 +698,7 @@ function restartTTSIfPlaying() {
 function handleUrlParams() {
   var params = new URLSearchParams(window.location.search);
   var typeParam = (params.get('type') || params.get('cat') || '').toLowerCase();
+  var postIdParam = parseInt(params.get('id') || params.get('post') || '0', 10);
   var sec = 'bizce';
   if (typeParam === 'anilts' || typeParam === 'aniltilar' || typeParam === 'anilti') {
     sec = 'anilts';
@@ -705,6 +706,9 @@ function handleUrlParams() {
     sec = 'guncel';
   }
   switchSection(sec);
+  if (postIdParam > 0) {
+    openPost(postIdParam);
+  }
 }
 
 window.addEventListener('languageChanged', function(e) {

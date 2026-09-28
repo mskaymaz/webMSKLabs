@@ -99,37 +99,19 @@
     {
       id: 6,
       type: "guncel",
-      category: "Duyurular & Yenilikler",
-      date: "14 Eylül 2026",
+      category: "Manifesto & İlk Makale",
+      date: "28 Eylül 2026",
       tr: {
-        title: "MSK Labs Platform Güncellemesi ve Yeni Özellikler",
-        summary: "Platform genelinde yapılan performans iyileştirmeleri, çoklu dil ve modül altyapısı yayında."
+        title: "GÜNCEL Nedir? — Görünenin Ötesine Bakmak",
+        summary: "GÜNCEL, MSK Labs'ın yaşanan güncel olaylara kendi bakış açısıyla yaklaşmak ve olayları yalnızca görünen yönleriyle değil, arka planıyla birlikte değerlendirmek amacıyla oluşturduğu bir bölümdür."
       },
       en: {
-        title: "MSK Labs Platform Update and New Features",
-        summary: "Performance enhancements, multi-language support, and new modular infrastructure deployed live."
+        title: "What is GÜNCEL? — Looking Beyond the Surface",
+        summary: "GÜNCEL is the section created by MSK Labs to approach current events from its own perspective and evaluate them beyond surface details."
       },
       ar: {
-        title: "تحديث منصة MSK Labs والميزات الجديدة",
-        summary: "تحسينات الأداء، دعم متعدد اللغات، وإعلانات الوحدات الجديدة على منصتنا."
-      }
-    },
-    {
-      id: 7,
-      type: "guncel",
-      category: "Geliştirme Günlüğü",
-      date: "01 Eylül 2026",
-      tr: {
-        title: "Mobil ve Masaüstü Yazılım Portföyümüz Büyüyor",
-        summary: "Yeni nesil kullanıcı dostu mobil çözümlerimiz ve masaüstü otomasyon araçlarımız yakında."
-      },
-      en: {
-        title: "Our Mobile and Desktop Portfolio is Expanding",
-        summary: "Next-gen user friendly mobile solutions and desktop automation tools coming soon."
-      },
-      ar: {
-        title: "محفظة برمجيات الجوال وسطح المكتب تتوسع",
-        summary: "حلول الجوال الجيل الجديد وأدوات الأتمتة المكتبية قريباً."
+        title: "ما هو GÜNCEL؟ — النظر إلى ما وراء الظاهر",
+        summary: "قسم GÜNCEL هو المساحة التي يتناول فيها MSK Labs الأحداث الجارية من منظوره الخاص لتقييمها خلفياتها وسياقاتها."
       }
     }
   ];
