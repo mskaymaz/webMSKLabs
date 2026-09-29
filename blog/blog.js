@@ -279,12 +279,21 @@ function updateReaderViewLanguage() {
   }
 
   var lblFontSizer = document.getElementById('lblFontSizer');
+  var btnFontMinus = document.getElementById('btnFontMinus');
+  var btnFontPlus = document.getElementById('btnFontPlus');
   var btnFontReset = document.getElementById('btnFontReset');
   if (lblFontSizer) {
     lblFontSizer.innerText = (currentLang === 'ar' ? 'حجم الخط:' : (currentLang === 'en' ? 'Text Size:' : 'Yazı Boyutu:'));
   }
+  if (btnFontMinus) {
+    btnFontMinus.title = (currentLang === 'ar' ? 'تصغير الخط (-2pt)' : (currentLang === 'en' ? 'Shrink Font (-2pt)' : 'Yazıyı Küçült (-2pt)'));
+  }
+  if (btnFontPlus) {
+    btnFontPlus.title = (currentLang === 'ar' ? 'تكبير الخط (+2pt)' : (currentLang === 'en' ? 'Enlarge Font (+2pt)' : 'Yazıyı Büyüt (+2pt)'));
+  }
   if (btnFontReset) {
     btnFontReset.innerText = (currentLang === 'ar' ? 'إعادة ضبط' : (currentLang === 'en' ? 'Reset' : 'Sıfırla'));
+    btnFontReset.title = (currentLang === 'ar' ? 'إعادة ضبط إلى الافتراضي' : (currentLang === 'en' ? 'Reset to Default' : 'Varsayılana Sıfırla'));
   }
 }
 
@@ -731,8 +740,9 @@ function applyFontSize() {
 }
 
 function changeFontSize(delta) {
-  if (currentFontOffset < 12) { // Max +12pt offset
-    currentFontOffset += delta;
+  var newOffset = currentFontOffset + delta;
+  if (newOffset >= -6 && newOffset <= 12) { // Allow -6pt (shrink) up to +12pt (enlarge)
+    currentFontOffset = newOffset;
     applyFontSize();
   }
 }
