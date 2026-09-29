@@ -374,6 +374,20 @@ body {
   margin: 0 0 0.6rem 0;
   line-height: 1.35;
 }
+.title-main {
+  display: block;
+  font-weight: 800;
+}
+.title-subtitle {
+  display: block;
+  font-size: 0.82em;
+  font-weight: 500;
+  color: var(--bizce-muted, #64748b);
+  opacity: 0.75;
+  margin-top: 0.25rem;
+  line-height: 1.3;
+}
+
 .post-excerpt {
   font-size: 0.88rem;
   color: #475569;
@@ -574,6 +588,15 @@ body {
   font-style: italic;
   color: #0369a1;
 }
+.article-body blockquote cite {
+  display: block;
+  margin-top: 0.5rem;
+  font-weight: 700;
+  font-style: normal;
+  color: #0284c7;
+  font-size: 0.9rem;
+}
+
 
 /* ======================================================
    MOBILE & TABLET RESPONSIVE OVERRIDES
