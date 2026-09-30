@@ -107,8 +107,8 @@ window.MSK_APPS_DATA = {
       { tr: "Görev Çubuğu Entegrasyonu (Taskbar Docking)", en: "Taskbar Docking & Widget", ar: "تكامل شريط المهام ودجت" },
       { tr: "3 Farklı Hesaplama Modu & 3 Dil", en: "3 Target Modes & 3 Languages", ar: "3 أنماط أهداف و 3 لغات" }
     ],
-    storeUrl: "apps/date-counter.html",
-    downloadPage: "apps/date-counter.html",
+    storeUrl: "apps/date_counter.html",
+    downloadPage: "apps/date_counter.html",
     supportPage: "destek.html?app=date-counter"
   },
   "gcpiluyari": {
