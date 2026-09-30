@@ -1,4 +1,4 @@
-﻿# Local Environment Variables & Secret Files (NEVER COMMIT TO GIT)
+# Local Environment Variables & Secret Files (NEVER COMMIT TO GIT)
 .env
 .env.*
 .dev.vars
@@ -9,4 +9,5 @@
 .idea/
 .DS_Store
 Thumbs.db
+~$*
 node_modules/

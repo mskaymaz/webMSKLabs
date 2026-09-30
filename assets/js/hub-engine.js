@@ -133,11 +133,11 @@
       url: "apps/rekatsay.html"
     },
     {
-      id: "emekli",
-      name: { tr: "Emekli", en: "Retirement Counter", ar: "عداد التقاعد" },
-      iconImg: "media/emekli/icon.png",
+      id: "date-counter",
+      name: { tr: "Date Counter", en: "Date Counter", ar: "Date Counter" },
+      iconImg: "media/date-counter/icon.png",
       status: "active",
-      url: "apps/emekli.html"
+      url: "apps/date-counter.html"
     },
     {
       id: "gcpiluyari",

@@ -85,31 +85,31 @@ window.MSK_APPS_DATA = {
     downloadPage: "dl.html?app=enyakin",
     supportPage: "destek.html?app=enyakin"
   },
-  "emekli": {
-    id: "emekli",
-    icon: '<img src="media/emekli/icon.png" alt="Emekli">',
-    logoImg: "media/emekli/icon.png",
-    name: { tr: "Emekli Sayaç", en: "Retirement Counter", ar: "عداد التقاعد" },
+  "date-counter": {
+    id: "date-counter",
+    icon: '<img src="media/date-counter/icon.png" alt="Date Counter">',
+    logoImg: "media/date-counter/icon.png",
+    name: { tr: "Date Counter (Tarih & Hedef Sayacı)", en: "Date Counter (Date & Goal Tracker)", ar: "Date Counter (عداد التاريخ والأهداف)" },
     tagline: {
-      tr: "Emeklilik Geri Sayım ve Gün Hesaplayıcı",
-      en: "Retirement Countdown & Days Tracker",
-      ar: "حاسبة التنازلي للتقاعد"
+      tr: "Masaüstü & Görev Çubuğu Zaman & Hedef Yönetim Sayacı",
+      en: "Desktop & Taskbar Time & Goal Tracker",
+      ar: "عداد إدارة الوقت والأهداف لسطح المكتب وشريط المهام"
     },
-    version: "1.0.5",
-    platform: "Android",
-    rating: "4.7 ⭐",
+    version: "1.1.0",
+    platform: "Windows Masaüstü",
+    rating: "5.0 ⭐",
     description: {
-      tr: "Emekliliğinize kalan gün, saat ve dakikaları canlı sayarak motivasyon sağlayan eğlenceli ve pratik geri sayım uygulaması.",
-      en: "Track remaining days and hours until your retirement with custom motivation badges.",
-      ar: "تطبيق التعد التنازلي لعدد الأيام المتبقية حتى التقاعد."
+      tr: "Emeklilik, sınav, proje teslimi, askerlik dönüşü ve özel günlerinizi masaüstünüzde ve görev çubuğunuzda anlık takip eden gelişmiş zaman sayacı.",
+      en: "Sleek desktop and taskbar docking countdown timer for retirement, exams, project deadlines, and milestone dates.",
+      ar: "عداد ومؤقت أنيق لسطح المكتب وشريط المهام لمتابعة التقاعد والامتحانات والتواريخ الهامة."
     },
     features: [
-      { tr: "Canlı Geri Sayım Paneli", en: "Live Countdown Dashboard", ar: "عداد التنازلي المباشر" },
-      { tr: "Maaş & İkramiye Tahmini", en: "Bonus & Pension Estimator", ar: "تقدير مكافأة التقاعد" }
+      { tr: "Görev Çubuğu Entegrasyonu (Taskbar Docking)", en: "Taskbar Docking & Widget", ar: "تكامل شريط المهام ودجت" },
+      { tr: "3 Farklı Hesaplama Modu & 3 Dil", en: "3 Target Modes & 3 Languages", ar: "3 أنماط أهداف و 3 لغات" }
     ],
-    storeUrl: "dl.html?app=emekli",
-    downloadPage: "dl.html?app=emekli",
-    supportPage: "destek.html?app=emekli"
+    storeUrl: "apps/date-counter.html",
+    downloadPage: "apps/date-counter.html",
+    supportPage: "destek.html?app=date-counter"
   },
   "gcpiluyari": {
     id: "gcpiluyari",

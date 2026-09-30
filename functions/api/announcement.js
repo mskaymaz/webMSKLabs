@@ -1,4 +1,4 @@
-﻿/**
+/**
  * MSK Labs Remote Announcement & Force Update API
  * Cloudflare Pages Function endpoint: /api/announcement
  */
@@ -38,7 +38,7 @@ export async function onRequest(context) {
     'rekatsay': {
       active: false
     },
-    'emekli': {
+    'date-counter': {
       active: false
     },
     'deskpilot': {

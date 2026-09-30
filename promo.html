@@ -222,13 +222,13 @@
       desc_en: 'Automatic rak\'ah counter using proximity sensor during prostration.',
       url: 'rekatsay.html'
     },
-    'emekli': {
-      name: 'Emekli Sayaç',
-      icon: '⏳',
-      category: 'Hesaplama & Finans',
-      desc_tr: 'Emeklilik şafak sayar, maaş ve tazminat detaylı hesaplama aracı.',
-      desc_en: 'Retirement countdown calculator and salary estimation tool.',
-      url: 'emekli.html'
+    'date-counter': {
+      name: 'Date Counter',
+      icon: '⏱️',
+      category: 'Zaman & Hedef Yönetimi',
+      desc_tr: 'Emeklilik, sınav ve hedef tarihlerinizi masaüstünüzde ve görev çubuğunuzda canlı takip aracı.',
+      desc_en: 'Desktop and taskbar timer tracking retirement, exams, and target dates in real-time.',
+      url: 'date-counter.html'
     },
     'enyakin': {
       name: 'En Yakın',
@@ -258,11 +258,11 @@
 
   // Matrix Recommendations Map (App -> Recommended Complementary Apps)
   const PROMO_MATRIX = {
-    'haydinamaza': ['rekatsay', 'enyakin', 'emekli'],
-    'rekatsay': ['haydinamaza', 'emekli', 'enyakin'],
-    'emekli': ['deskpilot', 'haydinamaza', 'enyakin'],
+    'haydinamaza': ['rekatsay', 'enyakin', 'date-counter'],
+    'rekatsay': ['haydinamaza', 'date-counter', 'enyakin'],
+    'date-counter': ['deskpilot', 'haydinamaza', 'enyakin'],
     'enyakin': ['haydinamaza', 'gcpiluyari', 'rekatsay'],
-    'deskpilot': ['emekli', 'gcpiluyari', 'haydinamaza'],
+    'deskpilot': ['date-counter', 'gcpiluyari', 'haydinamaza'],
     'gcpiluyari': ['enyakin', 'haydinamaza', 'deskpilot']
   };
 
