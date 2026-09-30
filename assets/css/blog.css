@@ -485,17 +485,27 @@ body {
   background: #f8fafc;
   border: 1px solid #cbd5e1;
   border-radius: 14px;
-  padding: 1rem 1.25rem;
+  padding: 0.85rem 1.25rem;
   margin: 1.25rem 0 1.75rem 0;
+  transition: all 0.25s ease;
 }
 .tts-header {
   font-size: 0.88rem;
   font-weight: 700;
   color: var(--bizce-dark);
-  margin-bottom: 0.65rem;
+  margin-bottom: 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+.tts-header:hover {
+  color: var(--bizce-primary, #0284c7);
+}
+.tts-header:hover .tts-chevron {
+  color: var(--bizce-primary, #0284c7);
 }
 .tts-controls-row {
   display: flex;

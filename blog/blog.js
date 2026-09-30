@@ -84,6 +84,31 @@ var blogPostsData = [
       "summary": "قسم GÜNCEL هو المساحة التي يتناول فيها MSK Labs الأحداث الجارية من منظوره الخاص لتقييمها خلفياتها وسياقاتها.",
       "content": "<p>نتعرض يومياً لمئات الأخبار والصور والتعليقات والمعلومات. حدث يقع في أي مكان في العالم يصل إلى شاشات هواتفنا في غضون ثوانٍ.</p><p>ولكن هل وصول الخبر يعني فهمه حقاً؟</p><p>أنشئ قسم GÜNCEL ليتناول الأحداث الجارية من منظور MSK Labs الخاص وتقييمها ليس فقط بظواهرها بل بخلفياتها وسياقاتها بقدر الإمكان.</p><p>هدفنا هنا ليس مجرد الإجابة على سؤال 'ماذا حدث؟'</p><p>الأسئلة الأساسية التي نحاول طرحها هي:</p><ul><li>لماذا حدث ذلك؟</li><li>كيف وصل الأمر إلى هذه النقطة؟</li><li>ماذا يخبرنا هذا الحدث؟</li><li>ما هي التطورات الأخرى التي تقف وراءه؟</li><li>والأهم من ذلك: ماذا يوجد وراء الظاهر؟</li></ul><h3>ماذا سيكون في GÜNCEL؟</h3><p>مواضيع GÜNCEL ليست محصورة في مجال معين. من التكنولوجيا والعلوم إلى الاقتصاد والأحداث المجتمعية والتطورات العالمية، كل موضوع يهم حياة الناس يمكن أن يكون جزءاً من GÜNCEL.</p><p>لكننا لن نعمل بمنطق وكالة أنباء أو صحيفة يومية. بدلاً من تكرار أن حادثة قد وقعت، سنحاول فهم ما تعنيه. لأن الظروف التي أدت إلى ظهور الخبر غالباً ما تكون أهم من الخبر نفسه.</p><h3>كيف ننظر إلى الأحداث؟</h3><p>فريق MSK Labs مسلمون. لذلك لا يُتوقع أن تكون نظرتنا خالية من القيم أو المعايير. نحن نتبنى نهجاً إسلامياً قائماً على الصدق والعدل والأمانة والسلام وخير الإنسان.</p><p>عند تقييم أي حدث، سنعبر بوضوح عما نعتقد أنه الحق. وبالطبع لا ندعي العصمة من الخطأ، ولكننا نلتزم بنقل ما نعلمه بصدق دون تحريف.</p><h3>النزاهة والوقوف مع الحق</h3><p>نحن لا نعرّف أنفسنا ككيان يقف في منطقة محايدة بلا قيم. نحن مسلمون، ولذلك نرى أن الوقوف مع الحق والعدل مسؤولية أساسية.</p><h3>الأركان الثلاثة: BİZCE, ANILTILAR, GÜNCEL</h3><p><strong>BİZCE يفكر. ANILTILAR يروي التجارب. GÜNCEL يسائل الأحداث.</strong></p>"
     }
+  },
+  {
+    "id": 4,
+    "type": "bizce",
+    "category": "Yazılım & Felsefe",
+    "category_en": "Software & Philosophy",
+    "category_ar": "البرمجيات والفلسفة",
+    "date": "30 Eylül 2026",
+    "readTime": "8 dk okuma",
+    "icon": "💻",
+    "tr": {
+      "title": "Neden Ücretsiz? — Neden Kullanıcıyı Önceleyen Bir Yazılım Anlayışı?",
+      "summary": "Her şey bir ihtiyaçla başladı. MSK Labs'ın yazılım geliştirme felsefesi, reklam ve kullanıcı verisi politikası, sürdürülebilirlik mimarisi ve gelecek hedefleri üzerine kapsamlı bir değerlendirme.",
+      "content": "<p class=\"lead\">Her şey bir ihtiyaçla başladı. Bazen bir yazılıma ihtiyacınız olur. Araştırırsınız, özelliklerini incelersiniz, deneme sürümünü kullanırsınız ve tam işinizi göreceğine karar verdiğinizde karşınıza fiyatı çıkar. Belki 500, belki 700 dolar… Peki, sizin ihtiyacınız olan özellikler yazılımın sunduğu imkânların yalnızca yüzde 10'u veya yüzde 20'siyse? Hiç kullanmayacağınız özelliklerin de bedelini ödemek zorunda mısınız?</p><p>Bir başka ihtimal daha var. Uygulama uygun fiyatlıdır, ancak tanıtımında anlatılan özellikleri beklediğiniz kalitede sunamaz. Bu kez de ödediğiniz para karşılığında ihtiyacınızı giderememiş olursunuz. Her iki durumda da kullanıcı olarak kendimize şu soruyu sorduk: <em>İnsanların gerçekten ihtiyaç duyduğu yazılımları, onları gereksiz maliyetlere ve kısıtlamalara maruz bırakmadan geliştirmek mümkün değil mi?</em> MSK Labs'ın yazılım yaklaşımının temelinde bu soru var.</p><h3>Biz de Yapabildiğimizi Yapalım, İnsanlara Faydamız Dokunsun</h3><p>Ekonomik durumumuz ne her istediğimizi rahatça satın alabilecek kadar iyi ne de hiçbir imkâna sahip olmayacak kadar kötü. Biz de pek çok insan gibi ihtiyacımız olan ürünleri araştırıyor, fiyatlarını değerlendiriyor ve hangisine gerçekten ihtiyacımız olduğunu düşünüyorduk.</p><p>Uzun süre bu konuda nasıl bir yol izleyebileceğimizi düşündük. Sonunda kendi imkânlarımız ve teknik seviyemiz ölçüsünde yazılımlar geliştirmeye karar verdik. Böylece iki hedefi aynı anda gerçekleştirebilecektik: Bir yandan teknik bilgimizi, yazılım geliştirme tecrübemizi ve mühendislik yaklaşımımızı ilerletecek; diğer yandan insanların gerçek ihtiyaçlarına cevap verebilecek ürünleri ücretsiz olarak kullanıma sunabilecektik.</p><p>Bunu yaparken kullanıcıdan bir karşılık beklememeyi de benimsedik. Bir insan geliştirdiğimiz uygulamayı kullanır, işini görür ve hayatını kolaylaştırırsa bizim açımızdan bu zaten anlamlı bir sonuçtur. İmkânı olan ve çalışmalarımıza gönüllü olarak destek vermek isteyenler elbette bizimle iletişime geçebilir. İstemeyenlere de söyleyecek bir sözümüz yok. Canları sağ, kullanımları helal ve hoş olsun. Bizim için asıl mesele, bir insanın uygulamamızdan faydalanabilmesidir.</p><h3>Ücretsiz Demek, Özensiz Demek Değildir</h3><p>Bir yazılımın ücretsiz olması, onun gelişigüzel hazırlanabileceği anlamına gelmez. Bizim açımızdan ücretsiz sunulan bir ürünün de belirli bir kalite anlayışı, geliştirme disiplini ve sorumluluğu olmalıdır.</p><p>Bu nedenle uygulamalarımızı geliştirirken doğrudan kod yazmaya başlamıyoruz. Önce ekip olarak ihtiyaçları, özellikleri, yapılandırmaları ve kullanılacak teknikleri değerlendiriyoruz. Ardından yapay zekâ sistemlerinden de yararlanarak benzer uygulamaların dünya çapındaki gereksinimlerini, olası sorunlarını ve teknik çözüm yollarını araştırıyoruz. Toplanan bilgileri yeniden değerlendiriyor, kararlarımızı gözden geçiriyor ve uygulama sürecine bundan sonra geçiyoruz.</p><p>İlk sürümün hazırlanmasıyla işimiz bitmiyor. Uygulamanın niteliğine göre bir ila iki aydan sekiz ila on aya kadar uzayabilen deneme süreçlerinde, ürünü kullanacak kişilere demo sürümleri sunuyoruz. Onlardan gelen talepleri ve yaşadıkları sorunları değerlendirerek yeni sürümler hazırlıyor, denemeleri sürdürüyoruz. Örneğin, <strong>Haydi Namaza (Let's Pray)</strong> uygulamamızda yaklaşık sekiz aydır demo denemelerine devam ediyoruz. Amacımız, bir uygulamayı yalnızca ortaya çıkarmış olmak için yayımlamak değil, kullanılabilirliğini ve niteliğini mümkün olduğunca geliştirmektir.</p><p>Elbette bütün bu çalışmalar, hiçbir hata yaşanmayacağı anlamına gelmiyor. Yazılım geliştirme sürecinde hata giderme, iyileştirme ve yeni sürümler hazırlama ihtiyacı her zaman olabilir. Kullanıcılarımızın sorunlarını ve taleplerini bize iletebilecekleri bir destek ve talep yapısı da bu nedenle var ve aktif bir şekilde kullanıyoruz. Hazır olduğunu düşündüğümüz ürünü değil, yeterince olgunlaştırmaya çalıştığımız ürünü sunmayı önemsiyoruz.</p><h3>Reklam Olabilir, Ama Kullanıcının Huzuru Pahasına Değil</h3><p>Burada bir konuyu açıklığa kavuşturalım: MSK Labs olarak bütün reklamları tamamen reddettiğimizi söylemiyoruz. Uygulamalarımızda ve internet sitemizde reklam alanları bulunabilir. Ancak reklamın nerede ve nasıl gösterileceği bizim için önemlidir.</p><p>Bir uygulamayı açtığınız anda karşınıza çıkan, sizi on saniye boyunca izlemeye zorlayan bir reklam düşünün. Ya da tam bir işlem yaparken günlük kullanım kotanızın dolduğu söylenerek devam edebilmek için otuz saniyelik reklam izlemeye mecbur bırakıldığınızı… Biz kullanıcı deneyimini bu tür uygulamalar üzerine kurmak istemiyoruz. Kullanıcı bir PDF belgesini düzenliyorsa belgesini düzenleyebilmeli; bir hesaplama yapıyorsa işlemini tamamlayabilmeli; dikkatini dağıtan unsurlarla uğraşmak zorunda kalmamalıdır.</p><p>Bu nedenle reklam alanlarını, mümkün olduğu ölçüde, aktif çalışma ekranlarından uzakta; ayarlar, hakkımızda, güncelleme, biz kimiz ve benzeri bölümlerde konumlandırmayı düşünüyoruz. Bizim yaklaşımımızda reklam, uygulamanın önüne geçen bir unsur değil, kullanıcıyı rahatsız etmeden sürdürülebilirliğe katkı sağlayabilecek ikincil bir araç olmalıdır.</p><h3>İnsanları İhtiyaç Duymadıkları Şeyleri Satın Almaya Yönlendirmek İstemiyoruz</h3><p>MSK Labs'ın bu konudaki yaklaşımı yalnızca teknik bir tercih değildir. İnancımızla, insanlara bakışımızla ve çalışma prensiplerimizle de doğrudan ilişkilidir. Reklam, bir ürün hakkında insanları bilgilendirebilir; bunun kendiliğinden yanlış olduğunu düşünmıyoruz. Ancak insanın dikkatini sürekli çekmeye çalışan, ihtiyaç duymadığı ürünleri arzulamasını teşvik eden, satın alma dürtülerini besleyen ve gerçekçi olmayan vaatlerle kararlarını etkileyen reklam anlayışını helal ve doğru bulmuyor, mesafeli duruyoruz.</p><p>Bir ürünün çok iyi olduğunu söylemek kolaydır. Asıl mesele, ürünün gerçekten ne sunduğunu dürüstçe anlatabilmektir. Ürünün eksiklikleri varsa bunları gizlememek, yapamayacağı şeyleri yapabiliyormuş gibi göstermemek ve insanları yanlış beklentilere sürüklememek gerekir. Bize göre Müslüman bir üretici veya satıcı, yalnızca ürününü satmayı değil, karşısındaki insanın hakkını gözetmeyi de düşünmelidir. İnsanların huzurunu kaçıran, onları gereksiz harcamalara yönelten ve gerçeği olduğundan farklı gösteren bir ticari anlayışı doğru bulmuyoruz.</p><h3>Kullanıcı Verileri Satılık Değildir</h3><p>Ücretsiz yazılımlar söz konusu olduğunda önemli sorulardan biri de şudur: <em>Bir uygulama ücretsizse bunun karşılığında kullanıcıdan ne alınıyor?</em></p><p>Biz MSK Labs olarak insanların mahremiyetlerinin ticari kazanç uğruna araç hâline getirilmesini doğru bulmuyoruz. İnancımız ve insan haklarına bakışımız, kişisel bilgilerin korunmasını önemli bir sorumluluk olarak görmemizi gerektiriyor. Kullanıcının anlamını bilmediği, uzun ve karmaşık metinleri okumadan kabul etmek zorunda kalmasını da doğru bulmuyoruz. Uygulamalarımızı mümkün olduğunca kişisel verilere ihtiyaç duymayacak biçimde tasarlıyoruz. Mecburi kullanılan ve ihtiyaç duyulan verilerde ise neden ihtiyaç duyulduğu açıkça ifade edilerek gerekli onay ve izin alınacaktır.</p><h3>Peki, Para Kazanmayacaksanız Bu Çalışmalar Nasıl Devam Edecek?</h3><p>Bu sorunun son derece haklı bir tarafı var. Yazılım geliştirmek emek ister; sunucu, alan adı ve altyapı maliyetleri vardır. Biz bu konuyu çalışmalarımızın en dikkatli ele alınması gereken başlıklarından biri olarak görüyoruz.</p><p>Bu nedenle uygulamaları tasarlarken barındırma, sunucu kullanımı ve bakım maliyetlerini mümkün olduğunca azaltacak mimariler oluşturmaya çalışıyoruz. Hedefimiz, kullanıcı sayısı milyonları aşsa dahi sürdürülebilirliği mümkün olan, maliyetleri kontrol altında tutabilen sistemler geliştirmek. Tüm bu tedbirler uygulamalarımızın ücretsiz olma niteliğini değiştirmeyecektir.</p><p>Ödeme ve destek her zaman bizim için kullanıcının kendi rızası sonucu yapılacak, zorunluluk özelliği taşımayan bir konu olacaktır. Uygulamaların temel özelliklerinin herkes tarafından ücretsiz kullanılabilmesi bizim için vazgeçilmez bir ilkedir.</p><h3>MSK Labs: Bir Uygulama Ekibinden Daha Fazlası</h3><p>MSK Labs adındaki <strong>MSK</strong>; <em>Müslüman, Samimi ve Kararlı</em> anlayışımızı temsil ediyor. <strong>Labs</strong> ise <em>araştırma, geliştirme, deneme ve daha ileri teknik çalışmalar yapma</em> hedefimizi yansıtıyor.</p><p>Önümüzdeki <strong>4 yıllık dönemde</strong>, insanlara fayda sağlayan 20'den fazla uygulama geliştirmeyi; yüzlerce makale, anı ve değerlendirme yazısı yayımlamayı hedefliyoruz. <strong>8 yıllık hedefimiz</strong> ise çalışmalarımızı uluslararası ölçekte tanınabilecek bir seviyeye taşımak; yazılım geliştirme yaklaşımımızla ve mühendislik kalitemizle örnek gösterilen bir yapı oluşturabilmektir.</p><p>İş ortaklarımıza yalnızca müşteri gözüyle bakmıyoruz. Onların ihtiyaçlarını anlayan, birlikte düşünen ve ortaya çıkan üründen her iki tarafın da memnuniyet duyacağı bir çalışma ilişkisi kurmayı önemsiyoruz. Böylece insanlara ücretsiz sunduğumuz ürünlerle toplumsal fayda üretirken, özel yazılım çalışmalarımızla da teknik kapasitemizi geliştirebileceğimiz bir yapı oluşturmayı hedefliyoruz.</p><h3>Bizce Mesele Yalnızca Ücretsiz Yazılım Değil</h3><p>Dünyada her şeyin bir karşılığı olabilir; ticareti veya emeğin karşılığını yanlış bulmuyoruz. Ancak her faydanın mutlaka doğrudan bir ödeme karşılığında sunulması gerektiğini de düşünmüyoruz. Bazen bir insanın işini kolaylaştırmak, karşılayamadığı bir ihtiyacına çözüm üretmek başlı başına anlamlıdır.</p><p>Biz MSK Labs olarak yapmak istediğimiz, bütün dünyayı bir anda değiştirdiğimizi iddia etmek değil; yanlış bulduğumuz bazı alışkanlıklara karşı kendi çalışma biçimimizle farklı bir yolun mümkün olduğunu göstermektir. Bismillah diyerek başladığımız bu yolculukta niyetimiz, imkânlarımız ve gayretimiz ölçüsünde insanlara faydalı olabilmektir.</p><blockquote class=\"manifesto-quote\"><p>“Azim ve gayret bizden, tevfik Allah (c.c.)’tandır.”</p><cite>— MSK Labs Çalışma İlkesi</cite></blockquote>"
+    },
+    "en": {
+      "title": "Why Free? — A User-First Approach to Software",
+      "summary": "It all started with a need. A comprehensive reflection on MSK Labs' software philosophy, ad & user data policies, sustainable architecture, and long-term goals.",
+      "content": "<p class=\"lead\">It all started with a need. Sometimes you need a software application. You research it, review its features, try out the demo, and just when you decide it fits your workflow, you face the price tag: $500, maybe $700… But what if you only need 10% or 20% of its feature set? Why should you pay for functionality you will never use?</p><p>As users, we asked ourselves: <em>Is it not possible to build software that answers real human needs without subjecting users to unnecessary costs and artificial restrictions?</em> This core question forms the bedrock of MSK Labs' engineering philosophy.</p><h3>Doing What We Can to Benefit Humanity</h3><p>We decided to develop software within our technical capacity and resources. This allows us to fulfill two goals simultaneously: advancing our engineering experience while delivering useful, high-quality software to people completely free of charge.</p><p>We expect nothing in return. If someone uses an app we built and it makes their life easier, that is already a meaningful outcome for us. Those who wish to support us voluntarily are welcome to reach out; for those who choose not to, we wish them well — our software is halal and freely theirs to use.</p><h3>Free Does Not Mean Careless</h3><p>Being free does not mean a software product can be cobbled together carelessly. Free products must carry an uncompromising standard of quality and discipline.</p><p>We don't jump straight into coding. We first evaluate requirements, research global standards and AI-assisted technical solutions, and conduct rigorous testing. For example, our <strong>Let's Pray (Haydi Namaza)</strong> application has been in active demo testing for nearly 8 months. Our priority is not rushing products out, but nurturing them until they are thoroughly mature.</p><h3>Ads May Exist, But Never at the Expense of User Peace</h3><p>We do not reject all advertising outright, but we care deeply about where and how ads are displayed. We refuse to force users to watch 10-second opening ads or interrupt their workflow with 30-second locks. If an ad area exists, it will strictly remain outside active workspaces — confined to settings or about pages as a secondary sustainability tool.</p><h3>User Data Is Not for Sale</h3><p>If an app is free, what is being taken from the user? At MSK Labs, we believe privacy is a sacred responsibility. We refuse to commodify personal data or harvest user telemetry for commercial profit. Our apps are engineered to require minimal to zero personal data.</p><h3>MSK Labs: More Than an App Team</h3><p>The <strong>MSK</strong> in MSK Labs stands for <em>Muslim, Sincere, and Determined (Müslüman, Samimi ve Kararlı)</em>, while <strong>Labs</strong> reflects our commitment to research, development, and engineering excellence.</p><p>Our <strong>4-year goal</strong> is to launch over 20 useful applications alongside hundreds of insightful articles. Our <strong>8-year vision</strong> is to establish MSK Labs as an internationally recognized model of ethical software engineering.</p><blockquote class=\"manifesto-quote\"><p>“Determination and effort belong to us; success and guidance come from Allah (c.c.).”</p><cite>— MSK Labs Core Principle</cite></blockquote>"
+    },
+    "ar": {
+      "title": "لماذا مجاناً؟ — نهج برمجي يضع المستخدم في المقام الأول",
+      "summary": "بدأ كل شيء بحاجة. تقييم شامل لفلسفة MSK Labs في تطوير البرمجيات، سياسة الإعلانات والبيانات، والأهداف المستقبلية.",
+      "content": "<p class=\"lead\">بدأ كل شيء بحاجة. في كثير من الأحيان تحتاج إلى برنامج معين، فتجد أن سعره باهظ جداً رغم أنك لا تحتاج إلا لـ 10% من مميزاته. من هنا سألنا أنفسنا: <em>ألا يمكن تطوير برامج تلبي احتياجات الناس الحقيقية دون إرهاقهم بتكاليف وقيود لا داعي لها؟</em> هذا السؤال هو جوهر فلسفة MSK Labs.</p><h3>تقديم الفائدة دون مقابل</h3><p>قررنا تطوير برامج وفق إمكانياتنا الفنية لتلبية احتياجات الناس مجاناً. بالنسبة لنا، إذا استغل شخص برمجياتنا وسهلت حياته، فهذه النتيجة كافية تماماً وتعد مكسباً حقيقياً.</p><h3>مجاني لا يعني خالي من الجودة</h3><p>المنتج المجاني يجب أن يحمل نفس الانضباط والجودة العالية. فنحن لا نبدأ بالتكويد مباشرة، بل نتبع منهجية بحث واختبار مكثفة تجعل المنتج ناضجاً وموثوقاً.</p><h3>بيانات المستخدم ليست للبيع</h3><p>نحن نرى حماية خصوصية المستخدمين مسؤولية أخلاقية وإسلامية، ونرفض تماماً تحويل بيانات الناس الشخصية إلى سلعة تجارية أو وسيلة للربح.</p><h3>MSK Labs: أكثر من مجرد فريق برمجيات</h3><p>ترمز حروف <strong>MSK</strong> إلى: <em>مسلم، صادق، ومصمم (Müslüman, Samimi, Kararlı)</em>، وتعبير <strong>Labs</strong> يعكس شغفنا بالبحث والتطوير والتميز الهندسي.</p><blockquote class=\"manifesto-quote\"><p>«العزم والجهد منا، والتوفيق من الله عز وجل.»</p><cite>— مبدأ العمل في MSK Labs</cite></blockquote>"
+    }
   }
 ];
 
@@ -213,6 +238,44 @@ function formatTitleHTML(rawTitle) {
   return rawTitle;
 }
 
+function getDynamicReadTime(htmlContent, lang) {
+  if (!htmlContent) return lang === 'ar' ? 'قراءة 5 دقائق' : (lang === 'en' ? '5 min read' : '5 dk okuma');
+  var temp = document.createElement('div');
+  temp.innerHTML = htmlContent;
+  var text = temp.textContent || temp.innerText || '';
+  var words = text.trim().split(/\s+/).filter(function(w) { return w.length > 0; }).length;
+  var mins = Math.max(1, Math.ceil(words / 180)); // 180 words/min average reading speed
+  if (lang === 'ar') {
+    return 'قراءة ' + mins + ' دقائق';
+  } else if (lang === 'en') {
+    return mins + ' min read';
+  } else {
+    return mins + ' dk okuma';
+  }
+}
+
+function toggleTTSAccordion(forceOpen) {
+  var wrapper = document.getElementById('ttsControlsWrapper');
+  var chevron = document.getElementById('ttsChevron');
+  var bar = document.getElementById('ttsPlayerBar');
+  if (!wrapper) return;
+
+  var isExpanded = bar && bar.classList.contains('expanded');
+  if (forceOpen === true || (forceOpen !== false && !isExpanded)) {
+    if (bar) bar.classList.add('expanded');
+    wrapper.style.maxHeight = '500px';
+    wrapper.style.opacity = '1';
+    wrapper.style.marginTop = '0.85rem';
+    if (chevron) chevron.style.transform = 'rotate(180deg)';
+  } else {
+    if (bar) bar.classList.remove('expanded');
+    wrapper.style.maxHeight = '0';
+    wrapper.style.opacity = '0';
+    wrapper.style.marginTop = '0';
+    if (chevron) chevron.style.transform = 'rotate(0deg)';
+  }
+}
+
 function updateReaderViewLanguage() {
   if (!currentPost) return;
 
@@ -230,24 +293,20 @@ function updateReaderViewLanguage() {
   if (elTitle) elTitle.innerHTML = formatTitleHTML(langData.title);
   if (elDate) elDate.innerText = currentPost.date;
 
-
-  var readTimeStr = currentPost.readTime;
-  if (currentLang === 'en') {
-    readTimeStr = readTimeStr.replace('dk okuma', 'min read');
-  } else if (currentLang === 'ar') {
-    readTimeStr = readTimeStr.replace(/(\d+)\s*dk okuma/, 'قراءة $1 دقائق');
-  }
   if (elContent) {
     elContent.innerHTML = langData.content;
     applyFontSize();
   }
 
-  // TTS UI elements
-  var ttsHeader = document.querySelector('.tts-header span');
-  if (ttsHeader) {
-    if (currentLang === 'ar') ttsHeader.innerText = '🔊 محرك القراءة الصوتية (TTS)';
-    else if (currentLang === 'en') ttsHeader.innerText = '🔊 Voice Reading Engine (TTS)';
-    else ttsHeader.innerText = '🔊 Sesli Okuma Motoru (Text-to-Speech)';
+  var readTimeStr = getDynamicReadTime(langData.content, currentLang);
+  if (elTime) elTime.innerText = '⏱️ ' + readTimeStr;
+
+  // TTS Title ("Sesli Oku")
+  var lblTtsTitle = document.getElementById('lblTtsTitle');
+  if (lblTtsTitle) {
+    if (currentLang === 'ar') lblTtsTitle.innerText = '🔊 القراءة الصوتية';
+    else if (currentLang === 'en') lblTtsTitle.innerText = '🔊 Read Aloud';
+    else lblTtsTitle.innerText = '🔊 Sesli Oku';
   }
 
   var btnPlay = document.getElementById('btnPlay');
@@ -387,19 +446,14 @@ function renderPosts() {
     var tagClass = 'post-tag' + (isAnilts ? ' post-tag-anilts' : '');
     var readMoreClass = 'read-more-btn' + (isAnilts ? ' read-more-anilts' : '');
 
-    var readTimeStr = post.readTime;
-    if (currentLang === 'en') {
-      readTimeStr = readTimeStr.replace('dk okuma', 'min read');
-    } else if (currentLang === 'ar') {
-      readTimeStr = readTimeStr.replace(/(\d+)\s*dk okuma/, 'قراءة $1 دقائق');
-    }
+    var readTimeStr = getDynamicReadTime(langData.content, currentLang);
 
     card.innerHTML = '<div class="' + imgClass + '">' + (post.icon || '📝') + '</div>' +
       '<div class="card-body">' +
         '<div>' +
           '<div class="post-meta">' +
             '<span class="' + tagClass + '">' + category + '</span>' +
-            '<span>' + readTimeStr + '</span>' +
+            '<span>⏱️ ' + readTimeStr + '</span>' +
           '</div>' +
           '<h2 class="post-title">' + formatTitleHTML(langData.title) + '</h2>' +
           '<p class="post-excerpt">' + langData.summary + '</p>' +
@@ -435,12 +489,7 @@ function renderPosts() {
       var iconClass = 'list-item-icon' + (rIsAnilts ? ' anilts-icon' : '');
       var rTagClass = 'post-tag' + (rIsAnilts ? ' post-tag-anilts' : '');
 
-      var rReadTimeStr = rPost.readTime;
-      if (currentLang === 'en') {
-        rReadTimeStr = rReadTimeStr.replace('dk okuma', 'min read');
-      } else if (currentLang === 'ar') {
-        rReadTimeStr = rReadTimeStr.replace(/(\d+)\s*dk okuma/, 'قراءة $1 دقائق');
-      }
+      var rReadTimeStr = getDynamicReadTime(rLangData.content, currentLang);
 
       listItem.innerHTML = '<div class="' + iconClass + '">' + (rPost.icon || '📝') + '</div>' +
         '<div class="list-item-content">' +
@@ -467,6 +516,7 @@ function openPost(id) {
   currentSection = currentPost.type;
   updateHeaderAndTabs();
   updateReaderViewLanguage();
+  toggleTTSAccordion(false);
 
   var listView = document.getElementById('listView');
   var readerView = document.getElementById('readerView');
@@ -490,6 +540,7 @@ function showList() {
 
 function playTTS() {
   if (!synth) return alert("Tarayıcınız sesli okuma özelliğini desteklemiyor.");
+  toggleTTSAccordion(true);
   if (synth.speaking && synth.paused) {
     synth.resume();
     var wave = document.getElementById('audioWave');

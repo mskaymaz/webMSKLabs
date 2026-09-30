@@ -128,43 +128,48 @@
         </div>
       </div>
 
-      <div class="tts-player-bar">
-        <div class="tts-header">
-          <span>🔊 Sesli Okuma Motoru (Text-to-Speech)</span>
-          <div class="audio-wave" id="audioWave">
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-
-        <div class="tts-controls-row">
-          <div class="tts-btn-group">
-            <button onclick="playTTS()" class="tts-btn" id="btnPlay">▶️ Dinle</button>
-            <button onclick="pauseTTS()" class="tts-btn tts-btn-secondary" id="btnPause">⏸️ Duraklat</button>
-            <button onclick="stopTTS()" class="tts-btn tts-btn-secondary" id="btnStop">⏹️ Durdur</button>
-          </div>
-
-          <div class="tts-selects">
-            <div class="tts-select-group">
-              <label>Ses:</label>
-              <select id="voiceGender" onchange="restartTTSIfPlaying()">
-                <option value="male" selected>👨 Erkek</option>
-                <option value="female">👩 Kadın</option>
-              </select>
-            </div>
-
-            <div class="tts-select-group">
-              <label>Hız:</label>
-              <select id="voiceSpeed" onchange="restartTTSIfPlaying()">
-                <option value="1.0" selected>1.0x</option>
-                <option value="1.25">1.25x</option>
-                <option value="1.5">1.5x</option>
-              </select>
+      <div class="tts-player-bar" id="ttsPlayerBar">
+        <div class="tts-header" onclick="toggleTTSAccordion()" title="Sesli Oku panelini aç/kapat" style="cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span id="lblTtsTitle" style="font-weight: 700;">🔊 Sesli Oku</span>
+            <div class="audio-wave" id="audioWave">
+              <span></span><span></span><span></span>
             </div>
           </div>
+          <span class="tts-chevron" id="ttsChevron" style="font-size: 0.8rem; color: var(--text-muted, #64748b); transition: transform 0.3s ease;">▼</span>
         </div>
-        <div id="ttsNotice" style="display: none; margin-top: 0.65rem; padding: 0.45rem 2.2rem 0.45rem 0.75rem; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; font-size: 0.78rem; color: #b45309; font-weight: 600; text-align: left; position: relative;">
-          <span id="ttsNoticeText"></span>
-          <button onclick="hideTTSNotice()" style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1rem; color: #b45309; cursor: pointer; padding: 0 0.35rem; line-height: 1; font-weight: bold;" title="Kapat">✕</button>
+
+        <div class="tts-controls-wrapper" id="ttsControlsWrapper" style="max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.35s ease, opacity 0.25s ease, margin 0.35s ease;">
+          <div class="tts-controls-row">
+            <div class="tts-btn-group">
+              <button onclick="playTTS()" class="tts-btn" id="btnPlay">▶️ Dinle</button>
+              <button onclick="pauseTTS()" class="tts-btn tts-btn-secondary" id="btnPause">⏸️ Duraklat</button>
+              <button onclick="stopTTS()" class="tts-btn tts-btn-secondary" id="btnStop">⏹️ Durdur</button>
+            </div>
+
+            <div class="tts-selects">
+              <div class="tts-select-group">
+                <label>Ses:</label>
+                <select id="voiceGender" onchange="restartTTSIfPlaying()">
+                  <option value="male" selected>👨 Erkek</option>
+                  <option value="female">👩 Kadın</option>
+                </select>
+              </div>
+
+              <div class="tts-select-group">
+                <label>Hız:</label>
+                <select id="voiceSpeed" onchange="restartTTSIfPlaying()">
+                  <option value="1.0" selected>1.0x</option>
+                  <option value="1.25">1.25x</option>
+                  <option value="1.5">1.5x</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div id="ttsNotice" style="display: none; margin-top: 0.65rem; padding: 0.45rem 2.2rem 0.45rem 0.75rem; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; font-size: 0.78rem; color: #b45309; font-weight: 600; text-align: left; position: relative;">
+            <span id="ttsNoticeText"></span>
+            <button onclick="hideTTSNotice()" style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1rem; color: #b45309; cursor: pointer; padding: 0 0.35rem; line-height: 1; font-weight: bold;" title="Kapat">✕</button>
+          </div>
         </div>
       </div>
 
