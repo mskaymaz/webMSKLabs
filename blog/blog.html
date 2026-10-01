@@ -114,35 +114,28 @@
     <div id="readerView" class="reader-view">
       <div class="post-tag" id="readCategory">Kategori</div>
       <h1 class="reader-title" id="readTitle">Yazı Başlığı</h1>
-      <div class="post-meta" style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+      <div class="post-meta" style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
         <div>
           <span id="readDate">Tarih</span>
           <span id="readTime" style="margin-left: 0.75rem;">⏱️ 5 dk okuma</span>
         </div>
 
-        <div class="font-size-controls" style="display: inline-flex; align-items: center; gap: 6px; background: var(--bg-surface, #f8fafc); border: 1px solid var(--border-color, #cbd5e1); padding: 0.3rem 0.6rem; border-radius: 8px;">
-          <span id="lblFontSizer" style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted, #475569);">Yazı Boyutu:</span>
-          <button onclick="changeFontSize(-2)" id="btnFontMinus" title="Yazıyı Küçült (-2pt)" style="min-height: 36px; min-width: 36px; padding: 0.35rem 0.7rem; border-radius: 6px; border: 1px solid var(--border-color, #cbd5e1); background: var(--bg-card, #ffffff); color: var(--bizce-primary, #0284c7); font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center;">A-</button>
-          <button onclick="changeFontSize(2)" id="btnFontPlus" title="Yazıyı Büyüt (+2pt)" style="min-height: 36px; min-width: 36px; padding: 0.35rem 0.7rem; border-radius: 6px; border: 1px solid var(--border-color, #cbd5e1); background: var(--bg-card, #ffffff); color: var(--bizce-primary, #0284c7); font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center;">A+</button>
-          <button onclick="resetFontSize()" id="btnFontReset" title="Varsayılana Sıfırla" style="min-height: 36px; min-width: 36px; padding: 0.35rem 0.7rem; border-radius: 6px; border: 1px solid var(--border-color, #cbd5e1); background: var(--bg-card, #ffffff); color: var(--text-muted, #64748b); font-weight: 600; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center;">Sıfırla</button>
-        </div>
-      </div>
+        <div class="post-meta-actions" style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+          <!-- Yazı Boyutu -->
+          <div class="font-size-controls" style="display: inline-flex; align-items: center; gap: 6px; background: var(--bg-surface, #f8fafc); border: 1px solid var(--border-color, #cbd5e1); padding: 0.3rem 0.6rem; border-radius: 8px;">
+            <span id="lblFontSizer" style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted, #475569);">Yazı Boyutu:</span>
+            <button onclick="changeFontSize(-2)" id="btnFontMinus" title="Yazıyı Küçült (-2pt)" style="min-height: 36px; min-width: 36px; padding: 0.35rem; border-radius: 6px; border: 1px solid var(--border-color, #cbd5e1); background: var(--bg-card, #ffffff); color: var(--bizce-primary, #0284c7); font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center;">A-</button>
+            <button onclick="changeFontSize(2)" id="btnFontPlus" title="Yazıyı Büyüt (+2pt)" style="min-height: 36px; min-width: 36px; padding: 0.35rem; border-radius: 6px; border: 1px solid var(--border-color, #cbd5e1); background: var(--bg-card, #ffffff); color: var(--bizce-primary, #0284c7); font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center;">A+</button>
+            <button onclick="resetFontSize()" id="btnFontReset" title="Varsayılana Sıfırla" style="min-height: 36px; min-width: 36px; padding: 0.35rem 0.7rem; border-radius: 6px; border: 1px solid var(--border-color, #cbd5e1); background: var(--bg-card, #ffffff); color: var(--text-muted, #64748b); font-weight: 600; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center;">Sıfırla</button>
+          </div>
 
-      <!-- Ust Hızlı Paylaşım Barı -->
-      <div class="blog-share-bar" id="blogShareBarTop" style="margin: 0.75rem 0 1.25rem 0; padding: 0.6rem 1rem; background: var(--bg-surface, #f8fafc); border: 1px solid var(--border-color, #e2e8f0); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem;">
-        <span class="share-label" id="lblShareTop" style="font-weight: 600; font-size: 0.85rem; color: var(--text-secondary, #475569); display: flex; align-items: center; gap: 0.35rem;">
-          📤 <span id="lblShareTopText">Yazıyı Paylaş:</span>
-        </span>
-        <div class="share-buttons" style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
-          <button onclick="shareWhatsApp()" class="share-btn share-wa" id="btnShareWaTop" title="WhatsApp'ta Paylaş" style="background: #25d366; color: #fff; border: none; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: transform 0.15s, opacity 0.15s;">
-            💬 <span>WhatsApp</span>
-          </button>
-          <button onclick="shareXTwitter()" class="share-btn share-x" id="btnShareXTop" title="X'te Paylaş" style="background: #0f172a; color: #fff; border: none; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: transform 0.15s, opacity 0.15s;">
-            𝕏 <span>Twitter</span>
-          </button>
-          <button onclick="copyPostLink('Top')" class="share-btn share-copy" id="btnCopyLinkTop" title="Bağlantıyı Kopyala" style="background: var(--bizce-primary, #0284c7); color: #fff; border: none; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: transform 0.15s, opacity 0.15s;">
-            🔗 <span id="btnCopyTextTop">Kopyala</span>
-          </button>
+          <!-- Üst Hızlı Paylaşım Barı (Sağa Hizalı, İkonlu) -->
+          <div class="share-controls-top" style="display: inline-flex; align-items: center; gap: 6px; background: var(--bg-surface, #f8fafc); border: 1px solid var(--border-color, #cbd5e1); padding: 0.3rem 0.6rem; border-radius: 8px;">
+            <span id="lblShareTopText" style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted, #475569);">Paylaş:</span>
+            <button onclick="shareWhatsApp()" class="share-btn share-wa" id="btnShareWaTop" title="WhatsApp'ta Paylaş" style="min-height: 36px; min-width: 36px; padding: 0.35rem; border-radius: 6px; border: none; background: #25d366; color: #ffffff; font-size: 1.15rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: transform 0.15s, opacity 0.15s;">💬</button>
+            <button onclick="shareXTwitter()" class="share-btn share-x" id="btnShareXTop" title="X'te Paylaş" style="min-height: 36px; min-width: 36px; padding: 0.35rem; border-radius: 6px; border: none; background: #0f172a; color: #ffffff; font-weight: 800; font-size: 1.05rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: transform 0.15s, opacity 0.15s;">𝕏</button>
+            <button onclick="copyPostLink('Top')" class="share-btn share-copy" id="btnCopyLinkTop" title="Bağlantıyı Kopyala" style="min-height: 36px; min-width: 36px; padding: 0.35rem; border-radius: 6px; border: none; background: var(--bizce-primary, #0284c7); color: #ffffff; font-size: 1.05rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: transform 0.15s, opacity 0.15s;">🔗</button>
+          </div>
         </div>
       </div>
 

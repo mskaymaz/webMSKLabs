@@ -374,7 +374,7 @@ function updateReaderViewLanguage() {
   // Paylaşım Butonları Metin Güncellemeleri
   var lblShareTopText = document.getElementById('lblShareTopText');
   if (lblShareTopText) {
-    lblShareTopText.innerText = (currentLang === 'ar' ? 'مشاركة المقال:' : (currentLang === 'en' ? 'Share Post:' : 'Yazıyı Paylaş:'));
+    lblShareTopText.innerText = (currentLang === 'ar' ? 'مشاركة:' : (currentLang === 'en' ? 'Share:' : 'Paylaş:'));
   }
 
   var btnCopyTextTop = document.getElementById('btnCopyTextTop');
@@ -627,22 +627,33 @@ function shareXTwitter() {
 function copyPostLink(target) {
   var url = getPostShareUrl();
   var successMsg = (currentLang === 'ar' ? 'تم النسخ!' : (currentLang === 'en' ? 'Copied!' : 'Kopyalandı!'));
-  var defaultMsg = (target === 'Bottom') ? 
-    (currentLang === 'ar' ? 'نسخ الرابط' : (currentLang === 'en' ? 'Copy Link' : 'Bağlantıyı Kopyala')) :
-    (currentLang === 'ar' ? 'نسخ' : (currentLang === 'en' ? 'Copy' : 'Kopyala'));
-
-  var targetElemId = (target === 'Bottom') ? 'btnCopyTextBottom' : 'btnCopyTextTop';
-  var targetBtnId = (target === 'Bottom') ? 'btnCopyLinkBottom' : 'btnCopyLinkTop';
-  var el = document.getElementById(targetElemId);
-  var btn = document.getElementById(targetBtnId);
+  var defaultTitle = (currentLang === 'ar' ? 'نسخ الرابط' : (currentLang === 'en' ? 'Copy Link' : 'Bağlantıyı Kopyala'));
 
   var executeSuccessVisual = function() {
-    if (el) el.innerText = '✅ ' + successMsg;
-    if (btn) btn.style.background = '#10b981';
-    setTimeout(function() {
-      if (el) el.innerText = defaultMsg;
-      if (btn) btn.style.background = 'var(--bizce-primary, #0284c7)';
-    }, 2500);
+    if (target === 'Top') {
+      var btnTop = document.getElementById('btnCopyLinkTop');
+      if (btnTop) {
+        btnTop.title = successMsg;
+        btnTop.style.background = '#10b981';
+        btnTop.innerText = '✅';
+        setTimeout(function() {
+          if (btnTop) {
+            btnTop.title = defaultTitle;
+            btnTop.style.background = 'var(--bizce-primary, #0284c7)';
+            btnTop.innerText = '🔗';
+          }
+        }, 2000);
+      }
+    } else {
+      var el = document.getElementById('btnCopyTextBottom');
+      var btnBottom = document.getElementById('btnCopyLinkBottom');
+      if (el) el.innerText = '✅ ' + successMsg;
+      if (btnBottom) btnBottom.style.background = '#10b981';
+      setTimeout(function() {
+        if (el) el.innerText = defaultTitle;
+        if (btnBottom) btnBottom.style.background = 'var(--bizce-primary, #0284c7)';
+      }, 2500);
+    }
   };
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
