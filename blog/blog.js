@@ -370,6 +370,27 @@ function updateReaderViewLanguage() {
     btnFontReset.innerText = (currentLang === 'ar' ? 'إعادة ضبط' : (currentLang === 'en' ? 'Reset' : 'Sıfırla'));
     btnFontReset.title = (currentLang === 'ar' ? 'إعادة ضبط إلى الافتراضي' : (currentLang === 'en' ? 'Reset to Default' : 'Varsayılana Sıfırla'));
   }
+
+  // Paylaşım Butonları Metin Güncellemeleri
+  var lblShareTopText = document.getElementById('lblShareTopText');
+  if (lblShareTopText) {
+    lblShareTopText.innerText = (currentLang === 'ar' ? 'مشاركة المقال:' : (currentLang === 'en' ? 'Share Post:' : 'Yazıyı Paylaş:'));
+  }
+
+  var btnCopyTextTop = document.getElementById('btnCopyTextTop');
+  var btnCopyTextBottom = document.getElementById('btnCopyTextBottom');
+  if (btnCopyTextTop) btnCopyTextTop.innerText = (currentLang === 'ar' ? 'نسخ' : (currentLang === 'en' ? 'Copy' : 'Kopyala'));
+  if (btnCopyTextBottom) btnCopyTextBottom.innerText = (currentLang === 'ar' ? 'نسخ الرابط' : (currentLang === 'en' ? 'Copy Link' : 'Bağlantıyı Kopyala'));
+
+  var lblShareCardTitle = document.getElementById('lblShareCardTitle');
+  if (lblShareCardTitle) {
+    lblShareCardTitle.innerText = (currentLang === 'ar' ? '💡 هل وجدت هذا التقييم مفيداً؟' : (currentLang === 'en' ? '💡 Did you find this article useful?' : '💡 Bu Değerlendirmeyi Faydalı Buldunuz mu?'));
+  }
+
+  var lblShareCardDesc = document.getElementById('lblShareCardDesc');
+  if (lblShareCardDesc) {
+    lblShareCardDesc.innerText = (currentLang === 'ar' ? 'يمكنك المساهمة في نشر الوعي من خلال مشاركة هذا المقال مع أحبائك وعلى وسائل التواصل الاجتماعي.' : (currentLang === 'en' ? 'You can contribute to spreading awareness by sharing this article with your loved ones and on social media.' : 'Yazıyı sevdiklerinizle ve sosyal medyanızda paylaşarak bilincin yayılmasına katkıda bulunabilirsiniz.'));
+  }
 }
 
 function setLang(lang, saveToStorage) {
@@ -536,6 +557,19 @@ function openPost(id) {
   updateReaderViewLanguage();
   toggleTTSAccordion(false);
 
+  // Dinamik Sekme Başlığı ve URL Parametresi Güncelleme
+  var langData = currentPost[currentLang] || currentPost['tr'];
+  if (langData && langData.title) {
+    document.title = langData.title + ' | Bizce & Anıltılar & Güncel | MSK Labs';
+  }
+  try {
+    var langParam = currentLang && currentLang !== 'tr' ? '&lang=' + currentLang : '';
+    var newUrl = 'blog.html?type=' + currentSection + '&id=' + id + langParam;
+    if (window.location.search.indexOf('id=' + id) === -1) {
+      window.history.pushState({ post: id }, '', newUrl);
+    }
+  } catch(e) {}
+
   var listView = document.getElementById('listView');
   var readerView = document.getElementById('readerView');
   if (listView) listView.style.display = 'none';
@@ -546,6 +580,13 @@ function openPost(id) {
 function showList() {
   stopTTS();
   currentPost = null;
+  document.title = 'MSK Labs - Bizce & Anıltılar & Güncel Yayın Platformu';
+  try {
+    var langParam = currentLang && currentLang !== 'tr' ? '&lang=' + currentLang : '';
+    var newUrl = 'blog.html?type=' + currentSection + langParam;
+    window.history.pushState({ section: currentSection }, '', newUrl);
+  } catch(e) {}
+
   var readerView = document.getElementById('readerView');
   var listView = document.getElementById('listView');
   if (readerView) readerView.style.display = 'none';
@@ -554,6 +595,81 @@ function showList() {
   renderSubCategories();
   renderPosts();
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* --- Sosyal Medya ve Bağlantı Paylaşım Fonksiyonları --- */
+function getPostShareUrl() {
+  var baseUrl = window.location.origin + window.location.pathname;
+  if (!currentPost) return baseUrl;
+  var langParam = currentLang && currentLang !== 'tr' ? '&lang=' + currentLang : '';
+  return baseUrl + '?type=' + currentPost.type + '&id=' + currentPost.id + langParam;
+}
+
+function shareWhatsApp() {
+  if (!currentPost) return;
+  var langData = currentPost[currentLang] || currentPost['tr'];
+  var title = langData.title || '';
+  var url = getPostShareUrl();
+  var text = encodeURIComponent(title + '\n\n' + url);
+  window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
+}
+
+function shareXTwitter() {
+  if (!currentPost) return;
+  var langData = currentPost[currentLang] || currentPost['tr'];
+  var title = langData.title || '';
+  var url = getPostShareUrl();
+  var tweetText = encodeURIComponent(title);
+  var tweetUrl = encodeURIComponent(url);
+  window.open('https://twitter.com/intent/tweet?text=' + tweetText + '&url=' + tweetUrl, '_blank');
+}
+
+function copyPostLink(target) {
+  var url = getPostShareUrl();
+  var successMsg = (currentLang === 'ar' ? 'تم النسخ!' : (currentLang === 'en' ? 'Copied!' : 'Kopyalandı!'));
+  var defaultMsg = (target === 'Bottom') ? 
+    (currentLang === 'ar' ? 'نسخ الرابط' : (currentLang === 'en' ? 'Copy Link' : 'Bağlantıyı Kopyala')) :
+    (currentLang === 'ar' ? 'نسخ' : (currentLang === 'en' ? 'Copy' : 'Kopyala'));
+
+  var targetElemId = (target === 'Bottom') ? 'btnCopyTextBottom' : 'btnCopyTextTop';
+  var targetBtnId = (target === 'Bottom') ? 'btnCopyLinkBottom' : 'btnCopyLinkTop';
+  var el = document.getElementById(targetElemId);
+  var btn = document.getElementById(targetBtnId);
+
+  var executeSuccessVisual = function() {
+    if (el) el.innerText = '✅ ' + successMsg;
+    if (btn) btn.style.background = '#10b981';
+    setTimeout(function() {
+      if (el) el.innerText = defaultMsg;
+      if (btn) btn.style.background = 'var(--bizce-primary, #0284c7)';
+    }, 2500);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function() {
+      executeSuccessVisual();
+    }).catch(function() {
+      fallbackCopyTextToClipboard(url, executeSuccessVisual);
+    });
+  } else {
+    fallbackCopyTextToClipboard(url, executeSuccessVisual);
+  }
+}
+
+function fallbackCopyTextToClipboard(text, callback) {
+  var textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  textArea.style.position = "fixed";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand('copy');
+    if (callback) callback();
+  } catch (err) {}
+  document.body.removeChild(textArea);
 }
 
 function playTTS() {

@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MSK Labs - Bizce & Anıltılar Yayın Platformu</title>
-  <meta name="description" content="MSK Labs Bizce ve Anıltılar düşünce ve anı platformu. Teknoloji, hayat, bilim, insanlık ve yaşanmış anı yazıları.">
+  <title>MSK Labs - Bizce &amp; Anıltılar &amp; Güncel Yayın Platformu</title>
+  <meta name="description" content="MSK Labs Bizce, Anıltılar ve Güncel düşünce, anı ve toplum analiz platformu. Teknoloji, hayat, bilim, insanlık ve güncel konular.">
   <script>!function(){var t=localStorage.getItem("user_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"===t&&document.documentElement.setAttribute("data-theme","dark")}()</script>
   <link rel="canonical" href="https://msklabs.org/blog/blog.html">
-  <meta property="og:title" content="Bizce &amp; Anıltılar | MSK Labs">
-  <meta property="og:description" content="Düşünce, anı ve teknoloji yazıları. MSK Labs yayın platformu.">
+  <meta property="og:title" content="Bizce &amp; Anıltılar &amp; Güncel | MSK Labs">
+  <meta property="og:description" content="Düşünce, anı, teknoloji ve güncel toplum analizleri. MSK Labs yayın platformu.">
   <meta property="og:url" content="https://msklabs.org/blog/blog.html">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://msklabs.org/img/MSKLabsLogo.svg">
@@ -128,6 +128,24 @@
         </div>
       </div>
 
+      <!-- Ust Hızlı Paylaşım Barı -->
+      <div class="blog-share-bar" id="blogShareBarTop" style="margin: 0.75rem 0 1.25rem 0; padding: 0.6rem 1rem; background: var(--bg-surface, #f8fafc); border: 1px solid var(--border-color, #e2e8f0); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem;">
+        <span class="share-label" id="lblShareTop" style="font-weight: 600; font-size: 0.85rem; color: var(--text-secondary, #475569); display: flex; align-items: center; gap: 0.35rem;">
+          📤 <span id="lblShareTopText">Yazıyı Paylaş:</span>
+        </span>
+        <div class="share-buttons" style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
+          <button onclick="shareWhatsApp()" class="share-btn share-wa" id="btnShareWaTop" title="WhatsApp'ta Paylaş" style="background: #25d366; color: #fff; border: none; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: transform 0.15s, opacity 0.15s;">
+            💬 <span>WhatsApp</span>
+          </button>
+          <button onclick="shareXTwitter()" class="share-btn share-x" id="btnShareXTop" title="X'te Paylaş" style="background: #0f172a; color: #fff; border: none; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: transform 0.15s, opacity 0.15s;">
+            𝕏 <span>Twitter</span>
+          </button>
+          <button onclick="copyPostLink('Top')" class="share-btn share-copy" id="btnCopyLinkTop" title="Bağlantıyı Kopyala" style="background: var(--bizce-primary, #0284c7); color: #fff; border: none; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: transform 0.15s, opacity 0.15s;">
+            🔗 <span id="btnCopyTextTop">Kopyala</span>
+          </button>
+        </div>
+      </div>
+
       <div class="tts-player-bar" id="ttsPlayerBar">
         <div class="tts-header" onclick="toggleTTSAccordion()" title="Sesli Oku panelini aç/kapat" style="cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between;">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -175,6 +193,27 @@
 
       <article class="article-body" id="readContent">
       </article>
+
+      <!-- Alt Detaylı Paylaşım Kartı -->
+      <div class="blog-share-card" style="margin-top: 2rem; padding: 1.25rem; background: var(--bg-surface, #f8fafc); border: 1px solid var(--border-color, #e2e8f0); border-radius: 12px; text-align: center;">
+        <h4 id="lblShareCardTitle" style="margin: 0 0 0.5rem 0; font-size: 1rem; font-weight: 700; color: var(--text-primary, #0f172a);">
+          💡 Bu Değerlendirmeyi Faydalı Buldunuz mu?
+        </h4>
+        <p id="lblShareCardDesc" style="margin: 0 0 1rem 0; font-size: 0.85rem; color: var(--text-secondary, #64748b);">
+          Yazıyı sevdiklerinizle ve sosyal medyanızda paylaşarak bilincin yayılmasına katkıda bulunabilirsiniz.
+        </p>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+          <button onclick="shareWhatsApp()" class="share-btn share-wa" id="btnShareWaBottom" style="background: #25d366; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.88rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: transform 0.15s, opacity 0.15s;">
+            💬 <span>WhatsApp'ta Paylaş</span>
+          </button>
+          <button onclick="shareXTwitter()" class="share-btn share-x" id="btnShareXBottom" style="background: #0f172a; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.88rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: transform 0.15s, opacity 0.15s;">
+            𝕏 <span>Twitter (X)</span>
+          </button>
+          <button onclick="copyPostLink('Bottom')" id="btnCopyLinkBottom" class="share-btn share-copy" style="background: var(--bizce-primary, #0284c7); color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.88rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: transform 0.15s, opacity 0.15s;">
+            🔗 <span id="btnCopyTextBottom">Bağlantıyı Kopyala</span>
+          </button>
+        </div>
+      </div>
 
       <div class="infeed-ad-container" style="margin-top: 2.5rem;">
         <div class="ad-placeholder">Sayfa Altı Reklam Alanı (Bottom Banner)</div>
