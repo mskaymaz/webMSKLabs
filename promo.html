@@ -266,24 +266,11 @@
     'gcpiluyari': ['enyakin', 'haydinamaza', 'deskpilot']
   };
 
-  function setLang(lang) {
-    if (!lang) lang = 'tr';
-    try { localStorage.setItem('user_lang', lang); } catch(e) {}
-    document.body.className = 'lang-' + lang;
-    document.querySelectorAll('.lang-switcher button').forEach(function(btn) {
-      if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      else btn.classList.remove('active');
-    });
-  }
+
 
   (function() {
     const urlParams = new URLSearchParams(window.location.search);
     const sourceApp = (urlParams.get('app') || '').toLowerCase().trim();
-    const langParam = urlParams.get('lang');
-    let savedLang = null;
-    try { savedLang = localStorage.getItem('user_lang'); } catch(e) {}
-
-    setLang(langParam || savedLang || 'tr');
 
     // Get recommended app IDs or default set
     const recommendedIds = PROMO_MATRIX[sourceApp] || ['haydinamaza', 'rekatsay', 'emekli', 'enyakin'];

@@ -205,9 +205,11 @@
   }
 
   // Global Language & RTL Switcher
-  window.setLang = function(lang) {
+  window.setLang = function(lang, saveToStorage) {
     if (!lang) lang = 'tr';
-    try { localStorage.setItem('user_lang', lang); } catch(e) {}
+    if (saveToStorage !== false) {
+      try { localStorage.setItem('user_lang', lang); } catch(e) {}
+    }
     
     document.documentElement.setAttribute('lang', lang);
     document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
@@ -268,14 +270,48 @@
   };
 
   // Dynamic HTML lang and RTL attribute sync
+  // Priority order:
+  // 1. URL Parameter (?lang=) -> URL-based session override (does not overwrite user's saved preference)
+  // 2. Explicit User Preference (localStorage 'user_lang') -> Saved when user clicks language button
+  // 3. Browser / System Language (navigator.language) -> Automatically detects tr/ar/en
+  // 4. Default Fallback ('tr')
   function syncLangAttributes() {
-    var savedLang = 'tr';
+    var activeLang = null;
+    var saveToStorage = true;
     try {
       var urlParams = new URLSearchParams(window.location.search);
       var langParam = urlParams.get('lang');
-      savedLang = langParam || localStorage.getItem('user_lang') || 'tr';
+      if (langParam) {
+        activeLang = langParam.toLowerCase();
+        saveToStorage = false;
+      } else {
+        activeLang = localStorage.getItem('user_lang');
+      }
     } catch(e) {}
-    window.setLang(savedLang);
+
+    if (!activeLang) {
+      try {
+        var sysLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
+        if (sysLang.indexOf('tr') === 0) {
+          activeLang = 'tr';
+        } else if (sysLang.indexOf('ar') === 0) {
+          activeLang = 'ar';
+        } else if (sysLang.indexOf('en') === 0) {
+          activeLang = 'en';
+        } else {
+          activeLang = 'tr';
+        }
+      } catch(e) {
+        activeLang = 'tr';
+      }
+      saveToStorage = false;
+    }
+
+    if (['tr', 'en', 'ar'].indexOf(activeLang) === -1) {
+      activeLang = 'tr';
+    }
+
+    window.setLang(activeLang, saveToStorage);
   }
 
   // Pre-DOM theme apply (immediate execution to avoid theme flash)

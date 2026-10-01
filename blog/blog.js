@@ -356,11 +356,13 @@ function updateReaderViewLanguage() {
   }
 }
 
-function setLang(lang) {
+function setLang(lang, saveToStorage) {
   currentLang = lang || 'tr';
-  try {
-    localStorage.setItem('user_lang', currentLang);
-  } catch(e) {}
+  if (saveToStorage !== false) {
+    try {
+      localStorage.setItem('user_lang', currentLang);
+    } catch(e) {}
+  }
 
   document.body.className = 'lang-' + currentLang;
   if (currentLang === 'ar') {
@@ -700,11 +702,30 @@ window.addEventListener('languageChanged', function(e) {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-  var storedLang = localStorage.getItem('user_lang') || 'tr';
-  currentLang = storedLang;
+  var urlParams = new URLSearchParams(window.location.search);
+  var langParam = urlParams.get('lang');
+  var storedLang = localStorage.getItem('user_lang');
+  var activeLang = null;
+  var saveToStorage = true;
+
+  if (langParam) {
+    activeLang = langParam.toLowerCase();
+    saveToStorage = false;
+  } else if (storedLang) {
+    activeLang = storedLang;
+  } else {
+    var sysLang = (navigator.language || '').toLowerCase();
+    if (sysLang.indexOf('tr') === 0) activeLang = 'tr';
+    else if (sysLang.indexOf('ar') === 0) activeLang = 'ar';
+    else if (sysLang.indexOf('en') === 0) activeLang = 'en';
+    else activeLang = 'tr';
+    saveToStorage = false;
+  }
+
+  currentLang = activeLang || 'tr';
 
   handleUrlParams();
-  setLang(currentLang);
+  setLang(currentLang, saveToStorage);
   applyFontSize();
 });
 

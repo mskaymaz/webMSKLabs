@@ -125,22 +125,6 @@
 
 <script>
   var SITE_CONFIG = { contactEmail: "msklabs.org@gmail.com" };
-  function setLang(lang) {
-    if (!lang) lang = 'tr';
-    try { localStorage.setItem('user_lang', lang); } catch(e) {}
-    document.body.className = 'lang-' + lang;
-    document.querySelectorAll('.lang-switcher button').forEach(function(btn) {
-      if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      else btn.classList.remove('active');
-    });
-  }
-  (function() {
-    var urlParams = new URLSearchParams(window.location.search);
-    var langParam = urlParams.get('lang');
-    var savedLang = null;
-    try { savedLang = localStorage.getItem('user_lang'); } catch(e) {}
-    setLang(langParam || savedLang || 'tr');
-  })();
 </script>
 
 

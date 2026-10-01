@@ -357,19 +357,6 @@
 
 <footer class="site-footer" id="site-footer"></footer>
 
-<script>
-  function setLang(lang) {
-    if (!lang) lang = 'tr';
-    localStorage.setItem('user_lang', lang);
-    document.body.className = 'lang-' + lang;
-    document.querySelectorAll('.lang-switcher button').forEach(function(btn) {
-      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-    });
-  }
-  document.addEventListener('DOMContentLoaded', function() {
-    var savedLang = localStorage.getItem('user_lang') || 'tr';
-    setLang(savedLang);
-  });
-</script>
+
 </body>
 </html>
