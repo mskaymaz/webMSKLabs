@@ -2306,4 +2306,21 @@ body.dark-theme .web-click-icon {
   color: var(--text-main);
   letter-spacing: 0.2px;
   line-height: 1.45;
+}
+
+.biz-kimiz-email-footer {
+  margin-top: 18px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary, #64748b);
+  letter-spacing: 0.2px;
+}
+
+.biz-kimiz-email-footer a {
+  color: var(--primary-color, #2563eb);
+  text-decoration: underline;
+}
+
+[data-theme="dark"] .biz-kimiz-email-footer {
+  color: #94a3b8;
 }
