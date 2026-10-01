@@ -3,7 +3,7 @@
  * Dynamic post rendering, filtering, language switching, and Text-to-Speech (TTS)
  */
 var currentLang = 'tr';
-var currentSection = 'bizce'; // 'bizce' or 'anilts'
+var currentSection = 'bizce'; // 'bizce', 'anilts' or 'guncel'
 var currentSubFilter = 'all';
 var currentPost = null;
 var synth = window.speechSynthesis;

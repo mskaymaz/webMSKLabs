@@ -7,97 +7,79 @@
   // Shared blog data fallback if blog.js is not loaded on homepage
   var hubBlogData = [
     {
-      id: 1,
+      id: 4,
       type: "bizce",
-      category: "Teknoloji & İnsanlık",
-      date: "10 Eylül 2026",
+      category: "Yazılım & Felsefe",
+      date: "30 Eylül 2026",
       tr: {
-        title: "Yapay Zeka Çağında İnsani Değerler",
-        summary: "Teknolojinin sunduğu kolaylıklar ile insanın ahlaki sorumlulukları arasındaki denge."
+        title: "Neden Ücretsiz? — Neden Kullanıcıyı Önceleyen Bir Yazılım Anlayışı?",
+        summary: "Her şey bir ihtiyaçla başladı. MSK Labs'ın yazılım geliştirme felsefesi, reklam ve kullanıcı verisi politikası, sürdürülebilirlik mimarisi ve gelecek hedefleri üzerine kapsamlı bir değerlendirme."
       },
       en: {
-        title: "Human Values in the Age of AI",
-        summary: "An essay on balancing technological convenience with moral responsibilities."
+        title: "Why Free? — Why a User-First Software Philosophy?",
+        summary: "It all started with a need. A comprehensive evaluation of MSK Labs' software philosophy, user privacy, and sustainability model."
       },
       ar: {
-        title: "القيم الإنسانية في عصر الذكاء الاصطناعي",
-        summary: "نص حول إحداث التوازن بين التسهيلات التكنولوجية والمسؤوليات الأخلاقية."
+        title: "لماذا مجاناً؟ — لماذا فلسفة البرمجيات التي تضع المستخدم أولاً؟",
+        summary: "بدأ كل شيء بحاجة. تقييم شامل لفلسفة MSK Labs في تطوير البرمجيات وسياسة الإعلانات والخصوصية."
+      }
+    },
+    {
+      id: 1,
+      type: "bizce",
+      category: "Manifesto & İlk Makale",
+      date: "29 Eylül 2026",
+      tr: {
+        title: "BİZCE Nedir? — Sessiz Kalabalığın Sesi ve Başka Bir Pencere",
+        summary: "Herkesin söyleyecek bir sözü var. Bizim de var. BİZCE, insanı ve insanlığı ilgilendiren meseleleri kendi anlayışımız, değerlerimiz ve düşünce biçimimiz içerisinde yeniden ele almak için var."
+      },
+      en: {
+        title: "What is BİZCE? — The Voice of the Silent Crowd & Another Window",
+        summary: "Everyone has something to say. So do we. BİZCE exists to re-examine human affairs through our own understanding, values, and mindset."
+      },
+      ar: {
+        title: "ما هو بَيْزَجَه (BİZCE)؟ — صوت الأغلبية الصامتة ونافذة أخرى",
+        summary: "لكل شخص كلمة يريد إيصالها، ونحن كذلك. أنشئت بَيْزَجَه لإعادة تناول القضايا الإنسانية وفق قيمنا ورؤيتنا."
       }
     },
     {
       id: 2,
-      type: "bizce",
-      category: "Sosyal Yaşam & Gelecek",
-      date: "08 Eylül 2026",
-      tr: {
-        title: "Dijital Gürültü ve Zihinsel Odaklanma",
-        summary: "Sürekli bildirimlerin olduğu bir çağda zihinsel berraklığı yeniden kazanmanın yolları."
-      },
-      en: {
-        title: "Digital Noise and Mental Focus",
-        summary: "Reclaiming mental clarity in an era of constant digital notifications."
-      },
-      ar: {
-        title: "الضوضاء الرقمية والتركيز الذهني",
-        summary: "سبل استعادة الصفاء الذهني في عصر التنبيهات المستمرة."
-      }
-    },
-    {
-      id: 3,
-      type: "bizce",
-      category: "Yazılım & Verimlilik",
-      date: "05 Eylül 2026",
-      tr: {
-        title: "Sade Yaşam ve Minimalist Çalışma Düzeni",
-        summary: "Masaüstünüzdeki karmaşayı azaltarak verimliliği artırma felsefesi."
-      },
-      en: {
-        title: "Simple Living and Minimalist Workflow",
-        summary: "Increasing productivity by reducing desktop and digital clutter."
-      },
-      ar: {
-        title: "الحياة البسيطة وتنظيم العمل الأدنى",
-        summary: "فلسفة زيادة الإنتاجية من خلال تقليل الفوضى الرقمية."
-      }
-    },
-    {
-      id: 4,
       type: "anilts",
-      category: "Yaşanmış Anı",
-      date: "11 Eylül 2026",
+      category: "Manifesto & İlk Makale",
+      date: "29 Eylül 2026",
       tr: {
-        title: "İsimsiz Bir Nezaket ve Unutulmayan Ders",
-        summary: "Yoğun bir çalışma gününde yaşanan ve hayata bakışı değiştiren samimi bir tecrübe hikayesi."
+        title: "ANILTILAR Nedir? — Yaşanmışlıklardan İbret, Tecrübelerden Hikmet",
+        summary: "Geçmişin izleri, geleceğin dersleri. ANILTILAR, anıların ve iniltilerin buluştuğu; yaşanmışlıkların tecrübeye, tecrübelerin de derslere dönüştüğü bir alandır."
       },
       en: {
-        title: "An Anonymous Act of Kindness & Unforgettable Lesson",
-        summary: "A sincere memoir story reflecting a life-changing experience on a hectic work day."
+        title: "What is ANILTILAR? — Lessons from Experiences, Wisdom from Memories",
+        summary: "Traces of the past, lessons for the future. ANILTILAR is where memories and groans meet — transforming experiences into wisdom."
       },
       ar: {
-        title: "موقف إنساني ودرس لا يُنسى",
-        summary: "قصة واقعية تعكس تجربة إنسانية غيرت وجهة نظرنا في الحياة."
+        title: "ما هو أَنِلْتِيلَار (ANILTILAR)؟ — عبرة من التجارب وعكمة من الذكريات",
+        summary: "آثار الماضي ودروس المستقبل. أَنِلْتِيلَار هي المساحة التي تلتقي فيها الذكريات والآهات لتحويل التجارب إلى حكم ودروس."
       }
     },
     {
       id: 5,
-      type: "anilts",
-      category: "İlham Verenler",
-      date: "02 Eylül 2026",
+      type: "guncel",
+      category: "Güncel Analiz & Toplum",
+      date: "1 Ekim 2026",
       tr: {
-        title: "Sessiz Emeklerin Sessiz Kahramanları",
-        summary: "Görünmeyen detaylarda harcanan büyük emekler ve insan kalmanın zarafeti."
+        title: "Maçın Ertelenme Düdüğü Çalar, Herkes Kaldığı Yerden Devam Eder",
+        summary: "Konyaspor ile Filistin Millî Futbol Takımı arasındaki dostluk maçı üzerinden; görünürdeki eylemler ile gerçek dayanışma, boykot bilinci ve samimi sorumluluk arasındaki fark üzerine bir GÜNCEL analizi."
       },
       en: {
-        title: "Silent Heroes of Quiet Labors",
-        summary: "Great efforts hidden in unseen details and the grace of staying human."
+        title: "When the Postponement Whistle Blows, Everyone Resumes Their Routine",
+        summary: "An analysis on the friendly match between Konyaspor and the Palestine National Football Team: The distinction between superficial gestures and genuine solidarity."
       },
       ar: {
-        title: "أبطال الجهود الصامتة",
-        summary: "جهود عظيمة مخفية في التفاصيل غير المرئية ونبل البقاء إنساناً."
+        title: "عندما تُنفخ صفارة التأجيل، يعود الجميع إلى حياتهم المعتادة",
+        summary: "تحليل حول المباراة الودية بين قونية سبور والمنتخب الفلسطيني: الفرق بين المظاهر الرسمية والتضامن الفعلي الواعي."
       }
     },
     {
-      id: 6,
+      id: 3,
       type: "guncel",
       category: "Manifesto & İlk Makale",
       date: "28 Eylül 2026",
@@ -226,7 +208,8 @@
     var latestEl = document.getElementById(latestElId);
     if (latestEl && latestPost) {
       var latestTitleText = getPostTitle(latestPost);
-      var latestUrl = 'blog/blog.html?type=' + type + '&id=' + latestPost.id;
+      var langParam = (lang !== 'tr') ? '&lang=' + lang : '';
+      var latestUrl = 'blog/blog.html?type=' + type + '&id=' + latestPost.id + langParam;
       latestEl.innerHTML = `
         <div class="hub-latest-title">
           <a href="${latestUrl}" style="color: var(--text-main); text-decoration: none;">${latestTitleText}</a>
@@ -239,7 +222,8 @@
     var recEl = document.getElementById(recElId);
     if (recEl && recommendedPost) {
       var recTitleText = getPostTitle(recommendedPost);
-      var recUrl = 'blog/blog.html?type=' + type + '&id=' + recommendedPost.id;
+      var recLangParam = (lang !== 'tr') ? '&lang=' + lang : '';
+      var recUrl = 'blog/blog.html?type=' + type + '&id=' + recommendedPost.id + recLangParam;
       recEl.innerHTML = `
         <div class="hub-rec-title" style="font-size:0.88rem; font-weight:600;">
           <a href="${recUrl}" style="color: var(--text-main); text-decoration: none;">${recTitleText}</a>

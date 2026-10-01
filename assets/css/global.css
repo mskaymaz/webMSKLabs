@@ -1194,33 +1194,9 @@ body:has(.bizce-header) .desktop-ad,
 }
 
 /* ==========================================================================
-   FOOTER & DOK�MANTASYON SAYFALARI (Hakk�m�zda, Gizlilik, SSS)
+   FOOTER & DÖKÜMANTASYON SAYFALARI (Hakkımızda, Gizlilik, SSS)
    ========================================================================== */
-.site-footer {
-  margin-top: 50px;
-  padding-top: 30px;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #475569;
-  border-top: 1px solid #e2e8f0;
-}
-
-.footer-links a {
-  color: #1e293b !important;
-  font-weight: 600 !important;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.footer-links a:hover {
-  color: #0284c7 !important;
-}
-
-.copyright-text {
-  font-size: 0.85rem;
-  color: #64748b !important;
-  margin-top: 8px;
-}
+/* .site-footer — Bkz. satır ~360: Aktif tanım design token sistemiyle orada. */
 
 /* ==========================================================================
    ANA SAYFA ALT BAŞLIK BİLGİLENDİRME NOTU (Thin & Elegant)
@@ -2323,4 +2299,4 @@ body.dark-theme .web-click-icon {
 
 [data-theme="dark"] .biz-kimiz-email-footer {
   color: #94a3b8;
-}
+}

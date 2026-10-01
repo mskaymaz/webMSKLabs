@@ -3,7 +3,7 @@
  * Tüm web modülleri ve istemci uç noktaları bu konfigürasyon objesini okur.
  * Master Central Configuration object consumed across all web modules.
  */
-const SITE_CONFIG = {
+window.SITE_CONFIG = {
   siteName: "MSK Labs",
   siteUrl: "https://msklabs.org",
   contactEmail: "msklabs.org@gmail.com",
@@ -18,10 +18,10 @@ const SITE_CONFIG = {
     emekli: { name: "Ne Zaman Emekli Olabilirim", storeUrlAndroid: "https://play.google.com/store/apps/details?id=org.msklabs.emekli" },
     enyakin: { name: "En Yakın Hizmet", storeUrlAndroid: "https://play.google.com/store/apps/details?id=org.msklabs.enyakin" },
     deskpilot: { name: "DeskPilot Pro", storeUrlWindows: "https://msklabs.org/dl.html?app=deskpilot" },
-    gcpiluyari: { name: "GC Pil Uyardı", storeUrlAndroid: "https://play.google.com/store/apps/details?id=org.msklabs.gcpiluyari" }
+    gcpiluyari: { name: "GC Pil Uyarı", storeUrlAndroid: "https://play.google.com/store/apps/details?id=org.msklabs.gcpiluyari" }
   }
 };
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = SITE_CONFIG;
+  module.exports = window.SITE_CONFIG;
 }
