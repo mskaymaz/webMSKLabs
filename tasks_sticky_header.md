@@ -22,9 +22,9 @@ Sitedeki **tüm sayfalar** (Ana Sayfa, Blog, Uygulamalar, Destek vb.) tek bir me
 - **Genişlik & Hiza Sınırı:** Sol ve sağ elemanlar reklam alanlarına taşmaz; ortadaki ana panelin (`.portfolio-container` - 900px) sol ve sağ beyaz sınırlarıyla dikeyde milimetrik hizada kalır (`max-width: 900px`, `margin: 0 auto`, `padding: 0.5rem 0`).
   - **Sol Marj Hizası:** Sayfa adı (Örn: `🏠 ANA SAYFA`, `✍️ BİZCE`), tam olarak aşağıdaki beyaz orta panelin sol sınırında başlar.
   - **Sağ Marj Hizası:** En sağdaki gece/gündüz tema değiştirme ikonu (`🌙`/`☀️`), tam olarak aşağıdaki beyaz orta panelin sağ sınırında biter.
-- **Katman 1 (Üst Kemer Barı - ~58px):**
+- **Katman 1 (Üst Kemer Barı - ~74px):**
   - **Sol Sınır:** Kullanıcının o an bulunduğu sayfa adı.
-  - **Orta:** 2 katına çıkarılmış (54px dikey yükseklikte), tüm sayfalarda (blog dahil) tamamen eşit büyüklükte net MSK Labs logosu.
+  - **Orta (Mutlak Bağımsız Hizalama):** MSK Labs logosu, sol sayfa isminin uzunluğundan veya sağ buton sayısından %100 bağımsız olarak, 900px orta panelin tam dikey merkezine kilitlenmiştir (`position: absolute; left: 50%; transform: translateX(-50%)`). Logo dikey yüksekliği %30 daha büyütülerek **70px** seviyesine çıkarılmıştır.
   - **Sağ Sınır:** Dil değiştirme butonları (`TR`, `EN`, `AR`) ve Tema butonu (`🌙`/`☀️`).
 - **Katman 2 (Alt Kemer Şeridi - ~32px):**
   - Hızlı Navigasyon Linkleri (`Ana Sayfa | Bizce | Anıltılar | Güncel | Uygulamalarımız | Hakkımızda | Destek & Talep | İletişim`).
