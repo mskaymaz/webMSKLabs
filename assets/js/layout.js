@@ -15,46 +15,170 @@
   var basePath = isSubfolder ? '../' : './';
   var pageName = pathname.substring(pathname.lastIndexOf('/') + 1) || 'index.html';
 
-  // 1. Centralized Top Navigation Bar Injector & Renderer
-  function renderTopNav() {
-    var nav = document.querySelector('.top-main-nav');
-    if (!nav) return;
+  // Helper to resolve current page title with multi-language support
+  function getPageTitleHTML() {
+    var p = pageName.toLowerCase();
+    var bType = '';
+    if (p.indexOf('blog') !== -1) {
+      var bParams = new URLSearchParams(window.location.search);
+      bType = (bParams.get('type') || bParams.get('cat') || 'bizce').toLowerCase();
+    }
 
-    var topNavHTML = `
-      <a href="${basePath}index.html" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
+    if (bType === 'anilts') {
+      return '<span class="lang-tr">📖 ANILTILAR</span><span class="lang-en">📖 MEMOIRS</span><span class="lang-ar">📖 ذكريات</span>';
+    } else if (bType === 'guncel') {
+      return '<span class="lang-tr">📰 GÜNCEL</span><span class="lang-en">📰 NEWS</span><span class="lang-ar">📰 الأخبار</span>';
+    } else if (bType === 'bizce' || p.indexOf('blog') !== -1) {
+      return '<span class="lang-tr">✍️ BİZCE</span><span class="lang-en">✍️ OPINIONS</span><span class="lang-ar">✍️ رأينا</span>';
+    } else if (p === 'index.html' || p === '') {
+      return '<span class="lang-tr">🏠 ANA SAYFA</span><span class="lang-en">🏠 HOME</span><span class="lang-ar">🏠 الرئيسية</span>';
+    } else if (p.indexOf('apps') !== -1 || p.indexOf('app.html') !== -1 || pathname.indexOf('/apps/') !== -1) {
+      return '<span class="lang-tr">📱 UYGULAMALARIMIZ</span><span class="lang-en">📱 OUR APPS</span><span class="lang-ar">📱 تطبيقاتنا</span>';
+    } else if (p.indexOf('about') !== -1) {
+      return '<span class="lang-tr">ℹ️ HAKKIMIZDA</span><span class="lang-en">ℹ️ ABOUT US</span><span class="lang-ar">ℹ️ عن الشركة</span>';
+    } else if (p.indexOf('destek') !== -1) {
+      return '<span class="lang-tr">🎫 DESTEK &amp; TALEP</span><span class="lang-en">🎫 SUPPORT</span><span class="lang-ar">🎫 الدعم والطلبات</span>';
+    } else if (p.indexOf('contact') !== -1) {
+      return '<span class="lang-tr">📞 İLETİŞİM</span><span class="lang-en">📞 CONTACT</span><span class="lang-ar">📞 اتصل بنا</span>';
+    } else if (p.indexOf('bizkimiz') !== -1 || p.indexOf('who-we-are') !== -1) {
+      return '<span class="lang-tr">👥 BİZ KİMİZ</span><span class="lang-en">👥 WHO WE ARE</span><span class="lang-ar">👥 من نحن</span>';
+    } else if (p.indexOf('faq') !== -1) {
+      return '<span class="lang-tr">❓ SSS</span><span class="lang-en">❓ FAQ</span><span class="lang-ar">❓ الأسئلة الشائعة</span>';
+    } else if (p.indexOf('privacy') !== -1) {
+      return '<span class="lang-tr">🔒 GİZLİLİK</span><span class="lang-en">🔒 PRIVACY</span><span class="lang-ar">🔒 الخصوصية</span>';
+    } else if (p.indexOf('terms') !== -1) {
+      return '<span class="lang-tr">📜 KULLANIM KOŞULLARI</span><span class="lang-en">📜 TERMS</span><span class="lang-ar">📜 شروط الخدمة</span>';
+    } else if (p.indexOf('changelog') !== -1) {
+      return '<span class="lang-tr">📝 DEĞİŞİKLİK GÜNLÜĞÜ</span><span class="lang-en">📝 CHANGELOG</span><span class="lang-ar">📝 سجل التغييرات</span>';
+    } else if (p.indexOf('roadmap') !== -1) {
+      return '<span class="lang-tr">🗺️ YOL HARİTASI</span><span class="lang-en">🗺️ ROADMAP</span><span class="lang-ar">🗺️ خريطة الطريق</span>';
+    }
+    return '<span>MSK LABS</span>';
+  }
+
+  // Mobile Drawer Toggle Handler
+  window.toggleMobileMenu = function () {
+    var drawer = document.getElementById('mobileDrawerMenu');
+    var btn = document.getElementById('hamburgerToggleBtn');
+    if (!drawer) return;
+    drawer.classList.toggle('is-active');
+    if (btn) {
+      btn.innerHTML = drawer.classList.contains('is-active') ? '✕' : '☰';
+    }
+  };
+
+  // Close Mobile Drawer on Outside Click
+  document.addEventListener('click', function (e) {
+    var drawer = document.getElementById('mobileDrawerMenu');
+    var btn = document.getElementById('hamburgerToggleBtn');
+    if (drawer && drawer.classList.contains('is-active')) {
+      if (!drawer.contains(e.target) && (!btn || !btn.contains(e.target))) {
+        drawer.classList.remove('is-active');
+        if (btn) btn.innerHTML = '☰';
+      }
+    }
+  });
+
+  // Centralized Header Renderer (Sticky Header Bar + Nav Links + Mobile Drawer)
+  function renderHeader() {
+    var headerEl = document.querySelector('header.site-header-sticky') || document.querySelector('header.site-header') || document.getElementById('site-header');
+    
+    // If no header container exists, create and inject one at top of body or layout-wrapper
+    if (!headerEl) {
+      headerEl = document.createElement('header');
+      headerEl.className = 'site-header-sticky';
+      var wrapper = document.querySelector('.layout-wrapper') || document.body;
+      if (wrapper && wrapper.parentNode) {
+        wrapper.parentNode.insertBefore(headerEl, wrapper);
+      } else {
+        document.body.insertBefore(headerEl, document.body.firstChild);
+      }
+    } else {
+      headerEl.className = 'site-header-sticky';
+    }
+
+    var navLinksHTML = `
+      <a href="${basePath}index.html">
         <span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
-      <a href="${basePath}blog/blog.html?type=bizce" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
+      <span class="nav-divider">|</span>
+      <a href="${basePath}blog/blog.html?type=bizce">
         <span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
-      <a href="${basePath}blog/blog.html?type=anilts" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
+      <span class="nav-divider">|</span>
+      <a href="${basePath}blog/blog.html?type=anilts">
         <span class="lang-tr">Anıltılar</span><span class="lang-en">Memoirs</span><span class="lang-ar">ذكريات</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
-      <a href="${basePath}blog/blog.html?type=guncel" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
+      <span class="nav-divider">|</span>
+      <a href="${basePath}blog/blog.html?type=guncel">
         <span class="lang-tr">Güncel</span><span class="lang-en">News</span><span class="lang-ar">الأخبار</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
-      <a href="${basePath}apps.html" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
+      <span class="nav-divider">|</span>
+      <a href="${basePath}apps.html">
         <span class="lang-tr">Uygulamalarımız</span><span class="lang-en">Our Apps</span><span class="lang-ar">تطبيقاتنا</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
-      <a href="${basePath}about.html" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
+      <span class="nav-divider">|</span>
+      <a href="${basePath}about.html">
         <span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
-      <a href="${basePath}destek.html" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
+      <span class="nav-divider">|</span>
+      <a href="${basePath}destek.html">
         <span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
-      <a href="${basePath}contact.html" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
+      <span class="nav-divider">|</span>
+      <a href="${basePath}contact.html">
         <span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span>
       </a>
     `;
 
-    nav.innerHTML = topNavHTML;
+    var mobileLinksHTML = `
+      <a href="${basePath}index.html"><span class="lang-tr">🏠 Ana Sayfa</span><span class="lang-en">🏠 Home</span><span class="lang-ar">🏠 الرئيسية</span></a>
+      <a href="${basePath}blog/blog.html?type=bizce"><span class="lang-tr">✍️ Bizce</span><span class="lang-en">✍️ Bizce</span><span class="lang-ar">✍️ بيزجه</span></a>
+      <a href="${basePath}blog/blog.html?type=anilts"><span class="lang-tr">📖 Anıltılar</span><span class="lang-en">📖 Memoirs</span><span class="lang-ar">📖 ذكريات</span></a>
+      <a href="${basePath}blog/blog.html?type=guncel"><span class="lang-tr">📰 Güncel</span><span class="lang-en">📰 News</span><span class="lang-ar">📰 الأخبار</span></a>
+      <a href="${basePath}apps.html"><span class="lang-tr">📱 Uygulamalarımız</span><span class="lang-en">📱 Our Apps</span><span class="lang-ar">📱 تطبيقاتنا</span></a>
+      <a href="${basePath}about.html"><span class="lang-tr">ℹ️ Hakkımızda</span><span class="lang-en">ℹ️ About Us</span><span class="lang-ar">ℹ️ عن الشركة</span></a>
+      <a href="${basePath}destek.html"><span class="lang-tr">🎫 Destek &amp; Talep</span><span class="lang-en">🎫 Support</span><span class="lang-ar">🎫 الدعم والطلبات</span></a>
+      <a href="${basePath}contact.html"><span class="lang-tr">📞 İletişim</span><span class="lang-en">📞 Contact</span><span class="lang-ar">📞 اتصل بنا</span></a>
+    `;
+
+    headerEl.innerHTML = `
+      <div class="header-sticky-container">
+        <div class="header-top-row">
+          <div class="header-page-title" id="stickyHeaderTitle">
+            ${getPageTitleHTML()}
+          </div>
+          <div class="header-logo-center">
+            <a href="${basePath}index.html" title="MSK Labs Ana Sayfa">
+              <img src="${basePath}img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="header-logo-img">
+            </a>
+          </div>
+          <div class="header-actions-right">
+            <div class="lang-switcher">
+              <button onclick="setLang('tr')" data-lang="tr" class="active" title="Türkçe">TR</button>
+              <button onclick="setLang('en')" data-lang="en" title="English">EN</button>
+              <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img src="${basePath}img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
+              <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Gece Modu / Light Mode">🌙</button>
+            </div>
+            <button type="button" class="hamburger-toggle-btn" id="hamburgerToggleBtn" aria-label="Menüyü Aç/Kapat" onclick="toggleMobileMenu()">
+              ☰
+            </button>
+          </div>
+        </div>
+        <nav class="top-main-nav">
+          ${navLinksHTML}
+        </nav>
+      </div>
+      <div class="mobile-drawer-menu" id="mobileDrawerMenu">
+        ${mobileLinksHTML}
+      </div>
+    `;
+
+    // Also populate standalone <nav class="top-main-nav"></nav> elements if any exist outside header
+    var standaloneNavs = document.querySelectorAll('nav.top-main-nav:not(.header-sticky-container nav)');
+    standaloneNavs.forEach(function(n) {
+      n.innerHTML = navLinksHTML;
+    });
   }
 
   // 2. Safe 2-Row Footer Injector
@@ -321,14 +445,14 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
       initTheme();
-      renderTopNav();
+      renderHeader();
       renderFooter();
       highlightActiveTopNav();
       syncLangAttributes();
     });
   } else {
     initTheme();
-    renderTopNav();
+    renderHeader();
     renderFooter();
     highlightActiveTopNav();
     syncLangAttributes();

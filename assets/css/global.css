@@ -323,6 +323,167 @@ body.lang-ar .site-footer {
 }
 
 /* ==========================================================================
+   SABİT ÜST KEMER (STICKY HEADER) VE RESPONSIVE NAVİGASYON STİLLERİ
+   ========================================================================== */
+.site-header-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: var(--bg-card, rgba(255, 255, 255, 0.94));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark"] .site-header-sticky {
+  background: rgba(15, 23, 42, 0.92);
+  border-bottom-color: #334155;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.header-sticky-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0.4rem 1rem;
+}
+
+.header-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+}
+
+.header-page-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--primary-color, #0284c7);
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.header-logo-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-logo-img {
+  height: 28px;
+  width: auto;
+  transition: transform 0.2s ease;
+}
+
+.header-logo-img:hover {
+  transform: scale(1.03);
+}
+
+.header-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.site-header-sticky .top-main-nav {
+  margin: 0.25rem 0 0.15rem 0;
+  border-top: 1px solid var(--border-color, #f1f5f9);
+  padding-top: 0.25rem;
+}
+
+/* Mobil Hamburger Butonu */
+.hamburger-toggle-btn {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border-color, #cbd5e1);
+  border-radius: 6px;
+  padding: 0.25rem 0.45rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--text-main, #334155);
+  line-height: 1;
+  transition: all 0.2s ease;
+}
+
+.hamburger-toggle-btn:hover {
+  background: var(--bg-surface, #f1f5f9);
+  border-color: var(--primary-color, #0284c7);
+}
+
+/* Mobil Dropdown Drawer Menüsü */
+.mobile-drawer-menu {
+  display: none;
+  background: var(--bg-card, #ffffff);
+  border-top: 1px solid var(--border-color, #e2e8f0);
+  padding: 0.75rem 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.mobile-drawer-menu.is-active {
+  display: block;
+  animation: fadeInDown 0.25s ease-out forwards;
+}
+
+.mobile-drawer-menu a {
+  display: block;
+  padding: 0.55rem 0.75rem;
+  color: var(--text-main, #334155);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  margin-bottom: 0.2rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.mobile-drawer-menu a:hover,
+.mobile-drawer-menu a.active-nav-link {
+  background: var(--bg-surface, #f1f5f9);
+  color: var(--primary-color, #0284c7);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Medya Sorguları (768px ve Altı Mobil Mod) */
+@media (max-width: 768px) {
+  .header-page-title {
+    display: none;
+  }
+
+  .header-logo-center {
+    justify-content: flex-start;
+  }
+
+  .header-logo-img {
+    height: 24px;
+  }
+
+  .site-header-sticky .top-main-nav {
+    display: none;
+  }
+
+  .hamburger-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ==========================================================================
    STANDART NAVİGASYON VE FOOTER STİLLERİ
    ========================================================================== */
 .top-main-nav {

@@ -610,6 +610,22 @@ Aşağıdaki bağlantılar Cloudflare Pages üzerinde canlı yayında olan tüm 
 
 ---
 
-> **Son Güncelleme / Last Updated:** 16 Eylül 2026 / September 16, 2026  
+### 📌 13.6 Sabit Üst Kemer (Sticky Header) ve Responsive Mobil Menü Standardı
+
+**EN:** All pages share a single unified responsive sticky header managed via `layout.js` and `global.css`:
+- **Desktop (>=769px):** 2-tier sticky bar (`position: sticky; top: 0`). Bounds aligned strictly with the central content container (`max-width: 1080px; margin: 0 auto`).
+  - Tier 1 (~44px): Left = Dynamic Page Title (`lang-*`), Center = Scaled %30 Compact Logo, Right = Language Switcher (`TR`, `EN`, `AR`) + Theme Toggle (`🌙`/`☀️`).
+  - Tier 2 (~32px): Horizontal `top-main-nav` links (`Ana Sayfa | Bizce | Anıltılar | Güncel | Uygulamalarımız | Hakkımızda | Destek & Talep | İletişim`).
+- **Mobile (<=768px):** Compact ~50px sticky bar. Left = Compact Logo, Right = Language Switcher + Theme Toggle + Hamburger (`☰`). Clicking `☰` toggles a smooth accordion dropdown drawer containing all nav links.
+
+**TR:** Tüm sayfalar `layout.js` ve `global.css` üzerinden yönetilen tek bir sabit üst kemer standardını paylaşır:
+- **Masaüstü (>=769px):** İçerik paneli genişliğiyle (`max-width: 1080px; margin: 0 auto`) dikey hizalanmış 2 katmanlı sabit kemer.
+  - Katman 1 (~44px): Sol = Dinamik Sayfa Başlığı, Orta = %30 Küçültülmüş Yatay Logo, Sağ = Dil Seçici + Tema Butonu.
+  - Katman 2 (~32px): Sabit `top-main-nav` hızlı navigasyon bağlantıları.
+- **Mobil (<=768px):** Sadece ~50px ultra ince sabit bar. Sol = Kompakt Logo, Sağ = Dil + Tema + Hamburger (`☰`). Tıklandığında aşağı doğru açılan akordeon dropdown menü.
+
+---
+
+> **Son Güncelleme / Last Updated:** 2 Ekim 2026 / October 2, 2026  
 > Bu bölüm yaşayan bir belgedir. Platform standartları değiştikçe buradaki spesifikasyonlar güncellenir.  
 > *This section is a living document. Specifications are updated as platform standards evolve.*

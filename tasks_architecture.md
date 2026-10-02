@@ -66,3 +66,9 @@ MSK Labs is developed and maintained by a single founder working alongside an AI
 - [x] Ana dizinde (root) yer alan atıl uygulama ve blog dosyalarını (`haydinamaza.html`, `rekatsay.html`, `emekli.html`, `deskpilot.html`, `enyakin.html`, `gcpiluyari.html`, `bizce.html`) tamamen sil, kök dizini 100% temiz tut.
 - [x] `index.html` ve `pages.html` içindeki tüm uygulama bağlantılarını doğrudan `/apps/` klasöründeki yetkili dosyalara yönlendir.
 - [x] Dokümantasyonu (`ISTISARE_VE_KARARLAR.md` ve `tasks_architecture.md`) güncelle ve kararı açıkça ilan et.
+
+### Faz 7: Sabit Üst Kemer (Sticky Header) & Responsive Mobil Menü Entegrasyonu
+- [ ] Detaylı görev listesi ve adım adım takip dokümanı `tasks_sticky_header.md` dosyasında oluşturuldu.
+- [ ] Masaüstü (Desktop): Container hiza sınırlarına sadık 2 katmanlı sabit üst kemer entegrasyonu.
+- [ ] Mobil (Mobile): Sadece ~50px ultra ince sabit bar + Hamburger (`☰`) dropdown liste menü entegrasyonu.
+
