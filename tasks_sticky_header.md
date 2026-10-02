@@ -19,10 +19,12 @@ Sitedeki **tüm sayfalar** (Ana Sayfa, Blog, Uygulamalar, Destek vb.) tek bir me
 
 #### A. Masaüstü Modu (Desktop View - 769px ve üzeri)
 - **Ekran Sabitleme:** Sayfa aşağı kaydırılsa dahi ekranın en üstünde sabit kalır (`position: sticky; top: 0; z-index: 1000;`).
-- **Genişlik & Hiza Sınırı:** Sol ve sağ elemanlar ekranın dışına taşmaz; ortadaki ana panelin (container) sol ve sağ sınırlarıyla birebir dikey dikey hizada kalır (`max-width: 1080px`, `margin: 0 auto`).
-- **Katman 1 (Üst Kemer Barı - ~44px):**
-  - **Sol Sınır:** Kullanıcının o an bulunduğu sayfa adı (Örn: `🏠 ANA SAYFA`, `✍️ BİZCE`, `📱 UYGULAMALARIMIZ`, `🎫 DESTEK & TALEP`).
-  - **Orta:** %25-30 küçültülmüş, üst/alt dikey boşlukları yarıya indirilmiş kompakt MSK Labs yatay logosu.
+- **Genişlik & Hiza Sınırı:** Sol ve sağ elemanlar reklam alanlarına taşmaz; ortadaki ana panelin (`.portfolio-container` - 900px) sol ve sağ beyaz sınırlarıyla dikeyde milimetrik hizada kalır (`max-width: 900px`, `margin: 0 auto`, `padding: 0.5rem 0`).
+  - **Sol Marj Hizası:** Sayfa adı (Örn: `🏠 ANA SAYFA`, `✍️ BİZCE`), tam olarak aşağıdaki beyaz orta panelin sol sınırında başlar.
+  - **Sağ Marj Hizası:** En sağdaki gece/gündüz tema değiştirme ikonu (`🌙`/`☀️`), tam olarak aşağıdaki beyaz orta panelin sağ sınırında biter.
+- **Katman 1 (Üst Kemer Barı - ~58px):**
+  - **Sol Sınır:** Kullanıcının o an bulunduğu sayfa adı.
+  - **Orta:** 2 katına çıkarılmış (54px dikey yükseklikte), tüm sayfalarda (blog dahil) tamamen eşit büyüklükte net MSK Labs logosu.
   - **Sağ Sınır:** Dil değiştirme butonları (`TR`, `EN`, `AR`) ve Tema butonu (`🌙`/`☀️`).
 - **Katman 2 (Alt Kemer Şeridi - ~32px):**
   - Hızlı Navigasyon Linkleri (`Ana Sayfa | Bizce | Anıltılar | Güncel | Uygulamalarımız | Hakkımızda | Destek & Talep | İletişim`).
