@@ -456,9 +456,12 @@ function renderPosts() {
     pagButtons[2].innerText = (currentLang === 'ar' ? 'التالي »' : (currentLang === 'en' ? 'Next »' : 'Sonraki »'));
   }
 
-  // KESİN AYRIŞTIRMA: Sadece geçerli section ('bizce' veya 'anilts') filtrelenir!
+  // KESİN AYRIŞTIRMA & TERS KRONOLOJİK SIRALAMA (YENİDEN ESKİYE):
+  // Sadece geçerli section filtrelenir ve en son eklenen makale (en yeni / en yüksek ID) en üstte gösterilir.
   var filtered = blogPostsData.filter(function(p) {
     return p.type === currentSection;
+  }).sort(function(a, b) {
+    return (b.id || 0) - (a.id || 0);
   });
 
   var featuredPosts = filtered.slice(0, 3);
