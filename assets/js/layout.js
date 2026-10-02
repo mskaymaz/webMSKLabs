@@ -21,35 +21,35 @@
     if (!nav) return;
 
     var topNavHTML = `
-      <a href="${basePath}index.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+      <a href="${basePath}index.html" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
         <span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-      <a href="${basePath}blog/blog.html?type=bizce" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
+      <a href="${basePath}blog/blog.html?type=bizce" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
         <span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-      <a href="${basePath}blog/blog.html?type=anilts" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
+      <a href="${basePath}blog/blog.html?type=anilts" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
         <span class="lang-tr">Anıltılar</span><span class="lang-en">Memoirs</span><span class="lang-ar">ذكريات</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-      <a href="${basePath}blog/blog.html?type=guncel" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
+      <a href="${basePath}blog/blog.html?type=guncel" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
         <span class="lang-tr">Güncel</span><span class="lang-en">News</span><span class="lang-ar">الأخبار</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-      <a href="${basePath}apps.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
+      <a href="${basePath}apps.html" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
         <span class="lang-tr">Uygulamalarımız</span><span class="lang-en">Our Apps</span><span class="lang-ar">تطبيقاتنا</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-      <a href="${basePath}about.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
+      <a href="${basePath}about.html" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
         <span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-      <a href="${basePath}destek.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
+      <a href="${basePath}destek.html" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
         <span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span>
       </a>
-      <span style="color: #cbd5e1; margin: 0 0.25rem;">|</span>
-      <a href="${basePath}contact.html" style="color: #334155; text-decoration: none; padding: 0.25rem 0.5rem; transition: color 0.2s;">
+      <span style="color: #cbd5e1; margin: 0 0.12rem;">|</span>
+      <a href="${basePath}contact.html" style="color: #334155; text-decoration: none; padding: 0.18rem 0.32rem; transition: color 0.2s;">
         <span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span>
       </a>
     `;

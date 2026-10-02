@@ -547,6 +547,61 @@ function renderPosts() {
   }
 }
 
+function updateBlogMetaAndSchema(post, langData) {
+  if (!post || !langData) return;
+  var titleText = (langData.title || '') + ' | Bizce & Anıltılar & Güncel | MSK Labs';
+  var descText = (langData.summary || '').replace(/<[^>]*>?/gm, '').trim();
+  var shareUrl = getPostShareUrl();
+
+  document.title = titleText;
+
+  var metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc && descText) metaDesc.setAttribute('content', descText);
+
+  var ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', titleText);
+
+  var ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc && descText) ogDesc.setAttribute('content', descText);
+
+  var ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl) ogUrl.setAttribute('content', shareUrl);
+
+  var canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.setAttribute('href', shareUrl);
+
+  var ldScript = document.getElementById('articleJsonLd');
+  if (!ldScript) {
+    ldScript = document.createElement('script');
+    ldScript.id = 'articleJsonLd';
+    ldScript.type = 'application/ld+json';
+    document.head.appendChild(ldScript);
+  }
+  var articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": langData.title || "",
+    "description": descText || "",
+    "url": shareUrl,
+    "datePublished": "2026-09-29",
+    "dateModified": "2026-10-02",
+    "author": {
+      "@type": "Organization",
+      "name": "MSK Labs",
+      "url": "https://msklabs.org/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "MSK Labs",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://msklabs.org/img/MSKLabsLogo.svg"
+      }
+    }
+  };
+  ldScript.textContent = JSON.stringify(articleSchema);
+}
+
 function openPost(id) {
   stopTTS();
   currentPost = blogPostsData.find(function(p) { return p.id === id; });
@@ -557,11 +612,10 @@ function openPost(id) {
   updateReaderViewLanguage();
   toggleTTSAccordion(false);
 
-  // Dinamik Sekme Başlığı ve URL Parametresi Güncelleme
+  // Dinamik Sekme Başlığı, Meta Etiketleri, Schema.org ve URL Parametresi Güncelleme
   var langData = currentPost[currentLang] || currentPost['tr'];
-  if (langData && langData.title) {
-    document.title = langData.title + ' | Bizce & Anıltılar & Güncel | MSK Labs';
-  }
+  updateBlogMetaAndSchema(currentPost, langData);
+
   try {
     var langParam = currentLang && currentLang !== 'tr' ? '&lang=' + currentLang : '';
     var newUrl = 'blog.html?type=' + currentSection + '&id=' + id + langParam;
@@ -581,6 +635,18 @@ function showList() {
   stopTTS();
   currentPost = null;
   document.title = 'MSK Labs - Bizce & Anıltılar & Güncel Yayın Platformu';
+
+  var metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', 'MSK Labs Bizce, Anıltılar ve Güncel düşünce, anı ve toplum analiz platformu. Teknoloji, hayat, bilim, insanlık ve güncel konular.');
+
+  var canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.setAttribute('href', 'https://msklabs.org/blog/blog.html');
+
+  var ldScript = document.getElementById('articleJsonLd');
+  if (ldScript && ldScript.parentNode) {
+    ldScript.parentNode.removeChild(ldScript);
+  }
+
   try {
     var langParam = currentLang && currentLang !== 'tr' ? '&lang=' + currentLang : '';
     var newUrl = 'blog.html?type=' + currentSection + langParam;

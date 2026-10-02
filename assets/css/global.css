@@ -328,22 +328,23 @@ body.lang-ar .site-footer {
 .top-main-nav {
   text-align: center;
   margin: 1rem 0 1.25rem 0;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-muted, #475569);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.25rem;
+  gap: 0.1rem;
 }
 
 .top-main-nav a {
   color: var(--text-main, #334155);
   text-decoration: none;
-  padding: 0.35rem 0.65rem;
+  padding: 0.2rem 0.35rem;
   border-radius: 6px;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .top-main-nav a:hover,
@@ -352,8 +353,10 @@ body.lang-ar .site-footer {
   background: var(--bg-surface, #f1f5f9);
 }
 
-.top-main-nav .nav-divider {
+.top-main-nav .nav-divider,
+.top-main-nav span:not([class]) {
   color: var(--border-color, #cbd5e1);
+  margin: 0 0.12rem;
   user-select: none;
 }
 
