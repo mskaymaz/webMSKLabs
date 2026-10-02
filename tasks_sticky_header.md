@@ -55,7 +55,7 @@ Sitedeki **tüm sayfalar** (Ana Sayfa, Blog, Uygulamalar, Destek vb.) tek bir me
 
 ### Adım 3: Blog Sayfası Uyumlaştırılması (`blog/blog.html` & `blog/blog.js`)
 - [x] **[STEP-3.1]** `blog/blog.html` şablonu, Ana Sayfa (`index.html`) ve `destek.html` ile %100 birebir aynı mimariye kavuşturuldu (`<main class="portfolio-container main-content-area">`).
-- [x] **[STEP-3.2]** `layout.js` bileşen motoru `blog.js` öncesinde çalıştırılarak üst kemer ve alt footerin tüm sayfalarda 0 farkla tek tip sabitlenmesi sağlandı. Eski `blog.css` ezmeleri tamamen temizlendi.
+- [x] **[STEP-3.2]** `<footer id="site-footer">` elemanı `.layout-wrapper` esnek (flex) kapsayıcısının dışına çıkarılarak alt footerin içeriklerin üzerine binmesi ve ekranı bozması kesin olarak engellendi. `layout.js` tüm sayfalarda sıfır farkla tek tip çalıştırıldı.
 
 ### Adım 4: Kurumsal Çekirdek Sayfaların Test & Doğrulaması
 - [x] **[STEP-4.1]** `index.html`, `bizkimiz.html`, `apps.html`, `destek.html`, `about.html`, `contact.html` vb. sayfalarda yeni üst kemeri test et.
