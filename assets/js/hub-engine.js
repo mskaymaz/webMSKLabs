@@ -99,9 +99,10 @@
   ];
 
   // Shared Apps Catalog for Carousel
+  // app_id standardı: alt_çizgi (app_catalog.json ile uyumlu)
   var hubAppsData = [
     {
-      id: "haydinamaza",
+      id: "haydi_namaza",
       name: { tr: "HaydiNamaza", en: "HaydiNamaza", ar: "حي على الصلاة" },
       iconImg: "media/haydinamaza/icon.png",
       status: "active",
@@ -115,14 +116,14 @@
       url: "apps/rekatsay.html"
     },
     {
-      id: "date-counter",
+      id: "date_counter",
       name: { tr: "Date Counter", en: "Date Counter", ar: "Date Counter" },
       iconImg: "media/date-counter/icon.png",
       status: "active",
       url: "apps/date_counter.html"
     },
     {
-      id: "gcpiluyari",
+      id: "gc_pil_uyari",
       name: { tr: "GÇ Pil Uyarı", en: "GC Battery Alert", ar: "تنبيه البطارية" },
       iconEmoji: "🔋",
       status: "dev",
@@ -136,7 +137,7 @@
       url: "apps/deskpilot.html"
     },
     {
-      id: "enyakin",
+      id: "en_yakin",
       name: { tr: "En Yakın", en: "Nearest", ar: "الأقرب" },
       iconImg: "img/EnYakinLogo.svg",
       status: "dev",
@@ -164,6 +165,7 @@
       url: "apps.html#upcoming"
     }
   ];
+
 
   // Helper: Read list of read post IDs from localStorage
   function getReadPosts() {

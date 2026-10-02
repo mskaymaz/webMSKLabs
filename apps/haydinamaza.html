@@ -56,27 +56,27 @@
       align-items: center;
       gap: 8px;
       text-decoration: none;
-      color: #555;
+      color: var(--text-main, #334155);
       font-weight: 600;
       font-size: 0.95rem;
-      background: #fff;
+      background: var(--bg-card, #fff);
       padding: 8px 16px;
       border-radius: 8px;
-      border: 1px solid #e0e0e0;
+      border: 1px solid var(--border-color, #cbd5e1);
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
       transition: all 0.2s ease;
     }
 
     .back-btn:hover {
-      background: #f5f7fa;
-      color: #1a1a1a;
+      background: var(--bg-surface-hover, #f1f5f9);
+      color: var(--primary-color, #2563eb);
       transform: translateX(-3px);
     }
 
     /* Uygulama Hero Kartı */
     .detail-card {
-      background: #ffffff;
-      border: 1px solid #f0f0f0;
+      background: var(--bg-card, #ffffff);
+      border: 1px solid var(--border-color, #cbd5e1);
       border-radius: 16px;
       padding: 40px;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
@@ -102,7 +102,7 @@
       font-size: 2rem;
       font-weight: 700;
       margin: 0;
-      color: #1a1a1a;
+      color: var(--text-main, #0f172a);
     }
 
     .badges {
@@ -122,20 +122,21 @@
     }
 
     .badge-platform {
-      background: #eef2ff;
-      color: #4f46e5;
+      background: var(--bg-surface, #eef2ff);
+      color: var(--primary-color, #2563eb);
+      border: 1px solid var(--border-color, #cbd5e1);
     }
 
     .badge-status {
-      background: #fffbeb;
-      color: #b45309;
-      border: 1px solid #fef3c7;
+      background: var(--bg-surface, #fffbeb);
+      color: var(--text-main, #b45309);
+      border: 1px solid var(--border-color, #fef3c7);
     }
 
     .app-description {
       font-size: 1.1rem;
       line-height: 1.7;
-      color: #4b5563;
+      color: var(--text-muted, #334155);
       margin-bottom: 30px;
     }
 
@@ -144,8 +145,8 @@
       font-size: 1.25rem;
       font-weight: 700;
       margin-bottom: 16px;
-      color: #1f2937;
-      border-bottom: 2px solid #f3f4f6;
+      color: var(--text-main, #0f172a);
+      border-bottom: 2px solid var(--border-color, #f3f4f6);
       padding-bottom: 8px;
     }
 
@@ -157,8 +158,8 @@
     }
 
     .feature-box {
-      background: #f9fafb;
-      border: 1px solid #f3f4f6;
+      background: var(--bg-surface, #f9fafb);
+      border: 1px solid var(--border-color, #f3f4f6);
       border-radius: 12px;
       padding: 16px 20px;
     }
@@ -166,13 +167,13 @@
     .feature-box h4 {
       margin: 0 0 6px 0;
       font-size: 1rem;
-      color: #111827;
+      color: var(--text-main, #0f172a);
     }
 
     .feature-box p {
       margin: 0;
       font-size: 0.9rem;
-      color: #6b7280;
+      color: var(--text-muted, #334155);
       line-height: 1.45;
     }
 
@@ -185,8 +186,8 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: #f3f4f6;
-      color: #4b5563;
+      background: var(--bg-surface, #f3f4f6);
+      color: var(--text-main, #334155);
       font-weight: 600;
       padding: 14px 28px;
       border-radius: 10px;
@@ -539,8 +540,8 @@
   </div>
 
   <script>
-    // MERKEZİ SİTE KONFİGÜRASYONU (Blogger & HTML Uyumlu)
-    var SITE_CONFIG = {
+    // MERKEZİ SİTE KONFİGÜRASYONU (config.js ile senkronize)
+    window.SITE_CONFIG = window.SITE_CONFIG || {
       contactEmail: "msklabs.org@gmail.com"
     };
 

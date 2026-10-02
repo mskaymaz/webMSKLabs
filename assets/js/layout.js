@@ -150,7 +150,8 @@
           </div>
           <div class="header-logo-center">
             <a href="${basePath}index.html" title="MSK Labs Ana Sayfa">
-              <img src="${basePath}img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="header-logo-img">
+              <img src="${basePath}img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="header-logo-img logo-light">
+              <img src="${basePath}img/MSKLabsType_white.svg" alt="MSK Labs Logo" class="header-logo-img logo-dark">
             </a>
           </div>
           <div class="header-actions-right">

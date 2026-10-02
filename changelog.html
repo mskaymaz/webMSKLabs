@@ -47,12 +47,12 @@
     .app-meta-info h2 {
       font-size: 1.25rem;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--text-main, #0f172a);
       margin: 0;
     }
     .app-meta-info p {
       font-size: 0.85rem;
-      color: #334155;
+      color: var(--text-muted, #334155);
       margin: 0.2rem 0 0 0;
     }
 
@@ -76,11 +76,11 @@
       border-radius: 50%;
       background: #38bdf8;
       box-shadow: 0 0 10px #38bdf8;
-      border: 3px solid #0f172a;
+      border: 3px solid var(--border-color, #0f172a);
     }
     .version-card {
-      background: #ffffff; border: 1px solid #e2e8f0;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--bg-card, #ffffff);
+      border: 1px solid var(--border-color, #e2e8f0);
       border-radius: 14px;
       padding: 1.25rem 1.5rem;
     }
@@ -95,11 +95,11 @@
     .version-number {
       font-size: 1.15rem;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--text-main, #0f172a);
     }
     .version-date {
       font-size: 0.8rem;
-      color: #64748b;
+      color: var(--text-subtle, #64748b);
     }
     .change-list {
       list-style: none;
@@ -111,7 +111,7 @@
     }
     .change-item {
       font-size: 0.9rem;
-      color: #334155;
+      color: var(--text-muted, #334155);
       display: flex;
       align-items: center;
       gap: 0.5rem;

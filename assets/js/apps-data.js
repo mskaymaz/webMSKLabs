@@ -1,11 +1,14 @@
 /**
  * MSK Labs - Central Apps Data Engine (Single Source of Truth for 20+ Applications)
  * Used by dynamic app showcase templates (app.html / apps/...)
+ *
+ * app_id standardı: alt_çizgi (app_catalog.json ile uyumlu)
+ * Web alias'lar backward compat için korunuyor.
  */
 
 window.MSK_APPS_DATA = {
-  "haydinamaza": {
-    id: "haydinamaza",
+  "haydi_namaza": {
+    id: "haydi_namaza",
     icon: '<img src="media/haydinamaza/icon.png" alt="HaydiNamaza">',
     logoImg: "media/haydinamaza/icon.png",
     name: { tr: "Haydi Namaza", en: "Haydi Namaza", ar: "حي على الصلاة" },
@@ -59,8 +62,8 @@ window.MSK_APPS_DATA = {
     downloadPage: "dl.html?app=deskpilot",
     supportPage: "destek.html?app=deskpilot"
   },
-  "enyakin": {
-    id: "enyakin",
+  "en_yakin": {
+    id: "en_yakin",
     icon: '<img src="img/EnYakinLogo.svg" alt="En Yakın">',
     logoImg: "img/EnYakinLogo.svg",
     name: { tr: "En Yakın Camii & Mescid", en: "Nearest Mosque Finder", ar: "أقرب مسجد" },
@@ -85,8 +88,8 @@ window.MSK_APPS_DATA = {
     downloadPage: "dl.html?app=enyakin",
     supportPage: "destek.html?app=enyakin"
   },
-  "date-counter": {
-    id: "date-counter",
+  "date_counter": {
+    id: "date_counter",
     icon: '<img src="media/date-counter/icon.png" alt="Date Counter">',
     logoImg: "media/date-counter/icon.png",
     name: { tr: "Date Counter (Tarih & Hedef Sayacı)", en: "Date Counter (Date & Goal Tracker)", ar: "Date Counter (عداد التاريخ والأهداف)" },
@@ -111,8 +114,8 @@ window.MSK_APPS_DATA = {
     downloadPage: "apps/date_counter.html",
     supportPage: "destek.html?app=date-counter"
   },
-  "gcpiluyari": {
-    id: "gcpiluyari",
+  "gc_pil_uyari": {
+    id: "gc_pil_uyari",
     icon: "🔋",
     logoImg: "",
     name: { tr: "GÇ Pil Uyarı", en: "GC Battery Alert", ar: "تنبيه البطارية" },
@@ -164,3 +167,9 @@ window.MSK_APPS_DATA = {
     supportPage: "destek.html?app=rekatsay"
   }
 };
+
+// Geriye dönük uyumluluk (Legacy Slug Alias'ları)
+window.MSK_APPS_DATA["haydinamaza"] = window.MSK_APPS_DATA["haydi_namaza"];
+window.MSK_APPS_DATA["date-counter"] = window.MSK_APPS_DATA["date_counter"];
+window.MSK_APPS_DATA["enyakin"] = window.MSK_APPS_DATA["en_yakin"];
+window.MSK_APPS_DATA["gcpiluyari"] = window.MSK_APPS_DATA["gc_pil_uyari"];

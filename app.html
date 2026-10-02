@@ -80,11 +80,11 @@
     }
     .feature-list li {
       padding: 0.5rem 0;
-      border-bottom: 1px dashed #e2e8f0;
+      border-bottom: 1px dashed var(--border-color, #e2e8f0);
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      color: #334155;
+      color: var(--text-muted, #334155);
       font-weight: 500;
     }
     .action-btn-group {
@@ -107,9 +107,9 @@
       transform: translateY(-2px);
     }
     .secondary-btn {
-      background: #f8fafc;
-      color: #334155;
-      border: 1px solid #cbd5e1;
+      background: var(--bg-surface, #f8fafc);
+      color: var(--text-main, #0f172a);
+      border: 1px solid var(--border-color, #cbd5e1);
       padding: 0.75rem 1.5rem;
       border-radius: 10px;
       text-decoration: none;
@@ -122,7 +122,8 @@
   <header class="site-header">
     <div class="site-header-inner">
       <a href="index.html" class="bizce-center-logo-link" title="MSK Labs Ana Sayfa">
-        <img src="img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="site-header-logo">
+        <img src="img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="site-header-logo logo-light">
+        <img src="img/MSKLabsType_white.svg" alt="MSK Labs Logo" class="site-header-logo logo-dark">
       </a>
 
       <div class="lang-switcher">
@@ -154,7 +155,7 @@
     <div class="portfolio-container">
       <div id="appContainer" class="app-hero-card">
         <!-- Dynamic Content Rendered Here -->
-        <p style="text-align: center; color: #64748b;">Uygulama bilgileri yükleniyor...</p>
+        <p style="text-align: center; color: var(--text-subtle);">Uygulama bilgileri yükleniyor...</p>
       </div>
       <div class="infeed-ad-container">
         <div class="ad-placeholder">Sayfa Altı Reklam Alanı (Bottom Banner)</div>
@@ -245,8 +246,8 @@
           <div class="app-header-flex">
             <div class="app-big-icon">${iconMarkup}</div>
             <div>
-              <h1 style="margin: 0; font-size: 1.8rem; color: #0f172a;">${t(app.name)}</h1>
-              <p style="margin: 0.25rem 0 0 0; color: #475569; font-weight: 600; font-size: 1rem;">${t(app.tagline)}</p>
+              <h1 style="margin: 0; font-size: 1.8rem; color: var(--text-main);">${t(app.name)}</h1>
+              <p style="margin: 0.25rem 0 0 0; color: var(--text-muted); font-weight: 600; font-size: 1rem;">${t(app.tagline)}</p>
               <div class="app-meta-pills">
                 <span class="meta-pill">v${app.version}</span>
                 <span class="meta-pill">${app.platform}</span>
@@ -255,9 +256,9 @@
             </div>
           </div>
 
-          <p style="font-size: 1.05rem; line-height: 1.7; color: #334155;">${t(app.description)}</p>
+          <p style="font-size: 1.05rem; line-height: 1.7; color: var(--text-muted);">${t(app.description)}</p>
 
-          <h3 style="margin-top: 1.5rem; color: #0f172a;">${featTitle}</h3>
+          <h3 style="margin-top: 1.5rem; color: var(--text-main);">${featTitle}</h3>
           <ul class="feature-list">
             ${featuresHTML}
           </ul>
