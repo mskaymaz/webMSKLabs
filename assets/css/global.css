@@ -64,7 +64,7 @@ body {
   gap: 10px; /* Standart Sabit 10px Yan Reklam Mesafesi */
   max-width: 1160px;
   width: 100%;
-  margin: 0 auto;
+  margin: 136px auto 0 auto;
   box-sizing: border-box;
 }
 
@@ -326,22 +326,22 @@ body.lang-ar .site-footer {
    SABİT ÜST KEMER (STICKY HEADER) VE RESPONSIVE NAVİGASYON STİLLERİ
    ========================================================================== */
 .site-header-sticky {
-  position: sticky;
-  top: 0 !important;
-  margin-top: 0 !important;
-  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  background: var(--bg-card, rgba(255, 255, 255, 0.94));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  background: var(--bg-card, rgba(255, 255, 255, 0.95));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-color, #e2e8f0);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   transition: background-color 0.3s ease, border-color 0.3s ease;
-  will-change: transform;
 }
 
 [data-theme="dark"] .site-header-sticky {
-  background: rgba(15, 23, 42, 0.92);
+  background: rgba(15, 23, 42, 0.95);
   border-bottom-color: #334155;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
@@ -496,6 +496,10 @@ body.lang-ar .site-footer {
 
 /* Medya Sorguları (768px ve Altı Mobil Mod) */
 @media (max-width: 768px) {
+  .layout-wrapper {
+    margin-top: 96px;
+  }
+
   .header-sticky-container {
     padding: 0.5rem 1rem;
   }

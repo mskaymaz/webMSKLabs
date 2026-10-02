@@ -30,7 +30,7 @@ Sitedeki **tüm sayfalar** (Ana Sayfa, Blog, Uygulamalar, Destek vb.) tek bir me
   - Hızlı Navigasyon Linkleri (`Ana Sayfa | Bizce | Anıltılar | Güncel | Uygulamalarımız | Hakkımızda | Destek & Talep | İletişim`).
 
 #### B. Mobil Mod (Mobile View - 768px ve altı)
-- **Sabitleme Koruması (Scroll Pinning):** Mobil cihazlarda sayfa kaydırılırken üst kemerin yukarı kayması engellenmiştir (`top: 0 !important; margin-top: 0 !important; will-change: transform`).
+- **Sabitleme Koruması (Scroll Pinning):** Mobil ve masaüstü cihazlarda sayfa kaydırılırken üst kemerin yukarı kayması ve logonun üst kısmının kırpılması `position: fixed; top: 0; left: 0; right: 0;` mimarisi ile tamamen ortadan kaldırılmıştır. Kemer 1 piksel dahi oynamadan 100% kilitli kalır. Content alanı `.layout-wrapper` üst marjı (`margin-top: 96px`) ile kusursuz çakışmasız akar.
 - **Logo Yüksekliği & Rahatlatılmış Alan:** Net, ferah ve rahatlatılmış dikey yükseklikte **65px** logo (76px min-height dikey alan).
 - **Sağ Taraf Düzeni (2 Satırlı):**
   - **Üst Satır:** Dil Butonları (`TR`, `EN`, `AR`) ve Tema Butonu (`🌙`/`☀️`).
