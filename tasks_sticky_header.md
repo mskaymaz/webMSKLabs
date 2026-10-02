@@ -59,5 +59,5 @@ Sitedeki **tüm sayfalar** (Ana Sayfa, Blog, Uygulamalar, Destek vb.) tek bir me
 - [x] **[STEP-4.3]** Mobil görünümde hamburger menünün sorunsuz açılıp kapandığını ve ekran kaydırmada taşma yapmadığını doğrula.
 
 ### Adım 5: Son Kontrol ve Yerel Commit
-- [ ] **[STEP-5.1]** Tüm sayfalarda konsol hatası (0 JS Error) olmadığını kontrol et.
-- [ ] **[STEP-5.2]** Yapılan değişiklikleri `git add .` ve `git commit` ile kaydet.
+- [x] **[STEP-5.1]** Tüm sayfalarda konsol hatası (0 JS Error) olmadığını kontrol et.
+- [x] **[STEP-5.2]** Yapılan değişiklikleri `git add .` ve `git commit` ile kaydet.
