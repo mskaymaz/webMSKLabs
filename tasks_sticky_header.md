@@ -22,19 +22,20 @@ Sitedeki **tüm sayfalar** (Ana Sayfa, Blog, Uygulamalar, Destek vb.) tek bir me
 - **Genişlik & Hiza Sınırı:** Sol ve sağ elemanlar reklam alanlarına taşmaz; ortadaki ana panelin (`.portfolio-container` - 900px) sol ve sağ beyaz sınırlarıyla dikeyde milimetrik hizada kalır (`max-width: 900px`, `margin: 0 auto`, `padding: 0.5rem 0`).
   - **Sol Marj Hizası:** Sayfa adı (Örn: `🏠 ANA SAYFA`, `✍️ BİZCE`), tam olarak aşağıdaki beyaz orta panelin sol sınırında başlar.
   - **Sağ Marj Hizası:** En sağdaki gece/gündüz tema değiştirme ikonu (`🌙`/`☀️`), tam olarak aşağıdaki beyaz orta panelin sağ sınırında biter.
-- **Katman 1 (Üst Kemer Barı - ~74px):**
+- **Katman 1 (Üst Kemer Barı - ~84px):**
   - **Sol Sınır:** Kullanıcının o an bulunduğu sayfa adı.
-  - **Orta (Mutlak Bağımsız Hizalama):** MSK Labs logosu, sol sayfa isminin uzunluğundan veya sağ buton sayısından %100 bağımsız olarak, 900px orta panelin tam dikey merkezine kilitlenmiştir (`position: absolute; left: 50%; transform: translateX(-50%)`). Logo dikey yüksekliği %30 daha büyütülerek **70px** seviyesine çıkarılmıştır.
+  - **Orta (Mutlak Bağımsız Hizalama):** MSK Labs logosu, sol sayfa isminin uzunluğundan veya sağ buton sayısından %100 bağımsız olarak, 900px orta panelin tam dikey merkezine kilitlenmiştir (`position: absolute; left: 50%; transform: translateX(-50%)`). Logo dikey yüksekliği **80px** seviyesindedir.
   - **Sağ Sınır:** Dil değiştirme butonları (`TR`, `EN`, `AR`) ve Tema butonu (`🌙`/`☀️`).
 - **Katman 2 (Alt Kemer Şeridi - ~32px):**
   - Hızlı Navigasyon Linkleri (`Ana Sayfa | Bizce | Anıltılar | Güncel | Uygulamalarımız | Hakkımızda | Destek & Talep | İletişim`).
 
 #### B. Mobil Mod (Mobile View - 768px ve altı)
-- **Ekran Yüksekliği:** Sadece ~50px ultra ince sabit bar.
-- **Sol Üst:** Kompakt MSK Labs logosu.
-- **Sağ Üst:** Dil butonları (`TR`, `EN`, `AR`), Tema (`🌙`/`☀️`) ve Hamburger Menü Butonu (`☰`).
-- **Sayfa Adı:** Mobil dar alan için gizlenir.
-- **Menü Yapısı:** `☰` butonuna basıldığında aşağıya doğru süzülerek açılan akordeon/dropdown liste menüsü.
+- **Logo Yüksekliği:** Net ve okunaklı **60px** dikey logo.
+- **Sağ Taraf Düzeni (2 Satırlı):**
+  - **Üst Satır:** Dil Butonları (`TR`, `EN`, `AR`) ve Tema Butonu (`🌙`/`☀️`).
+  - **Alt Satır:** Dil/Tema butonlarının hemen altında sağa hizalı Hamburger Menü Butonu (`☰`).
+- **Sayfa Adı & Masaüstü Linkler:** Mobilde alan kazanmak ve kalabalığı önlemek için tamamen gizlenir (`display: none !important`).
+- **Açılır Menü (Floating Overlay Layer):** `☰` butonuna basıldığında açılan menü **sayfa içeriğini aşağı itelemez**. `position: absolute; top: 100%; z-index: 1050;` ile sayfanın üzerinde süzülen üst katman (overlay floating layer) olarak açılır.
 
 ---
 

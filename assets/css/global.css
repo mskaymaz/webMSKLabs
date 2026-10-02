@@ -356,7 +356,7 @@ body.lang-ar .site-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 74px;
+  min-height: 84px;
   position: relative;
 }
 
@@ -388,7 +388,7 @@ body.lang-ar .site-footer {
 }
 
 .header-logo-img {
-  height: 70px;
+  height: 80px;
   width: auto;
   transition: transform 0.2s ease;
 }
@@ -429,13 +429,26 @@ body.lang-ar .site-footer {
   border-color: var(--primary-color, #0284c7);
 }
 
-/* Mobil Dropdown Drawer Menüsü */
+/* Mobil Dropdown Drawer Menüsü (Üst Katman / Overlay Floating Layer) */
 .mobile-drawer-menu {
   display: none;
-  background: var(--bg-card, #ffffff);
-  border-top: 1px solid var(--border-color, #e2e8f0);
-  padding: 0.75rem 1rem;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  background: var(--bg-card, rgba(255, 255, 255, 0.96));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color, #cbd5e1);
+  padding: 0.75rem 1.25rem;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .mobile-drawer-menu {
+  background: rgba(15, 23, 42, 0.96);
+  border-bottom-color: #334155;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
 }
 
 .mobile-drawer-menu.is-active {
@@ -445,13 +458,13 @@ body.lang-ar .site-footer {
 
 .mobile-drawer-menu a {
   display: block;
-  padding: 0.55rem 0.75rem;
+  padding: 0.6rem 0.85rem;
   color: var(--text-main, #334155);
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   border-radius: 6px;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.25rem;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
@@ -482,7 +495,7 @@ body.lang-ar .site-footer {
 /* Medya Sorguları (768px ve Altı Mobil Mod) */
 @media (max-width: 768px) {
   .header-top-row {
-    min-height: 48px;
+    min-height: 68px;
   }
 
   .header-page-title {
@@ -496,11 +509,18 @@ body.lang-ar .site-footer {
   }
 
   .header-logo-img {
-    height: 42px;
+    height: 60px;
+  }
+
+  .header-actions-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
   }
 
   .site-header-sticky .top-main-nav {
-    display: none;
+    display: none !important; /* Mobilde yatay navigasyon kesinlikle görünmez */
   }
 
   .hamburger-toggle-btn {
