@@ -23,9 +23,9 @@ Sitedeki **tüm sayfalar** (Ana Sayfa, Blog, Uygulamalar, Destek vb.) tek bir me
   - **Sol Marj Hizası:** Sayfa adı (Örn: `🏠 ANA SAYFA`, `✍️ BİZCE`), tam olarak aşağıdaki beyaz orta panelin sol sınırında başlar.
   - **Sağ Marj Hizası:** En sağdaki gece/gündüz tema değiştirme ikonu (`🌙`/`☀️`), tam olarak aşağıdaki beyaz orta panelin sağ sınırında biter.
 - **Katman 1 (Üst Kemer Barı - ~84px):**
-  - **Sol Sınır:** Kullanıcının o an bulunduğu sayfa adı.
-  - **Orta (Mutlak Bağımsız Hizalama):** MSK Labs logosu, sol sayfa isminin uzunluğundan veya sağ buton sayısından %100 bağımsız olarak, 900px orta panelin tam dikey merkezine kilitlenmiştir (`position: absolute; left: 50%; transform: translateX(-50%)`). Logo dikey yüksekliği **80px** seviyesindedir.
-  - **Sağ Sınır:** Dil değiştirme butonları (`TR`, `EN`, `AR`) ve Tema butonu (`🌙`/`☀️`).
+  - **Sol Sınır:** Kullanıcının o an bulunduğu sayfa adı. Dikeyde alt çizginin hemen üzerine oturacak şekilde dikeyden alt tarafa hizalanmıştır (`align-items: flex-end`).
+  - **Orta (Mutlak Bağımsız Hizalama):** MSK Labs logosu, sol sayfa isminin uzunluğundan veya sağ buton sayısından %100 bağımsız olarak, 900px orta panelin tam dikey merkezine kilitlenmiştir (`position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%)`). Logo dikey yüksekliği **80px** seviyesindedir.
+  - **Sağ Sınır:** Dil değiştirme butonları (`TR`, `EN`, `AR`) ve Tema butonu (`🌙`/`☀️`). Dikeyde alt çizginin hemen üzerine oturacak şekilde dikeyden alt tarafa hizalanmıştır (`align-items: flex-end`).
 - **Katman 2 (Alt Kemer Şeridi - ~32px):**
   - Hızlı Navigasyon Linkleri (`Ana Sayfa | Bizce | Anıltılar | Güncel | Uygulamalarımız | Hakkımızda | Destek & Talep | İletişim`).
 

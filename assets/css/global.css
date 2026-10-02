@@ -356,9 +356,10 @@ body.lang-ar .site-footer {
 
 .header-top-row {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   min-height: 84px;
+  padding-bottom: 0.35rem;
   position: relative;
 }
 
@@ -377,7 +378,8 @@ body.lang-ar .site-footer {
 .header-logo-center {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
