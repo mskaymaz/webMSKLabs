@@ -54,8 +54,8 @@ Sitedeki **tüm sayfalar** (Ana Sayfa, Blog, Uygulamalar, Destek vb.) tek bir me
 - [x] **[STEP-2.4]** Gece/Gündüz modu (`toggleTheme()`) butonunu header sağ grubuna entegre et.
 
 ### Adım 3: Blog Sayfası Uyumlaştırılması (`blog/blog.html` & `blog/blog.js`)
-- [x] **[STEP-3.1]** `blog/blog.html` içindeki eski özel `.bizce-header` yapısı kaldırıldı, `<header class="site-header-sticky"></header>` standardına bağlandı.
-- [x] **[STEP-3.2]** `assets/css/blog.css` içindeki eski `.bizce-header` ve çakışan `.layout-wrapper { margin: 1.5rem auto; }` ezme kuralı tamamen temizlendi. Blog sayfalarının da tıpkı diğer sayfalar gibi `fixed` üst kemer ve `margin-top: 96px` ile sıfır kayma ve sıfır kırpılma ile çalışması sağlandı.
+- [x] **[STEP-3.1]** `blog/blog.html` şablonu, Ana Sayfa (`index.html`) ve `destek.html` ile %100 birebir aynı mimariye kavuşturuldu (`<main class="portfolio-container main-content-area">`).
+- [x] **[STEP-3.2]** `layout.js` bileşen motoru `blog.js` öncesinde çalıştırılarak üst kemer ve alt footerin tüm sayfalarda 0 farkla tek tip sabitlenmesi sağlandı. Eski `blog.css` ezmeleri tamamen temizlendi.
 
 ### Adım 4: Kurumsal Çekirdek Sayfaların Test & Doğrulaması
 - [x] **[STEP-4.1]** `index.html`, `bizkimiz.html`, `apps.html`, `destek.html`, `about.html`, `contact.html` vb. sayfalarda yeni üst kemeri test et.
