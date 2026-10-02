@@ -14,14 +14,18 @@
     let data = {};
     try {
       data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    } catch(e) {}
+    } catch(e) {
+      /* localStorage erişim/ayrıştırma hatasını yut */
+    }
     return data;
   }
 
   function saveStats(data) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    } catch(e) {}
+    } catch(e) {
+      /* Quota veya gizlilik modunda kayıt hatasını yut */
+    }
   }
 
   function trackPageView() {
@@ -45,7 +49,9 @@
     if (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.googleSheetApiUrl && !SITE_CONFIG.googleSheetApiUrl.includes('placeholder')) {
       try {
         fetch(SITE_CONFIG.googleSheetApiUrl + '?action=pageview&page=' + encodeURIComponent(window.location.pathname), { mode: 'no-cors' });
-      } catch(e) {}
+      } catch(e) {
+        /* Ağ veya CORS hatalarını yut */
+      }
     }
   }
 
@@ -71,7 +77,9 @@
     if (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.googleSheetApiUrl && !SITE_CONFIG.googleSheetApiUrl.includes('placeholder')) {
       try {
         fetch(SITE_CONFIG.googleSheetApiUrl + '?action=track&event=' + encodeURIComponent(eventName) + '&app=' + encodeURIComponent(appId || 'web'), { mode: 'no-cors' });
-      } catch(e) {}
+      } catch(e) {
+        /* Ağ hatalarını yut */
+      }
     }
   }
 
@@ -81,7 +89,9 @@
     let archive = [];
     try {
       archive = JSON.parse(localStorage.getItem(ARCHIVE_KEY) || '[]');
-    } catch(e) {}
+    } catch(e) {
+      /* localStorage okuma hatası */
+    }
     return archive;
   }
 
@@ -103,7 +113,9 @@
     try {
       localStorage.setItem(ARCHIVE_KEY, JSON.stringify(archive));
       localStorage.removeItem(STORAGE_KEY);
-    } catch(e) {}
+    } catch(e) {
+      /* Arşivleme hatasını yut */
+    }
 
     return archiveItem;
   }
@@ -111,7 +123,9 @@
   function clearArchive() {
     try {
       localStorage.removeItem(ARCHIVE_KEY);
-    } catch(e) {}
+    } catch(e) {
+      /* Silme hatasını yut */
+    }
   }
 
   // Expose global object

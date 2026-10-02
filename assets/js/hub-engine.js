@@ -193,7 +193,9 @@
   // Render Category Dynamic Cards
   function renderBlogBox(type, latestElId, recElId) {
     var posts = (typeof blogPostsData !== 'undefined' && blogPostsData.length > 0) ? blogPostsData : hubBlogData;
-    var categoryPosts = posts.filter(function(p) { return p.type === type; });
+    var categoryPosts = posts.filter(function(p) { return p.type === type; }).sort(function(a, b) {
+      return (b.id || 0) - (a.id || 0);
+    });
     if (!categoryPosts || categoryPosts.length === 0) return;
 
     var lang = getLang();

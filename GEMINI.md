@@ -27,3 +27,15 @@ Whenever the user includes the keywords **"Bismillah"**, **"Eko"**, or requests 
    - Perform ONLY surgical, targeted edits on the exact lines/files specified by the user.
    - NEVER touch, refactor, or re-format collateral or unrequested files.
    - Minimize context scanning and unnecessary tool usage to conserve tokens and prevent side-effect regressions.
+
+## MANDATORY WORKFLOW: CONSULTATION BEFORE CODE EXECUTION (NON-NEGOTIABLE)
+
+**CRITICAL PROTOCOL FOR ALL CODE ASSISTANTS:**
+1. **NO CODE ON CONSULTATIVE PROMPTS**:
+   - When the user asks for opinions, ideas, analysis, or solutions (e.g., *"Fikrin nedir?"*, *"Ne düşünüyorsun?"*, *"Senin çözümün nedir?"*, *"Bu doğru mu?"*), DO NOT modify files or write implementation code.
+2. **CONSULTATION & ALIGNMENT FIRST**:
+   - Present options, pros/cons, and architecture details.
+   - Discuss and reach a mutual agreement with the user first.
+3. **EXPLICIT EXECUTION DIRECTIVE REQUIRED**:
+   - DO NOT start writing code or editing files until the user explicitly gives an execution command (e.g., *"Şimdi yapalım"*, *"Evet yapalım"*, *"Yap"*).
+

@@ -198,13 +198,7 @@
 
   </div>
 
-  <aside class="desktop-ad desktop-ad-right">
-    <div class="ad-placeholder">Masaüstü Sağ Reklam<br>(120x300)</div>
-  </aside>
-
-</div>
-
-<script>
+  <aside cl<script>
   const ALL_APPS = {
     'haydinamaza': {
       name: 'HaydiNamaza',
@@ -212,7 +206,7 @@
       icon: '🕌',
       desc_tr: 'Akıllı ezan vakti alarmları, kıble pusulası ve canlı namaz vakitleri takibi.',
       desc_en: 'Smart adhan alarms, qibla compass, and live prayer times tracking.',
-      url: 'haydinamaza.html'
+      url: 'apps/haydinamaza.html'
     },
     'rekatsay': {
       name: 'RekatSay',
@@ -220,7 +214,7 @@
       category: 'İbadet & Sensör',
       desc_tr: 'Secde esnasında mesafe sensörüyle otomatik rekat ve secde sayacı.',
       desc_en: 'Automatic rak\'ah counter using proximity sensor during prostration.',
-      url: 'rekatsay.html'
+      url: 'apps/rekatsay.html'
     },
     'date-counter': {
       name: 'Date Counter',
@@ -228,7 +222,7 @@
       category: 'Zaman & Hedef Yönetimi',
       desc_tr: 'Emeklilik, sınav ve hedef tarihlerinizi masaüstünüzde ve görev çubuğunuzda canlı takip aracı.',
       desc_en: 'Desktop and taskbar timer tracking retirement, exams, and target dates in real-time.',
-      url: 'date_counter.html'
+      url: 'apps/date_counter.html'
     },
     'enyakin': {
       name: 'En Yakın',
@@ -236,7 +230,7 @@
       category: 'Harita & Konum',
       desc_tr: 'Etrafınızdaki en yakın nöbetçi eczane, cami ve acil hizmet bulucu.',
       desc_en: 'Find nearby duty pharmacies, mosques, and emergency services.',
-      url: 'enyakin.html'
+      url: 'apps/enyakin.html'
     },
     'deskpilot': {
       name: 'DeskPilot',
@@ -244,7 +238,7 @@
       category: 'Masaüstü & Verimlilik',
       desc_tr: 'Windows için masaüstü kısayol ve verimlilik yönetim asistanı.',
       desc_en: 'Desktop shortcut and productivity management assistant for Windows.',
-      url: 'deskpilot.html'
+      url: 'apps/deskpilot.html'
     },
     'gcpiluyari': {
       name: 'GCP İl Uyarı',
@@ -252,7 +246,7 @@
       category: 'Güvenlik & Uyarı',
       desc_tr: 'İl bazlı acil durum ve hava/afet anlık uyarı sistemi.',
       desc_en: 'City-based emergency and weather alert system.',
-      url: 'gcpiluyari.html'
+      url: 'apps/gcpiluyari.html'
     }
   };
 
@@ -266,15 +260,14 @@
     'gcpiluyari': ['enyakin', 'haydinamaza', 'deskpilot']
   };
 
-
-
   (function() {
     const urlParams = new URLSearchParams(window.location.search);
     const sourceApp = (urlParams.get('app') || '').toLowerCase().trim();
 
     // Get recommended app IDs or default set
-    const recommendedIds = PROMO_MATRIX[sourceApp] || ['haydinamaza', 'rekatsay', 'emekli', 'enyakin'];
+    const recommendedIds = PROMO_MATRIX[sourceApp] || ['haydinamaza', 'rekatsay', 'gcpiluyari', 'enyakin'];
     const grid = document.getElementById('promoGrid');
+    if (!grid) return;
     grid.innerHTML = '';
 
     recommendedIds.forEach(id => {
@@ -283,44 +276,32 @@
 
       const card = document.createElement('div');
       card.className = 'promo-card';
-      card.innerHTML = 
+      card.innerHTML = `
         <span class="promo-badge">★ Tavsiye</span>
         <div>
           <div class="promo-app-header">
-            <div class="promo-app-icon"></div>
+            <div class="promo-app-icon">${app.icon}</div>
             <div class="promo-app-title">
-              <h3></h3>
-              <span></span>
+              <h3>${app.name}</h3>
+              <span>${app.category}</span>
             </div>
           </div>
           <p class="promo-desc">
-            <span class="lang-tr"></span>
-            <span class="lang-en"></span>
+            <span class="lang-tr">${app.desc_tr}</span>
+            <span class="lang-en">${app.desc_en}</span>
           </p>
         </div>
-        <a href="" class="promo-action-btn">
+        <a href="${app.url}" class="promo-action-btn">
           🚀 <span class="lang-tr">Ücretsiz İndir / İncele</span><span class="lang-en">Free Download</span>
         </a>
-      ;
+      `;
       grid.appendChild(card);
     });
   })();
 </script>
 
-
-  <!-- Standart Alt Footer Menusu -->
-  <footer class="site-footer" style="text-align: center; padding: 1.5rem 1rem; border-top: 1px solid #cbd5e1; margin-top: 2.5rem; font-size: 0.85rem; color: #64748b;">
-    <div class="footer-links" style="margin-bottom: 0.75rem; font-weight: 600;">
-      <a href="index.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a> |
-      <a href="blog/blog.html?type=bizce" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a> |
-      <a href="blog/blog.html?type=anilts" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span></a> |
-      <a href="about.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a> |
-      <a href="destek.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a> |
-      <a href="contact.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a> |
-      <a href="who-we-are.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Biz Kimiz</span><span class="lang-en">Who We Are</span><span class="lang-ar">من نحن</span></a> |
-      <a href="faq.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">SSS</span><span class="lang-en">FAQ</span><span class="lang-ar">الأسئلة الشائعة</span></a> |
-      <a href="privacy.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Gizlilik Politikası</span><span class="lang-en">Privacy Policy</span><span class="lang-ar">سياسة الخصوصية</span></a> |
-      <a href="terms.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Kullanım Koşulları</span><span class="lang-en">Terms of Service</span><span class="lang-ar">شروط الخدمة</span></a>
+  <script src="assets/js/layout.js"></script>
+</body>ang-tr">Kullanım Koşulları</span><span class="lang-en">Terms of Service</span><span class="lang-ar">شروط الخدمة</span></a>
     </div>
     <p class="copyright-line" style="margin: 0;">© 2026 MSK Labs. Tüm hakları saklıdır.</p>
   </footer>

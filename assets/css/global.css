@@ -22,6 +22,19 @@
   --desktop-ad-top-margin: 315px; /* Ana menünün bittiği alt çizginin 95px altındaki dikey reklam başlama mesafesi */
 }
 
+/* Screen Reader Only / Accessibility Utility Class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 [data-theme="dark"], body.dark-theme {
   /* Dark Theme Tokens */
   --bg-page: #0f172a;

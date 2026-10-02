@@ -33,18 +33,18 @@ export async function onRequestPost(context) {
     const geminiKey = env?.GEMINI_API_KEY;
     if (geminiKey) {
       try {
-        const prompt = Aşağıdaki kullanıcı talebini analiz et ve SADECE geçerli bir JSON çıktısı ver:
+        const prompt = `Aşağıdaki kullanıcı talebini analiz et ve SADECE geçerli bir JSON çıktısı ver:
         - ai_category: "hata", "istek", "tesekkur", "fikir" veya "genel"
         - quality_score: 1-10 arası ciddiyet ve detay puanı
         - ai_summary: Talebin 1 cümlelik özeti
         - action_item: Geliştirici için yapılması gereken aksiyon
 
-        Uygulama:  (v, )
-        Kategori: 
-        Konu: 
-        Mesaj: ;
+        Uygulama: ${app} (v${ver}, ${os})
+        Kategori: ${category}
+        Konu: ${subject}
+        Mesaj: ${message}`;
 
-        const geminiRes = await fetch(https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=, {
+        const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -55,7 +55,7 @@ export async function onRequestPost(context) {
         const geminiData = await geminiRes.json();
         const rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
         if (rawText) {
-          const cleanJson = rawText.replace(/`json|`/g, '').trim();
+          const cleanJson = rawText.replace(/```json|```/g, '').trim();
           aiAnalysis = JSON.parse(cleanJson);
         }
       } catch (aiErr) {
@@ -93,9 +93,9 @@ export async function onRequestPost(context) {
 
     if (tgToken && tgChatId) {
       try {
-        const tgMessage = 🚨 *Yeni Destek Talebi [#]*\n\n📱 *Uygulama:*  (v, )\n🏷️ *Kategori:* \n📌 *Konu:* \n📝 *Mesaj:* \n⭐ *AI Ciddiyet Puanı:* /10\n🤖 *AI Özeti:* \n🛠️ *Eylem:* \n📧 *E-posta:* ;
+        const tgMessage = `🚨 *Yeni Destek Talebi [#${ticketId}]*\n\n📱 *Uygulama:* ${app} (v${ver}, ${os})\n🏷️ *Kategori:* ${category}\n📌 *Konu:* ${subject}\n📝 *Mesaj:* ${message}\n⭐ *AI Ciddiyet Puanı:* ${aiAnalysis.quality_score}/10\n🤖 *AI Özeti:* ${aiAnalysis.ai_summary}\n🛠️ *Eylem:* ${aiAnalysis.action_item}\n📧 *E-posta:* ${email}`;
 
-        await fetch(https://api.telegram.org/bot/sendMessage, {
+        await fetch(`https://api.telegram.org/bot${tgToken}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
