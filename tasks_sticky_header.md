@@ -30,7 +30,8 @@ Sitedeki **tüm sayfalar** (Ana Sayfa, Blog, Uygulamalar, Destek vb.) tek bir me
   - Hızlı Navigasyon Linkleri (`Ana Sayfa | Bizce | Anıltılar | Güncel | Uygulamalarımız | Hakkımızda | Destek & Talep | İletişim`).
 
 #### B. Mobil Mod (Mobile View - 768px ve altı)
-- **Logo Yüksekliği:** Net ve okunaklı **60px** dikey logo.
+- **Sabitleme Koruması (Scroll Pinning):** Mobil cihazlarda sayfa kaydırılırken üst kemerin yukarı kayması engellenmiştir (`top: 0 !important; margin-top: 0 !important; will-change: transform`).
+- **Logo Yüksekliği & Rahatlatılmış Alan:** Net, ferah ve rahatlatılmış dikey yükseklikte **65px** logo (76px min-height dikey alan).
 - **Sağ Taraf Düzeni (2 Satırlı):**
   - **Üst Satır:** Dil Butonları (`TR`, `EN`, `AR`) ve Tema Butonu (`🌙`/`☀️`).
   - **Alt Satır:** Dil/Tema butonlarının hemen altında sağa hizalı Hamburger Menü Butonu (`☰`).
