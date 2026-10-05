@@ -22,6 +22,11 @@ var blogPostsData = [
     "date": "29 Eylül 2026",
     "readTime": "6 dk okuma",
     "icon": "💡",
+    "audio": {
+      "tr": { "status": "approved", "url": "../media/audio/post_1_tr.mp3", "version": 1 },
+      "en": { "status": "approved", "url": "../media/audio/post_1_en.mp3", "version": 1 },
+      "ar": { "status": "approved", "url": "../media/audio/post_1_ar.mp3", "version": 1 }
+    },
     "tr": {
       "title": "BİZCE Nedir? — Sessiz Kalabalığın Sesi ve Başka Bir Pencere",
       "summary": "Herkesin söyleyecek bir sözü var. Bizim de var. BİZCE, insanı ve insanlığı ilgilendiren meseleleri kendi anlayışımız, değerlerimiz ve düşünce biçimimiz içerisinde yeniden ele almak için var.",
@@ -617,6 +622,7 @@ function openPost(id) {
   updateHeaderAndTabs();
   updateReaderViewLanguage();
   toggleTTSAccordion(false);
+  checkAdminPreListenUI();
 
   // Dinamik Sekme Başlığı, Meta Etiketleri, Schema.org ve URL Parametresi Güncelleme
   var langData = currentPost[currentLang] || currentPost['tr'];
@@ -817,11 +823,93 @@ function seekTTS(val) {
   }
 }
 
+function isAdminPreListenMode() {
+  var params = new URLSearchParams(window.location.search);
+  return params.get('prelisten') === 'true' || params.get('admin') === 'true' || window.location.hash.includes('admin');
+}
+
+function getAudioStatusInfo(postId, lang) {
+  var storageKey = 'audio_status_post_' + postId + '_' + lang;
+  var overrideStatus = null;
+  try { overrideStatus = localStorage.getItem(storageKey); } catch(e) {}
+
+  var defaultStatus = 'none';
+  var defaultUrl = '../media/audio/post_' + postId + '_' + lang + '.mp3';
+
+  if (currentPost && currentPost.audio && currentPost.audio[lang]) {
+    defaultStatus = currentPost.audio[lang].status || 'none';
+    if (currentPost.audio[lang].url) defaultUrl = currentPost.audio[lang].url;
+  }
+
+  return {
+    status: overrideStatus || defaultStatus,
+    url: defaultUrl
+  };
+}
+
+function checkAdminPreListenUI() {
+  var banner = document.getElementById('adminPreListenBanner');
+  var badge = document.getElementById('adminAudioStatusBadge');
+  var btn = document.getElementById('btnApproveAudio');
+  if (!banner) return;
+
+  if (isAdminPreListenMode()) {
+    banner.style.display = 'block';
+    var postId = currentPost ? currentPost.id : 1;
+    var info = getAudioStatusInfo(postId, currentLang);
+    if (badge) {
+      badge.innerText = info.status.toUpperCase();
+      if (info.status === 'approved') {
+        badge.style.background = '#dcfce7';
+        badge.style.color = '#15803d';
+      } else if (info.status === 'draft') {
+        badge.style.background = '#fef08a';
+        badge.style.color = '#854d0e';
+      } else {
+        badge.style.background = '#fee2e2';
+        badge.style.color = '#b91c1c';
+      }
+    }
+    if (btn) {
+      if (info.status === 'approved') {
+        btn.innerText = '✓ Sesi Yayında (Onaylı)';
+        btn.style.background = '#15803d';
+      } else {
+        btn.innerText = '✅ Sesi Onayla ve Yayınla';
+        btn.style.background = '#16a34a';
+      }
+    }
+  } else {
+    banner.style.display = 'none';
+  }
+}
+
+function approveAndPublishAudio() {
+  var postId = currentPost ? currentPost.id : 1;
+  try {
+    localStorage.setItem('audio_status_post_' + postId + '_' + currentLang, 'approved');
+  } catch(e) {}
+  checkAdminPreListenUI();
+  
+  var noticeEl = document.getElementById('ttsNotice');
+  var noticeTextEl = document.getElementById('ttsNoticeText');
+  if (noticeEl) {
+    noticeEl.style.display = 'block';
+    noticeEl.style.background = '#f0fdf4';
+    noticeEl.style.borderColor = '#bbf7d0';
+    noticeEl.style.color = '#15803d';
+    if (noticeTextEl) noticeTextEl.innerText = '✅ Ses başarıyla onaylandı ve ziyareçilere yayınlandı!';
+  }
+}
+
 function showTTSUnavailableNotice() {
   var noticeEl = document.getElementById('ttsNotice');
   var noticeTextEl = document.getElementById('ttsNoticeText');
   if (noticeEl) {
     noticeEl.style.display = 'block';
+    noticeEl.style.background = '#fffbeb';
+    noticeEl.style.borderColor = '#fde68a';
+    noticeEl.style.color = '#b45309';
     var noticeMsg = (currentLang === 'ar'
       ? 'ℹ️ جاري إعداد التسجيل الصوتي لهذه اللغة.'
       : (currentLang === 'en'
@@ -838,10 +926,24 @@ function playTTS() {
   if (!audio) return;
 
   var postId = currentPost ? currentPost.id : 1;
-  var audioSrc = '../media/audio/post_' + postId + '_' + currentLang + '.mp3';
+  var audioInfo = getAudioStatusInfo(postId, currentLang);
+  var isAdmin = isAdminPreListenMode();
 
   var noticeEl = document.getElementById('ttsNotice');
   if (noticeEl) noticeEl.style.display = 'none';
+
+  // STEP 3.2 & 3.3: Visitors can ONLY listen if status is 'approved'
+  if (audioInfo.status !== 'approved' && !isAdmin) {
+    showTTSUnavailableNotice();
+    return;
+  }
+
+  if (audioInfo.status === 'none') {
+    showTTSUnavailableNotice();
+    return;
+  }
+
+  var audioSrc = audioInfo.url || ('../media/audio/post_' + postId + '_' + currentLang + '.mp3');
 
   // If paused and same src, resume
   if (audio.src && audio.src.includes('post_' + postId + '_' + currentLang) && audio.paused && audio.currentTime > 0) {
@@ -917,6 +1019,7 @@ window.addEventListener('languageChanged', function(e) {
     stopTTS();
     currentLang = e.detail.lang;
     hideTTSNotice();
+    checkAdminPreListenUI();
   }
 });
 

@@ -57,7 +57,7 @@
 
 ## Yönetici / Taslak / Onay Mekanizması
 
-* [ ] **[STEP 3.1]** Veri yapısına dil bazlı ses durumunun eklenmesi.
+* [x] **[STEP 3.1]** Veri yapısına dil bazlı ses durumunun eklenmesi.
 
 Önerilen yapı:
 
@@ -77,13 +77,13 @@ audio:
     version: ...
 ```
 
-* [ ] **[STEP 3.2]** Ziyaretçilere yalnızca `approved` durumundaki ses dosyalarının sunulması.
+* [x] **[STEP 3.2]** Ziyaretçilere yalnızca `approved` durumundaki ses dosyalarının sunulması.
 
-* [ ] **[STEP 3.3]** `draft`, `generating` ve `failed` durumundaki seslerin public kullanıcılar tarafından erişilememesi.
+* [x] **[STEP 3.3]** `draft`, `generating` ve `failed` durumundaki seslerin public kullanıcılar tarafından erişilememesi.
 
-* [ ] **[STEP 3.4]** Yönetici/ekibe özel gizli Pre-Listen arayüzü oluşturulması.
+* [x] **[STEP 3.4]** Yönetici/ekibe özel gizli Pre-Listen arayüzü oluşturulması.
 
-* [ ] **[STEP 3.5]** Yönetici tarafından sesin dinlenmesi ve tek işlemle **"Sesi Onayla ve Yayınla"** işleminin yapılabilmesi.
+* [x] **[STEP 3.5]** Yönetici tarafından sesin dinlenmesi ve tek işlemle **"Sesi Onayla ve Yayınla"** işleminin yapılabilmesi.
 
 ---
 
