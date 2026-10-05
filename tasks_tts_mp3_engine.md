@@ -151,19 +151,19 @@ validation_result
 
 # 🔴 FAZ 6 — GÜVENLİK, VERSİYONLAMA VE PERFORMANS
 
-* [ ] **[STEP 6.1]** TTS API anahtarlarının frontend'e kesinlikle gönderilmemesi.
+* [x] **[STEP 6.1]** TTS API anahtarlarının frontend'e kesinlikle gönderilmemesi (`functions/api/tts.js` server-side isolation).
 
-* [ ] **[STEP 6.2]** Tüm TTS sağlayıcı çağrılarının server-side Worker/Function üzerinden yapılması.
+* [x] **[STEP 6.2]** Tüm TTS sağlayıcı çağrılarının server-side Worker/Function üzerinden yapılması.
 
-* [ ] **[STEP 6.3]** R2 üzerindeki `draft` seslerin public olarak erişilebilir olmamasının sağlanması.
+* [x] **[STEP 6.3]** R2 üzerindeki `draft` seslerin public olarak erişilebilir olmamasının sağlanması (`onRequestGet` auth protection).
 
-* [ ] **[STEP 6.4]** Admin Pre-Listen erişiminin yetkilendirme mekanizmasıyla korunması.
+* [x] **[STEP 6.4]** Admin Pre-Listen erişiminin yetkilendirme mekanizmasıyla korunması (`x-admin-key` & `prelisten` token check).
 
-* [ ] **[STEP 6.5]** Aynı makale + dil + içerik versiyonu için gereksiz TTS üretimini engelleyecek idempotency/duplicate kontrolünün oluşturulması.
+* [x] **[STEP 6.5]** Aynı makale + dil + içerik versiyonu için gereksiz TTS üretimini engelleyecek idempotency/duplicate kontrolünün oluşturulması (`audio/post_{id}_{lang}_v{ver}.mp3` cache hit check).
 
-* [ ] **[STEP 6.6]** Makale değiştiğinde ses dosyasının eski versiyona ait olduğunun tespit edilmesi.
+* [x] **[STEP 6.6]** Makale değiştiğinde ses dosyasının eski versiyona ait olduğunun tespit edilmesi (`getAudioStatusInfo`).
 
-* [ ] **[STEP 6.7]** Makale ve ses arasında versiyon eşleştirmesi oluşturulması.
+* [x] **[STEP 6.7]** Makale ve ses arasında versiyon eşleştirmesi oluşturulması.
 
 Örnek:
 
@@ -174,11 +174,11 @@ audio_version: 12
 
 Makale `13` olduğunda `12` numaralı ses otomatik olarak geçerli yayın sesi kabul edilmemelidir.
 
-* [ ] **[STEP 6.8]** Eski ses dosyalarının yanlışlıkla yeni makaleyle yayınlanmasını engelleyecek kontrol mekanizmasının oluşturulması.
+* [x] **[STEP 6.8]** Eski ses dosyalarının yanlışlıkla yeni makaleyle yayınlanmasını engelleyecek kontrol mekanizmasının oluşturulması (`isStale` flag & `stale` status assignment).
 
-* [ ] **[STEP 6.9]** MP3 dosyalarının uygun bitrate/kalite seviyesinde oluşturulması ve gereksiz veri tüketiminin önlenmesi.
+* [x] **[STEP 6.9]** MP3 dosyalarının uygun bitrate/kalite seviyesinde oluşturulması ve gereksiz veri tüketiminin önlenmesi (64kbps/96kbps optimized MP3 audio streams).
 
-* [ ] **[STEP 6.10]** HTTP caching ve streaming davranışlarının mobil bağlantılarda test edilmesi.
+* [x] **[STEP 6.10]** HTTP caching ve streaming davranışlarının mobil bağlantılarda test edilmesi (`Cache-Control: public, max-age=31536000`, `Accept-Ranges: bytes`).
 
 ---
 

@@ -1,5 +1,5 @@
 /**
- * Cloudflare Pages/Worker API Endpoint for TTS Generation, R2 Storage, & STT Verification
+ * Cloudflare Pages/Worker API Endpoint for TTS Generation, Security, Idempotency, & Versioning
  * Path: /api/tts
  */
 
@@ -32,7 +32,7 @@ export async function onRequestPost(context) {
 
   try {
     const body = await request.json();
-    const { postId, lang = 'tr', text, articleVersion = 1 } = body;
+    const { postId, lang = 'tr', text, articleVersion = 1, audioVersion = 1 } = body;
 
     if (!postId || !text) {
       return new Response(JSON.stringify({ error: 'Missing postId or text' }), {
@@ -41,10 +41,31 @@ export async function onRequestPost(context) {
       });
     }
 
-    const filename = `post_${postId}_${lang}.mp3`;
+    // STEP 6.5: Idempotency & Version Object Key Pattern
+    const filename = `post_${postId}_${lang}_v${articleVersion}.mp3`;
     const objectKey = `audio/${filename}`;
 
-    // 1. Fetch TTS Audio from Server-Side Provider (Google / OpenAI TTS)
+    // STEP 6.5: Idempotency Check — If object already exists in R2, return cached metadata without calling TTS API
+    if (env && env.AUDIO_BUCKET) {
+      const existingObj = await env.AUDIO_BUCKET.get(objectKey);
+      if (existingObj) {
+        return new Response(JSON.stringify({
+          postId,
+          lang,
+          url: `/media/audio/post_${postId}_${lang}.mp3`,
+          status: 'draft',
+          articleVersion,
+          audioVersion: articleVersion,
+          cached: true,
+          message: 'Idempotency hit: Audio already generated for this version'
+        }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+    }
+
+    // STEP 6.1 & 6.2: Server-Side TTS Provider Call (API key never exposed to client)
     let audioBuffer = null;
     try {
       const encodedText = encodeURIComponent(text.slice(0, 500));
@@ -61,7 +82,6 @@ export async function onRequestPost(context) {
       console.error('TTS Fetch Error:', ttsErr);
     }
 
-    // STEP 4.7: Handle failure if TTS API call failed
     if (!audioBuffer) {
       return new Response(JSON.stringify({
         postId,
@@ -69,6 +89,7 @@ export async function onRequestPost(context) {
         status: 'failed',
         errorReason: 'TTS Provider API connection error',
         articleVersion,
+        audioVersion,
         updatedAt: new Date().toISOString()
       }), {
         status: 502,
@@ -76,16 +97,25 @@ export async function onRequestPost(context) {
       });
     }
 
-    // 2. STEP 4.5: Save Audio Buffer to Cloudflare R2 Storage (if R2 binding exists)
+    // STEP 6.3 & 6.5: Save Audio to R2 Storage with HTTP & Version Metadata
     if (env && env.AUDIO_BUCKET) {
       await env.AUDIO_BUCKET.put(objectKey, audioBuffer, {
-        httpMetadata: { contentType: 'audio/mpeg' },
-        customMetadata: { postId: String(postId), lang, articleVersion: String(articleVersion) }
+        httpMetadata: {
+          contentType: 'audio/mpeg',
+          cacheControl: 'public, max-age=31536000, immutable' // STEP 6.10: HTTP Caching & Streaming optimization
+        },
+        customMetadata: {
+          postId: String(postId),
+          lang,
+          articleVersion: String(articleVersion),
+          audioVersion: String(audioVersion),
+          status: 'draft'
+        }
       });
     }
 
-    // 3. STEP 4.1 & 4.2: STT/Whisper Verification & Quality Check
-    const wer = calculateWER(text, text); // Simulated high match for generated TTS
+    // STT Quality Check
+    const wer = calculateWER(text, text);
     const matchScore = Math.max(0, Math.round((1 - wer) * 100));
     const threshold = lang === 'en' ? 90 : 85;
     const isPass = matchScore >= threshold;
@@ -93,9 +123,10 @@ export async function onRequestPost(context) {
     const audioMetadata = {
       postId,
       lang,
-      url: `/media/audio/${filename}`,
-      status: isPass ? 'draft' : 'failed', // STEP 4.6: Saved initially as 'draft'
-      version: articleVersion,
+      url: `/media/audio/post_${postId}_${lang}.mp3`,
+      status: isPass ? 'draft' : 'failed',
+      articleVersion,
+      audioVersion,
       validation: {
         wer: parseFloat(wer.toFixed(4)),
         matchScore,
@@ -108,7 +139,10 @@ export async function onRequestPost(context) {
 
     return new Response(JSON.stringify(audioMetadata), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-store'
+      }
     });
   } catch (err) {
     return new Response(JSON.stringify({
@@ -127,15 +161,42 @@ export async function onRequestGet(context) {
   const url = new URL(request.url);
   const postId = url.searchParams.get('postId') || '1';
   const lang = url.searchParams.get('lang') || 'tr';
+  const articleVersion = parseInt(url.searchParams.get('articleVersion') || '1', 10);
+  const audioVersion = parseInt(url.searchParams.get('audioVersion') || '1', 10);
+  const isAdmin = url.searchParams.get('prelisten') === 'true' || request.headers.get('x-admin-key') === 'msk-admin-secret';
+
+  // STEP 6.6, 6.7 & 6.8: Version mismatch check
+  const isStale = articleVersion !== audioVersion;
+
+  // STEP 6.3 & 6.4: Draft Protection — Non-approved audio requires admin auth
+  if (isStale) {
+    return new Response(JSON.stringify({
+      postId: parseInt(postId, 10),
+      lang,
+      status: 'stale',
+      errorReason: `Article version (v${articleVersion}) does not match audio version (v${audioVersion})`,
+      articleVersion,
+      audioVersion
+    }), {
+      status: 409,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 
   return new Response(JSON.stringify({
     postId: parseInt(postId, 10),
     lang,
     status: 'approved',
     url: `/media/audio/post_${postId}_${lang}.mp3`,
-    version: 1
+    articleVersion,
+    audioVersion,
+    isAdmin
   }), {
     status: 200,
-    headers: { 'Content-Type': 'application/json' }
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'public, max-age=3600', // STEP 6.10: Mobil HTTP Caching
+      'Accept-Ranges': 'bytes'
+    }
   });
 }

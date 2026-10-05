@@ -835,15 +835,28 @@ function getAudioStatusInfo(postId, lang) {
 
   var defaultStatus = 'none';
   var defaultUrl = '../media/audio/post_' + postId + '_' + lang + '.mp3';
+  var articleVer = (currentPost && currentPost.version) ? currentPost.version : 1;
+  var audioVer = 1;
 
   if (currentPost && currentPost.audio && currentPost.audio[lang]) {
     defaultStatus = currentPost.audio[lang].status || 'none';
     if (currentPost.audio[lang].url) defaultUrl = currentPost.audio[lang].url;
+    if (currentPost.audio[lang].version) audioVer = currentPost.audio[lang].version;
+  }
+
+  // STEP 6.6, 6.7 & 6.8: Detect version mismatch (old audio vs updated article)
+  var isStale = articleVer > audioVer;
+  var finalStatus = overrideStatus || defaultStatus;
+  if (isStale && finalStatus === 'approved') {
+    finalStatus = 'stale'; // Block playback of outdated audio for updated post
   }
 
   return {
-    status: overrideStatus || defaultStatus,
-    url: defaultUrl
+    status: finalStatus,
+    url: defaultUrl,
+    articleVersion: articleVer,
+    audioVersion: audioVer,
+    isStale: isStale
   };
 }
 
