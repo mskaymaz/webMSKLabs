@@ -755,149 +755,71 @@ function fallbackCopyTextToClipboard(text, callback) {
   document.body.removeChild(textArea);
 }
 
-function splitTextIntoChunks(text) {
-  if (!text) return [];
-  var cleaned = text.replace(/\s+/g, ' ').trim();
-  if (!cleaned) return [];
-  var rawChunks = cleaned.match(/[^.!?\n]+[.!?\n]+/g) || [cleaned];
-  var chunks = [];
-  var current = '';
-
-  for (var i = 0; i < rawChunks.length; i++) {
-    var item = rawChunks[i].trim();
-    if (!item) continue;
-    if ((current + ' ' + item).length > 200) {
-      if (current) chunks.push(current);
-      current = item;
-    } else {
-      current = current ? current + ' ' + item : item;
-    }
-  }
-  if (current) chunks.push(current);
-  return chunks;
+function getAudioElement() {
+  return document.getElementById('html5AudioPlayer');
 }
 
-function speakChunk(index) {
-  if (!synth || !ttsIsActive || index >= ttsChunks.length) {
-    if (index >= ttsChunks.length) {
-      stopTTS();
-    }
-    return;
-  }
-
-  ttsCurrentIndex = index;
-  var chunkText = ttsChunks[index];
-  currentUtterance = new SpeechSynthesisUtterance(chunkText);
-
-  if (currentLang === 'tr') currentUtterance.lang = 'tr-TR';
-  else if (currentLang === 'en') currentUtterance.lang = 'en-US';
-  else if (currentLang === 'ar') currentUtterance.lang = 'ar-SA';
-
-  var speedEl = document.getElementById('voiceSpeed');
-  var speed = parseFloat(speedEl ? speedEl.value : '1.0');
-  currentUtterance.rate = speed;
-  currentUtterance.pitch = 1.0;
-
-  var voices = synth.getVoices();
-  var genderEl = document.getElementById('voiceGender');
-  var genderPref = genderEl ? genderEl.value : 'male';
-
-  var langPrefix = currentUtterance.lang.slice(0, 2).toLowerCase();
-  var langVoices = voices.filter(function(v) {
-    return v.lang.toLowerCase().startsWith(langPrefix);
-  });
-
-  var femaleKeywords = ['female', 'zira', 'yelda', 'seda', 'emel', 'filiz', 'dilara', 'ayşegül', 'gül', 'woman', 'lady'];
-  var maleKeywords = ['male', 'david', 'tolga', 'cem', 'ahmet', 'man', 'guy'];
-
-  var matchedVoice = null;
-  var isExactGenderMatch = false;
-
-  if (langVoices.length > 0) {
-    if (genderPref === 'female') {
-      matchedVoice = langVoices.find(function(v) {
-        var lowerName = v.name.toLowerCase();
-        return femaleKeywords.some(function(kw) { return lowerName.includes(kw); });
-      });
-    } else {
-      matchedVoice = langVoices.find(function(v) {
-        var lowerName = v.name.toLowerCase();
-        return maleKeywords.some(function(kw) { return lowerName.includes(kw); });
-      });
-    }
-
-    if (matchedVoice) {
-      isExactGenderMatch = true;
-    } else {
-      matchedVoice = langVoices[0];
-    }
-  }
-
-  if (matchedVoice) {
-    currentUtterance.voice = matchedVoice;
-  }
-
+function showTTSUnavailableNotice() {
   var noticeEl = document.getElementById('ttsNotice');
   var noticeTextEl = document.getElementById('ttsNoticeText');
-
-  if (genderPref === 'female') {
-    if (isExactGenderMatch) {
-      if (noticeEl) noticeEl.style.display = 'none';
-    } else if (noticeEl) {
-      noticeEl.style.display = 'block';
-      var noticeMsg = (currentLang === 'ar' 
-        ? 'ℹ️ لم يتم العثور على محرك صوت نسائي في جهازك؛ يتم القراءة بالمحرك الصوتي المتاح.'
-        : (currentLang === 'en'
-            ? 'ℹ️ Dedicated female voice engine is not installed on your device; reading with available voice.'
-            : 'ℹ️ Cihazınızda tanımlı Kadın ses paketi bulunmadığı için okuma mevcut Erkek ses motoru ile yapılmaktadır.'));
-      if (noticeTextEl) noticeTextEl.innerText = noticeMsg;
-      else noticeEl.innerText = noticeMsg;
-    }
-  } else {
-    if (noticeEl) noticeEl.style.display = 'none';
+  if (noticeEl) {
+    noticeEl.style.display = 'block';
+    var noticeMsg = (currentLang === 'ar'
+      ? 'ℹ️ جاري إعداد التسجيل الصوتي لهذه اللغة.'
+      : (currentLang === 'en'
+          ? 'ℹ️ Audio recording is being prepared for this language.'
+          : 'ℹ️ Bu dil için ses kaydı hazırlanıyor.'));
+    if (noticeTextEl) noticeTextEl.innerText = noticeMsg;
+    else noticeEl.innerText = noticeMsg;
   }
-
-  currentUtterance.onstart = function() {
-    var wave = document.getElementById('audioWave');
-    if (wave) wave.style.display = 'inline-flex';
-  };
-
-  currentUtterance.onend = function() {
-    if (ttsIsActive && ttsCurrentIndex === index) {
-      speakChunk(index + 1);
-    }
-  };
-
-  currentUtterance.onerror = function(e) {
-    if (ttsIsActive && ttsCurrentIndex === index) {
-      speakChunk(index + 1);
-    }
-  };
-
-  synth.speak(currentUtterance);
 }
 
 function playTTS() {
-  if (!synth) return alert("Tarayıcınız sesli okuma özelliğini desteklemiyor.");
   toggleTTSAccordion(true);
+  var audio = getAudioElement();
+  if (!audio) return;
 
-  if (ttsIsActive && synth.speaking && synth.paused) {
-    synth.resume();
-    var wave = document.getElementById('audioWave');
-    if (wave) wave.style.display = 'inline-flex';
+  var postId = currentPost ? currentPost.id : 1;
+  var audioSrc = '../media/audio/post_' + postId + '_' + currentLang + '.mp3';
+
+  var noticeEl = document.getElementById('ttsNotice');
+  if (noticeEl) noticeEl.style.display = 'none';
+
+  // If paused and same src, resume
+  if (audio.src && audio.src.includes('post_' + postId + '_' + currentLang) && audio.paused && audio.currentTime > 0) {
+    var speedEl = document.getElementById('voiceSpeed');
+    if (speedEl) audio.playbackRate = parseFloat(speedEl.value || '1.0');
+    audio.play().then(function() {
+      var wave = document.getElementById('audioWave');
+      if (wave) wave.style.display = 'inline-flex';
+    }).catch(function() {
+      showTTSUnavailableNotice();
+    });
     return;
   }
 
-  stopTTS();
+  // Set new source
+  audio.src = audioSrc;
+  var speedEl = document.getElementById('voiceSpeed');
+  if (speedEl) audio.playbackRate = parseFloat(speedEl.value || '1.0');
 
-  var readContent = document.getElementById('readContent');
-  var articleText = readContent ? readContent.innerText : '';
-  ttsChunks = splitTextIntoChunks(articleText);
+  audio.onended = function() {
+    var wave = document.getElementById('audioWave');
+    if (wave) wave.style.display = 'none';
+  };
 
-  if (ttsChunks.length === 0) return;
+  audio.onerror = function() {
+    showTTSUnavailableNotice();
+    var wave = document.getElementById('audioWave');
+    if (wave) wave.style.display = 'none';
+  };
 
-  ttsIsActive = true;
-  speakChunk(0);
+  audio.play().then(function() {
+    var wave = document.getElementById('audioWave');
+    if (wave) wave.style.display = 'inline-flex';
+  }).catch(function() {
+    showTTSUnavailableNotice();
+  });
 }
 
 function hideTTSNotice() {
@@ -906,28 +828,29 @@ function hideTTSNotice() {
 }
 
 function pauseTTS() {
-  if (synth && ttsIsActive && synth.speaking) {
-    synth.pause();
+  var audio = getAudioElement();
+  if (audio && !audio.paused) {
+    audio.pause();
     var wave = document.getElementById('audioWave');
     if (wave) wave.style.display = 'none';
   }
 }
 
 function stopTTS() {
-  ttsIsActive = false;
-  ttsChunks = [];
-  ttsCurrentIndex = 0;
-  if (synth) {
-    synth.cancel();
+  var audio = getAudioElement();
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
   }
   var wave = document.getElementById('audioWave');
   if (wave) wave.style.display = 'none';
 }
 
 function restartTTSIfPlaying() {
-  if (ttsIsActive) {
-    stopTTS();
-    playTTS();
+  var audio = getAudioElement();
+  if (audio) {
+    var speedEl = document.getElementById('voiceSpeed');
+    if (speedEl) audio.playbackRate = parseFloat(speedEl.value || '1.0');
   }
 }
 

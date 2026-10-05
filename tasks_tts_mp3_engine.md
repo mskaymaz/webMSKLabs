@@ -25,11 +25,11 @@
 
 ## Örnek MP3 Üretimi ve Mobil Doğrulama
 
-* [ ] **[STEP 1.1]** 1 adet Türkçe, 1 adet İngilizce ve 1 adet Arapça örnek blog makalesi metni hazırlanması.
+* [x] **[STEP 1.1]** 1 adet Türkçe, 1 adet İngilizce ve 1 adet Arapça örnek blog makalesi metni hazırlanması.
 
-* [ ] **[STEP 1.2]** Google Cloud TTS (Neural2) veya OpenAI TTS kullanılarak 3 dilde örnek `.mp3` dosyalarının üretilmesi ve test ortamında saklanması.
+* [x] **[STEP 1.2]** Google Cloud TTS (Neural2) veya OpenAI TTS kullanılarak 3 dilde örnek `.mp3` dosyalarının üretilmesi ve test ortamında saklanması (`media/audio/post_1_tr.mp3`, `post_1_en.mp3`, `post_1_ar.mp3`).
 
-* [ ] **[STEP 1.3]** `blog/blog.html` ve `blog/blog.js` içerisindeki deneysel Web Speech API kodlarının temizlenerek standart HTML5 `<audio>` player yapısına geçilmesi.
+* [x] **[STEP 1.3]** `blog/blog.html` ve `blog/blog.js` içerisindeki deneysel Web Speech API kodlarının temizlenerek standart HTML5 `<audio>` player yapısına geçilmesi.
 
 * [ ] **[STEP 1.4]** Üretilen MP3 dosyalarının iOS Safari ve Android Chrome üzerinde gerçek cihazlarla test edilmesi; ses kalitesi, başlatma, duraklatma, devam ettirme ve ilerletme davranışlarının doğrulanması.
 
