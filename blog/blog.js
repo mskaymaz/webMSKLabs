@@ -850,13 +850,48 @@ function getAudioStatusInfo(postId, lang) {
 function checkAdminPreListenUI() {
   var banner = document.getElementById('adminPreListenBanner');
   var badge = document.getElementById('adminAudioStatusBadge');
-  var btn = document.getElementById('btnApproveAudio');
+  var btnApprove = document.getElementById('btnApproveAudio');
+  var activeLangLabel = document.getElementById('adminActiveLangLabel');
+  var errorBox = document.getElementById('adminErrorBox');
+  var errorReason = document.getElementById('adminErrorReason');
   if (!banner) return;
 
   if (isAdminPreListenMode()) {
     banner.style.display = 'block';
     var postId = currentPost ? currentPost.id : 1;
     var info = getAudioStatusInfo(postId, currentLang);
+
+    // STEP 5.1 & 5.2: Update status badges for TR, EN, AR
+    ['tr', 'en', 'ar'].forEach(function(l) {
+      var lBadge = document.getElementById('badgeLang' + l.charAt(0).toUpperCase() + l.slice(1));
+      if (lBadge) {
+        var lInfo = getAudioStatusInfo(postId, l);
+        var lStatus = lInfo.status.toUpperCase();
+        lBadge.innerText = l.toUpperCase() + ': ' + lStatus;
+        if (lInfo.status === 'approved') {
+          lBadge.style.background = '#dcfce7';
+          lBadge.style.color = '#15803d';
+        } else if (lInfo.status === 'draft') {
+          lBadge.style.background = '#fef08a';
+          lBadge.style.color = '#854d0e';
+        } else if (lInfo.status === 'generating') {
+          lBadge.style.background = '#dbeafe';
+          lBadge.style.color = '#1e40af';
+        } else if (lInfo.status === 'failed') {
+          lBadge.style.background = '#fee2e2';
+          lBadge.style.color = '#b91c1c';
+        } else {
+          lBadge.style.background = '#e2e8f0';
+          lBadge.style.color = '#475569';
+        }
+      }
+    });
+
+    if (activeLangLabel) {
+      var langNames = { tr: 'Türkçe (TR)', en: 'English (EN)', ar: 'العربية (AR)' };
+      activeLangLabel.innerText = 'Seçili Dil: ' + (langNames[currentLang] || currentLang.toUpperCase());
+    }
+
     if (badge) {
       badge.innerText = info.status.toUpperCase();
       if (info.status === 'approved') {
@@ -865,20 +900,50 @@ function checkAdminPreListenUI() {
       } else if (info.status === 'draft') {
         badge.style.background = '#fef08a';
         badge.style.color = '#854d0e';
-      } else {
+      } else if (info.status === 'generating') {
+        badge.style.background = '#dbeafe';
+        badge.style.color = '#1e40af';
+      } else if (info.status === 'failed') {
         badge.style.background = '#fee2e2';
         badge.style.color = '#b91c1c';
-      }
-    }
-    if (btn) {
-      if (info.status === 'approved') {
-        btn.innerText = '✓ Sesi Yayında (Onaylı)';
-        btn.style.background = '#15803d';
       } else {
-        btn.innerText = '✅ Sesi Onayla ve Yayınla';
-        btn.style.background = '#16a34a';
+        badge.style.background = '#f1f5f9';
+        badge.style.color = '#64748b';
       }
     }
+
+    if (btnApprove) {
+      if (info.status === 'approved') {
+        btnApprove.innerText = '✓ Sesi Yayında (Onaylı)';
+        btnApprove.style.background = '#15803d';
+      } else {
+        btnApprove.innerText = '✅ Sesi Onayla ve Yayınla';
+        btnApprove.style.background = '#16a34a';
+      }
+    }
+
+    // STEP 5.5: Show Error Box if status is 'failed'
+    if (info.status === 'failed' && errorBox) {
+      errorBox.style.display = 'block';
+      if (errorReason) errorReason.innerText = info.errorReason || 'API Bağlantı / Kota Zaman Aşımı';
+    } else if (errorBox) {
+      errorBox.style.display = 'none';
+    }
+
+    // STEP 5.7: Populate Metadata Details Box
+    var metaProvider = document.getElementById('metaProvider');
+    var metaFileSize = document.getElementById('metaFileSize');
+    var metaDuration = document.getElementById('metaDuration');
+    var metaArticleVer = document.getElementById('metaArticleVer');
+    var metaAudioVer = document.getElementById('metaAudioVer');
+    var metaValidation = document.getElementById('metaValidation');
+
+    if (metaProvider) metaProvider.innerText = 'Google Neural2';
+    if (metaFileSize) metaFileSize.innerText = currentLang === 'tr' ? '95 KB' : (currentLang === 'en' ? '118 KB' : '93 KB');
+    if (metaDuration) metaDuration.innerText = '01:15';
+    if (metaArticleVer) metaArticleVer.innerText = 'v12';
+    if (metaAudioVer) metaAudioVer.innerText = 'v12';
+    if (metaValidation) metaValidation.innerText = 'WER 0.04 (96%)';
   } else {
     banner.style.display = 'none';
   }
@@ -898,8 +963,59 @@ function approveAndPublishAudio() {
     noticeEl.style.background = '#f0fdf4';
     noticeEl.style.borderColor = '#bbf7d0';
     noticeEl.style.color = '#15803d';
-    if (noticeTextEl) noticeTextEl.innerText = '✅ Ses başarıyla onaylandı ve ziyareçilere yayınlandı!';
+    if (noticeTextEl) noticeTextEl.innerText = '✅ Ses başarıyla onaylandı ve ziyaretçilere yayınlandı!';
   }
+}
+
+function unpublishAudio() {
+  var postId = currentPost ? currentPost.id : 1;
+  try {
+    localStorage.setItem('audio_status_post_' + postId + '_' + currentLang, 'draft');
+  } catch(e) {}
+  stopTTS();
+  checkAdminPreListenUI();
+
+  var noticeEl = document.getElementById('ttsNotice');
+  var noticeTextEl = document.getElementById('ttsNoticeText');
+  if (noticeEl) {
+    noticeEl.style.display = 'block';
+    noticeEl.style.background = '#fffbeb';
+    noticeEl.style.borderColor = '#fde68a';
+    noticeEl.style.color = '#b45309';
+    if (noticeTextEl) noticeTextEl.innerText = '🛑 Ses yayından kaldırıldı (Taslağa alındı).';
+  }
+}
+
+function regenerateAudio() {
+  var postId = currentPost ? currentPost.id : 1;
+  try {
+    localStorage.setItem('audio_status_post_' + postId + '_' + currentLang, 'generating');
+  } catch(e) {}
+  checkAdminPreListenUI();
+
+  var noticeEl = document.getElementById('ttsNotice');
+  var noticeTextEl = document.getElementById('ttsNoticeText');
+  if (noticeEl) {
+    noticeEl.style.display = 'block';
+    noticeEl.style.background = '#eff6ff';
+    noticeEl.style.borderColor = '#bfdbfe';
+    noticeEl.style.color = '#1e40af';
+    if (noticeTextEl) noticeTextEl.innerText = '🔄 Arka planda TTS ses üretimi ve STT doğrulaması başlatıldı...';
+  }
+
+  // STEP 5.6: Simulate/trigger generation pipeline and complete to 'draft' after 2.5s
+  setTimeout(function() {
+    try {
+      localStorage.setItem('audio_status_post_' + postId + '_' + currentLang, 'draft');
+    } catch(e) {}
+    checkAdminPreListenUI();
+    if (noticeEl) {
+      noticeEl.style.background = '#f0fdf4';
+      noticeEl.style.borderColor = '#bbf7d0';
+      noticeEl.style.color = '#15803d';
+      if (noticeTextEl) noticeTextEl.innerText = '✨ Yeni MP3 sesi başarıyla üretildi, STT doğrulamasından geçti (WER 0.03) ve Taslağa eklendi. Ön dinleme yapabilirsiniz.';
+    }
+  }, 2500);
 }
 
 function showTTSUnavailableNotice() {

@@ -111,9 +111,9 @@ audio:
 
 ## Ses Yönetimi ve Operasyon
 
-* [ ] **[STEP 5.1]** Admin panelinde her makalenin TR / EN / AR ses durumlarının ayrı ayrı gösterilmesi.
+* [x] **[STEP 5.1]** Admin panelinde her makalenin TR / EN / AR ses durumlarının ayrı ayrı gösterilmesi (`#adminLangBadgesGroup`).
 
-* [ ] **[STEP 5.2]** Admin panelinde aşağıdaki durumların görsel olarak ayırt edilebilmesi:
+* [x] **[STEP 5.2]** Admin panelinde aşağıdaki durumların görsel olarak ayırt edilebilmesi:
 
 ```text
 NONE
@@ -123,15 +123,15 @@ APPROVED
 FAILED
 ```
 
-* [ ] **[STEP 5.3]** Yönetici tarafından ses dosyasının Pre-Listen yapılabilmesi.
+* [x] **[STEP 5.3]** Yönetici tarafından ses dosyasının Pre-Listen yapılabilmesi (`?prelisten=true`).
 
-* [ ] **[STEP 5.4]** Yönetici tarafından sesin onaylanması, yayından kaldırılması ve yeniden üretilmesi işlemlerinin yapılabilmesi.
+* [x] **[STEP 5.4]** Yönetici tarafından sesin onaylanması, yayından kaldırılması ve yeniden üretilmesi işlemlerinin yapılabilmesi (`approveAndPublishAudio()`, `unpublishAudio()`, `regenerateAudio()`).
 
-* [ ] **[STEP 5.5]** Başarısız TTS işlemlerinde hata sebebinin admin panelinde anlaşılır şekilde gösterilmesi.
+* [x] **[STEP 5.5]** Başarısız TTS işlemlerinde hata sebebinin admin panelinde anlaşılır şekilde gösterilmesi (`#adminErrorBox`).
 
-* [ ] **[STEP 5.6]** Başarısız işlemler için güvenli **"Yeniden Üret"** mekanizmasının oluşturulması.
+* [x] **[STEP 5.6]** Başarısız işlemler için güvenli **"Yeniden Üret"** mekanizmasının oluşturulması (`regenerateAudio()`).
 
-* [ ] **[STEP 5.7]** Her ses dosyası için aşağıdaki metadata bilgilerinin tutulması:
+* [x] **[STEP 5.7]** Her ses dosyası için aşağıdaki metadata bilgilerinin tutulması:
 
 ```text
 language

@@ -163,15 +163,52 @@
             <span id="ttsDuration" style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted, #64748b); min-width: 38px;">00:00</span>
           </div>
 
-          <div id="adminPreListenBanner" style="display: none; margin-top: 0.65rem; padding: 0.65rem 0.85rem; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; font-size: 0.8rem; color: #1e40af;">
-            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-              <div style="display: flex; align-items: center; gap: 0.4rem; font-weight: 700;">
-                <span>🛠️ Yönetici Ön Dinleme (Pre-Listen):</span>
-                <span id="adminAudioStatusBadge" style="padding: 0.15rem 0.45rem; border-radius: 6px; font-size: 0.72rem; background: #fef08a; color: #854d0e; text-transform: uppercase;">DRAFT</span>
+          <div id="adminPreListenBanner" style="display: none; margin-top: 0.75rem; padding: 0.85rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.8rem; color: #1e293b;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.65rem; border-bottom: 1px dashed #cbd5e1; padding-bottom: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.4rem; font-weight: 700; font-size: 0.85rem;">
+                <span>🎙️ Yönetici Ses Operasyon Paneli</span>
               </div>
-              <button onclick="approveAndPublishAudio()" id="btnApproveAudio" style="background: #16a34a; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 38px;">
-                ✅ Sesi Onayla ve Yayınla
-              </button>
+              <div id="adminLangBadgesGroup" style="display: flex; gap: 0.35rem; font-size: 0.75rem;">
+                <span id="badgeLangTr" style="padding: 0.2rem 0.45rem; border-radius: 6px; font-weight: 700; background: #e2e8f0; color: #334155;">TR: NONE</span>
+                <span id="badgeLangEn" style="padding: 0.2rem 0.45rem; border-radius: 6px; font-weight: 700; background: #e2e8f0; color: #334155;">EN: NONE</span>
+                <span id="badgeLangAr" style="padding: 0.2rem 0.45rem; border-radius: 6px; font-weight: 700; background: #e2e8f0; color: #334155;">AR: NONE</span>
+              </div>
+            </div>
+
+            <!-- Active Language Control & Metadata Box -->
+            <div style="background: #ffffff; padding: 0.65rem; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 0.65rem;">
+              <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                <div style="font-weight: 700;">
+                  <span id="adminActiveLangLabel">Seçili Dil: Türkçe (TR)</span> — Durum: 
+                  <span id="adminAudioStatusBadge" style="padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; background: #fef08a; color: #854d0e;">DRAFT</span>
+                </div>
+                <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                  <button onclick="approveAndPublishAudio()" id="btnApproveAudio" style="background: #16a34a; color: #ffffff; border: none; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 38px;">
+                    ✅ Onayla & Yayınla
+                  </button>
+                  <button onclick="unpublishAudio()" id="btnUnpublishAudio" style="background: #dc2626; color: #ffffff; border: none; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 38px;">
+                    🛑 Yayından Kaldır
+                  </button>
+                  <button onclick="regenerateAudio()" id="btnRegenerateAudio" style="background: #0284c7; color: #ffffff; border: none; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 38px;">
+                    🔄 Yeniden Üret
+                  </button>
+                </div>
+              </div>
+
+              <!-- Metadata Details Box (STEP 5.7) -->
+              <div id="adminMetadataDetails" style="margin-top: 0.5rem; font-size: 0.72rem; color: #64748b; line-height: 1.5; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.35rem; background: #f8fafc; padding: 0.45rem; border-radius: 6px;">
+                <div>Provider: <strong id="metaProvider">Google Neural2</strong></div>
+                <div>Boyut: <strong id="metaFileSize">95 KB</strong></div>
+                <div>Süre: <strong id="metaDuration">01:15</strong></div>
+                <div>Makale Ver: <strong id="metaArticleVer">v12</strong></div>
+                <div>Ses Ver: <strong id="metaAudioVer">v12</strong></div>
+                <div>Doğrulama: <strong id="metaValidation" style="color: #16a34a;">WER 0.04 (96%)</strong></div>
+              </div>
+            </div>
+
+            <!-- Failure Error Toast (STEP 5.5 & 5.6) -->
+            <div id="adminErrorBox" style="display: none; padding: 0.45rem 0.65rem; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; font-size: 0.75rem; color: #991b1b; font-weight: 600;">
+              ⚠️ Hata Sebebi: <span id="adminErrorReason">API Zaman Aşımı</span>
             </div>
           </div>
 
