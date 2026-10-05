@@ -1,4 +1,4 @@
-﻿# Bismillahirrahmânirrâhîm
+# Bismillahirrahmânirrâhîm
 
 > 📘 **Detaylı Entegrasyon, Google E-Tablo Veri Mimarisi ve Alınan Kararlar:**  
 > Lütfen tam rehber için [ISTISARE_VE_KARARLAR.md](file:///d:/Code/mskaymaz/webMSKLabs/ISTISARE_VE_KARARLAR.md) dokümanını inceleyiniz.  
@@ -183,6 +183,7 @@ Tüm web ve mobil içerikler tek bir Google E-Tablo üzerinden kod yazmadan gör
 - [x] 20.1 Varsayılan Erkek (👨 Bay) ve isteğe bağlı Kadın (👩 Bayan) ses tercihi seçeneği. / Male default & Female optional voice selector.
 - [x] 20.2 Anadili diksiyon eşleştirmesi (TR/EN/AR) ve 1.0x / 1.25x / 1.5x okuma hızı kontrolleri. / Native diction mapping & speed controls.
 - [x] 20.3 Oynat, duraklat, durdur butonları ve canlı ses dalga animasyonu. / Play, pause, stop controls & audio wave animation.
+- [x] 20.4 Mobil cihazlar (iOS Safari / Android Chrome) için metin parçalama (chunking) ve ardışık seslendirme motorunun entegrasyonu (05.10.2026 - 09:33). / Mobile text chunking engine integration for iOS Safari and Android Chrome.
 ---
 
 ### 📌 GELECEK OTURUM NOTU / NEXT SESSION NOTE

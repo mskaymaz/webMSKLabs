@@ -8,6 +8,9 @@ var currentSubFilter = 'all';
 var currentPost = null;
 var synth = window.speechSynthesis;
 var currentUtterance = null;
+var ttsChunks = [];
+var ttsCurrentIndex = 0;
+var ttsIsActive = false;
 
 var blogPostsData = [
   {
@@ -752,21 +755,39 @@ function fallbackCopyTextToClipboard(text, callback) {
   document.body.removeChild(textArea);
 }
 
-function playTTS() {
-  if (!synth) return alert("Tarayıcınız sesli okuma özelliğini desteklemiyor.");
-  toggleTTSAccordion(true);
-  if (synth.speaking && synth.paused) {
-    synth.resume();
-    var wave = document.getElementById('audioWave');
-    if (wave) wave.style.display = 'inline-flex';
+function splitTextIntoChunks(text) {
+  if (!text) return [];
+  var cleaned = text.replace(/\s+/g, ' ').trim();
+  if (!cleaned) return [];
+  var rawChunks = cleaned.match(/[^.!?\n]+[.!?\n]+/g) || [cleaned];
+  var chunks = [];
+  var current = '';
+
+  for (var i = 0; i < rawChunks.length; i++) {
+    var item = rawChunks[i].trim();
+    if (!item) continue;
+    if ((current + ' ' + item).length > 200) {
+      if (current) chunks.push(current);
+      current = item;
+    } else {
+      current = current ? current + ' ' + item : item;
+    }
+  }
+  if (current) chunks.push(current);
+  return chunks;
+}
+
+function speakChunk(index) {
+  if (!synth || !ttsIsActive || index >= ttsChunks.length) {
+    if (index >= ttsChunks.length) {
+      stopTTS();
+    }
     return;
   }
 
-  synth.cancel();
-
-  var readContent = document.getElementById('readContent');
-  var articleText = readContent ? readContent.innerText : '';
-  currentUtterance = new SpeechSynthesisUtterance(articleText);
+  ttsCurrentIndex = index;
+  var chunkText = ttsChunks[index];
+  currentUtterance = new SpeechSynthesisUtterance(chunkText);
 
   if (currentLang === 'tr') currentUtterance.lang = 'tr-TR';
   else if (currentLang === 'en') currentUtterance.lang = 'en-US';
@@ -775,11 +796,12 @@ function playTTS() {
   var speedEl = document.getElementById('voiceSpeed');
   var speed = parseFloat(speedEl ? speedEl.value : '1.0');
   currentUtterance.rate = speed;
+  currentUtterance.pitch = 1.0;
 
   var voices = synth.getVoices();
   var genderEl = document.getElementById('voiceGender');
   var genderPref = genderEl ? genderEl.value : 'male';
-  
+
   var langPrefix = currentUtterance.lang.slice(0, 2).toLowerCase();
   var langVoices = voices.filter(function(v) {
     return v.lang.toLowerCase().startsWith(langPrefix);
@@ -807,7 +829,7 @@ function playTTS() {
     if (matchedVoice) {
       isExactGenderMatch = true;
     } else {
-      matchedVoice = langVoices[0]; // Fallback to available voice
+      matchedVoice = langVoices[0];
     }
   }
 
@@ -818,23 +840,18 @@ function playTTS() {
   var noticeEl = document.getElementById('ttsNotice');
   var noticeTextEl = document.getElementById('ttsNoticeText');
 
-  // Keep pitch at natural 1.0 tone under all circumstances
-  currentUtterance.pitch = 1.0;
-
   if (genderPref === 'female') {
     if (isExactGenderMatch) {
       if (noticeEl) noticeEl.style.display = 'none';
-    } else {
-      if (noticeEl) {
-        noticeEl.style.display = 'block';
-        var noticeMsg = (currentLang === 'ar' 
-          ? 'ℹ️ لم يتم العثور على محرك صوت نسائي في جهازك؛ يتم القراءة بالمحرك الصوتي المتاح. (عند إضافة حزمة صوت نسائي في إعدادات جهازك سيعمل تلقائياً.)'
-          : (currentLang === 'en'
-              ? 'ℹ️ Dedicated female voice engine is not installed on your device; reading with default male voice. (Adding a female voice package in your OS settings will activate this feature.)'
-              : 'ℹ️ Cihazınızda tanımlı Kadın ses paketi bulunmadığı için okuma mevcut Erkek ses motoru ile yapılmaktadır. (İşletim sistemi ayarlarınızdan Türkçe Kadın ses paketi eklediğinizde otomatik aktifleşecektir.)'));
-        if (noticeTextEl) noticeTextEl.innerText = noticeMsg;
-        else noticeEl.innerText = noticeMsg;
-      }
+    } else if (noticeEl) {
+      noticeEl.style.display = 'block';
+      var noticeMsg = (currentLang === 'ar' 
+        ? 'ℹ️ لم يتم العثور على محرك صوت نسائي في جهازك؛ يتم القراءة بالمحرك الصوتي المتاح.'
+        : (currentLang === 'en'
+            ? 'ℹ️ Dedicated female voice engine is not installed on your device; reading with available voice.'
+            : 'ℹ️ Cihazınızda tanımlı Kadın ses paketi bulunmadığı için okuma mevcut Erkek ses motoru ile yapılmaktadır.'));
+      if (noticeTextEl) noticeTextEl.innerText = noticeMsg;
+      else noticeEl.innerText = noticeMsg;
     }
   } else {
     if (noticeEl) noticeEl.style.display = 'none';
@@ -844,12 +861,43 @@ function playTTS() {
     var wave = document.getElementById('audioWave');
     if (wave) wave.style.display = 'inline-flex';
   };
+
   currentUtterance.onend = function() {
-    var wave = document.getElementById('audioWave');
-    if (wave) wave.style.display = 'none';
+    if (ttsIsActive && ttsCurrentIndex === index) {
+      speakChunk(index + 1);
+    }
+  };
+
+  currentUtterance.onerror = function(e) {
+    if (ttsIsActive && ttsCurrentIndex === index) {
+      speakChunk(index + 1);
+    }
   };
 
   synth.speak(currentUtterance);
+}
+
+function playTTS() {
+  if (!synth) return alert("Tarayıcınız sesli okuma özelliğini desteklemiyor.");
+  toggleTTSAccordion(true);
+
+  if (ttsIsActive && synth.speaking && synth.paused) {
+    synth.resume();
+    var wave = document.getElementById('audioWave');
+    if (wave) wave.style.display = 'inline-flex';
+    return;
+  }
+
+  stopTTS();
+
+  var readContent = document.getElementById('readContent');
+  var articleText = readContent ? readContent.innerText : '';
+  ttsChunks = splitTextIntoChunks(articleText);
+
+  if (ttsChunks.length === 0) return;
+
+  ttsIsActive = true;
+  speakChunk(0);
 }
 
 function hideTTSNotice() {
@@ -858,7 +906,7 @@ function hideTTSNotice() {
 }
 
 function pauseTTS() {
-  if (synth && synth.speaking) {
+  if (synth && ttsIsActive && synth.speaking) {
     synth.pause();
     var wave = document.getElementById('audioWave');
     if (wave) wave.style.display = 'none';
@@ -866,15 +914,19 @@ function pauseTTS() {
 }
 
 function stopTTS() {
+  ttsIsActive = false;
+  ttsChunks = [];
+  ttsCurrentIndex = 0;
   if (synth) {
     synth.cancel();
-    var wave = document.getElementById('audioWave');
-    if (wave) wave.style.display = 'none';
   }
+  var wave = document.getElementById('audioWave');
+  if (wave) wave.style.display = 'none';
 }
 
 function restartTTSIfPlaying() {
-  if (synth && synth.speaking) {
+  if (ttsIsActive) {
+    stopTTS();
     playTTS();
   }
 }
