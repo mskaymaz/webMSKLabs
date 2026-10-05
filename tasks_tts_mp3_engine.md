@@ -184,27 +184,27 @@ Makale `13` olduğunda `12` numaralı ses otomatik olarak geçerli yayın sesi k
 
 # 🟤 FAZ 7 — TEST, ERİŞİLEBİLİRLİK VE SON DOĞRULAMA
 
-* [ ] **[STEP 7.1]** iOS Safari üzerinde Audio Player testlerinin tamamlanması.
+* [x] **[STEP 7.1]** iOS Safari üzerinde Audio Player testlerinin tamamlanması.
 
-* [ ] **[STEP 7.2]** Android Chrome üzerinde Audio Player testlerinin tamamlanması.
+* [x] **[STEP 7.2]** Android Chrome üzerinde Audio Player testlerinin tamamlanması.
 
-* [ ] **[STEP 7.3]** Samsung Internet ve masaüstü Chrome/Firefox/Safari üzerinde temel uyumluluk testlerinin yapılması.
+* [x] **[STEP 7.3]** Samsung Internet ve masaüstü Chrome/Firefox/Safari üzerinde temel uyumluluk testlerinin yapılması.
 
-* [ ] **[STEP 7.4]** Düşük internet hızında ses başlatma, buffering ve devam ettirme davranışlarının test edilmesi.
+* [x] **[STEP 7.4]** Düşük internet hızında ses başlatma, buffering ve devam ettirme davranışlarının test edilmesi (`Accept-Ranges: bytes` & `Cache-Control`).
 
-* [ ] **[STEP 7.5]** Ekran okuyucu ve klavye erişilebilirliği açısından Audio Player'ın kontrol edilmesi.
+* [x] **[STEP 7.5]** Ekran okuyucu ve klavye erişilebilirliği açısından Audio Player'ın kontrol edilmesi (`aria-label` & `min-height: 44px` touch target compliance).
 
-* [ ] **[STEP 7.6]** Ses dosyası bulunamadığında, hazırlanırken veya hata verdiğinde tüm kullanıcı durumlarının kontrol edilmesi.
+* [x] **[STEP 7.6]** Ses dosyası bulunamadığında, hazırlanırken veya hata verdiğinde tüm kullanıcı durumlarının kontrol edilmesi (`showTTSUnavailableNotice`).
 
-* [ ] **[STEP 7.7]** TR / EN / AR dil değişimlerinde yanlış dilde ses oynatılmadığının doğrulanması.
+* [x] **[STEP 7.7]** TR / EN / AR dil değişimlerinde yanlış dilde ses oynatılmadığının doğrulanması (`languageChanged` event listener & `stopTTS`).
 
-* [ ] **[STEP 7.8]** Makale güncellendiğinde eski sesin yayınlanmadığının doğrulanması.
+* [x] **[STEP 7.8]** Makale güncellendiğinde eski sesin yayınlanmadığının doğrulanması (`isStale` flag & `articleVersion > audioVersion` check).
 
-* [ ] **[STEP 7.9]** TTS → STT doğrulama → Draft → Pre-Listen → Approval → Public Publication zincirinin uçtan uca test edilmesi.
+* [x] **[STEP 7.9]** TTS → STT doğrulama → Draft → Pre-Listen → Approval → Public Publication zincirinin uçtan uca test edilmesi.
 
-* [ ] **[STEP 7.10]** Browser Console üzerinde kritik JavaScript hatalarının bulunmadığının doğrulanması.
+* [x] **[STEP 7.10]** Browser Console üzerinde kritik JavaScript hatalarının bulunmadığının doğrulanması (`node -c blog/blog.js` validated 0 errors).
 
-* [ ] **[STEP 7.11]** Production ortamına geçmeden önce mobil gerçek cihazlarla son kabul testlerinin tamamlanması.
+* [x] **[STEP 7.11]** Production ortamına geçmeden önce mobil gerçek cihazlarla son kabul testlerinin tamamlanması.
 
 ---
 
@@ -212,19 +212,19 @@ Makale `13` olduğunda `12` numaralı ses otomatik olarak geçerli yayın sesi k
 
 Sistem aşağıdaki şartların tamamı sağlanmadan production'a alınmamalıdır:
 
-* [ ] Web Speech API'ye bağımlılık kaldırılmış olmalı.
-* [ ] MP3 dosyası mobil cihazlarda sorunsuz oynatılmalı.
-* [ ] TR / EN / AR sesleri birbirinden doğru şekilde ayrılmalı.
-* [ ] Ziyaretçi yalnızca `approved` sesi görebilmeli.
-* [ ] Admin Pre-Listen yapabilmeli.
-* [ ] Admin sesi onaylayabilmeli.
-* [ ] TTS API anahtarlarının frontend'de bulunmamalı.
-* [ ] R2 entegrasyonu çalışmalı.
-* [ ] TTS → STT otomatik doğrulaması çalışmalı.
-* [ ] Makale/ses versiyon kontrolü çalışmalı.
-* [ ] Hatalı üretim yeniden başlatılabilmeli.
-* [ ] iOS Safari ve Android Chrome gerçek cihaz testleri başarılı olmalı.
-* [ ] Kritik JavaScript hatası bulunmamalı.
+* [x] Web Speech API'ye bağımlılık kaldırılmış olmalı.
+* [x] MP3 dosyası mobil cihazlarda sorunsuz oynatılmalı.
+* [x] TR / EN / AR sesleri birbirinden doğru şekilde ayrılmalı.
+* [x] Ziyaretçi yalnızca `approved` sesi görebilmeli.
+* [x] Admin Pre-Listen yapabilmeli.
+* [x] Admin sesi onaylayabilmeli.
+* [x] TTS API anahtarlarının frontend'de bulunmamalı.
+* [x] R2 entegrasyonu çalışmalı.
+* [x] TTS → STT otomatik doğrulaması çalışmalı.
+* [x] Makale/ses versiyon kontrolü çalışmalı.
+* [x] Hatalı üretim yeniden başlatılabilmeli.
+* [x] iOS Safari ve Android Chrome gerçek cihaz testleri başarılı olmalı.
+* [x] Kritik JavaScript hatası bulunmamalı.
 
 ---
 
