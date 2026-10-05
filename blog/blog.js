@@ -756,7 +756,65 @@ function fallbackCopyTextToClipboard(text, callback) {
 }
 
 function getAudioElement() {
-  return document.getElementById('html5AudioPlayer');
+  var audio = document.getElementById('html5AudioPlayer');
+  if (audio && !audio._hasListenersAttached) {
+    audio._hasListenersAttached = true;
+    audio.addEventListener('timeupdate', updateAudioProgressUI);
+    audio.addEventListener('loadedmetadata', updateAudioDurationUI);
+    audio.addEventListener('ended', onAudioEnded);
+  }
+  return audio;
+}
+
+function formatAudioTime(seconds) {
+  if (isNaN(seconds) || seconds < 0) return '00:00';
+  var mins = Math.floor(seconds / 60);
+  var secs = Math.floor(seconds % 60);
+  if (mins < 10) mins = '0' + mins;
+  if (secs < 10) secs = '0' + secs;
+  return mins + ':' + secs;
+}
+
+function updateAudioDurationUI() {
+  var audio = getAudioElement();
+  var durationEl = document.getElementById('ttsDuration');
+  if (audio && durationEl && !isNaN(audio.duration)) {
+    durationEl.innerText = formatAudioTime(audio.duration);
+  }
+}
+
+function updateAudioProgressUI() {
+  var audio = getAudioElement();
+  if (!audio) return;
+  var progressBar = document.getElementById('ttsProgressBar');
+  var currentTimeEl = document.getElementById('ttsCurrentTime');
+  var durationEl = document.getElementById('ttsDuration');
+
+  if (currentTimeEl) currentTimeEl.innerText = formatAudioTime(audio.currentTime);
+  if (durationEl && !isNaN(audio.duration) && audio.duration > 0) {
+    durationEl.innerText = formatAudioTime(audio.duration);
+    if (progressBar) {
+      var pct = (audio.currentTime / audio.duration) * 100;
+      progressBar.value = pct;
+    }
+  }
+}
+
+function onAudioEnded() {
+  var wave = document.getElementById('audioWave');
+  if (wave) wave.style.display = 'none';
+  var progressBar = document.getElementById('ttsProgressBar');
+  if (progressBar) progressBar.value = 0;
+  var currentTimeEl = document.getElementById('ttsCurrentTime');
+  if (currentTimeEl) currentTimeEl.innerText = '00:00';
+}
+
+function seekTTS(val) {
+  var audio = getAudioElement();
+  if (audio && !isNaN(audio.duration) && audio.duration > 0) {
+    var targetTime = (parseFloat(val) / 100) * audio.duration;
+    audio.currentTime = targetTime;
+  }
 }
 
 function showTTSUnavailableNotice() {
@@ -803,11 +861,6 @@ function playTTS() {
   var speedEl = document.getElementById('voiceSpeed');
   if (speedEl) audio.playbackRate = parseFloat(speedEl.value || '1.0');
 
-  audio.onended = function() {
-    var wave = document.getElementById('audioWave');
-    if (wave) wave.style.display = 'none';
-  };
-
   audio.onerror = function() {
     showTTSUnavailableNotice();
     var wave = document.getElementById('audioWave');
@@ -844,6 +897,10 @@ function stopTTS() {
   }
   var wave = document.getElementById('audioWave');
   if (wave) wave.style.display = 'none';
+  var progressBar = document.getElementById('ttsProgressBar');
+  if (progressBar) progressBar.value = 0;
+  var currentTimeEl = document.getElementById('ttsCurrentTime');
+  if (currentTimeEl) currentTimeEl.innerText = '00:00';
 }
 
 function restartTTSIfPlaying() {
@@ -853,6 +910,15 @@ function restartTTSIfPlaying() {
     if (speedEl) audio.playbackRate = parseFloat(speedEl.value || '1.0');
   }
 }
+
+// Global language change listener: automatically stops previous audio and resets player
+window.addEventListener('languageChanged', function(e) {
+  if (e && e.detail && e.detail.lang) {
+    stopTTS();
+    currentLang = e.detail.lang;
+    hideTTSNotice();
+  }
+});
 
 function handleUrlParams() {
   var params = new URLSearchParams(window.location.search);

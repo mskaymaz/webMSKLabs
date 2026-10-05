@@ -39,17 +39,17 @@
 
 ## HTML5 Audio Player ve Çok Dilli Yapı
 
-* [ ] **[STEP 2.1]** Oynat, duraklat, ilerleme çubuğu, geçen/kalan süre ve ses seviyesi kontrollerine sahip mobil uyumlu Audio Player oluşturulması.
+* [x] **[STEP 2.1]** Oynat, duraklat, ilerleme çubuğu, geçen/kalan süre ve ses seviyesi kontrollerine sahip mobil uyumlu Audio Player oluşturulması.
 
-* [ ] **[STEP 2.2]** Dokunmatik kontrollerin mobil erişilebilirlik gereksinimlerine uygun olması ve temel dokunma hedeflerinin minimum 44px olarak uygulanması.
+* [x] **[STEP 2.2]** Dokunmatik kontrollerin mobil erişilebilirlik gereksinimlerine uygun olması ve temel dokunma hedeflerinin minimum 44px olarak uygulanması (WCAG 2.5.5).
 
-* [ ] **[STEP 2.3]** Dil değiştirildiğinde ilgili dildeki MP3 kaynağının dinamik olarak yüklenmesi.
+* [x] **[STEP 2.3]** Dil değiştirildiğinde ilgili dildeki MP3 kaynağının dinamik olarak yüklenmesi.
 
-* [ ] **[STEP 2.4]** Ses dosyası mevcut değilse kullanıcıya:
+* [x] **[STEP 2.4]** Ses dosyası mevcut değilse kullanıcıya:
   **"Bu dil için ses kaydı hazırlanıyor."**
   şeklinde uygun bilgilendirme gösterilmesi.
 
-* [ ] **[STEP 2.5]** Kullanıcı dil değiştirdiğinde önceki dilin sesinin otomatik olarak durdurulması ve yeni dilin doğru dosyasının yüklenmesi.
+* [x] **[STEP 2.5]** Kullanıcı dil değiştirdiğinde önceki dilin sesinin otomatik olarak durdurulması ve yeni dilin doğru dosyasının yüklenmesi.
 
 ---
 
