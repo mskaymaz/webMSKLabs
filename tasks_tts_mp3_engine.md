@@ -89,21 +89,21 @@ audio:
 
 # 🟣 FAZ 4 — AI DOĞRULAMA VE CLOUDFLARE PIPELINE
 
-* [ ] **[STEP 4.1]** Üretilen MP3'ün STT/Whisper ile tekrar metne dönüştürülmesi.
+* [x] **[STEP 4.1]** Üretilen MP3'ün STT/Whisper ile tekrar metne dönüştürülmesi (`scripts/verify_audio_stt.js`).
 
-* [ ] **[STEP 4.2]** STT çıktısının kaynak makale metniyle otomatik karşılaştırılması.
+* [x] **[STEP 4.2]** STT çıktısının kaynak makale metniyle otomatik karşılaştırılması.
 
-* [ ] **[STEP 4.3]** Doğrulama sonucunun raporlanması ve belirlenen kalite eşiğinin altında kalan seslerin otomatik olarak `failed` durumuna alınması.
+* [x] **[STEP 4.3]** Doğrulama sonucunun raporlanması ve belirlenen kalite eşiğinin altında kalan seslerin otomatik olarak `failed` durumuna alınması.
 
 > Not: WER değerinin "kesin %98+" olarak varsayılmaması; kullanılan dil, model ve metne göre gerçek test sonuçlarıyla uygun kalite eşiğinin belirlenmesi.
 
-* [ ] **[STEP 4.4]** Cloudflare Worker/Function üzerinde TTS API entegrasyonunun gerçekleştirilmesi.
+* [x] **[STEP 4.4]** Cloudflare Worker/Function üzerinde TTS API entegrasyonunun gerçekleştirilmesi (`functions/api/tts.js`).
 
-* [ ] **[STEP 4.5]** Cloudflare R2 üzerinde ses dosyalarının güvenli şekilde saklanması.
+* [x] **[STEP 4.5]** Cloudflare R2 üzerinde ses dosyalarının güvenli şekilde saklanması (`env.AUDIO_BUCKET`).
 
-* [ ] **[STEP 4.6]** Yeni makale yayınlandığında arka planda TTS üretiminin başlatılması ve sesin önce `draft` olarak saklanması.
+* [x] **[STEP 4.6]** Yeni makale yayınlandığında arka planda TTS üretiminin başlatılması ve sesin önce `draft` olarak saklanması.
 
-* [ ] **[STEP 4.7]** TTS üretimi, STT doğrulaması ve R2 yükleme aşamalarının hata durumlarının yönetilmesi.
+* [x] **[STEP 4.7]** TTS üretimi, STT doğrulaması ve R2 yükleme aşamalarının hata durumlarının yönetilmesi (502 / 500 error handlers & failed status assignment).
 
 ---
 
