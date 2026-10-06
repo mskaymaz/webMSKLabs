@@ -329,18 +329,74 @@
     });
   }
 
+  // Centralized i18n Configuration Object
+  window.MSK_I18N_CONFIG = window.MSK_I18N_CONFIG || {
+    defaultLang: 'tr',
+    supportedLangs: {
+      tr: { code: 'tr', dir: 'ltr', name: 'Türkçe' },
+      en: { code: 'en', dir: 'ltr', name: 'English' },
+      ar: { code: 'ar', dir: 'rtl', name: 'العربية' }
+    }
+  };
+
+  // Centralized Hreflang SEO Sync
+  function syncHreflangTags(currentLang) {
+    try {
+      var head = document.head || document.getElementsByTagName('head')[0];
+      if (!head) return;
+      var currentUrl = new URL(window.location.href);
+      var baseUrl = currentUrl.origin + currentUrl.pathname;
+      var config = window.MSK_I18N_CONFIG;
+      var supportedCodes = Object.keys(config.supportedLangs);
+
+      supportedCodes.forEach(function(code) {
+        var link = head.querySelector('link[rel="alternate"][hreflang="' + code + '"]');
+        if (!link) {
+          link = document.createElement('link');
+          link.setAttribute('rel', 'alternate');
+          link.setAttribute('hreflang', code);
+          head.appendChild(link);
+        }
+        var targetUrl = baseUrl + (code === config.defaultLang ? '' : '?lang=' + code);
+        link.setAttribute('href', targetUrl);
+      });
+
+      var defaultLink = head.querySelector('link[rel="alternate"][hreflang="x-default"]');
+      if (!defaultLink) {
+        defaultLink = document.createElement('link');
+        defaultLink.setAttribute('rel', 'alternate');
+        defaultLink.setAttribute('hreflang', 'x-default');
+        head.appendChild(defaultLink);
+      }
+      defaultLink.setAttribute('href', baseUrl);
+    } catch(e) {}
+  }
+
   // Global Language & RTL Switcher
   window.setLang = function(lang, saveToStorage) {
-    if (!lang) lang = 'tr';
+    var config = window.MSK_I18N_CONFIG;
+    if (!lang || !config.supportedLangs[lang]) {
+      lang = config.defaultLang;
+    }
+
     if (saveToStorage !== false) {
       try { localStorage.setItem('user_lang', lang); } catch(e) {}
     }
     
+    var langInfo = config.supportedLangs[lang] || config.supportedLangs[config.defaultLang];
+    var direction = langInfo.dir || 'ltr';
+
     document.documentElement.setAttribute('lang', lang);
-    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    document.documentElement.setAttribute('dir', direction);
     
     if (document.body) {
-      document.body.classList.remove('lang-tr', 'lang-en', 'lang-ar');
+      // Dynamic cleanup of all previous lang-* classes
+      var existingClasses = Array.from(document.body.classList);
+      existingClasses.forEach(function(cls) {
+        if (cls.indexOf('lang-') === 0) {
+          document.body.classList.remove(cls);
+        }
+      });
       document.body.classList.add('lang-' + lang);
     }
 
@@ -364,6 +420,9 @@
     var currentTheme = document.documentElement.getAttribute('data-theme') || getSavedTheme();
     updateThemeToggleBtn(currentTheme);
 
+    // Sync hreflang link tags for SEO
+    syncHreflangTags(lang);
+
     try {
       window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: lang } }));
     } catch(e) {}
@@ -382,7 +441,7 @@
         var queryStr = queryParts[1] || '';
         
         var params = new URLSearchParams(queryStr);
-        if (lang !== 'tr') {
+        if (lang !== config.defaultLang) {
           params.set('lang', lang);
         } else {
           params.delete('lang');
@@ -398,9 +457,10 @@
   // Priority order:
   // 1. URL Parameter (?lang=) -> URL-based session override (does not overwrite user's saved preference)
   // 2. Explicit User Preference (localStorage 'user_lang') -> Saved when user clicks language button
-  // 3. Browser / System Language (navigator.language) -> Automatically detects tr/ar/en
+  // 3. Browser / System Language (navigator.language) -> Automatically detects supported codes
   // 4. Default Fallback ('tr')
   function syncLangAttributes() {
+    var config = window.MSK_I18N_CONFIG;
     var activeLang = null;
     var saveToStorage = true;
     try {
@@ -417,23 +477,20 @@
     if (!activeLang) {
       try {
         var sysLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
-        if (sysLang.indexOf('tr') === 0) {
-          activeLang = 'tr';
-        } else if (sysLang.indexOf('ar') === 0) {
-          activeLang = 'ar';
-        } else if (sysLang.indexOf('en') === 0) {
-          activeLang = 'en';
-        } else {
-          activeLang = 'tr';
+        var supportedCodes = Object.keys(config.supportedLangs);
+        for (var i = 0; i < supportedCodes.length; i++) {
+          var code = supportedCodes[i];
+          if (sysLang.indexOf(code) === 0) {
+            activeLang = code;
+            break;
+          }
         }
-      } catch(e) {
-        activeLang = 'tr';
-      }
+      } catch(e) {}
       saveToStorage = false;
     }
 
-    if (['tr', 'en', 'ar'].indexOf(activeLang) === -1) {
-      activeLang = 'tr';
+    if (!activeLang || !config.supportedLangs[activeLang]) {
+      activeLang = config.defaultLang;
     }
 
     window.setLang(activeLang, saveToStorage);

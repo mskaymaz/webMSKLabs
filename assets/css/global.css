@@ -352,6 +352,13 @@ body.lang-ar .site-footer {
   text-align: center !important;
 }
 
+/* 7. RTL Directional Icon Auto-Flipping (Ok ve Yön İkonları) */
+html[dir="rtl"] .rtl-flip-icon,
+html[dir="rtl"] .arrow-icon-directional {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+
 /* ==========================================================================
    SABİT ÜST KEMER (STICKY HEADER) VE RESPONSIVE NAVİGASYON STİLLERİ
    ========================================================================== */
