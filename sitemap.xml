@@ -1,104 +1,184 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://msklabs.org/</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://msklabs.org/bizkimiz.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/bizkimiz.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/bizkimiz.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/bizkimiz.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/bizkimiz.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://msklabs.org/about.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/about.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/about.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/about.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://msklabs.org/apps.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/apps.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/apps.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/apps.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/apps.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://msklabs.org/contact.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/contact.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/contact.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/contact.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://msklabs.org/blog/blog.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/blog/blog.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/blog/blog.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/blog/blog.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/blog/blog.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://msklabs.org/apps/haydinamaza.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/apps/haydinamaza.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/apps/haydinamaza.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/apps/haydinamaza.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/apps/haydinamaza.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://msklabs.org/apps/rekatsay.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/apps/rekatsay.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/apps/rekatsay.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/apps/rekatsay.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/apps/rekatsay.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://msklabs.org/apps/date_counter.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/apps/date_counter.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/apps/date_counter.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/apps/date_counter.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/apps/date_counter.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.9</priority>
   </url>
-
   <url>
     <loc>https://msklabs.org/apps/enyakin.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/apps/enyakin.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/apps/enyakin.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/apps/enyakin.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/apps/enyakin.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://msklabs.org/apps/deskpilot.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/apps/deskpilot.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/apps/deskpilot.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/apps/deskpilot.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/apps/deskpilot.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://msklabs.org/apps/gcpiluyari.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/apps/gcpiluyari.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/apps/gcpiluyari.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/apps/gcpiluyari.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/apps/gcpiluyari.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://msklabs.org/destek.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/destek.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/destek.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/destek.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/destek.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://msklabs.org/faq.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/faq.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/faq.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/faq.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://msklabs.org/changelog.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/changelog.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/changelog.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/changelog.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/changelog.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://msklabs.org/roadmap.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/roadmap.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/roadmap.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/roadmap.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/roadmap.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://msklabs.org/status.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/status.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/status.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/status.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/status.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://msklabs.org/download.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/download.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/download.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/download.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/download.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://msklabs.org/privacy.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/privacy.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/privacy.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/privacy.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://msklabs.org/terms.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/terms.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/terms.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/terms.html"/>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>

@@ -339,6 +339,80 @@
     }
   };
 
+  // Centralized Dynamic SEO Metadata Sync (Title, Description, OpenGraph)
+  function syncSEOMetadata(currentLang) {
+    try {
+      var head = document.head || document.getElementsByTagName('head')[0];
+      if (!head) return;
+
+      var titleText = '';
+      var descText = '';
+
+      // 1. Read page title from stickyHeaderTitle multi-language spans
+      var titleContainer = document.getElementById('stickyHeaderTitle');
+      if (titleContainer) {
+        var activeSpan = titleContainer.querySelector('.lang-' + currentLang);
+        if (activeSpan && activeSpan.innerText) {
+          titleText = activeSpan.innerText.trim();
+          titleText = titleText.replace(/^[\u2000-\u3300\uD83C-\uDFFF\uDB40-\uDC00\u2600-\u27BF\uFE00-\uFE0F\u00A9\u00AE\u2122\u2139]+\s*/g, '').trim();
+        }
+      }
+
+      // 2. Read from App Showcase metadata if present (CURRENT_APP_DATA)
+      if (window.CURRENT_APP_DATA && window.CURRENT_APP_DATA.name && window.CURRENT_APP_DATA.name[currentLang]) {
+        var appName = window.CURRENT_APP_DATA.name[currentLang];
+        var appTagline = (window.CURRENT_APP_DATA.tagline && window.CURRENT_APP_DATA.tagline[currentLang]) ? window.CURRENT_APP_DATA.tagline[currentLang] : '';
+        titleText = appName + (appTagline ? ' — ' + appTagline : '');
+        if (window.CURRENT_APP_DATA.description && window.CURRENT_APP_DATA.description[currentLang]) {
+          descText = window.CURRENT_APP_DATA.description[currentLang];
+        }
+      }
+
+      // 3. Read from Blog Article metadata if active in window.currentPost
+      if (window.currentPost && window.currentPost[currentLang]) {
+        var pData = window.currentPost[currentLang];
+        if (pData.title) titleText = pData.title;
+        if (pData.summary) descText = pData.summary;
+      }
+
+      // Format final Title with brand suffix
+      if (titleText) {
+        if (titleText.indexOf('MSK Labs') === -1 && titleText.indexOf('MSKLabs') === -1) {
+          titleText = titleText + ' | MSK Labs';
+        }
+        document.title = titleText;
+
+        // Update og:title
+        var ogTitle = head.querySelector('meta[property="og:title"]');
+        if (!ogTitle) {
+          ogTitle = document.createElement('meta');
+          ogTitle.setAttribute('property', 'og:title');
+          head.appendChild(ogTitle);
+        }
+        ogTitle.setAttribute('content', titleText);
+      }
+
+      // Update meta name="description" & og:description
+      if (descText) {
+        var metaDesc = head.querySelector('meta[name="description"]');
+        if (!metaDesc) {
+          metaDesc = document.createElement('meta');
+          metaDesc.setAttribute('name', 'description');
+          head.appendChild(metaDesc);
+        }
+        metaDesc.setAttribute('content', descText);
+
+        var ogDesc = head.querySelector('meta[property="og:description"]');
+        if (!ogDesc) {
+          ogDesc = document.createElement('meta');
+          ogDesc.setAttribute('property', 'og:description');
+          head.appendChild(ogDesc);
+        }
+        ogDesc.setAttribute('content', descText);
+      }
+    } catch(e) {}
+  }
+
   // Centralized Hreflang SEO Sync
   function syncHreflangTags(currentLang) {
     try {
@@ -422,6 +496,9 @@
 
     // Sync hreflang link tags for SEO
     syncHreflangTags(lang);
+
+    // Sync dynamic SEO Title, Description, and OpenGraph metadata
+    syncSEOMetadata(lang);
 
     try {
       window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: lang } }));
