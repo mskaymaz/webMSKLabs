@@ -1,8 +1,13 @@
 # MSK Labs - Blog Yorum & Yönetim/Bildirim Sistemi Tasarım Taslağı
 
-> **Doküman Durumu:** İstişare & Taslak  
-> **Tarih:** 29 Eylül 2026  
-> **Konu:** Blog yazıları (BİZCE, GÜNCEL, ANILTILAR) için moderasyonlu yorum sistemi ve özel MSK Labs Masaüstü/Mobil Yönetim & Bildirim Uygulaması mimarisi.
+> ⚠️ **[HISTORICAL / SUPERSEDED DRAFT]**  
+> **ÖNEMLİ UYARI:** Bu belge 29 Eylül 2026 tarihli önceki tasarım çalışmasının tarihsel devamıdır. Buradaki Supabase, Firebase, Telegram, Electron ve PyQt önerileri güncel mimarinin aktif teknoloji kararları değildir.
+> 
+> **GÜNCEL AKTİF MİMARİ (`MSKLabsDesk/tasks.md`):**
+> - **Veritabanı (Edge DB):** Cloudflare D1 (`comments` ve `messages` tabloları).
+> - **Serverless Backend API:** Cloudflare Edge Workers TypeScript API (`POST/GET /api/v1/comments`, `PATCH /api/v1/admin/comments`).
+> - **Yönetim Paneli (Admin App):** `MSKLabsDesk` Admin PWA (`CommentsView.tsx`, `TicketsView.tsx`). *Not: React + Vite + TypeScript çatısı YALNIZCA Admin PWA uygulaması içindir; kamuya açık `webMSKLabs` kamu portalı Vanilla HTML5 / CSS3 / JavaScript mimarisini korur.*
+> - **E-posta & Bildirim:** Resend Email API (`COM-001`/`COM-002`) ve VAPID Web Push (`COM-003`).
 
 ---
 
@@ -12,23 +17,23 @@
    Okuyucuların makalelere yorum yapabilmesi, düşüncelerini paylaşabilmesi ve MSK Labs ekibiyle iletişim kurabilmesi hedeflenir.
 2. **Onaylı (Moderasyonlu) Yayıncılık:**  
    Hiçbir yorum doğrudan web sitesinde yayınlanmaz. Her yorum öncelikle "Beklemede" (`pending`) statüsünde tutulur ve yönetim onayından geçtikten sonra yayına alınır.
-3. **Özel Yönetim & Bildirim Arayüzü (Masaüstü + Mobil Entegre):**  
-   Üçüncü taraf botlar veya harici uygulamalar (Telegram vb.) yerine, tüm onay, red, yanıtlama ve destek süreçlerini yönetecek **MSK Labs Özel Masaüstü & Mobil Yönetim Uygulaması** kullanılacaktır.
+3. **Özel Yönetim & Bildirim Arayüzü (Masaüstü + Mobil Entegre Admin PWA):**  
+   Harici botlar (Telegram vb.) veya Supabase/Firebase yerine, tüm onay, red, yanıtlama ve destek süreçlerini yönetecek **`MSKLabsDesk` Admin PWA Paneli** ve Cloudflare Workers API altyapısı kullanılacaktır.
 
 ---
 
 ## 2. Özel Masaüstü & Mobil Yönetim Uygulaması Konsepti
 
-### A. Anlık Bildirim (Push Notification & Toast)
-* Web sitesinden yeni bir yorum veya destek/talep geldiğinde, masaüstü bilgisayarda ekranın sağ alt köşesinde veya mobil cihazda anlık bildirim düşer.
+### A. Anlık Bildirim (Web Push Notification & Resend Email)
+* Web sitesinden yeni bir yorum veya destek/talep geldiğinde, masaüstü veya mobil cihazda VAPID Web Push anlık bildirimi düşer.
 * Bildirim içeriğinde:
   * Makale Adı / Bölüm (BİZCE, GÜNCEL, ANILTILAR)
   * Gönderen Rumuz/İsim
   * Yorumun Kısa Özeti yer alır.
 
 ### B. Hızlı Aksiyon & Yanıtlama Ekranı
-Uygulama içerisinden tek tıkla gerçekleştirilebilecek aksiyonlar:
-1. **[ Onayla & Yayınla ]:** Yorum derhal web sitesinde ilgili makalenin altında görünür hale gelir.
+`MSKLabsDesk` Admin PWA (`CommentsView.tsx`) içerisinden tek tıkla gerçekleştirilebilecek aksiyonlar:
+1. **[ Onayla & Yayınla ]:** Yorum derhal web sitesinde ilgili makalenin altında görünür hale gelir (`isApproved = true`).
 2. **[ Düzenle & Onayla ]:** İmla hataları veya ufak düzenlemeler yapılarak onaylanır.
 3. **[ Reddet / Sil ]:** Uygunsuz, ilgisiz veya spam yorumlar tek tıkla elenir.
 4. **[ MSK Labs Ekibi Olarak Yanıtla ]:** Okuyucunun yorumunun altına resmi ekip yanıtı yazılır. Web sitesinde "MSK Labs Ekibi" rozetiyle yayınlanır.
@@ -39,19 +44,22 @@ Uygulama içerisinden tek tıkla gerçekleştirilebilecek aksiyonlar:
 
 ```mermaid
 graph TD
-    A[Okuyucu - Web Sitesi Yorum Formu] -->|Yorum Gönder| B[(Veritabanı / API Service)]
-    B -->|Statü: Beklemede (pending)| B
-    B -->|Realtime / Push Trigger| C[MSK Labs Masaüstü Uygulaması]
-    B -->|Realtime / Push Trigger| D[MSK Labs Mobil Uygulaması]
-    C -->|Onayla / Yanıtla| B
-    D -->|Onayla / Yanıtla| B
-    B -->|Statü: Onaylandı (approved)| E[Web Sitesi Makale Sayfası]
+    A[Okuyucu - Web Sitesi Yorum Formu Vanilla JS] -->|POST /api/v1/comments| B[(Cloudflare D1 Database - comments)]
+    B -->|Statü: Beklemede status=pending| B
+    B -->|Workers API / VAPID Push Trigger| C[MSKLabsDesk Admin PWA CommentsView]
+    C -->|PATCH /api/v1/admin/comments/id - Onayla / Yanıtla| B
+    B -->|Statü: Onaylandı is_approved=1| E[Web Sitesi Makale Sayfası Vanilla JS]
 ```
 
-### Önerilen Teknolojik Bileşenler:
-* **Veritabanı / Backend:** Supabase veya Firebase (Gerçek zamanlı abonelik / Realtime subscription & WebSocket desteği).
-* **Masaüstü Uygulaması:** Electron veya PyQt / Custom Python Desktop Client.
-* **Mobil Uygulama:** Flutter / React Native / Native Android-iOS.
+### Güncel Teknolojik Bileşenler (`MSKLabsDesk/tasks.md`):
+* **Veritabanı / Backend:** Cloudflare D1 (Edge SQLite DB) + Cloudflare Workers TypeScript API.
+* **Yönetim Uygulaması (Admin PWA):** React 18 + Vite + TypeScript PWA (`MSKLabsDesk`).
+* **Public Web Portalı (`webMSKLabs`):** Vanilla HTML5 / CSS3 / JavaScript.
+* **E-posta & Bildirim:** Resend Email API + VAPID Web Push.
+
+### `[HISTORICAL / SUPERSEDED]` Önceki Taslak Önerileri:
+* *Veritabanı:* Supabase / Firebase (Kullanılmıyor, yerini Cloudflare D1 almıştır).
+* *Masaüstü / Mobil Uygulama:* Electron / PyQt / Flutter (Kullanılmıyor, yerini Cloudflare PWA Admin almıştır).
 
 ---
 

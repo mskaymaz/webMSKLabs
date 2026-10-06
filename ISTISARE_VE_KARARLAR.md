@@ -1,9 +1,14 @@
-# 📜 MSK Labs - Sistem Mimarisi, İstişare Notları ve Kararlar Dokümanı
-# 📜 MSK Labs - System Architecture, Decision Log & Technical Specifications
+# 📜 MSK Labs - Sistem Mimarisi, İstişare Notları ve Kararlar Dokümanı [HISTORICAL / SUPERSEDED]
+# 📜 MSK Labs - System Architecture, Decision Log & Technical Specifications [HISTORICAL / SUPERSEDED]
 
-> **Doküman Oluşturulma Tarihi / Creation Date:** 10 Eylül 2026 / September 10, 2026  
-> **Amaç / Purpose:** MSK Labs web platformu ve 20+ mobil/masaüstü uygulamasının merkezi otomasyon altyapısına ilişkin alınan tüm kararların, veri akış haritalarının, Google E-Tablo entegrasyon detaylarının ve AI asistan yönergelerinin kalıcı rehberi.  
-> *English:* A permanent reference guide documenting all architecture decisions, data flow schemas, Google Sheets integration specifications, and AI assistant guidelines for the MSK Labs web platform and 20+ applications.
+> ⚠️ **[HISTORICAL / SUPERSEDED DOCUMENT]**  
+> **ÖNEMLİ UYARI:** Bu doküman 10 Eylül 2026 tarihinde oluşturulmuş tarihsel bir mimari istişare günlüğüdür (Decision Log).  
+> Doküman içindeki aşağıdaki konular güncel canlı mimaride (`MSKLabsDesk/tasks.md`) **ARTIK AKTİF İMPLEMENTASYON TALİMATI DEĞİLDİR**:
+> - **Google Sheets Veritabanı:** Canlı sistemde aktif veritabanı olarak Google Sheets kullanılmamaktadır. Tüm veriler Cloudflare D1 (SQLite Edge DB) üzerinde tutulur.
+> - **Admin Access PIN (175):** İstemci tarafında PIN tutulması ve `ist.html` PIN 175 kuralı kaldırılmış, yerini Cloudflare Workers Edge JWT Auth sistemine bırakmıştır.
+> - **Telegram Bot Entegrasyonu:** Canlı bildirim/destek altyapısında Telegram botu kullanılmamaktadır; bildirimler Resend E-posta API ve VAPID Web Push ile yönetilmektedir.
+> 
+> *Bu belge silinmemiş olup, projenin ilk aşamasındaki fikir ve istişare evrimini belgelemek amacıyla tarihçe (historical archive) olarak saklanmaktadır.*
 
 ---
 

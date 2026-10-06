@@ -1,4 +1,4 @@
-﻿# Destek & Talep Sistemi Gorev Listesi (tasks_destek.md)
+# Destek & Talep Sistemi Gorev Listesi (tasks_destek.md)
 
 Bu dosya, msklabs.org/destek.html sayfasinin ve arka plan motorunun adim adim gelistirilme surecini takip etmek icin olusturulmustur.
 
@@ -34,6 +34,7 @@ Bu dosya, msklabs.org/destek.html sayfasinin ve arka plan motorunun adim adim ge
 ---
 
 ## Adim 5: Arka Plan Motoru & AI Entegrasyonu (Backend)
-- [x] 5.1 Cloudflare Worker / Serverless API endpoint taslagi (functions/api/feedback.js).
+- [x] 5.1 Cloudflare Worker / Serverless API endpoint taslagi (`functions/api/feedback.js` / `POST /api/v1/support`).
 - [x] 5.2 Gemini Flash AI Ayristirma Prompt'u (Hata/Istek Siniflandirma + 1-10 Ciddiyet Puani + Ozetleme).
-- [x] 5.3 Telegram Anlik Bildirim & Veritabani sablonu.
+- [x] 5.3 **Güncel Veritabanı & Bildirim Mimarisi:** Bilet verileri doğrudan **Cloudflare D1** veritabanında (`messages` tablosu) saklanır. Bilet yönetim işlemleri **`MSKLabsDesk` Admin PWA** paneli üzerinden yürütülür. E-posta bildirimleri **Resend API** üzerinden, anlık yönetici bildirimleri ise **VAPID Web Push** protokolü ile iletilir.
+- [x] 5.4 `[HISTORICAL / SUPERSEDED]` *Eski Telegram bot bildirimi ve Google Sheets senkronizasyon şablonu güncel canlı sistemde aktif veritabanı/bildirim katmanı değildir; yerini D1 + Resend + VAPID Web Push yapısına bırakmıştır.*
