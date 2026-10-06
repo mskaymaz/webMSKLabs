@@ -1,0 +1,10 @@
+# Cloudflare Pages & D1 Database Configuration for webMSKLabs / DevAdmin
+name = "webmsklabs"
+pages_build_output_dir = "."
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "msklabsdesk_db"
+database_id = "00000000-0000-0000-0000-000000000000" # Local D1 instance ID / placeholder for prod D1
+migrations_dir = "migrations"

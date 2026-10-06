@@ -4,6 +4,9 @@
 .dev.vars
 *.secret
 
+# Wrangler Local State
+.wrangler/
+
 # IDE & System Files
 .vscode/
 .idea/
