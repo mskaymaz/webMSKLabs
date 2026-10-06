@@ -1,0 +1,17 @@
+{
+  "name": "webmsklabs",
+  "version": "1.0.0",
+  "description": "MSKLabs & DevAdmin Edge Platform",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241230.0",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8",
+    "wrangler": "^3.101.0"
+  }
+}
