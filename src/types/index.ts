@@ -1,4 +1,5 @@
 export * from './env.js';
+export * from './router.js';
 
 export interface ApiResponse<T = unknown> {
   success: boolean;
@@ -7,6 +8,8 @@ export interface ApiResponse<T = unknown> {
     code: string;
     message: string;
     details?: unknown;
+    requestId?: string;
   };
   timestamp: string;
+  requestId?: string;
 }
