@@ -243,6 +243,15 @@
             elements.headerTitle.textContent = titleMap[viewName] || 'DevAdmin';
         }
 
+        // Trigger module load handlers
+        if (viewName === 'tickets' && window.DevAdminTickets) {
+            window.DevAdminTickets.init();
+            window.DevAdminTickets.load();
+        } else if (viewName === 'comments' && window.DevAdminComments) {
+            window.DevAdminComments.init();
+            window.DevAdminComments.load();
+        }
+
         if (elements.sidebar && window.innerWidth <= 640) {
             elements.sidebar.classList.remove('open');
         }

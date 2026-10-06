@@ -99,43 +99,82 @@
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-6);">
                         <div class="card">
                             <span class="badge badge-primary">Destek</span>
-                            <h2 style="font-size: var(--font-size-2xl); margin-top: var(--space-2);">12</h2>
-                            <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Bekleyen Biletler</p>
+                            <h2 style="font-size: var(--font-size-2xl); margin-top: var(--space-2);">3</h2>
+                            <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Aktif Destek Bileti</p>
                         </div>
                         <div class="card">
                             <span class="badge badge-warning">Onay Bekleyen</span>
-                            <h2 style="font-size: var(--font-size-2xl); margin-top: var(--space-2);">5</h2>
-                            <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Blog Yorumları</p>
+                            <h2 style="font-size: var(--font-size-2xl); margin-top: var(--space-2);">1</h2>
+                            <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Blog Yorumu</p>
                         </div>
                         <div class="card">
                             <span class="badge badge-success">CMS</span>
                             <h2 style="font-size: var(--font-size-2xl); margin-top: var(--space-2);">24</h2>
-                            <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Yayınlanmış Yazılar</p>
+                            <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Yayınlanmış Yazı</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- View 2: Support Tickets Placeholder & Baseline State Components -->
+                <!-- View 2: Support Tickets Real-time Management View (UI-002) -->
                 <div id="view-tickets" class="view-container" style="display:none;">
                     <div class="card">
-                        <h2 style="font-size: var(--font-size-lg); margin-bottom: var(--space-4);">Destek Biletleri Modülü</h2>
-                        <div class="empty-state">
-                            <div style="font-size: 3rem; margin-bottom: var(--space-2);">🎫</div>
-                            <h3>Bilet Modülü Hazır</h3>
-                            <p>Destek biletleri yönetim ekranları bir sonraki modül aşamasında bağlanacaktır.</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--space-4); flex-wrap: wrap; gap: 12px;">
+                            <div style="display:flex; align-items:center; gap: 8px;">
+                                <h2 style="font-size: var(--font-size-lg);">Destek Biletleri</h2>
+                                <span id="tickets-count-badge" class="badge badge-primary">0 Bilet</span>
+                            </div>
+                            <button id="ticket-refresh-btn" class="btn btn-secondary" style="min-height:38px;">🔄 Yenile</button>
                         </div>
+
+                        <!-- Ticket Filter Bar -->
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: var(--space-6);">
+                            <input type="text" id="ticket-search-input" class="form-input" placeholder="Bilet no, konu, ad veya e-posta ara...">
+                            <select id="ticket-status-select" class="form-input">
+                                <option value="">Tüm Durumlar</option>
+                                <option value="NEW">YENİ (NEW)</option>
+                                <option value="IN_PROGRESS">İŞLENİYOR (IN_PROGRESS)</option>
+                                <option value="RESOLVED">ÇÖZÜLDÜ (RESOLVED)</option>
+                                <option value="SPAM">SPAM</option>
+                                <option value="CLOSED">KAPALI (CLOSED)</option>
+                            </select>
+                            <select id="ticket-urgency-select" class="form-input">
+                                <option value="">Tüm Aciliyetler</option>
+                                <option value="CRITICAL">KRİTİK</option>
+                                <option value="HIGH">YÜKSEK</option>
+                                <option value="NORMAL">NORMAL</option>
+                                <option value="LOW">DÜŞÜK</option>
+                            </select>
+                        </div>
+
+                        <!-- Ticket Dynamic DataTable -->
+                        <div id="tickets-list-container"></div>
                     </div>
                 </div>
 
-                <!-- View 3: Comments Placeholder -->
+                <!-- View 3: Blog Comments Real-time Management View (UI-002) -->
                 <div id="view-comments" class="view-container" style="display:none;">
                     <div class="card">
-                        <h2 style="font-size: var(--font-size-lg); margin-bottom: var(--space-4);">Yorum Yönetim Modülü</h2>
-                        <div class="empty-state">
-                            <div style="font-size: 3rem; margin-bottom: var(--space-2);">💬</div>
-                            <h3>Yorum Modülü Hazır</h3>
-                            <p>Yorum onay ve denetim modülü bir sonraki aşamada aktifleştirilecektir.</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--space-4); flex-wrap: wrap; gap: 12px;">
+                            <div style="display:flex; align-items:center; gap: 8px;">
+                                <h2 style="font-size: var(--font-size-lg);">Blog Yorum Yönetimi</h2>
+                                <span id="comments-count-badge" class="badge badge-primary">0 Yorum</span>
+                            </div>
+                            <button id="comment-refresh-btn" class="btn btn-secondary" style="min-height:38px;">🔄 Yenile</button>
                         </div>
+
+                        <!-- Comment Filter Bar -->
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: var(--space-6);">
+                            <input type="text" id="comment-search-input" class="form-input" placeholder="Yazar adı, e-posta veya metin ara...">
+                            <select id="comment-status-select" class="form-input">
+                                <option value="">Tüm Durumlar</option>
+                                <option value="PENDING">ONAY BEKLEYENLER (PENDING)</option>
+                                <option value="APPROVED">ONAYLANMIŞ (APPROVED)</option>
+                                <option value="REJECTED">REDDEDİLMİŞ (REJECTED)</option>
+                            </select>
+                        </div>
+
+                        <!-- Comment Dynamic DataTable -->
+                        <div id="comments-list-container"></div>
                     </div>
                 </div>
 
@@ -176,6 +215,17 @@
         </nav>
     </div>
 
+    <!-- Ticket Detail & Reply Modal -->
+    <div id="ticket-detail-modal" class="modal-backdrop" style="display:none;">
+        <div class="modal-dialog" style="max-width: 680px;">
+            <div style="padding: var(--space-4); border-bottom: 1px solid var(--color-border); display:flex; justify-space-between; align-items:center;">
+                <h3 style="font-size: var(--font-size-md); font-weight:700;">Destek Bileti Detayı & Yanıt</h3>
+                <button id="ticket-modal-close-btn" class="btn btn-secondary" style="min-width:36px; min-height:36px; padding:0;">✕</button>
+            </div>
+            <div id="ticket-modal-body" style="padding: var(--space-6); max-height: 80vh; overflow-y: auto;"></div>
+        </div>
+    </div>
+
     <!-- Global Quick Search Modal (Cmd+K Skeleton) -->
     <div id="search-modal" class="modal-backdrop" style="display:none;">
         <div class="modal-dialog">
@@ -190,5 +240,7 @@
     </div>
 
     <script src="/admin/admin.js"></script>
+    <script src="/admin/modules/tickets.js"></script>
+    <script src="/admin/modules/comments.js"></script>
 </body>
 </html>
