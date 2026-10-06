@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSKLabs — DevAdmin Yönetim Paneli</title>
+    <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+
+    <!-- Global Offline Banner -->
+    <div id="offline-banner" class="offline-banner" role="status" aria-live="polite">
+        ⚠️ İnternet bağlantısı kesildi. Çevrimdışı moddasınız.
+    </div>
+
+    <!-- Global Error Boundary Container -->
+    <div id="global-error-container" style="display:none; padding: var(--space-4);"></div>
+
+    <!-- SECTION 1: LOGIN VIEW -->
+    <div id="login-section" class="modal-backdrop" style="display:none;">
+        <div class="modal-dialog" style="max-width: 400px;">
+            <div style="padding: var(--space-8);">
+                <div style="text-align: center; margin-bottom: var(--space-6);">
+                    <h1 style="font-size: var(--font-size-2xl); color: var(--color-primary); font-weight: 800;">MSKLabs</h1>
+                    <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">DevAdmin Yönetim Portalı</p>
+                </div>
+
+                <div id="login-alert" class="alert alert-error" style="display:none;" role="alert"></div>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-username" class="form-label">Kullanıcı Adı</label>
+                        <input type="text" id="login-username" class="form-input" placeholder="admin" required autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">Şifre</label>
+                        <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" id="login-submit-btn" class="btn btn-primary btn-block">Giriş Yap</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2: APP SHELL VIEW -->
+    <div id="app-section" id="app-root" style="display:none;">
+        
+        <!-- Sidebar Navigation -->
+        <aside id="admin-sidebar" class="admin-sidebar" aria-label="Ana Navigasyon">
+            <div class="sidebar-brand">
+                <span>DevAdmin</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-view="dashboard">
+                    <span>📊 Genel Bakış</span>
+                </a>
+                <a href="#" class="nav-item" data-view="tickets">
+                    <span>🎫 Destek Biletleri</span>
+                </a>
+                <a href="#" class="nav-item" data-view="comments">
+                    <span>💬 Yorum Yönetimi</span>
+                </a>
+                <a href="#" class="nav-item" data-view="cms">
+                    <span>📝 Headless CMS</span>
+                </a>
+                <a href="#" class="nav-item" data-view="settings">
+                    <span>⚙️ Sistem Ayarları</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="rtl-toggle-btn" class="btn btn-secondary btn-block" style="margin-bottom: var(--space-2);">RTL</button>
+                <button id="logout-btn" class="btn btn-danger btn-block">Çıkış Yap</button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <main class="admin-main">
+            <!-- Topbar Header -->
+            <header class="admin-header">
+                <div style="display: flex; align-items: center; gap: var(--space-4);">
+                    <button id="sidebar-toggle-btn" class="btn btn-secondary" style="min-width: 44px; display: none;" aria-label="Menüyü Aç/Kapat">☰</button>
+                    <h1 id="header-title" style="font-size: var(--font-size-xl); font-weight: 700;">Genel Bakış</h1>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: var(--space-4);">
+                    <button id="header-search-btn" class="header-search-btn">
+                        <span>🔍 Hızlı Arama...</span>
+                        <kbd style="background: var(--color-surface); padding: 2px 6px; border-radius: 4px; font-size: 11px;">Cmd+K</kbd>
+                    </button>
+                    <div id="user-pill-name" class="badge badge-primary" style="font-size: var(--font-size-sm); padding: 6px 12px;">admin</div>
+                </div>
+            </header>
+
+            <!-- Dynamic Content Views -->
+            <div class="admin-content">
+                
+                <!-- View 1: Dashboard Overview Placeholder -->
+                <div id="view-dashboard" class="view-container">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-6);">
+                        <div class="card">
+                            <span class="badge badge-primary">Destek</span>
+                            <h2 style="font-size: var(--font-size-2xl); margin-top: var(--space-2);">12</h2>
+                            <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Bekleyen Biletler</p>
+                        </div>
+                        <div class="card">
+                            <span class="badge badge-warning">Onay Bekleyen</span>
+                            <h2 style="font-size: var(--font-size-2xl); margin-top: var(--space-2);">5</h2>
+                            <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Blog Yorumları</p>
+                        </div>
+                        <div class="card">
+                            <span class="badge badge-success">CMS</span>
+                            <h2 style="font-size: var(--font-size-2xl); margin-top: var(--space-2);">24</h2>
+                            <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Yayınlanmış Yazılar</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 2: Support Tickets Placeholder & Baseline State Components -->
+                <div id="view-tickets" class="view-container" style="display:none;">
+                    <div class="card">
+                        <h2 style="font-size: var(--font-size-lg); margin-bottom: var(--space-4);">Destek Biletleri Modülü</h2>
+                        <div class="empty-state">
+                            <div style="font-size: 3rem; margin-bottom: var(--space-2);">🎫</div>
+                            <h3>Bilet Modülü Hazır</h3>
+                            <p>Destek biletleri yönetim ekranları bir sonraki modül aşamasında bağlanacaktır.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 3: Comments Placeholder -->
+                <div id="view-comments" class="view-container" style="display:none;">
+                    <div class="card">
+                        <h2 style="font-size: var(--font-size-lg); margin-bottom: var(--space-4);">Yorum Yönetim Modülü</h2>
+                        <div class="empty-state">
+                            <div style="font-size: 3rem; margin-bottom: var(--space-2);">💬</div>
+                            <h3>Yorum Modülü Hazır</h3>
+                            <p>Yorum onay ve denetim modülü bir sonraki aşamada aktifleştirilecektir.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 4: CMS Placeholder -->
+                <div id="view-cms" class="view-container" style="display:none;">
+                    <div class="card">
+                        <h2 style="font-size: var(--font-size-lg); margin-bottom: var(--space-4);">Headless CMS Modülü</h2>
+                        <div class="empty-state">
+                            <div style="font-size: 3rem; margin-bottom: var(--space-2);">📝</div>
+                            <h3>CMS Modülü Hazır</h3>
+                            <p>Blog yazıları, kanallar ve medya içerikleri yönetimi sonraki modül adımında bağlanacaktır.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 5: Settings Placeholder -->
+                <div id="view-settings" class="view-container" style="display:none;">
+                    <div class="card">
+                        <h2 style="font-size: var(--font-size-lg); margin-bottom: var(--space-4);">Sistem Ayarları Modülü</h2>
+                        <div class="empty-state">
+                            <div style="font-size: 3rem; margin-bottom: var(--space-2);">⚙️</div>
+                            <h3>Sistem Ayarları Hazır</h3>
+                            <p>Sistem ve reklam alanları yapılandırma modülü aktif altyapı üzerindedir.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Mobile Bottom Nav Bar (<640px) -->
+        <nav id="mobile-bottom-nav" class="mobile-bottom-nav">
+            <a href="#" class="nav-item" data-view="dashboard">📊</a>
+            <a href="#" class="nav-item" data-view="tickets">🎫</a>
+            <a href="#" class="nav-item" data-view="comments">💬</a>
+            <a href="#" class="nav-item" data-view="cms">📝</a>
+            <a href="#" class="nav-item" data-view="settings">⚙️</a>
+        </nav>
+    </div>
+
+    <!-- Global Quick Search Modal (Cmd+K Skeleton) -->
+    <div id="search-modal" class="modal-backdrop" style="display:none;">
+        <div class="modal-dialog">
+            <div style="padding: var(--space-4); border-bottom: 1px solid var(--color-border); display: flex; align-items: center; justify-content: space-between;">
+                <input type="text" id="global-search-input" class="form-input" placeholder="Aramak istediğiniz terimi yazın... (Biletler, Yorumlar, CMS)" style="border: none; font-size: var(--font-size-lg);">
+                <button id="search-close-btn" class="btn btn-secondary" style="min-width:44px;">✕</button>
+            </div>
+            <div style="padding: var(--space-4); max-height: 300px; overflow-y: auto;">
+                <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Örnek Aramalar: Destek biletleri, Yorum onayları, Blog içerikleri...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/admin/admin.js"></script>
+</body>
+</html>
