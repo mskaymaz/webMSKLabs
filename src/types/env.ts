@@ -8,6 +8,9 @@ export interface Env {
   // Cloudflare R2 Media Bucket Binding
   MEDIA: R2Bucket;
 
+  // Cloudflare KV Idempotency Store Binding (API-007)
+  IDEMPOTENCY_STORE?: KVNamespace;
+
   // Environment Secret Bindings
   JWT_SECRET: string;
   RESEND_API_KEY?: string;

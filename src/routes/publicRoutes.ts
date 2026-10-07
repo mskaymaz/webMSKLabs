@@ -5,6 +5,7 @@ import { checkRateLimit } from '../middleware/rateLimit.js';
 import { validatePayload, escapeText } from '../utils/sanitize.js';
 import { verifyTurnstileToken } from '../utils/turnstile.js';
 import { createPublicSupportTicketService } from '../services/supportService.js';
+import { withIdempotency } from '../middleware/idempotency.js';
 
 export const publicRouter = new Router();
 
@@ -133,5 +134,6 @@ async function handlePublicSupportSubmission(ctx: any) {
   return jsonResponse(res.data, res.status, ctx.corsHeaders, ctx.requestId);
 }
 
-publicRouter.post('/api/v1/support', handlePublicSupportSubmission);
-publicRouter.post('/api/support', handlePublicSupportSubmission);
+const idempotentSupportHandler = withIdempotency(handlePublicSupportSubmission);
+publicRouter.post('/api/v1/support', idempotentSupportHandler);
+publicRouter.post('/api/support', idempotentSupportHandler);

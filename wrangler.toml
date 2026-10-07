@@ -1,4 +1,4 @@
-# Cloudflare Pages & D1 / R2 Configuration for webMSKLabs / DevAdmin
+# Cloudflare Pages & D1 / R2 / KV Configuration for webMSKLabs / DevAdmin
 name = "webmsklabs"
 pages_build_output_dir = "."
 compatibility_date = "2026-10-01"
@@ -12,6 +12,10 @@ migrations_dir = "migrations"
 [[r2_buckets]]
 binding = "MEDIA"
 bucket_name = "msklabsdesk-media"
+
+[[kv_namespaces]]
+binding = "IDEMPOTENCY_STORE"
+id = "00000000000000000000000000000000"
 
 [vars]
 ENVIRONMENT = "development"
