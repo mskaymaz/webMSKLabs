@@ -5,6 +5,7 @@ import { checkRateLimit } from '../middleware/rateLimit.js';
 import { validatePayload, escapeText } from '../utils/sanitize.js';
 import { verifyTurnstileToken } from '../utils/turnstile.js';
 import { createPublicSupportTicketService } from '../services/supportService.js';
+import { getPublicCommentsService, createCommentService } from '../services/commentService.js';
 import { withIdempotency } from '../middleware/idempotency.js';
 
 export const publicRouter = new Router();
@@ -51,8 +52,8 @@ publicRouter.get('/api/v1/health', (ctx) => {
   );
 });
 
+// --- API-001 Public Support ---
 async function handlePublicSupportSubmission(ctx: any) {
-  // 1. Rate Limiting per IP + Route (max 5 requests / 1 minute)
   const routeKey = `route:${ctx.url.pathname}`;
   const rateCheck = checkRateLimit(ctx.clientIp, routeKey, 5, 60000);
   if (!rateCheck.allowed) {
@@ -77,7 +78,6 @@ async function handlePublicSupportSubmission(ctx: any) {
     );
   }
 
-  // 2. Parse & Validate Payload
   let body: any;
   try {
     body = await ctx.request.json();
@@ -104,7 +104,6 @@ async function handlePublicSupportSubmission(ctx: any) {
     return errorResponse('Girdi doğrulama hatası.', 'VALIDATION_ERROR', 400, ctx.corsHeaders, validation.errors, ctx.requestId);
   }
 
-  // 3. Server-side Turnstile Verification
   const turnstileToken = body.turnstile_token || body.turnstileToken || ctx.request.headers.get('cf-turnstile-response');
   const turnstileResult = await verifyTurnstileToken(ctx, turnstileToken);
 
@@ -130,7 +129,6 @@ async function handlePublicSupportSubmission(ctx: any) {
     );
   }
 
-  // 4. Create Ticket
   try {
     const res = await createPublicSupportTicketService(ctx, {
       name: escapeText(rawName),
@@ -156,3 +154,157 @@ async function handlePublicSupportSubmission(ctx: any) {
 const idempotentSupportHandler = withIdempotency(handlePublicSupportSubmission);
 publicRouter.post('/api/v1/support', idempotentSupportHandler);
 publicRouter.post('/api/support', idempotentSupportHandler);
+
+// --- API-002 Public Comments ---
+async function handlePublicCommentList(ctx: any) {
+  const postSlug = ctx.query.get('postSlug') || ctx.query.get('post_slug') || undefined;
+
+  const cacheKeyStr = ctx.url.toString();
+  const cfCaches = (globalThis as any).caches;
+  const cache = cfCaches && cfCaches.default ? cfCaches.default : null;
+  if (cache) {
+    try {
+      const cached = await cache.match(cacheKeyStr);
+      if (cached) {
+        return cached;
+      }
+    } catch {
+      // Ignore cache match error
+    }
+  }
+
+  const res = await getPublicCommentsService(ctx, postSlug);
+
+  const headers = {
+    ...ctx.corsHeaders,
+    'Cache-Control': 'public, max-age=300, s-maxage=300'
+  };
+
+  const responsePayload = {
+    success: true,
+    data: res.data,
+    meta: {
+      ...res.meta,
+      timestamp: new Date().toISOString(),
+      requestId: ctx.requestId
+    }
+  };
+
+  const response = jsonResponse(responsePayload, res.status, headers, ctx.requestId);
+
+  if (cache && response.status === 200) {
+    try {
+      ctx.executionCtx?.waitUntil
+        ? ctx.executionCtx.waitUntil(cache.put(cacheKeyStr, response.clone()))
+        : cache.put(cacheKeyStr, response.clone());
+    } catch {
+      // Ignore cache put error
+    }
+  }
+
+  return response;
+}
+
+async function handlePublicCommentSubmission(ctx: any) {
+  const routeKey = `route:${ctx.url.pathname}`;
+  const rateCheck = checkRateLimit(ctx.clientIp, routeKey, 3, 60000);
+  if (!rateCheck.allowed) {
+    if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
+      try {
+        await ctx.env.DB.prepare(`
+          INSERT INTO admin_audit_logs (admin_id, action, resource, details_json, ip_address)
+          VALUES (NULL, 'RATE_LIMIT_EXCEEDED', ?, ?, ?)
+        `).bind(ctx.url.pathname, JSON.stringify({ retryAfter: rateCheck.retryAfter }), ctx.clientIp).run();
+      } catch {
+        // Ignore audit logging error
+      }
+    }
+
+    return errorResponse(
+      'Çok fazla yorum gönderildi. Lütfen biraz bekleyip tekrar deneyin.',
+      'TOO_MANY_REQUESTS',
+      429,
+      { 'Retry-After': String(rateCheck.retryAfter), ...ctx.corsHeaders },
+      undefined,
+      ctx.requestId
+    );
+  }
+
+  let body: any;
+  try {
+    body = await ctx.request.json();
+  } catch {
+    return errorResponse('Geçersiz JSON verisi.', 'INVALID_JSON', 400, ctx.corsHeaders, undefined, ctx.requestId);
+  }
+
+  const rawPostSlug = typeof body?.postSlug === 'string' ? body.postSlug.trim() : (typeof body?.post_slug === 'string' ? body.post_slug.trim() : body?.postSlug);
+  const rawAuthorName = typeof body?.authorName === 'string' ? body.authorName.trim().replace(/\s+/g, ' ') : body?.authorName;
+  const rawAuthorEmail = typeof body?.authorEmail === 'string' ? body.authorEmail.trim() : body?.authorEmail;
+  const rawContent = typeof body?.content === 'string' ? body.content.trim() : body?.content;
+
+  const validation = validatePayload(
+    { postSlug: rawPostSlug, authorName: rawAuthorName, authorEmail: rawAuthorEmail, content: rawContent },
+    {
+      postSlug: { required: true, type: 'string', minLength: 1, maxLength: 150 },
+      authorName: { required: true, type: 'string', minLength: 2, maxLength: 50 },
+      authorEmail: { required: true, type: 'email', maxLength: 255 },
+      content: { required: true, type: 'string', minLength: 5, maxLength: 1000 }
+    }
+  );
+
+  if (!validation.valid) {
+    return errorResponse('Girdi doğrulama hatası.', 'VALIDATION_ERROR', 400, ctx.corsHeaders, validation.errors, ctx.requestId);
+  }
+
+  const turnstileToken = body.turnstile_token || body.turnstileToken || ctx.request.headers.get('cf-turnstile-response');
+  const turnstileResult = await verifyTurnstileToken(ctx, turnstileToken);
+
+  if (!turnstileResult.success) {
+    if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
+      try {
+        await ctx.env.DB.prepare(`
+          INSERT INTO admin_audit_logs (admin_id, action, resource, details_json, ip_address)
+          VALUES (NULL, 'TURNSTILE_REJECTED', ?, ?, ?)
+        `).bind(ctx.url.pathname, JSON.stringify({ code: turnstileResult.errorCode }), ctx.clientIp).run();
+      } catch {
+        // Ignore audit logging error
+      }
+    }
+
+    return errorResponse(
+      turnstileResult.errorMessage || 'Güvenlik doğrulaması başarısız oldu.',
+      turnstileResult.errorCode || 'INVALID_TURNSTILE_TOKEN',
+      turnstileResult.statusCode || 400,
+      ctx.corsHeaders,
+      undefined,
+      ctx.requestId
+    );
+  }
+
+  try {
+    const res = await createCommentService(ctx, {
+      postSlug: rawPostSlug,
+      authorName: rawAuthorName,
+      authorEmail: rawAuthorEmail,
+      content: rawContent
+    });
+
+    return jsonResponse(res.data, res.status, ctx.corsHeaders, ctx.requestId);
+  } catch (err: any) {
+    return errorResponse(
+      'Yorum kaydedilirken bir sunucu hatası oluştu.',
+      'INTERNAL_SERVER_ERROR',
+      500,
+      ctx.corsHeaders,
+      undefined,
+      ctx.requestId
+    );
+  }
+}
+
+publicRouter.get('/api/v1/comments', handlePublicCommentList);
+publicRouter.get('/api/comments', handlePublicCommentList);
+
+const idempotentCommentHandler = withIdempotency(handlePublicCommentSubmission);
+publicRouter.post('/api/v1/comments', idempotentCommentHandler);
+publicRouter.post('/api/comments', idempotentCommentHandler);
