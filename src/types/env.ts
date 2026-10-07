@@ -19,4 +19,5 @@ export interface Env {
   // Environment Configuration Vars
   ENVIRONMENT?: 'development' | 'staging' | 'production';
   ALLOWED_ORIGINS?: string;
+  TURNSTILE_SECRET_KEY?: string;
 }

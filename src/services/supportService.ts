@@ -62,3 +62,48 @@ export async function replySupportTicketService(ctx: RequestContext, ticketId: s
 
   return { status: 200, data: { ticketId, status: 'IN_PROGRESS' } };
 }
+
+export async function createPublicSupportTicketService(
+  ctx: RequestContext,
+  payload: { name: string; email: string; subject: string; message: string; category?: string }
+) {
+  const randNum = Math.floor(10000 + Math.random() * 90000);
+  const ticketId = `MSK-2026-${randNum}`;
+
+  if (!ctx.env.DB || typeof ctx.env.DB.prepare !== 'function') {
+    return {
+      status: 201,
+      data: {
+        ticketId,
+        name: payload.name,
+        email: payload.email,
+        subject: payload.subject,
+        status: 'NEW',
+        message: 'Destek talebiniz alındı.'
+      }
+    };
+  }
+
+  await ctx.env.DB.prepare(`
+    INSERT INTO messages (id, name, email, subject, message, category, status, urgency)
+    VALUES (?, ?, ?, ?, ?, ?, 'NEW', 'NORMAL')
+  `).bind(
+    ticketId,
+    payload.name,
+    payload.email,
+    payload.subject,
+    payload.message,
+    payload.category || 'GENERAL'
+  ).run();
+
+  return {
+    status: 201,
+    data: {
+      ticketId,
+      name: payload.name,
+      email: payload.email,
+      subject: payload.subject,
+      status: 'NEW'
+    }
+  };
+}

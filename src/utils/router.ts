@@ -66,7 +66,11 @@ export class Router {
 
     // 1. Preflight OPTIONS request
     if (method === 'OPTIONS') {
-      return new Response(null, { status: 204, headers: corsHeaders });
+      const origin = ctx.request.headers.get('Origin');
+      if (origin && !ctx.corsHeaders['Access-Control-Allow-Origin']) {
+        return errorResponse('CORS isteği engellendi.', 'FORBIDDEN', 403, ctx.corsHeaders, undefined, ctx.requestId);
+      }
+      return new Response(null, { status: 204, headers: ctx.corsHeaders });
     }
 
     const pathname = url.pathname;
