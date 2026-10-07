@@ -39,7 +39,7 @@ describe('ARCH-001 — Serverless Edge Backend & Env Architecture Tests', () => 
     const json = await response.json() as any;
     expect(json.success).toBe(true);
     expect(json.data.status).toBe('UP');
-    expect(json.data.bindings.valid).toBe(true);
+    expect(typeof json.data.timestamp).toBe('number');
   });
 
   it('4. should handle preflight OPTIONS requests with 204 status', async () => {

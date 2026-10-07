@@ -4,6 +4,7 @@ import { createRequestContext } from '../middleware/request.js';
 import { globalErrorHandler } from '../middleware/error.js';
 import { applySecurityHeaders } from '../middleware/securityHeaders.js';
 
+import { healthRouter } from './health.js';
 import { publicRouter } from './publicRoutes.js';
 import { authRouter } from './admin/authRoutes.js';
 import { supportRouter } from './admin/supportRoutes.js';
@@ -13,7 +14,8 @@ import { broadcastRouter } from './admin/broadcastRoutes.js';
 
 export const mainRouter = new Router();
 
-// 1. Mount Public Routes (contains /api/v1/... and legacy /api/... aliases)
+// 1. Mount Health & Public Routes (contains /api/v1/... and legacy /api/... aliases)
+mainRouter.use('', healthRouter);
 mainRouter.use('', publicRouter);
 
 // 2. Mount Canonical v1 Admin Sub-Routers (/api/v1/admin/...)
