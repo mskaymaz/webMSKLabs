@@ -181,3 +181,21 @@ function base64UrlDecode(input: string): Uint8Array {
   }
   return bytes;
 }
+
+export function normalizeTranslationText(text: string): string {
+  return text
+    .normalize('NFC')
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .trim()
+    .replace(/\s+/g, ' ');
+}
+
+export function generateTranslationSourceHash(sourceLang: string, targetLang: string, sourceText: string): string {
+  const normLang = sourceLang.toLowerCase().trim();
+  const normTarget = targetLang.toLowerCase().trim();
+  const normText = normalizeTranslationText(sourceText);
+  const rawStr = `${normLang}:${normTarget}:${normText}`;
+  const crypto = require('node:crypto');
+  return crypto.createHash('sha256').update(rawStr).digest('hex');
+}
