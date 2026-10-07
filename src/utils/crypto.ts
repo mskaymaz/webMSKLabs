@@ -119,10 +119,20 @@ export async function generateToken(payload: Record<string, any>, secret: string
 
 export async function verifyToken(token: string, secret: string): Promise<Record<string, any> | null> {
   try {
+    if (!token || typeof token !== 'string') return null;
+    if (!secret || typeof secret !== 'string') return null;
+
     const parts = token.split('.');
     if (parts.length !== 3) return null;
 
     const [b64Header, b64Payload, b64Signature] = parts;
+
+    const headerStr = new TextDecoder().decode(base64UrlDecode(b64Header));
+    const header = JSON.parse(headerStr);
+    if (!header || header.alg !== 'HS256') {
+      return null;
+    }
+
     const dataToSign = `${b64Header}.${b64Payload}`;
 
     const enc = new TextEncoder();
@@ -142,13 +152,26 @@ export async function verifyToken(token: string, secret: string): Promise<Record
     const payload = JSON.parse(new TextDecoder().decode(base64UrlDecode(b64Payload)));
     const now = Math.floor(Date.now() / 1000);
 
-    if (payload.exp && payload.exp < now) {
+    if (!payload || typeof payload !== 'object') return null;
+
+    if (payload.exp && typeof payload.exp === 'number' && payload.exp < now) {
+      return null;
+    }
+
+    if (payload.admin_id !== undefined && typeof payload.admin_id !== 'number') {
+      return null;
+    }
+
+    if (payload.username !== undefined && typeof payload.username !== 'string') {
+      return null;
+    }
+
+    if (payload.role !== undefined && typeof payload.role !== 'string') {
       return null;
     }
 
     return payload;
-  } catch (err) {
-    console.error('Token Verification Error:', err);
+  } catch {
     return null;
   }
 }

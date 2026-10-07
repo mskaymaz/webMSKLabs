@@ -14,8 +14,12 @@ authRouter.post('/login', async (ctx) => {
     return errorResponse('Geçersiz JSON verisi.', 'INVALID_JSON', 400, ctx.corsHeaders, undefined, ctx.requestId);
   }
 
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return errorResponse('Girdi doğrulama hatası.', 'VALIDATION_ERROR', 400, ctx.corsHeaders, undefined, ctx.requestId);
+  }
+
   const validation = validatePayload(body || {}, {
-    username: { required: true, type: 'string', minLength: 3, maxLength: 30 },
+    username: { required: true, type: 'string', minLength: 3, maxLength: 50 },
     password: { required: true, type: 'string', minLength: 6, maxLength: 100 }
   });
 
@@ -37,7 +41,14 @@ authRouter.post('/logout', async (ctx) => {
 }, requireAuth);
 
 authRouter.get('/me', async (ctx) => {
+  if (!ctx.user) {
+    return errorResponse('Geçersiz veya süresi dolmuş oturum.', 'UNAUTHORIZED', 401, ctx.corsHeaders, undefined, ctx.requestId);
+  }
   return jsonResponse({
-    user: ctx.user
+    user: {
+      admin_id: ctx.user.id,
+      username: ctx.user.username,
+      role: ctx.user.role
+    }
   }, 200, ctx.corsHeaders, ctx.requestId);
 }, requireAuth);

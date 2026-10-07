@@ -34,13 +34,23 @@ export async function getAuthenticatedAdmin(ctx: RequestContext) {
   const token = authHeader.substring(7).trim();
   if (!token) return null;
 
-  const secret = ctx.env.JWT_SECRET || 'DEVADMIN_FALLBACK_SECRET_KEY_2026_DEV_ONLY';
-  const payload = await verifyToken(token, secret);
-  if (!payload || !payload.admin_id) {
+  const secret = ctx.env.JWT_SECRET;
+  if (!secret || typeof secret !== 'string' || secret.trim() === '') {
     return null;
   }
 
-  // Fallback if D1 database binding is missing or not a live D1 instance
+  const payload = await verifyToken(token, secret);
+  if (
+    !payload ||
+    payload.admin_id === undefined ||
+    typeof payload.admin_id !== 'number' ||
+    typeof payload.username !== 'string' ||
+    typeof payload.role !== 'string'
+  ) {
+    return null;
+  }
+
+  // Fallback if D1 database binding is missing or not a D1 instance
   if (!ctx.env.DB || typeof ctx.env.DB.prepare !== 'function') {
     return {
       id: payload.admin_id,
@@ -73,9 +83,8 @@ export async function getAuthenticatedAdmin(ctx: RequestContext) {
       sessionId: sessionRecord.session_id,
       rawToken: token
     };
-  } catch (error) {
-    console.error('D1 Session Verification Error:', error);
-    // Fallback to JWT payload if session table doesn't exist yet in local D1
+  } catch {
+    // If admin_sessions table doesn't exist in mock DB object, fallback to JWT payload
     return {
       id: payload.admin_id,
       username: payload.username,
@@ -86,6 +95,17 @@ export async function getAuthenticatedAdmin(ctx: RequestContext) {
 }
 
 export const requireAuth: MiddlewareHandler = async (ctx: RequestContext) => {
+  if (!ctx.env.JWT_SECRET || typeof ctx.env.JWT_SECRET !== 'string' || ctx.env.JWT_SECRET.trim() === '') {
+    return errorResponse(
+      'Sunucu konfigürasyon hatası.',
+      'SERVER_MISCONFIGURATION',
+      500,
+      ctx.corsHeaders,
+      undefined,
+      ctx.requestId
+    );
+  }
+
   const admin = await getAuthenticatedAdmin(ctx);
   if (!admin) {
     return errorResponse(
