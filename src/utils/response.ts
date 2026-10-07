@@ -7,7 +7,8 @@ export function jsonResponse<T>(
   data: T,
   status = 200,
   headers: Record<string, string> = {},
-  requestId?: string
+  requestId?: string,
+  extraMeta?: Record<string, any>
 ): Response {
   const timestamp = new Date().toISOString();
   const reqId = requestId || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `req_${Date.now()}`);
@@ -25,7 +26,8 @@ export function jsonResponse<T>(
         data,
         meta: {
           timestamp,
-          requestId: reqId
+          requestId: reqId,
+          ...(extraMeta || {})
         },
         timestamp,
         requestId: reqId

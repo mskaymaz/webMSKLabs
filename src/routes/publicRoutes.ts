@@ -6,6 +6,7 @@ import { validatePayload, escapeText } from '../utils/sanitize.js';
 import { verifyTurnstileToken } from '../utils/turnstile.js';
 import { createPublicSupportTicketService } from '../services/supportService.js';
 import { getPublicCommentsService, createCommentService } from '../services/commentService.js';
+import { subscribeService, unsubscribeService, verifySubscribeService } from '../services/newsletterService.js';
 import { withIdempotency } from '../middleware/idempotency.js';
 
 export const publicRouter = new Router();
@@ -308,3 +309,199 @@ publicRouter.get('/api/comments', handlePublicCommentList);
 const idempotentCommentHandler = withIdempotency(handlePublicCommentSubmission);
 publicRouter.post('/api/v1/comments', idempotentCommentHandler);
 publicRouter.post('/api/comments', idempotentCommentHandler);
+
+// --- API-003 Public Newsletter ---
+async function handlePublicSubscribeSubmission(ctx: any) {
+  const routeKey = `route:${ctx.url.pathname}`;
+  const rateCheck = checkRateLimit(ctx.clientIp, routeKey, 5, 60000);
+  if (!rateCheck.allowed) {
+    if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
+      try {
+        await ctx.env.DB.prepare(`
+          INSERT INTO admin_audit_logs (admin_id, action, resource, details_json, ip_address)
+          VALUES (NULL, 'RATE_LIMIT_EXCEEDED', ?, ?, ?)
+        `).bind(ctx.url.pathname, JSON.stringify({ retryAfter: rateCheck.retryAfter }), ctx.clientIp).run();
+      } catch {
+        // Ignore audit logging error
+      }
+    }
+
+    return errorResponse(
+      'Çok fazla abonelik denemesi yapıldı. Lütfen biraz bekleyip tekrar deneyin.',
+      'TOO_MANY_REQUESTS',
+      429,
+      { 'Retry-After': String(rateCheck.retryAfter), ...ctx.corsHeaders },
+      undefined,
+      ctx.requestId
+    );
+  }
+
+  let body: any;
+  try {
+    body = await ctx.request.json();
+  } catch {
+    return errorResponse('Geçersiz JSON verisi.', 'INVALID_JSON', 400, ctx.corsHeaders, undefined, ctx.requestId);
+  }
+
+  // Mandatory KVKK consent check
+  if (body?.kvkkConsent !== true && body?.kvkk_consent !== true) {
+    return errorResponse(
+      'KVKK ve aydınlatma metni onayı zorunludur.',
+      'VALIDATION_ERROR',
+      400,
+      ctx.corsHeaders,
+      { kvkkConsent: 'KVKK ve aydınlatma metni onayı zorunludur.' },
+      ctx.requestId
+    );
+  }
+
+  const rawEmail = typeof body?.email === 'string' ? body.email.trim() : body?.email;
+
+  const validation = validatePayload(
+    { email: rawEmail },
+    { email: { required: true, type: 'email', maxLength: 255 } }
+  );
+
+  if (!validation.valid) {
+    return errorResponse('Girdi doğrulama hatası.', 'VALIDATION_ERROR', 400, ctx.corsHeaders, validation.errors, ctx.requestId);
+  }
+
+  const turnstileToken = body.turnstile_token || body.turnstileToken || ctx.request.headers.get('cf-turnstile-response');
+  const turnstileResult = await verifyTurnstileToken(ctx, turnstileToken);
+
+  if (!turnstileResult.success) {
+    return errorResponse(
+      turnstileResult.errorMessage || 'Güvenlik doğrulaması başarısız oldu.',
+      turnstileResult.errorCode || 'INVALID_TURNSTILE_TOKEN',
+      turnstileResult.statusCode || 400,
+      ctx.corsHeaders,
+      undefined,
+      ctx.requestId
+    );
+  }
+
+  try {
+    const res = await subscribeService(ctx, {
+      email: rawEmail,
+      kvkkConsent: true
+    });
+
+    return jsonResponse(res.data, res.status, ctx.corsHeaders, ctx.requestId);
+  } catch (err: any) {
+    return errorResponse(
+      'Abonelik kaydı sırasında bir sunucu hatası oluştu.',
+      'INTERNAL_SERVER_ERROR',
+      500,
+      ctx.corsHeaders,
+      undefined,
+      ctx.requestId
+    );
+  }
+}
+
+async function handlePublicUnsubscribeSubmission(ctx: any) {
+  const routeKey = `route:${ctx.url.pathname}`;
+  const rateCheck = checkRateLimit(ctx.clientIp, routeKey, 10, 60000);
+  if (!rateCheck.allowed) {
+    return errorResponse('Çok fazla istek gönderildi.', 'TOO_MANY_REQUESTS', 429, ctx.corsHeaders, undefined, ctx.requestId);
+  }
+
+  let body: any = {};
+  try {
+    body = await ctx.request.json();
+  } catch {
+    // Body might be empty if query params or headers are used
+  }
+
+  const rawToken =
+    (typeof body?.token === 'string' ? body.token.trim() : undefined) ||
+    ctx.query.get('token') ||
+    ctx.request.headers.get('X-Unsubscribe-Token');
+
+  if (!rawToken || typeof rawToken !== 'string' || rawToken.trim().length < 16) {
+    return errorResponse(
+      'Geçersiz abonelik sonlandırma jetonu.',
+      'VALIDATION_ERROR',
+      400,
+      ctx.corsHeaders,
+      { token: 'Jeton zorunludur ve en az 16 karakter olmalıdır.' },
+      ctx.requestId
+    );
+  }
+
+  try {
+    const res = await unsubscribeService(ctx, rawToken);
+    if (res.error) {
+      return errorResponse(res.error.message, res.error.code, res.status, ctx.corsHeaders, undefined, ctx.requestId);
+    }
+    return jsonResponse(res.data, res.status, ctx.corsHeaders, ctx.requestId);
+  } catch (err: any) {
+    return errorResponse(
+      'Abonelik sonlandırma sırasında bir sunucu hatası oluştu.',
+      'INTERNAL_SERVER_ERROR',
+      500,
+      ctx.corsHeaders,
+      undefined,
+      ctx.requestId
+    );
+  }
+}
+
+async function handlePublicSubscribeVerify(ctx: any) {
+  const routeKey = `route:${ctx.url.pathname}`;
+  const rateCheck = checkRateLimit(ctx.clientIp, routeKey, 10, 60000);
+  if (!rateCheck.allowed) {
+    return errorResponse('Çok fazla istek gönderildi.', 'TOO_MANY_REQUESTS', 429, ctx.corsHeaders, undefined, ctx.requestId);
+  }
+
+  let body: any = {};
+  try {
+    body = await ctx.request.json();
+  } catch {
+    // Body might be empty if query params are used
+  }
+
+  const rawToken =
+    (typeof body?.token === 'string' ? body.token.trim() : undefined) ||
+    ctx.query.get('token');
+
+  if (!rawToken || typeof rawToken !== 'string') {
+    return errorResponse(
+      'Doğrulama jetonu zorunludur.',
+      'VALIDATION_ERROR',
+      400,
+      ctx.corsHeaders,
+      { token: 'Doğrulama jetonu zorunludur.' },
+      ctx.requestId
+    );
+  }
+
+  try {
+    const res = await verifySubscribeService(ctx, rawToken);
+    if (res.error) {
+      return errorResponse(res.error.message, res.error.code, res.status, ctx.corsHeaders, undefined, ctx.requestId);
+    }
+    return jsonResponse(res.data, res.status, ctx.corsHeaders, ctx.requestId);
+  } catch (err: any) {
+    return errorResponse(
+      'Doğrulama sırasında bir sunucu hatası oluştu.',
+      'INTERNAL_SERVER_ERROR',
+      500,
+      ctx.corsHeaders,
+      undefined,
+      ctx.requestId
+    );
+  }
+}
+
+const idempotentSubscribeHandler = withIdempotency(handlePublicSubscribeSubmission);
+const idempotentUnsubscribeHandler = withIdempotency(handlePublicUnsubscribeSubmission);
+
+publicRouter.post('/api/v1/subscribe', idempotentSubscribeHandler);
+publicRouter.post('/api/subscribe', idempotentSubscribeHandler);
+
+publicRouter.post('/api/v1/unsubscribe', idempotentUnsubscribeHandler);
+publicRouter.post('/api/unsubscribe', idempotentUnsubscribeHandler);
+
+publicRouter.post('/api/v1/subscribe/verify', handlePublicSubscribeVerify);
+publicRouter.post('/api/subscribe/verify', handlePublicSubscribeVerify);
