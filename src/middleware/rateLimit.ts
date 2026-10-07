@@ -49,10 +49,18 @@ export interface LockoutResult {
   locked: boolean;
   retryAfter: number;
   failedAttempts: number;
+  newlyLocked?: boolean;
 }
 
+export const LOCKOUT_CONFIG = {
+  MAX_ATTEMPTS: 5,
+  LOCKOUT_WINDOW_MS: 15 * 60 * 1000 // 15 minutes
+};
+
+
 export function checkLoginLockout(ip: string, username: string): LockoutResult {
-  const mapKey = `lockout:${ip}:${username.toLowerCase()}`;
+  const normalizedUser = (username || '').trim().toLowerCase();
+  const mapKey = `lockout:${ip}:${normalizedUser}`;
   const now = Date.now();
   const record = lockoutMap.get(mapKey);
 
@@ -61,7 +69,7 @@ export function checkLoginLockout(ip: string, username: string): LockoutResult {
   }
 
   if (record.lockedUntil && now < record.lockedUntil) {
-    const retryAfter = Math.ceil((record.lockedUntil - now) / 1000);
+    const retryAfter = Math.max(1, Math.ceil((record.lockedUntil - now) / 1000));
     return { locked: true, retryAfter, failedAttempts: record.failedAttempts };
   }
 
@@ -74,9 +82,12 @@ export function checkLoginLockout(ip: string, username: string): LockoutResult {
 }
 
 export function recordFailedLogin(ip: string, username: string): LockoutResult {
-  const mapKey = `lockout:${ip}:${username.toLowerCase()}`;
+  const normalizedUser = (username || '').trim().toLowerCase();
+  const mapKey = `lockout:${ip}:${normalizedUser}`;
   const now = Date.now();
   let record = lockoutMap.get(mapKey);
+
+  const wasLocked = Boolean(record?.lockedUntil && now < record.lockedUntil);
 
   if (!record) {
     record = { failedAttempts: 1, lockedUntil: null };
@@ -84,10 +95,16 @@ export function recordFailedLogin(ip: string, username: string): LockoutResult {
     record.failedAttempts += 1;
   }
 
-  if (record.failedAttempts >= 5) {
-    record.lockedUntil = now + 15 * 60 * 1000; // 15 minute lockout
+  if (record.failedAttempts >= LOCKOUT_CONFIG.MAX_ATTEMPTS) {
+    record.lockedUntil = now + LOCKOUT_CONFIG.LOCKOUT_WINDOW_MS;
     lockoutMap.set(mapKey, record);
-    return { locked: true, retryAfter: 15 * 60, failedAttempts: record.failedAttempts };
+    const retryAfter = Math.max(1, Math.ceil(LOCKOUT_CONFIG.LOCKOUT_WINDOW_MS / 1000));
+    return {
+      locked: true,
+      retryAfter,
+      failedAttempts: record.failedAttempts,
+      newlyLocked: !wasLocked
+    };
   }
 
   lockoutMap.set(mapKey, record);
@@ -95,6 +112,62 @@ export function recordFailedLogin(ip: string, username: string): LockoutResult {
 }
 
 export function resetFailedLogin(ip: string, username: string): void {
-  const mapKey = `lockout:${ip}:${username.toLowerCase()}`;
+  const normalizedUser = (username || '').trim().toLowerCase();
+  const mapKey = `lockout:${ip}:${normalizedUser}`;
   lockoutMap.delete(mapKey);
+}
+
+export async function checkLoginLockoutD1(ctx: any, ip: string, username: string): Promise<LockoutResult> {
+  const normalizedUser = (username || '').trim().toLowerCase();
+  const memResult = checkLoginLockout(ip, normalizedUser);
+  if (memResult.locked) return memResult;
+
+  if (ctx?.env?.DB && typeof ctx.env.DB.prepare === 'function') {
+    try {
+      const escapedUser = normalizedUser.replace(/[%_\\]/g, '\\$&');
+      const jsonPattern = `%"username":"${escapedUser}"%`;
+
+      const row: any = await ctx.env.DB.prepare(`
+        SELECT COUNT(*) as failed_count, MAX(created_at) as last_created
+        FROM admin_audit_logs
+        WHERE action = 'LOGIN_FAILED'
+          AND ip_address = ?
+          AND details_json LIKE ? ESCAPE '\\'
+          AND created_at >= datetime('now', '-15 minutes')
+          AND created_at > COALESCE(
+            (SELECT MAX(created_at)
+             FROM admin_audit_logs
+             WHERE action = 'LOGIN_SUCCESS'
+               AND ip_address = ?
+               AND details_json LIKE ? ESCAPE '\\'),
+            '1970-01-01'
+          )
+      `).bind(ip, jsonPattern, ip, jsonPattern).first();
+
+      const failedCount = Number(row?.failed_count || 0);
+      if (failedCount >= LOCKOUT_CONFIG.MAX_ATTEMPTS) {
+        let retryAfter = Math.max(1, Math.ceil(LOCKOUT_CONFIG.LOCKOUT_WINDOW_MS / 1000));
+        if (row?.last_created) {
+          const lastTime = new Date(row.last_created).getTime();
+          if (!isNaN(lastTime)) {
+            const unlockTime = lastTime + LOCKOUT_CONFIG.LOCKOUT_WINDOW_MS;
+            retryAfter = Math.max(1, Math.ceil((unlockTime - Date.now()) / 1000));
+          }
+        }
+        return { locked: true, retryAfter, failedAttempts: failedCount };
+      }
+      if (failedCount > memResult.failedAttempts) {
+        return { locked: false, retryAfter: 0, failedAttempts: failedCount };
+      }
+    } catch {
+      // Ignore DB query errors and use in-memory state
+    }
+  }
+
+  return memResult;
+}
+
+export function resetRateLimitStoresForTest(): void {
+  rateLimitMap.clear();
+  lockoutMap.clear();
 }

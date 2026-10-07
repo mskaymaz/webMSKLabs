@@ -29,7 +29,8 @@ authRouter.post('/login', async (ctx) => {
 
   const res = await loginAdminService(ctx, body);
   if (res.error) {
-    return errorResponse(res.error.message, res.error.code, res.status, ctx.corsHeaders, undefined, ctx.requestId);
+    const headers = (res as any).headers ? { ...ctx.corsHeaders, ...(res as any).headers } : ctx.corsHeaders;
+    return errorResponse(res.error.message, res.error.code, res.status, headers, undefined, ctx.requestId);
   }
 
   return jsonResponse(res.data, res.status, ctx.corsHeaders, ctx.requestId);

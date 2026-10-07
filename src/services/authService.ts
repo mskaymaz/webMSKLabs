@@ -1,6 +1,6 @@
 import { RequestContext } from '../types/router.js';
 import { verifyPassword, generateToken, hashToken } from '../utils/crypto.js';
-import { checkLoginLockout, recordFailedLogin, resetFailedLogin } from '../middleware/rateLimit.js';
+import { checkLoginLockoutD1, recordFailedLogin, resetFailedLogin } from '../middleware/rateLimit.js';
 
 async function logAdminAudit(ctx: RequestContext, adminId: number | null, action: string, details?: Record<string, any>) {
   if (!ctx.env.DB || typeof ctx.env.DB.prepare !== 'function') return;
@@ -36,10 +36,12 @@ export async function loginAdminService(ctx: RequestContext, body: any) {
   const clientIp = ctx.clientIp || '127.0.0.1';
   const userAgent = ctx.request?.headers?.get('user-agent') || 'Unknown';
 
-  const lockoutStatus = checkLoginLockout(clientIp, username || '');
+  const lockoutStatus = await checkLoginLockoutD1(ctx, clientIp, username || '');
   if (lockoutStatus.locked) {
+    await logAdminAudit(ctx, null, 'IP_THROTTLED', { username, ip: clientIp, retryAfter: lockoutStatus.retryAfter });
     return {
       status: 429,
+      headers: { 'Retry-After': String(lockoutStatus.retryAfter) },
       error: {
         message: `Çok sayıda başarısız giriş denemesi. Hesabınız geçici kilitlendi. Lütfen ${lockoutStatus.retryAfter} saniye sonra tekrar deneyin.`,
         code: 'LOCKOUT'
@@ -62,21 +64,54 @@ export async function loginAdminService(ctx: RequestContext, body: any) {
 
   if (!admin) {
     await verifyPassword(password || '', dummyHash);
-    recordFailedLogin(clientIp, username || '');
+    const lockResult = recordFailedLogin(clientIp, username || '');
+    if (lockResult.locked) {
+      await logAdminAudit(ctx, null, 'ACCOUNT_LOCKED', { username, ip: clientIp, attempts: lockResult.failedAttempts, retryAfter: lockResult.retryAfter });
+      return {
+        status: 429,
+        headers: { 'Retry-After': String(lockResult.retryAfter) },
+        error: {
+          message: `Çok sayıda başarısız giriş denemesi. Hesabınız geçici kilitlendi. Lütfen ${lockResult.retryAfter} saniye sonra tekrar deneyin.`,
+          code: 'LOCKOUT'
+        }
+      };
+    }
     await logAdminAudit(ctx, null, 'LOGIN_FAILED', { reason: 'User not found' });
     return { status: 401, error: { message: 'Kullanıcı adı veya şifre hatalı.', code: 'INVALID_CREDENTIALS' } };
   }
 
   if (admin.is_active !== 1) {
     await verifyPassword(password || '', admin.password_hash || dummyHash);
-    recordFailedLogin(clientIp, username || '');
+    const lockResult = recordFailedLogin(clientIp, username || '');
+    if (lockResult.locked) {
+      await logAdminAudit(ctx, admin.id, 'ACCOUNT_LOCKED', { username, ip: clientIp, attempts: lockResult.failedAttempts, retryAfter: lockResult.retryAfter });
+      return {
+        status: 429,
+        headers: { 'Retry-After': String(lockResult.retryAfter) },
+        error: {
+          message: `Çok sayıda başarısız giriş denemesi. Hesabınız geçici kilitlendi. Lütfen ${lockResult.retryAfter} saniye sonra tekrar deneyin.`,
+          code: 'LOCKOUT'
+        }
+      };
+    }
     await logAdminAudit(ctx, admin.id, 'LOGIN_FAILED', { reason: 'Account inactive' });
     return { status: 401, error: { message: 'Kullanıcı adı veya şifre hatalı.', code: 'INVALID_CREDENTIALS' } };
   }
 
   const isValid = await verifyPassword(password || '', admin.password_hash);
   if (!isValid) {
-    recordFailedLogin(clientIp, username || '');
+    const lockResult = recordFailedLogin(clientIp, username || '');
+    if (lockResult.locked) {
+      await logAdminAudit(ctx, admin.id, 'ACCOUNT_LOCKED', { username, ip: clientIp, attempts: lockResult.failedAttempts, retryAfter: lockResult.retryAfter });
+      return {
+        status: 429,
+        headers: { 'Retry-After': String(lockResult.retryAfter) },
+        error: {
+          message: `Çok sayıda başarısız giriş denemesi. Hesabınız geçici kilitlendi. Lütfen ${lockResult.retryAfter} saniye sonra tekrar deneyin.`,
+          code: 'LOCKOUT'
+        }
+      };
+    }
     await logAdminAudit(ctx, admin.id, 'LOGIN_FAILED', { reason: 'Invalid password' });
     return { status: 401, error: { message: 'Kullanıcı adı veya şifre hatalı.', code: 'INVALID_CREDENTIALS' } };
   }

@@ -32,5 +32,5 @@ supportRouter.post(
     const res = await replySupportTicketService(ctx, ctx.params.id, replyText);
     return jsonResponse(res.data, res.status, ctx.corsHeaders, ctx.requestId);
   },
-  requirePermission('messages.write')
+  requirePermission('messages.reply')
 );

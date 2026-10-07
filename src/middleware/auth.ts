@@ -1,28 +1,47 @@
 import { RequestContext, MiddlewareHandler } from '../types/router.js';
+import { Permission, AdminRole, VALID_PERMISSIONS } from '../types/auth.js';
 import { verifyToken, hashToken } from '../utils/crypto.js';
 import { errorResponse } from '../utils/response.js';
 
-export const ROLE_PERMISSIONS: Record<string, string[]> = {
+export const ROLE_PERMISSIONS: Record<AdminRole, Permission[] | ['*']> = {
   SUPER_ADMIN: ['*'],
   ADMIN: [
-    'messages.read', 'messages.write', 'messages.delete',
+    'messages.read', 'messages.reply', 'messages.write', 'messages.delete',
     'comments.read', 'comments.approve', 'comments.delete',
-    'posts.read', 'posts.write', 'posts.publish', 'media.upload'
+    'posts.read', 'posts.create', 'posts.write', 'posts.publish', 'media.upload',
+    'settings.manage'
   ],
   EDITOR: [
     'comments.read', 'comments.approve',
-    'posts.read', 'posts.write', 'media.upload'
+    'posts.read', 'posts.create', 'posts.write', 'posts.publish', 'media.upload'
   ],
   SUPPORT: [
-    'messages.read', 'messages.write', 'comments.read'
+    'messages.read', 'messages.reply', 'messages.write', 'comments.read'
   ]
 };
 
 export function hasPermission(userRole?: string, requiredPermission?: string): boolean {
-  if (!userRole || !requiredPermission) return false;
-  const permissions = ROLE_PERMISSIONS[userRole] || [];
+  if (!userRole || typeof userRole !== 'string' || !requiredPermission || typeof requiredPermission !== 'string') {
+    return false;
+  }
+
+  const cleanPerm = requiredPermission.trim();
+  if (!cleanPerm || !VALID_PERMISSIONS.has(cleanPerm as Permission)) {
+    return false; // Invalid permissions, typos, or uydurma strings are ALWAYS denied!
+  }
+
+  const permissions = (ROLE_PERMISSIONS[userRole as AdminRole] || []) as string[];
+  if (permissions.length === 0) return false;
+
   if (permissions.includes('*')) return true;
-  return permissions.includes(requiredPermission);
+
+  if (permissions.includes(cleanPerm)) return true;
+
+  if (cleanPerm === 'messages.reply' && permissions.includes('messages.write')) {
+    return true;
+  }
+
+  return false;
 }
 
 export async function getAuthenticatedAdmin(ctx: RequestContext) {
@@ -122,7 +141,7 @@ export const requireAuth: MiddlewareHandler = async (ctx: RequestContext) => {
   return null;
 };
 
-export function requirePermission(permission: string): MiddlewareHandler {
+export function requirePermission(permission: Permission): MiddlewareHandler {
   return async (ctx: RequestContext) => {
     if (!ctx.user) {
       const authResult = await requireAuth(ctx);
@@ -130,6 +149,27 @@ export function requirePermission(permission: string): MiddlewareHandler {
     }
 
     if (!hasPermission(ctx.user?.role, permission)) {
+      if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
+        try {
+          await ctx.env.DB.prepare(`
+            INSERT INTO admin_audit_logs (admin_id, action, resource, details_json, ip_address)
+            VALUES (?, ?, ?, ?, ?)
+          `).bind(
+            ctx.user?.id || null,
+            'PERMISSION_DENIED',
+            ctx.request?.url || '/api/admin',
+            JSON.stringify({
+              requiredPermission: permission,
+              userRole: ctx.user?.role || 'UNKNOWN',
+              username: ctx.user?.username || 'UNKNOWN'
+            }),
+            ctx.clientIp || null
+          ).run();
+        } catch {
+          // Ignore audit write failure
+        }
+      }
+
       return errorResponse(
         'Bu işlem için yetkiniz bulunmamaktadır.',
         'FORBIDDEN',

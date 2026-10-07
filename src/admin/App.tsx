@@ -12,13 +12,25 @@ import { TicketsView } from './views/TicketsView';
 import { CommentsView } from './views/CommentsView';
 import { CmsView } from './views/CmsView';
 import { SettingsView } from './views/SettingsView';
+import { UnauthorizedView } from './views/UnauthorizedView';
 import { SearchModal } from './views/SearchModal';
 
+const VIEW_PERMISSIONS: Record<ViewType, string | null> = {
+  dashboard: null,
+  tickets: 'messages.read',
+  comments: 'comments.read',
+  cms: 'posts.read',
+  settings: 'settings.manage'
+};
+
 export const AppContent: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, hasPermission } = useAuth();
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const requiredPerm = VIEW_PERMISSIONS[currentView];
+  const isAuthorizedForCurrentView = !requiredPerm || hasPermission(requiredPerm);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -59,11 +71,20 @@ export const AppContent: React.FC = () => {
           />
 
           <div className="admin-content">
-            {currentView === 'dashboard' && <DashboardView />}
-            {currentView === 'tickets' && <TicketsView />}
-            {currentView === 'comments' && <CommentsView />}
-            {currentView === 'cms' && <CmsView />}
-            {currentView === 'settings' && <SettingsView />}
+            {!isAuthorizedForCurrentView ? (
+              <UnauthorizedView
+                onReturnDashboard={() => setCurrentView('dashboard')}
+                requiredPermission={requiredPerm || undefined}
+              />
+            ) : (
+              <>
+                {currentView === 'dashboard' && <DashboardView />}
+                {currentView === 'tickets' && <TicketsView />}
+                {currentView === 'comments' && <CommentsView />}
+                {currentView === 'cms' && <CmsView />}
+                {currentView === 'settings' && <SettingsView />}
+              </>
+            )}
           </div>
         </main>
 

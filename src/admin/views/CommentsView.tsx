@@ -5,7 +5,7 @@ import { Badge } from '../components/ui/Badge';
 import { RefreshCw, CheckCircle, XCircle } from 'lucide-react';
 
 export const CommentsView: React.FC = () => {
-  const { token } = useAuth();
+  const { token, hasPermission } = useAuth();
   const [comments, setComments] = useState<CommentItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
@@ -145,24 +145,28 @@ export const CommentsView: React.FC = () => {
                   <td style={{ padding: '12px', maxWidth: '300px' }}>{comment.comment_text}</td>
                   <td style={{ padding: '12px' }}>{getBadge(comment.status)}</td>
                   <td style={{ padding: '12px' }}>
-                    <div style={{ display: 'flex', gap: '6px' }}>
-                      <button
-                        onClick={() => handleUpdateStatus(comment.id, 'APPROVED')}
-                        className="btn btn-success"
-                        style={{ padding: '4px 8px', minHeight: '32px' }}
-                        title="Onayla"
-                      >
-                        <CheckCircle size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleUpdateStatus(comment.id, 'REJECTED')}
-                        className="btn btn-danger"
-                        style={{ padding: '4px 8px', minHeight: '32px' }}
-                        title="Reddet"
-                      >
-                        <XCircle size={16} />
-                      </button>
-                    </div>
+                    {hasPermission('comments.approve') ? (
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        <button
+                          onClick={() => handleUpdateStatus(comment.id, 'APPROVED')}
+                          className="btn btn-success"
+                          style={{ padding: '4px 8px', minHeight: '32px' }}
+                          title="Onayla"
+                        >
+                          <CheckCircle size={16} />
+                        </button>
+                        <button
+                          onClick={() => handleUpdateStatus(comment.id, 'REJECTED')}
+                          className="btn btn-danger"
+                          style={{ padding: '4px 8px', minHeight: '32px' }}
+                          title="Reddet"
+                        >
+                          <XCircle size={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <span style={{ fontSize: '12px', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>Yetki yok</span>
+                    )}
                   </td>
                 </tr>
               ))}

@@ -6,7 +6,7 @@ import { Modal } from '../components/ui/Modal';
 import { RefreshCw, Search, Send } from 'lucide-react';
 
 export const TicketsView: React.FC = () => {
-  const { token } = useAuth();
+  const { token, hasPermission } = useAuth();
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
@@ -208,21 +208,27 @@ export const TicketsView: React.FC = () => {
               </div>
             </div>
 
-            <form onSubmit={handleSendReply}>
-              <label className="form-label">Yanıt Gönder</label>
-              <textarea
-                className="form-input"
-                rows={4}
-                value={replyText}
-                onChange={(e) => setReplyText(e.target.value)}
-                placeholder="Yanıtınızı buraya yazın..."
-                required
-                style={{ width: '100%', marginBottom: '12px' }}
-              />
-              <button type="submit" disabled={submittingReply} className="btn btn-primary">
-                <Send size={16} /> {submittingReply ? 'Gönderiliyor...' : 'Yanıtı Gönder'}
-              </button>
-            </form>
+            {hasPermission('messages.reply') || hasPermission('messages.write') ? (
+              <form onSubmit={handleSendReply}>
+                <label className="form-label">Yanıt Gönder</label>
+                <textarea
+                  className="form-input"
+                  rows={4}
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                  placeholder="Yanıtınızı buraya yazın..."
+                  required
+                  style={{ width: '100%', marginBottom: '12px' }}
+                />
+                <button type="submit" disabled={submittingReply} className="btn btn-primary">
+                  <Send size={16} /> {submittingReply ? 'Gönderiliyor...' : 'Yanıtı Gönder'}
+                </button>
+              </form>
+            ) : (
+              <div style={{ color: 'var(--color-text-muted)', fontSize: '14px', fontStyle: 'italic', marginTop: '12px' }}>
+                Bilet yanıtlama yetkiniz (messages.reply) bulunmamaktadır.
+              </div>
+            )}
           </div>
         )}
       </Modal>

@@ -17,16 +17,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isOpenMobile,
   onCloseMobile
 }) => {
-  const { logout } = useAuth();
+  const { logout, hasPermission } = useAuth();
   const { dir, toggleDir } = useI18n();
 
-  const navItems: { view: ViewType; label: string; icon: React.ReactNode }[] = [
+  const allNavItems: { view: ViewType; label: string; icon: React.ReactNode; permission?: string }[] = [
     { view: 'dashboard', label: 'Genel Bakış', icon: <LayoutDashboard size={18} /> },
-    { view: 'tickets', label: 'Destek Biletleri', icon: <Ticket size={18} /> },
-    { view: 'comments', label: 'Yorum Yönetimi', icon: <MessageSquare size={18} /> },
-    { view: 'cms', label: 'Headless CMS', icon: <FileText size={18} /> },
-    { view: 'settings', label: 'Sistem Ayarları', icon: <Settings size={18} /> }
+    { view: 'tickets', label: 'Destek Biletleri', icon: <Ticket size={18} />, permission: 'messages.read' },
+    { view: 'comments', label: 'Yorum Yönetimi', icon: <MessageSquare size={18} />, permission: 'comments.read' },
+    { view: 'cms', label: 'Headless CMS', icon: <FileText size={18} />, permission: 'posts.read' },
+    { view: 'settings', label: 'Sistem Ayarları', icon: <Settings size={18} />, permission: 'settings.manage' }
   ];
+
+  const navItems = allNavItems.filter(item => !item.permission || hasPermission(item.permission));
 
   return (
     <aside

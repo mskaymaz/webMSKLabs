@@ -1,5 +1,6 @@
 export * from './env.js';
 export * from './router.js';
+export * from './auth.js';
 
 export interface ApiResponse<T = unknown> {
   success: boolean;
