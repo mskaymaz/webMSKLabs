@@ -2,6 +2,7 @@ import { Env } from '../types/env.js';
 import { Router } from '../utils/router.js';
 import { createRequestContext } from '../middleware/request.js';
 import { globalErrorHandler } from '../middleware/error.js';
+import { applySecurityHeaders } from '../middleware/securityHeaders.js';
 
 import { publicRouter } from './publicRoutes.js';
 import { authRouter } from './admin/authRoutes.js';
@@ -23,8 +24,10 @@ mainRouter.use('/api/admin/cms', cmsRouter);
 export async function handleRequest(request: Request, env: Env): Promise<Response> {
   const ctx = createRequestContext(request, env);
   try {
-    return await mainRouter.handle(ctx);
+    const response = await mainRouter.handle(ctx);
+    return applySecurityHeaders(response, ctx.securityHeaders);
   } catch (err) {
-    return globalErrorHandler(err, ctx);
+    const errorRes = globalErrorHandler(err, ctx);
+    return applySecurityHeaders(errorRes, ctx.securityHeaders);
   }
 }

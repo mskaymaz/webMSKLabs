@@ -1,6 +1,7 @@
 import { Env } from '../types/env.js';
 import { RequestContext } from '../types/router.js';
 import { getCorsHeaders } from './cors.js';
+import { getSecurityHeaders } from './securityHeaders.js';
 
 export function createRequestContext(request: Request, env: Env): RequestContext {
   const url = new URL(request.url);
@@ -14,8 +15,9 @@ export function createRequestContext(request: Request, env: Env): RequestContext
                    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
                    '127.0.0.1';
 
-  // 3. Derive CORS headers
+  // 3. Derive CORS & Security headers
   const corsHeaders = getCorsHeaders(request, env);
+  const securityHeaders = getSecurityHeaders(request, env);
 
   return {
     request,
@@ -25,6 +27,7 @@ export function createRequestContext(request: Request, env: Env): RequestContext
     query: url.searchParams,
     requestId,
     clientIp,
-    corsHeaders
+    corsHeaders,
+    securityHeaders
   };
 }

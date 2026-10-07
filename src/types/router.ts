@@ -17,6 +17,7 @@ export interface RequestContext {
   requestId: string;
   clientIp: string;
   corsHeaders: Record<string, string>;
+  securityHeaders: Record<string, string>;
   user?: AuthenticatedUser;
 }
 
