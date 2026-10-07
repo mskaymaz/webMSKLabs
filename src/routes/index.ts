@@ -12,10 +12,16 @@ import { cmsRouter } from './admin/cmsRoutes.js';
 
 export const mainRouter = new Router();
 
-// 1. Mount Public Routes
+// 1. Mount Public Routes (contains /api/v1/... and legacy /api/... aliases)
 mainRouter.use('', publicRouter);
 
-// 2. Mount Admin Sub-Routers
+// 2. Mount Canonical v1 Admin Sub-Routers (/api/v1/admin/...)
+mainRouter.use('/api/v1/admin', authRouter);
+mainRouter.use('/api/v1/admin', supportRouter);
+mainRouter.use('/api/v1/admin', commentRouter);
+mainRouter.use('/api/v1/admin/cms', cmsRouter);
+
+// 3. Mount Legacy Alias Admin Sub-Routers (/api/admin/...) for method-preserving compatibility
 mainRouter.use('/api/admin', authRouter);
 mainRouter.use('/api/admin', supportRouter);
 mainRouter.use('/api/admin', commentRouter);

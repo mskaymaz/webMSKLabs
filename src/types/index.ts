@@ -2,6 +2,11 @@ export * from './env.js';
 export * from './router.js';
 export * from './auth.js';
 
+export interface ApiMeta {
+  timestamp: string;
+  requestId?: string;
+}
+
 export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
@@ -11,6 +16,7 @@ export interface ApiResponse<T = unknown> {
     details?: unknown;
     requestId?: string;
   };
-  timestamp: string;
+  meta: ApiMeta;
+  timestamp?: string;
   requestId?: string;
 }

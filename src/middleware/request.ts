@@ -6,9 +6,17 @@ import { getSecurityHeaders } from './securityHeaders.js';
 export function createRequestContext(request: Request, env: Env): RequestContext {
   const url = new URL(request.url);
 
-  // 1. Generate or extract X-Request-ID
-  const existingRequestId = request.headers.get('X-Request-ID');
-  const requestId = existingRequestId || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `req_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`);
+  // 1. Extract, sanitize, or generate X-Request-ID
+  let rawRequestId = request.headers.get('X-Request-ID');
+  let requestId = '';
+  if (rawRequestId && typeof rawRequestId === 'string') {
+    requestId = rawRequestId.replace(/[^a-zA-Z0-9_\-]/g, '').substring(0, 64);
+  }
+  if (!requestId) {
+    requestId = (typeof crypto !== 'undefined' && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : `req_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+  }
 
   // 2. Extract Client IP Safely
   const clientIp = request.headers.get('cf-connecting-ip') ||
