@@ -52,9 +52,9 @@ publicRouter.get('/api/v1/health', (ctx) => {
 });
 
 async function handlePublicSupportSubmission(ctx: any) {
-  // 1. Rate Limiting per IP + Route (max 10 requests / 1 minute)
+  // 1. Rate Limiting per IP + Route (max 5 requests / 1 minute)
   const routeKey = `route:${ctx.url.pathname}`;
-  const rateCheck = checkRateLimit(ctx.clientIp, routeKey, 10, 60000);
+  const rateCheck = checkRateLimit(ctx.clientIp, routeKey, 5, 60000);
   if (!rateCheck.allowed) {
     if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
       try {
@@ -85,12 +85,20 @@ async function handlePublicSupportSubmission(ctx: any) {
     return errorResponse('Geçersiz JSON verisi.', 'INVALID_JSON', 400, ctx.corsHeaders, undefined, ctx.requestId);
   }
 
-  const validation = validatePayload(body || {}, {
-    name: { required: true, type: 'string', minLength: 2, maxLength: 100 },
-    email: { required: true, type: 'email' },
-    subject: { required: true, type: 'string', minLength: 3, maxLength: 150 },
-    message: { required: true, type: 'string', minLength: 5, maxLength: 2000 }
-  });
+  const rawName = typeof body?.name === 'string' ? body.name.trim().replace(/\s+/g, ' ') : body?.name;
+  const rawEmail = typeof body?.email === 'string' ? body.email.trim() : body?.email;
+  const rawSubject = typeof body?.subject === 'string' ? body.subject.trim() : body?.subject;
+  const rawMessage = typeof body?.message === 'string' ? body.message.trim() : body?.message;
+
+  const validation = validatePayload(
+    { name: rawName, email: rawEmail, subject: rawSubject, message: rawMessage },
+    {
+      name: { required: true, type: 'string', minLength: 2, maxLength: 100 },
+      email: { required: true, type: 'email', maxLength: 255 },
+      subject: { required: true, type: 'string', minLength: 3, maxLength: 150 },
+      message: { required: true, type: 'string', minLength: 10, maxLength: 3000 }
+    }
+  );
 
   if (!validation.valid) {
     return errorResponse('Girdi doğrulama hatası.', 'VALIDATION_ERROR', 400, ctx.corsHeaders, validation.errors, ctx.requestId);
@@ -123,15 +131,26 @@ async function handlePublicSupportSubmission(ctx: any) {
   }
 
   // 4. Create Ticket
-  const res = await createPublicSupportTicketService(ctx, {
-    name: escapeText(body.name),
-    email: body.email.trim().toLowerCase(),
-    subject: escapeText(body.subject),
-    message: escapeText(body.message),
-    category: body.category ? escapeText(body.category) : 'GENERAL'
-  });
+  try {
+    const res = await createPublicSupportTicketService(ctx, {
+      name: escapeText(rawName),
+      email: rawEmail.toLowerCase(),
+      subject: escapeText(rawSubject),
+      message: escapeText(rawMessage),
+      category: body.category ? escapeText(String(body.category).trim()) : 'GENERAL'
+    });
 
-  return jsonResponse(res.data, res.status, ctx.corsHeaders, ctx.requestId);
+    return jsonResponse(res.data, res.status, ctx.corsHeaders, ctx.requestId);
+  } catch (err: any) {
+    return errorResponse(
+      'Destek talebi kaydı sırasında bir sunucu hatası oluştu.',
+      'INTERNAL_SERVER_ERROR',
+      500,
+      ctx.corsHeaders,
+      undefined,
+      ctx.requestId
+    );
+  }
 }
 
 const idempotentSupportHandler = withIdempotency(handlePublicSupportSubmission);

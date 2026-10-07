@@ -6,6 +6,7 @@ export interface IdempotencyRecord {
   state: 'IN_PROGRESS' | 'COMPLETED';
   status?: number;
   body?: any;
+  requestHash?: string;
   claimedAt?: string;
   completedAt?: string;
 }
@@ -71,9 +72,20 @@ export function withIdempotency(handler: RouteHandler): RouteHandler {
       );
     }
 
+    // 3. Compute Request Body Fingerprint/Hash
+    let requestHash = '';
+    if (!ctx.request.bodyUsed) {
+      try {
+        const rawBodyText = await ctx.request.clone().text();
+        requestHash = await hashToken(rawBodyText || '');
+      } catch {
+        requestHash = '';
+      }
+    }
+
     const kvKey = await deriveIdempotencyStorageKey(ctx, rawKey);
 
-    // 3. Inspect KV State Machine
+    // 4. Inspect KV State Machine
     let existingRecord: IdempotencyRecord | null = null;
     try {
       existingRecord = await kv.get<IdempotencyRecord>(kvKey, 'json');
@@ -82,6 +94,18 @@ export function withIdempotency(handler: RouteHandler): RouteHandler {
     }
 
     if (existingRecord) {
+      // Validate Payload Fingerprint Matching
+      if (existingRecord.requestHash && requestHash && existingRecord.requestHash !== requestHash) {
+        return errorResponse(
+          'Aynı idempotency anahtarı farklı istek gövdesi ile kullanılamaz.',
+          'IDEMPOTENCY_PAYLOAD_MISMATCH',
+          422,
+          ctx.corsHeaders,
+          undefined,
+          ctx.requestId
+        );
+      }
+
       if (existingRecord.state === 'IN_PROGRESS') {
         return errorResponse(
           'Aynı işlem halen devam ediyor.',
@@ -104,9 +128,10 @@ export function withIdempotency(handler: RouteHandler): RouteHandler {
       }
     }
 
-    // 4. Claim IN_PROGRESS Lock in KV (short TTL for processing window)
+    // 5. Claim IN_PROGRESS Lock in KV (short TTL for processing window)
     const inProgressRecord: IdempotencyRecord = {
       state: 'IN_PROGRESS',
+      requestHash,
       claimedAt: new Date().toISOString()
     };
     try {
@@ -123,7 +148,7 @@ export function withIdempotency(handler: RouteHandler): RouteHandler {
       );
     }
 
-    // 5. Execute Primary Route Handler
+    // 6. Execute Primary Route Handler
     let response: Response;
     try {
       response = await handler(ctx);
@@ -137,7 +162,7 @@ export function withIdempotency(handler: RouteHandler): RouteHandler {
       throw err;
     }
 
-    // 6. Save COMPLETED state for 2xx/3xx/4xx responses with 24h TTL (86400s)
+    // 7. Save COMPLETED state for 2xx/3xx/4xx responses with 24h TTL (86400s)
     if (response.status >= 200 && response.status < 500) {
       try {
         const clonedRes = response.clone();
@@ -148,6 +173,7 @@ export function withIdempotency(handler: RouteHandler): RouteHandler {
             state: 'COMPLETED',
             status: response.status,
             body: jsonBody,
+            requestHash,
             completedAt: new Date().toISOString()
           };
           await kv.put(kvKey, JSON.stringify(completedRecord), { expirationTtl: 86400 });

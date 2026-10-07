@@ -75,9 +75,6 @@ export async function createPublicSupportTicketService(
       status: 201,
       data: {
         ticketId,
-        name: payload.name,
-        email: payload.email,
-        subject: payload.subject,
         status: 'NEW',
         message: 'Destek talebiniz alındı.'
       }
@@ -100,10 +97,8 @@ export async function createPublicSupportTicketService(
     status: 201,
     data: {
       ticketId,
-      name: payload.name,
-      email: payload.email,
-      subject: payload.subject,
-      status: 'NEW'
+      status: 'NEW',
+      message: 'Destek talebiniz alındı.'
     }
   };
 }

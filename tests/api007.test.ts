@@ -199,6 +199,35 @@ describe('API-007 — Idempotency & Retry Strategy Tests', () => {
       expect(json.success).toBe(false);
       expect(json.error.code).toBe('IDEMPOTENCY_IN_PROGRESS');
     });
+
+    it('should return HTTP 422 IDEMPOTENCY_PAYLOAD_MISMATCH when same key is sent with different body', async () => {
+      const idempotencyKey = 'mismatch_key_1234567890123456';
+
+      const req1 = new Request('http://localhost/api/v1/support', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Idempotency-Key': idempotencyKey },
+        body: JSON.stringify({ name: 'User One', email: 'one@example.com', subject: 'Subject One', message: 'Message One text.' })
+      });
+
+      const res1 = await handleRequest(req1, mockEnv);
+      expect(res1.status).toBe(201);
+      expect(dbInsertCount).toBe(1);
+
+      // Re-send SAME key with DIFFERENT body
+      const req2 = new Request('http://localhost/api/v1/support', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Idempotency-Key': idempotencyKey },
+        body: JSON.stringify({ name: 'User Two', email: 'two@example.com', subject: 'Subject Two', message: 'Message Two text.' })
+      });
+
+      const res2 = await handleRequest(req2, mockEnv);
+      expect(res2.status).toBe(422);
+
+      const json2 = await res2.json() as any;
+      expect(json2.success).toBe(false);
+      expect(json2.error.code).toBe('IDEMPOTENCY_PAYLOAD_MISMATCH');
+      expect(dbInsertCount).toBe(1);
+    });
   });
 
   describe('4. Namespace & User Identity Isolation', () => {
