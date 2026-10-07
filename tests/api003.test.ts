@@ -269,6 +269,28 @@ describe('API-003 — Newsletter API Double Opt-In & Security Verification Tests
       expect(subscribersDb[0].is_active).toBe(0);
     });
 
+    it('should successfully unsubscribe via GET request /api/v1/unsubscribe?token=... (one-click email link click)', async () => {
+      const unsubToken = 'unsub_' + 'd'.repeat(64);
+      subscribersDb.push({
+        id: 21,
+        email: 'getuser@example.com',
+        is_active: 1,
+        verified_at: new Date().toISOString(),
+        unsubscribe_token: unsubToken
+      });
+
+      const req = new Request(`http://localhost/api/v1/unsubscribe?token=${unsubToken}`, {
+        method: 'GET'
+      });
+
+      const res = await handleRequest(req, mockEnv);
+      expect(res.status).toBe(200);
+
+      const json = (await res.json()) as any;
+      expect(json.data.message).toContain('sonlandırıldı');
+      expect(subscribersDb[0].is_active).toBe(0);
+    });
+
     it('should return HTTP 404 for non-existent unsubscribe token', async () => {
       const req = new Request('http://localhost/api/v1/unsubscribe', {
         method: 'POST',

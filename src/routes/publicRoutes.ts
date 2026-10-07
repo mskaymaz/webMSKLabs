@@ -502,6 +502,8 @@ publicRouter.post('/api/subscribe', idempotentSubscribeHandler);
 
 publicRouter.post('/api/v1/unsubscribe', idempotentUnsubscribeHandler);
 publicRouter.post('/api/unsubscribe', idempotentUnsubscribeHandler);
+publicRouter.get('/api/v1/unsubscribe', handlePublicUnsubscribeSubmission);
+publicRouter.get('/api/unsubscribe', handlePublicUnsubscribeSubmission);
 
 publicRouter.post('/api/v1/subscribe/verify', handlePublicSubscribeVerify);
 publicRouter.post('/api/subscribe/verify', handlePublicSubscribeVerify);
