@@ -7,6 +7,7 @@
 import { z } from 'zod';
 import { createAIClient, sanitizePII, AIProviderError, AIClientConfig } from '../utils/ai';
 import { assertPromptSafety } from '../utils/sanitizePrompt';
+import { getOrGenerateAICache } from './aiProvider';
 
 export const PROMPT_ID = 'SUPPORT_TICKET_ANALYSIS';
 export const PROMPT_VERSION = '1.0.0';
@@ -159,20 +160,22 @@ export async function analyzeSupportMessage(params: AnalyzeMessageParams): Promi
 
     const userPrompt = `<user_ticket>\nSubject: ${sanitizedSubject}\nMessage: ${sanitizedMessage}\n</user_ticket>`;
 
-    // 2. AI Client Yapılandırması
-    const config: AIClientConfig = {
-      apiKey: aiConfig?.apiKey || env?.GEMINI_API_KEY,
+    // 2. AI-005 Provider Abstraction & Cache Katmanı
+    const aiResult = await getOrGenerateAICache({
+      inputContent: `${sanitizedSubject}\n${sanitizedMessage}`,
       model: aiConfig?.model || env?.AI_MODEL || 'gemini-1.5-flash',
-      timeoutMs: aiConfig?.timeoutMs || 10000,
-      maxRetries: aiConfig?.maxRetries || 3,
-      fetchFn: aiConfig?.fetchFn
-    };
-
-    const client = createAIClient(config);
-    const aiResult = await client.generateText({
-      systemPrompt: SYSTEM_PROMPT,
-      prompt: userPrompt,
-      temperature: 0.1
+      promptVersion: PROMPT_VERSION,
+      promptId: PROMPT_ID,
+      kvCache: env?.AI_CACHE,
+      options: {
+        systemPrompt: SYSTEM_PROMPT,
+        prompt: userPrompt,
+        temperature: 0.1,
+        apiKey: aiConfig?.apiKey || env?.GEMINI_API_KEY,
+        model: aiConfig?.model || env?.AI_MODEL || 'gemini-1.5-flash',
+        fetchFn: aiConfig?.fetchFn,
+        env
+      }
     });
 
     const parsed = parseAndValidateAIResponse(aiResult.text);

@@ -10,6 +10,7 @@ import { createAIClient, sanitizePII, AIProviderError, AIClientConfig } from '..
 import { assertPromptSafety } from '../../utils/sanitizePrompt';
 import { checkRateLimit } from '../../../../src/middleware/rateLimit';
 import { isValidIdempotencyKey } from '../../../../src/middleware/idempotency';
+import { getOrGenerateAICache } from '../../services/aiProvider';
 
 export const PROMPT_ID = 'BLOG_TRANSLATION';
 export const PROMPT_VERSION = '1.0.0';
@@ -151,19 +152,22 @@ Do not wrap response in markdown code blocks or additional text.`;
 
   const userPrompt = `<source_text>\n${sanitizedContent}\n</source_text>`;
 
-  const config: AIClientConfig = {
-    apiKey: options.apiKey || options.env?.GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env?.GEMINI_API_KEY : undefined) || 'mock-admin-translate-key',
+  const aiResult = await getOrGenerateAICache({
+    inputContent: sanitizedContent,
     model: options.model || options.env?.AI_MODEL || 'gemini-1.5-flash',
-    timeoutMs: options.env?.AI_TIMEOUT_MS ? parseInt(String(options.env.AI_TIMEOUT_MS), 10) : 10000,
-    maxRetries: 3,
-    fetchFn: options.fetchFn
-  };
-
-  const client = createAIClient(config);
-  const aiResult = await client.generateText({
-    systemPrompt,
-    prompt: userPrompt,
-    temperature: 0.1
+    promptVersion: PROMPT_VERSION,
+    promptId: PROMPT_ID,
+    kvCache: options.env?.AI_CACHE,
+    options: {
+      systemPrompt,
+      prompt: userPrompt,
+      targetLanguage: targetLang,
+      temperature: 0.1,
+      apiKey: options.apiKey || options.env?.GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env?.GEMINI_API_KEY : undefined) || 'mock-admin-translate-key',
+      model: options.model || options.env?.AI_MODEL || 'gemini-1.5-flash',
+      fetchFn: options.fetchFn,
+      env: options.env
+    }
   });
 
   let rawTranslatedText = aiResult.text.trim();
@@ -199,7 +203,7 @@ Do not wrap response in markdown code blocks or additional text.`;
     htmlValidated: htmlCheck.isValid,
     validationError: htmlCheck.error,
     metadata: {
-      model: config.model || 'gemini-1.5-flash',
+      model: aiResult.model || options.model || options.env?.AI_MODEL || 'gemini-1.5-flash',
       prompt_id: PROMPT_ID,
       prompt_version: PROMPT_VERSION,
       latency_ms: latencyMs

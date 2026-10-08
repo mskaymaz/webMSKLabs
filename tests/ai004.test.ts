@@ -10,11 +10,13 @@ import {
 } from '../backend/src/routes/admin/translate';
 
 import { globalAIRateLimiter } from '../backend/src/utils/ai';
+import { resetMemoryAICache } from '../backend/src/services/aiProvider';
 
 describe('AI-004 — Gemini AI Translation & SEO API Test Suite', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
     globalAIRateLimiter.reset();
+    resetMemoryAICache();
   });
 
   describe('1. API Endpoint, Auth, RBAC, Rate Limit & Idempotency', () => {
