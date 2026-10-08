@@ -465,3 +465,127 @@ publicRouter.get('/api/unsubscribe', handlePublicUnsubscribeSubmission);
 
 publicRouter.post('/api/v1/subscribe/verify', handlePublicSubscribeVerify);
 publicRouter.post('/api/subscribe/verify', handlePublicSubscribeVerify);
+
+// --- CMS-005 Public Headless CMS REST API ---
+async function handlePublicPostsList(ctx: any) {
+  const routeKey = `route:${ctx.url.pathname}`;
+  const rateCheck = checkRateLimit(ctx.clientIp, routeKey, 60, 60000);
+  if (!rateCheck.allowed) {
+    return errorResponse('Çok fazla istek gönderildi.', 'TOO_MANY_REQUESTS', 429, ctx.corsHeaders, undefined, ctx.requestId);
+  }
+
+  const etag = 'W/"cms-posts-v1-hash"';
+  const ifNoneMatch = ctx.request.headers.get('if-none-match') || ctx.request.headers.get('If-None-Match');
+  if (ifNoneMatch === etag) {
+    return new Response(null, {
+      status: 304,
+      headers: {
+        ...ctx.corsHeaders,
+        'Cache-Control': 'public, max-age=300, s-maxage=600',
+        'ETag': etag
+      }
+    });
+  }
+
+  let posts: any[] = [];
+  if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
+    try {
+      const res = await ctx.env.DB.prepare(`
+        SELECT id, slug, title_tr, content_tr, summary_tr, cover_image, status, published_at, created_at
+        FROM blog_posts
+        WHERE status = 'PUBLISHED' AND (published_at IS NULL OR published_at <= CURRENT_TIMESTAMP)
+        ORDER BY published_at DESC LIMIT 50
+      `).all();
+      posts = (res.results || []).map((p: any) => {
+        const { ai_metadata, prompt_version, admin_id, ...clean } = p;
+        return clean;
+      });
+    } catch {
+      posts = [];
+    }
+  }
+
+  return jsonResponse(posts, 200, {
+    ...ctx.corsHeaders,
+    'Cache-Control': 'public, max-age=300, s-maxage=600',
+    'ETag': etag
+  }, ctx.requestId);
+}
+
+async function handlePublicPostDetail(ctx: any) {
+  const slug = ctx.params.slug;
+  const etag = `W/"post-${slug}-hash"`;
+  const ifNoneMatch = ctx.request.headers.get('if-none-match') || ctx.request.headers.get('If-None-Match');
+  if (ifNoneMatch === etag) {
+    return new Response(null, {
+      status: 304,
+      headers: { ...ctx.corsHeaders, 'Cache-Control': 'public, max-age=300, s-maxage=600', 'ETag': etag }
+    });
+  }
+
+  let post: any = null;
+  if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
+    try {
+      post = await ctx.env.DB.prepare(`
+        SELECT id, slug, title_tr, content_tr, summary_tr, cover_image, status, published_at, created_at
+        FROM blog_posts
+        WHERE slug = ? AND status = 'PUBLISHED' AND (published_at IS NULL OR published_at <= CURRENT_TIMESTAMP)
+      `).bind(slug).first();
+    } catch {
+      post = null;
+    }
+  }
+
+  if (!post) {
+    return errorResponse('Yazı bulunamadı veya yayınlanmamış.', 'NOT_FOUND', 404, ctx.corsHeaders, undefined, ctx.requestId);
+  }
+
+  const { ai_metadata, prompt_version, admin_id, internal_notes, ...cleanPost } = post;
+  return jsonResponse(cleanPost, 200, {
+    ...ctx.corsHeaders,
+    'Cache-Control': 'public, max-age=300, s-maxage=600',
+    'ETag': etag
+  }, ctx.requestId);
+}
+
+async function handlePublicChannelsList(ctx: any) {
+  let channels: any[] = [];
+  if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
+    try {
+      const res = await ctx.env.DB.prepare('SELECT id, slug, name_tr, icon FROM blog_channels WHERE is_active = 1').all();
+      channels = res.results || [];
+    } catch {
+      channels = [];
+    }
+  }
+  return jsonResponse(channels, 200, { ...ctx.corsHeaders, 'Cache-Control': 'public, max-age=300, s-maxage=600' }, ctx.requestId);
+}
+
+async function handlePublicSitemap(ctx: any) {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://msklabs.org/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://msklabs.org/blog</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+</urlset>`;
+
+  return new Response(xml, {
+    status: 200,
+    headers: {
+      ...ctx.corsHeaders,
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600'
+    }
+  });
+}
+
+publicRouter.get('/api/v1/posts', handlePublicPostsList);
+publicRouter.get('/api/posts', handlePublicPostsList);
+
+publicRouter.get('/api/v1/posts/:slug', handlePublicPostDetail);
+publicRouter.get('/api/posts/:slug', handlePublicPostDetail);
+
+publicRouter.get('/api/v1/channels', handlePublicChannelsList);
+publicRouter.get('/api/channels', handlePublicChannelsList);
+
+publicRouter.get('/api/v1/sitemap.xml', handlePublicSitemap);
+publicRouter.get('/sitemap.xml', handlePublicSitemap);
