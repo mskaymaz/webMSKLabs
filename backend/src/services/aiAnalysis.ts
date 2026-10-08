@@ -1,11 +1,12 @@
 /**
  * MSKLabs & DevAdmin — AI Support Message Analysis & Summarization Service
  * File: backend/src/services/aiAnalysis.ts
- * Task: AI-002 (Structured Output, HITL, Zod Validation & Fallback)
+ * Task: AI-002 & AI-003 (Structured Output, HITL, Zod Validation, Fallback & Security Protection)
  */
 
 import { z } from 'zod';
 import { createAIClient, sanitizePII, AIProviderError, AIClientConfig } from '../utils/ai';
+import { assertPromptSafety } from '../utils/sanitizePrompt';
 
 export const PROMPT_ID = 'SUPPORT_TICKET_ANALYSIS';
 export const PROMPT_VERSION = '1.0.0';
@@ -93,7 +94,6 @@ export function parseAndValidateAIResponse(rawText: string): { analysis: AIAnaly
       return { analysis: createFallbackAnalysis('Empty response from AI model'), fallbackUsed: true };
     }
 
-    // Markdown codeblocks (```json ... ```) temizlenir
     let cleaned = rawText.trim();
     if (cleaned.startsWith('```')) {
       cleaned = cleaned.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '');
@@ -146,25 +146,28 @@ export async function analyzeSupportMessage(params: AnalyzeMessageParams): Promi
     };
   }
 
-  // 1. PII Sanitization (E-posta ve Telefon maskeleme)
-  const sanitizedSubject = sanitizePII(subject || '');
-  const sanitizedMessage = sanitizePII(message || '');
-
-  const userPrompt = `<user_ticket>\nSubject: ${sanitizedSubject}\nMessage: ${sanitizedMessage}\n</user_ticket>`;
-
-  // 2. AI Client Yapılandırması
-  const config: AIClientConfig = {
-    apiKey: aiConfig?.apiKey || env?.GEMINI_API_KEY,
-    model: aiConfig?.model || env?.AI_MODEL || 'gemini-1.5-flash',
-    timeoutMs: aiConfig?.timeoutMs || 10000,
-    maxRetries: aiConfig?.maxRetries || 3,
-    fetchFn: aiConfig?.fetchFn
-  };
-
   let analysis: AIAnalysisResult;
   let fallbackUsed = false;
 
   try {
+    // AI-003: Prompt Injection Protection Assertion
+    assertPromptSafety(`${subject || ''} ${message || ''}`);
+
+    // 1. PII Sanitization (E-posta ve Telefon maskeleme)
+    const sanitizedSubject = sanitizePII(subject || '');
+    const sanitizedMessage = sanitizePII(message || '');
+
+    const userPrompt = `<user_ticket>\nSubject: ${sanitizedSubject}\nMessage: ${sanitizedMessage}\n</user_ticket>`;
+
+    // 2. AI Client Yapılandırması
+    const config: AIClientConfig = {
+      apiKey: aiConfig?.apiKey || env?.GEMINI_API_KEY,
+      model: aiConfig?.model || env?.AI_MODEL || 'gemini-1.5-flash',
+      timeoutMs: aiConfig?.timeoutMs || 10000,
+      maxRetries: aiConfig?.maxRetries || 3,
+      fetchFn: aiConfig?.fetchFn
+    };
+
     const client = createAIClient(config);
     const aiResult = await client.generateText({
       systemPrompt: SYSTEM_PROMPT,
@@ -183,7 +186,7 @@ export async function analyzeSupportMessage(params: AnalyzeMessageParams): Promi
 
   const latencyMs = Date.now() - startTime;
   const metadata: AIAnalysisMetadata = {
-    model: config.model || 'gemini-1.5-flash',
+    model: aiConfig?.model || env?.AI_MODEL || 'gemini-1.5-flash',
     prompt_id: PROMPT_ID,
     prompt_version: PROMPT_VERSION,
     latency_ms: latencyMs,
@@ -194,7 +197,6 @@ export async function analyzeSupportMessage(params: AnalyzeMessageParams): Promi
   // 3. HITL Prensibi & Veritabanı Kaydı (Otomatik silme / cevap gönderimi YAPILMAZ)
   if (db && typeof db.prepare === 'function') {
     try {
-      // a. `messages` tablosunda yalnızca `ai_summary` ve `ai_draft` güncellenir (Status/Urgency değiştirilmez)
       const updateStmt = db.prepare(`
         UPDATE messages
         SET ai_summary = ?, ai_draft = ?, updated_at = CURRENT_TIMESTAMP
@@ -202,7 +204,6 @@ export async function analyzeSupportMessage(params: AnalyzeMessageParams): Promi
       `);
       await updateStmt.bind(analysis.summary, analysis.suggestedReply || null, ticketId).run();
 
-      // b. Audit Trail: `message_events` tablosuna AI analiz olayı kaydedilir
       const eventMetadata = JSON.stringify({
         ...metadata,
         spam: analysis.spam,
