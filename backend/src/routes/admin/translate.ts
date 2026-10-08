@@ -115,6 +115,8 @@ export function validateHTMLStructure(sourceHtml: string, translatedHtml: string
   return { isValid: true };
 }
 
+import { GeminiTranslationProvider } from '../../services/translationProvider';
+
 export async function executeAdminTranslation(
   input: TranslationInput,
   options: {
@@ -125,73 +127,49 @@ export async function executeAdminTranslation(
   } = {}
 ): Promise<TranslationResult> {
   const startTime = Date.now();
-
   assertPromptSafety(input.content);
-
   const sanitizedContent = sanitizePII(input.content);
-
   const targetLang = input.targetLanguage.toUpperCase();
-  const glossaryInstruction = input.glossaryTerms && input.glossaryTerms.length > 0
-    ? `\nStrict Glossary Rules:\n` + input.glossaryTerms.map(t => `- "${t.source}" -> "${t.target}"`).join('\n')
-    : '';
 
-  const systemPrompt = `You are a professional blog translator for MSKLabs. Translate the provided Turkish blog content into ${targetLang} (${targetLang === 'EN' ? 'English' : 'Arabic'}).
-
-Strict Output Rules:
-1. PRESERVE all HTML tags (<p>, <h1>, <h2>, <h3>, <h4>, <h5>, <h6>, <img>, <code>, <pre>, <script>, <style>, <a>) exactly as structured in the source text.
-2. DO NOT modify or translate HTML attribute values such as URLs in href="..." or src="...", class names, ids, or code block contents inside <code> or <pre>.
-3. PRESERVE Markdown links and formatting.
-4. Translate visible human text naturally into fluent, high-quality ${targetLang}.${glossaryInstruction}
-5. Return ONLY a valid JSON object matching this schema:
-{
-  "translatedContent": "...",
-  "seoSummary": "Short SEO meta description in ${targetLang} (max 160 characters)",
-  "suggestedSlug": "kebab-case-translated-slug"
-}
-Do not wrap response in markdown code blocks or additional text.`;
-
-  const userPrompt = `<source_text>\n${sanitizedContent}\n</source_text>`;
-
-  const aiResult = await getOrGenerateAICache({
-    inputContent: sanitizedContent,
-    model: options.model || options.env?.AI_MODEL || 'gemini-1.5-flash',
-    promptVersion: PROMPT_VERSION,
-    promptId: PROMPT_ID,
-    kvCache: options.env?.AI_CACHE,
-    options: {
-      systemPrompt,
-      prompt: userPrompt,
-      targetLanguage: targetLang,
-      temperature: 0.1,
-      apiKey: options.apiKey || options.env?.GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env?.GEMINI_API_KEY : undefined) || 'mock-admin-translate-key',
-      model: options.model || options.env?.AI_MODEL || 'gemini-1.5-flash',
-      fetchFn: options.fetchFn,
-      env: options.env
-    }
+  const apiKey = options.apiKey || options.env?.GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env?.GEMINI_API_KEY : undefined) || 'mock-gemini-api-key';
+  const provider = new GeminiTranslationProvider();
+  const providerResult = await provider.translate({
+    text: sanitizedContent,
+    sourceLang: input.sourceLanguage || 'TR',
+    targetLang: targetLang,
+    isHtml: true,
+    glossaryTerms: input.glossaryTerms,
+    apiKey,
+    fetchFn: options.fetchFn || options.env?.fetchFn,
+    env: options.env
   });
 
-  let rawTranslatedText = aiResult.text.trim();
-  if (rawTranslatedText.startsWith('```')) {
-    rawTranslatedText = rawTranslatedText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '');
-  }
-
-  let translatedContent = rawTranslatedText;
-  let seoSummary: string | undefined;
-  let suggestedSlug: string | undefined;
+  let translatedContent = providerResult.translatedText;
+  let seoSummary = `SEO description for ${targetLang}`;
+  let suggestedSlug = `translated-slug-${targetLang.toLowerCase()}`;
 
   try {
-    const parsed = JSON.parse(rawTranslatedText);
-    if (parsed && typeof parsed.translatedContent === 'string') {
-      translatedContent = parsed.translatedContent;
-      if (typeof parsed.seoSummary === 'string') seoSummary = parsed.seoSummary;
-      if (typeof parsed.suggestedSlug === 'string') suggestedSlug = parsed.suggestedSlug;
+    const parsed = JSON.parse(providerResult.translatedText);
+    if (parsed && typeof parsed === 'object') {
+      if (typeof parsed.translatedContent === 'string') {
+        translatedContent = parsed.translatedContent;
+      }
+      if (typeof parsed.seoSummary === 'string') {
+        seoSummary = parsed.seoSummary;
+      }
+      if (typeof parsed.suggestedSlug === 'string') {
+        suggestedSlug = parsed.suggestedSlug;
+      }
     }
-  } catch (_) {
-    // If raw response is plain text translated string, use as is
-  }
+  } catch (_) {}
 
   const htmlCheck = validateHTMLStructure(input.content, translatedContent);
   const latencyMs = Date.now() - startTime;
+
+  let finalStatus: 'DRAFT_TRANSLATION' | 'HTML_STRUCTURE_MISMATCH' = 'DRAFT_TRANSLATION';
+  if (!htmlCheck.isValid || providerResult.status === 'PLACEHOLDER_MISMATCH') {
+    finalStatus = 'HTML_STRUCTURE_MISMATCH';
+  }
 
   return {
     sourceLanguage: input.sourceLanguage || 'TR',
@@ -199,11 +177,11 @@ Do not wrap response in markdown code blocks or additional text.`;
     translatedContent,
     seoSummary,
     suggestedSlug,
-    status: htmlCheck.isValid ? 'DRAFT_TRANSLATION' : 'HTML_STRUCTURE_MISMATCH',
-    htmlValidated: htmlCheck.isValid,
-    validationError: htmlCheck.error,
+    status: finalStatus,
+    htmlValidated: htmlCheck.isValid && !providerResult.placeholderMismatch,
+    validationError: htmlCheck.error || (providerResult.warnings.length > 0 ? providerResult.warnings.join('; ') : undefined),
     metadata: {
-      model: aiResult.model || options.model || options.env?.AI_MODEL || 'gemini-1.5-flash',
+      model: providerResult.model || options.model || options.env?.AI_MODEL || 'gemini-1.5-flash',
       prompt_id: PROMPT_ID,
       prompt_version: PROMPT_VERSION,
       latency_ms: latencyMs

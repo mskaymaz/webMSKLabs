@@ -527,7 +527,7 @@ async function handlePublicPostDetail(ctx: any) {
   if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
     try {
       post = await ctx.env.DB.prepare(`
-        SELECT id, slug, title_tr, content_tr, summary_tr, cover_image, status, published_at, created_at
+        SELECT id, slug, title_tr, title_en, title_ar, content_tr, content_en, content_ar, summary_tr, summary_en, summary_ar, cover_image, status, published_at, created_at, source_id, translation_status, revision_number
         FROM blog_posts
         WHERE slug = ? AND status = 'PUBLISHED' AND (published_at IS NULL OR published_at <= CURRENT_TIMESTAMP)
       `).bind(slug).first();
@@ -541,7 +541,23 @@ async function handlePublicPostDetail(ctx: any) {
   }
 
   const { ai_metadata, prompt_version, admin_id, internal_notes, ...cleanPost } = post;
-  return jsonResponse(cleanPost, 200, {
+  const canonical = `https://msklabs.org/blog/${cleanPost.slug}`;
+  const hreflang = {
+    tr: `https://msklabs.org/tr/blog/${cleanPost.slug}`,
+    en: `https://msklabs.org/en/blog/${cleanPost.slug}`,
+    ar: `https://msklabs.org/ar/blog/${cleanPost.slug}`
+  };
+
+  const responsePayload = {
+    ...cleanPost,
+    canonical,
+    hreflang,
+    source_id: cleanPost.source_id || cleanPost.id,
+    translation_status: cleanPost.translation_status || 'APPROVED',
+    revision_number: cleanPost.revision_number || 1
+  };
+
+  return jsonResponse(responsePayload, 200, {
     ...ctx.corsHeaders,
     'Cache-Control': 'public, max-age=300, s-maxage=600',
     'ETag': etag
@@ -562,11 +578,59 @@ async function handlePublicChannelsList(ctx: any) {
 }
 
 async function handlePublicSitemap(ctx: any) {
+  let posts: any[] = [];
+  if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
+    try {
+      const res = await ctx.env.DB.prepare(`
+        SELECT slug, published_at, created_at
+        FROM blog_posts
+        WHERE status = 'PUBLISHED' AND (published_at IS NULL OR published_at <= CURRENT_TIMESTAMP)
+        ORDER BY published_at DESC LIMIT 500
+      `).all();
+      posts = res.results || [];
+    } catch {
+      posts = [];
+    }
+  }
+
+  const postUrlsXml = posts.map((p) => {
+    const lastmod = (p.published_at || p.created_at || new Date().toISOString()).split('T')[0];
+    return `  <url>
+    <loc>https://msklabs.org/blog/${p.slug}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/tr/blog/${p.slug}"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/en/blog/${p.slug}"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/ar/blog/${p.slug}"/>
+  </url>`;
+  }).join('\n');
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://msklabs.org/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://msklabs.org/blog</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://msklabs.org/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/tr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/en/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/ar/"/>
+  </url>
+  <url>
+    <loc>https://msklabs.org/blog</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/tr/blog"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/ar/blog"/>
+  </url>
+${postUrlsXml}
 </urlset>`;
+
+
+
+
+
 
   return new Response(xml, {
     status: 200,
