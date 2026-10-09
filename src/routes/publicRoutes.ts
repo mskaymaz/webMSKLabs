@@ -1,6 +1,5 @@
 import { Router } from '../utils/router.js';
 import { jsonResponse, errorResponse } from '../utils/response.js';
-import { validateEnvBindings } from '../utils/env.js';
 import { checkRateLimit } from '../middleware/rateLimit.js';
 import { validatePayload, escapeText } from '../utils/sanitize.js';
 import { verifyTurnstileToken } from '../utils/turnstile.js';
@@ -8,25 +7,25 @@ import { createPublicSupportTicketService } from '../services/supportService.js'
 import { getPublicCommentsService, createCommentService } from '../services/commentService.js';
 import { subscribeService, unsubscribeService, verifySubscribeService } from '../services/newsletterService.js';
 import { withIdempotency } from '../middleware/idempotency.js';
+import { publicCmsRouter } from './publicCmsRoutes.js';
 
 export const publicRouter = new Router();
+publicRouter.use('', publicCmsRouter);
+
+async function logAudit(ctx: any, action: string, details: any) {
+  if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
+    try {
+      await ctx.env.DB.prepare(`INSERT INTO admin_audit_logs (admin_id, action, resource, details_json, ip_address) VALUES (NULL, ?, ?, ?, ?)`).bind(action, ctx.url.pathname, JSON.stringify(details), ctx.clientIp).run();
+    } catch {}
+  }
+}
 
 // --- API-001 Public Support ---
 async function handlePublicSupportSubmission(ctx: any) {
   const routeKey = `route:${ctx.url.pathname}`;
   const rateCheck = checkRateLimit(ctx.clientIp, routeKey, 5, 60000);
   if (!rateCheck.allowed) {
-    if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
-      try {
-        await ctx.env.DB.prepare(`
-          INSERT INTO admin_audit_logs (admin_id, action, resource, details_json, ip_address)
-          VALUES (NULL, 'RATE_LIMIT_EXCEEDED', ?, ?, ?)
-        `).bind(ctx.url.pathname, JSON.stringify({ retryAfter: rateCheck.retryAfter }), ctx.clientIp).run();
-      } catch {
-        // Ignore audit logging error
-      }
-    }
-
+    await logAudit(ctx, 'RATE_LIMIT_EXCEEDED', { retryAfter: rateCheck.retryAfter });
     return errorResponse(
       'Çok fazla destek talebi gönderildi. Lütfen biraz bekleyip tekrar deneyin.',
       'TOO_MANY_REQUESTS',
@@ -67,17 +66,7 @@ async function handlePublicSupportSubmission(ctx: any) {
   const turnstileResult = await verifyTurnstileToken(ctx, turnstileToken);
 
   if (!turnstileResult.success) {
-    if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
-      try {
-        await ctx.env.DB.prepare(`
-          INSERT INTO admin_audit_logs (admin_id, action, resource, details_json, ip_address)
-          VALUES (NULL, 'TURNSTILE_REJECTED', ?, ?, ?)
-        `).bind(ctx.url.pathname, JSON.stringify({ code: turnstileResult.errorCode }), ctx.clientIp).run();
-      } catch {
-        // Ignore audit logging error
-      }
-    }
-
+    await logAudit(ctx, 'TURNSTILE_REJECTED', { code: turnstileResult.errorCode });
     return errorResponse(
       turnstileResult.errorMessage || 'Güvenlik doğrulaması başarısız oldu.',
       turnstileResult.errorCode || 'INVALID_TURNSTILE_TOKEN',
@@ -124,29 +113,17 @@ async function handlePublicCommentList(ctx: any) {
   if (cache) {
     try {
       const cached = await cache.match(cacheKeyStr);
-      if (cached) {
-        return cached;
-      }
-    } catch {
-      // Ignore cache match error
-    }
+      if (cached) return cached;
+    } catch {}
   }
 
   const res = await getPublicCommentsService(ctx, postSlug);
-
-  const headers = {
-    ...ctx.corsHeaders,
-    'Cache-Control': 'public, max-age=300, s-maxage=300'
-  };
+  const headers = { ...ctx.corsHeaders, 'Cache-Control': 'public, max-age=300, s-maxage=300' };
 
   const responsePayload = {
     success: true,
     data: res.data,
-    meta: {
-      ...res.meta,
-      timestamp: new Date().toISOString(),
-      requestId: ctx.requestId
-    }
+    meta: { ...res.meta, timestamp: new Date().toISOString(), requestId: ctx.requestId }
   };
 
   const response = jsonResponse(responsePayload, res.status, headers, ctx.requestId);
@@ -156,9 +133,7 @@ async function handlePublicCommentList(ctx: any) {
       ctx.executionCtx?.waitUntil
         ? ctx.executionCtx.waitUntil(cache.put(cacheKeyStr, response.clone()))
         : cache.put(cacheKeyStr, response.clone());
-    } catch {
-      // Ignore cache put error
-    }
+    } catch {}
   }
 
   return response;
@@ -168,17 +143,7 @@ async function handlePublicCommentSubmission(ctx: any) {
   const routeKey = `route:${ctx.url.pathname}`;
   const rateCheck = checkRateLimit(ctx.clientIp, routeKey, 3, 60000);
   if (!rateCheck.allowed) {
-    if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
-      try {
-        await ctx.env.DB.prepare(`
-          INSERT INTO admin_audit_logs (admin_id, action, resource, details_json, ip_address)
-          VALUES (NULL, 'RATE_LIMIT_EXCEEDED', ?, ?, ?)
-        `).bind(ctx.url.pathname, JSON.stringify({ retryAfter: rateCheck.retryAfter }), ctx.clientIp).run();
-      } catch {
-        // Ignore audit logging error
-      }
-    }
-
+    await logAudit(ctx, 'RATE_LIMIT_EXCEEDED', { retryAfter: rateCheck.retryAfter });
     return errorResponse(
       'Çok fazla yorum gönderildi. Lütfen biraz bekleyip tekrar deneyin.',
       'TOO_MANY_REQUESTS',
@@ -219,17 +184,7 @@ async function handlePublicCommentSubmission(ctx: any) {
   const turnstileResult = await verifyTurnstileToken(ctx, turnstileToken);
 
   if (!turnstileResult.success) {
-    if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
-      try {
-        await ctx.env.DB.prepare(`
-          INSERT INTO admin_audit_logs (admin_id, action, resource, details_json, ip_address)
-          VALUES (NULL, 'TURNSTILE_REJECTED', ?, ?, ?)
-        `).bind(ctx.url.pathname, JSON.stringify({ code: turnstileResult.errorCode }), ctx.clientIp).run();
-      } catch {
-        // Ignore audit logging error
-      }
-    }
-
+    await logAudit(ctx, 'TURNSTILE_REJECTED', { code: turnstileResult.errorCode });
     return errorResponse(
       turnstileResult.errorMessage || 'Güvenlik doğrulaması başarısız oldu.',
       turnstileResult.errorCode || 'INVALID_TURNSTILE_TOKEN',
@@ -273,17 +228,7 @@ async function handlePublicSubscribeSubmission(ctx: any) {
   const routeKey = `route:${ctx.url.pathname}`;
   const rateCheck = checkRateLimit(ctx.clientIp, routeKey, 5, 60000);
   if (!rateCheck.allowed) {
-    if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
-      try {
-        await ctx.env.DB.prepare(`
-          INSERT INTO admin_audit_logs (admin_id, action, resource, details_json, ip_address)
-          VALUES (NULL, 'RATE_LIMIT_EXCEEDED', ?, ?, ?)
-        `).bind(ctx.url.pathname, JSON.stringify({ retryAfter: rateCheck.retryAfter }), ctx.clientIp).run();
-      } catch {
-        // Ignore audit logging error
-      }
-    }
-
+    await logAudit(ctx, 'RATE_LIMIT_EXCEEDED', { retryAfter: rateCheck.retryAfter });
     return errorResponse(
       'Çok fazla abonelik denemesi yapıldı. Lütfen biraz bekleyip tekrar deneyin.',
       'TOO_MANY_REQUESTS',
@@ -367,9 +312,7 @@ async function handlePublicUnsubscribeSubmission(ctx: any) {
   let body: any = {};
   try {
     body = await ctx.request.json();
-  } catch {
-    // Body might be empty if query params or headers are used
-  }
+  } catch {}
 
   const rawToken =
     (typeof body?.token === 'string' ? body.token.trim() : undefined) ||
@@ -415,9 +358,7 @@ async function handlePublicSubscribeVerify(ctx: any) {
   let body: any = {};
   try {
     body = await ctx.request.json();
-  } catch {
-    // Body might be empty if query params are used
-  }
+  } catch {}
 
   const rawToken =
     (typeof body?.token === 'string' ? body.token.trim() : undefined) ||
@@ -465,191 +406,3 @@ publicRouter.get('/api/unsubscribe', handlePublicUnsubscribeSubmission);
 
 publicRouter.post('/api/v1/subscribe/verify', handlePublicSubscribeVerify);
 publicRouter.post('/api/subscribe/verify', handlePublicSubscribeVerify);
-
-// --- CMS-005 Public Headless CMS REST API ---
-async function handlePublicPostsList(ctx: any) {
-  const routeKey = `route:${ctx.url.pathname}`;
-  const rateCheck = checkRateLimit(ctx.clientIp, routeKey, 60, 60000);
-  if (!rateCheck.allowed) {
-    return errorResponse('Çok fazla istek gönderildi.', 'TOO_MANY_REQUESTS', 429, ctx.corsHeaders, undefined, ctx.requestId);
-  }
-
-  const etag = 'W/"cms-posts-v1-hash"';
-  const ifNoneMatch = ctx.request.headers.get('if-none-match') || ctx.request.headers.get('If-None-Match');
-  if (ifNoneMatch === etag) {
-    return new Response(null, {
-      status: 304,
-      headers: {
-        ...ctx.corsHeaders,
-        'Cache-Control': 'public, max-age=300, s-maxage=600',
-        'ETag': etag
-      }
-    });
-  }
-
-  let posts: any[] = [];
-  if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
-    try {
-      const res = await ctx.env.DB.prepare(`
-        SELECT id, slug, title_tr, content_tr, summary_tr, cover_image, status, published_at, created_at
-        FROM blog_posts
-        WHERE status = 'PUBLISHED' AND (published_at IS NULL OR published_at <= CURRENT_TIMESTAMP)
-        ORDER BY published_at DESC LIMIT 50
-      `).all();
-      posts = (res.results || []).map((p: any) => {
-        const { ai_metadata, prompt_version, admin_id, ...clean } = p;
-        return clean;
-      });
-    } catch {
-      posts = [];
-    }
-  }
-
-  return jsonResponse(posts, 200, {
-    ...ctx.corsHeaders,
-    'Cache-Control': 'public, max-age=300, s-maxage=600',
-    'ETag': etag
-  }, ctx.requestId);
-}
-
-async function handlePublicPostDetail(ctx: any) {
-  const slug = ctx.params.slug;
-  const etag = `W/"post-${slug}-hash"`;
-  const ifNoneMatch = ctx.request.headers.get('if-none-match') || ctx.request.headers.get('If-None-Match');
-  if (ifNoneMatch === etag) {
-    return new Response(null, {
-      status: 304,
-      headers: { ...ctx.corsHeaders, 'Cache-Control': 'public, max-age=300, s-maxage=600', 'ETag': etag }
-    });
-  }
-
-  let post: any = null;
-  if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
-    try {
-      post = await ctx.env.DB.prepare(`
-        SELECT id, slug, title_tr, title_en, title_ar, content_tr, content_en, content_ar, summary_tr, summary_en, summary_ar, cover_image, status, published_at, created_at, source_id, translation_status, revision_number
-        FROM blog_posts
-        WHERE slug = ? AND status = 'PUBLISHED' AND (published_at IS NULL OR published_at <= CURRENT_TIMESTAMP)
-      `).bind(slug).first();
-    } catch {
-      post = null;
-    }
-  }
-
-  if (!post) {
-    return errorResponse('Yazı bulunamadı veya yayınlanmamış.', 'NOT_FOUND', 404, ctx.corsHeaders, undefined, ctx.requestId);
-  }
-
-  const { ai_metadata, prompt_version, admin_id, internal_notes, ...cleanPost } = post;
-  const canonical = `https://msklabs.org/blog/${cleanPost.slug}`;
-  const hreflang = {
-    tr: `https://msklabs.org/tr/blog/${cleanPost.slug}`,
-    en: `https://msklabs.org/en/blog/${cleanPost.slug}`,
-    ar: `https://msklabs.org/ar/blog/${cleanPost.slug}`
-  };
-
-  const responsePayload = {
-    ...cleanPost,
-    canonical,
-    hreflang,
-    source_id: cleanPost.source_id || cleanPost.id,
-    translation_status: cleanPost.translation_status || 'APPROVED',
-    revision_number: cleanPost.revision_number || 1
-  };
-
-  return jsonResponse(responsePayload, 200, {
-    ...ctx.corsHeaders,
-    'Cache-Control': 'public, max-age=300, s-maxage=600',
-    'ETag': etag
-  }, ctx.requestId);
-}
-
-async function handlePublicChannelsList(ctx: any) {
-  let channels: any[] = [];
-  if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
-    try {
-      const res = await ctx.env.DB.prepare('SELECT id, slug, name_tr, icon FROM blog_channels WHERE is_active = 1').all();
-      channels = res.results || [];
-    } catch {
-      channels = [];
-    }
-  }
-  return jsonResponse(channels, 200, { ...ctx.corsHeaders, 'Cache-Control': 'public, max-age=300, s-maxage=600' }, ctx.requestId);
-}
-
-async function handlePublicSitemap(ctx: any) {
-  let posts: any[] = [];
-  if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
-    try {
-      const res = await ctx.env.DB.prepare(`
-        SELECT slug, published_at, created_at
-        FROM blog_posts
-        WHERE status = 'PUBLISHED' AND (published_at IS NULL OR published_at <= CURRENT_TIMESTAMP)
-        ORDER BY published_at DESC LIMIT 500
-      `).all();
-      posts = res.results || [];
-    } catch {
-      posts = [];
-    }
-  }
-
-  const postUrlsXml = posts.map((p) => {
-    const lastmod = (p.published_at || p.created_at || new Date().toISOString()).split('T')[0];
-    return `  <url>
-    <loc>https://msklabs.org/blog/${p.slug}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/tr/blog/${p.slug}"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/en/blog/${p.slug}"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/ar/blog/${p.slug}"/>
-  </url>`;
-  }).join('\n');
-
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url>
-    <loc>https://msklabs.org/</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/tr/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/en/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/ar/"/>
-  </url>
-  <url>
-    <loc>https://msklabs.org/blog</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/tr/blog"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/en/blog"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/ar/blog"/>
-  </url>
-${postUrlsXml}
-</urlset>`;
-
-
-
-
-
-
-  return new Response(xml, {
-    status: 200,
-    headers: {
-      ...ctx.corsHeaders,
-      'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600'
-    }
-  });
-}
-
-publicRouter.get('/api/v1/posts', handlePublicPostsList);
-publicRouter.get('/api/posts', handlePublicPostsList);
-
-publicRouter.get('/api/v1/posts/:slug', handlePublicPostDetail);
-publicRouter.get('/api/posts/:slug', handlePublicPostDetail);
-
-publicRouter.get('/api/v1/channels', handlePublicChannelsList);
-publicRouter.get('/api/channels', handlePublicChannelsList);
-
-publicRouter.get('/api/v1/sitemap.xml', handlePublicSitemap);
-publicRouter.get('/sitemap.xml', handlePublicSitemap);

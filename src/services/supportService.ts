@@ -15,17 +15,7 @@ export async function getSupportTicketsService(ctx: RequestContext) {
 
   if (!ctx.env.DB || typeof ctx.env.DB.prepare !== 'function') {
     const mockList = [
-      {
-        id: 'MSK-2026-0001',
-        name: 'Ahmet Yılmaz',
-        email: 'ahmet@example.com',
-        subject: 'Giriş Sorunu',
-        message: 'Hesabıma giriş yaparken şifre sıfırlama e-postası gelmiyor.',
-        status: 'NEW',
-        urgency: 'HIGH',
-        category: 'GENERAL',
-        created_at: new Date().toISOString()
-      }
+      { id: 'MSK-2026-0001', name: 'Ahmet Yılmaz', email: 'ahmet@example.com', subject: 'Giriş Sorunu', message: 'Hesabıma giriş yaparken şifre sıfırlama e-postası gelmiyor.', status: 'NEW', urgency: 'HIGH', category: 'GENERAL', created_at: new Date().toISOString() }
     ];
 
     const filtered = mockList.filter(item => {
@@ -114,19 +104,7 @@ export async function getSupportTicketDetailService(ctx: RequestContext, ticketI
 
     return {
       status: 200,
-      data: {
-        id: ticketId,
-        name: 'Ahmet Yılmaz',
-        email: 'ahmet@example.com',
-        subject: 'Giriş Sorunu',
-        message: 'Hesabıma giriş yaparken şifre sıfırlama e-postası gelmiyor.',
-        status: 'NEW',
-        urgency: 'HIGH',
-        category: 'GENERAL',
-        created_at: new Date().toISOString(),
-        replies: [],
-        events: []
-      }
+      data: { id: ticketId, name: 'Ahmet Yılmaz', email: 'ahmet@example.com', subject: 'Giriş Sorunu', message: 'Hesabıma giriş yaparken şifre sıfırlama e-postası gelmiyor.', status: 'NEW', urgency: 'HIGH', category: 'GENERAL', created_at: new Date().toISOString(), replies: [], events: [] }
     };
   }
 

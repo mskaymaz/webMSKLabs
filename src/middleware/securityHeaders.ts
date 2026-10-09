@@ -27,6 +27,10 @@ export function getSecurityHeaders(request: Request, env: Env): Record<string, s
   const isHttps = url.protocol === 'https:' || request.headers.get('x-forwarded-proto') === 'https';
   const isProduction = env.ENVIRONMENT === 'production';
 
+  if (url.pathname.includes('/admin') || url.pathname.includes('/auth')) {
+    headers['Cache-Control'] = 'no-store, no-cache, private, must-revalidate';
+  }
+
   if (isProduction || isHttps) {
     headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains; preload';
   }

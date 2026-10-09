@@ -1,13 +1,37 @@
-import { defineConfig } from 'vite';
+import { defineConfig, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
 
+function adminRewritePlugin(): Plugin {
+  return {
+    name: 'admin-rewrite-plugin',
+    configureServer(server) {
+      server.middlewares.use((req, _res, next) => {
+        if (req.url) {
+          const urlPath = req.url.split('?')[0];
+          if (urlPath === '/admin' || urlPath === '/admin/' || (urlPath.startsWith('/admin/') && !urlPath.includes('.') && !urlPath.startsWith('/admin/modules/'))) {
+            const query = req.url.includes('?') ? '?' + req.url.split('?')[1] : '';
+            const target = '/admin/index.html' + query;
+            req.url = target;
+            (req as any).originalUrl = target;
+          }
+        }
+        next();
+      });
+    }
+  };
+}
+
 export default defineConfig({
   plugins: [
     react(),
+    adminRewritePlugin(),
     VitePWA({
       registerType: 'autoUpdate',
+      devOptions: {
+        enabled: false
+      },
       includeAssets: ['favicon.ico', 'pwa-192x192.png', 'pwa-512x512.png'],
       manifest: {
         name: 'MSKLabs DevAdmin',
@@ -49,6 +73,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
+        main: path.resolve(__dirname, 'index.html'),
         admin: path.resolve(__dirname, 'admin/index.html')
       },
       output: {

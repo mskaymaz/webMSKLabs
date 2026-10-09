@@ -6,6 +6,7 @@ import { applySecurityHeaders } from '../middleware/securityHeaders.js';
 
 import { healthRouter } from './health.js';
 import { publicRouter } from './publicRoutes.js';
+import { publicCmsRouter } from './publicCmsRoutes.js';
 import { authRouter } from './admin/authRoutes.js';
 import { supportRouter } from './admin/supportRoutes.js';
 import { commentRouter } from './admin/commentRoutes.js';
@@ -19,6 +20,7 @@ export const mainRouter = new Router();
 // 1. Mount Health & Public Routes (contains /api/v1/... and legacy /api/... aliases)
 mainRouter.use('', healthRouter);
 mainRouter.use('', publicRouter);
+mainRouter.use('', publicCmsRouter);
 
 // 2. Mount Canonical v1 Admin Sub-Routers (/api/v1/admin/...)
 mainRouter.use('/api/v1/admin', authRouter);
