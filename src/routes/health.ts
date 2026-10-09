@@ -1,8 +1,34 @@
 import { Router } from '../utils/router.js';
 import { jsonResponse, errorResponse } from '../utils/response.js';
 import { checkRateLimit } from '../middleware/rateLimit.js';
+import { sendEmail } from '../../backend/src/services/emailService.js';
 
 export const healthRouter = new Router();
+
+const inMemoryAlertCooldown = new Map<string, number>();
+const ALERT_COOLDOWN_MS = 300000; // 5 minutes
+
+async function shouldSendAlert(ctx: any, key: string): Promise<boolean> {
+  const kv = ctx.env?.IDEMPOTENCY_STORE;
+  if (kv && typeof kv.get === 'function') {
+    try {
+      const existing = await kv.get(`alert:${key}`);
+      if (existing) return false;
+      await kv.put(`alert:${key}`, '1', { expirationTtl: 300 });
+      return true;
+    } catch {
+      // Fallback to in-memory
+    }
+  }
+
+  const now = Date.now();
+  const lastSent = inMemoryAlertCooldown.get(key) || 0;
+  if (now - lastSent < ALERT_COOLDOWN_MS) {
+    return false;
+  }
+  inMemoryAlertCooldown.set(key, now);
+  return true;
+}
 
 /**
  * GET /api/v1/health
@@ -98,7 +124,7 @@ async function handleReadiness(ctx: any): Promise<Response> {
 
   const isReady = d1Status === 'UP' && r2Status === 'UP';
 
-  // 4. If Unhealthy -> Safe Audit Log (only if D1 is UP) & Return HTTP 503 (No Internal Mask/Leak)
+  // 4. If Unhealthy -> Safe Audit Log & Email Alert (COM-001) & Return HTTP 503
   if (!isReady) {
     if (d1Status === 'UP' && ctx.env.DB && typeof ctx.env.DB.prepare === 'function') {
       try {
@@ -116,6 +142,20 @@ async function handleReadiness(ctx: any): Promise<Response> {
         // Ignore audit write failure during DB outage to prevent secondary errors
       }
     }
+
+    // Trigger COM-001 Zero-Cost Email Alert (deduplicated via cooldown)
+    shouldSendAlert(ctx, 'readiness_failure').then((canAlert) => {
+      if (canAlert) {
+        const recipient = ctx.env?.ADMIN_ALERT_EMAIL || 'admin@msklabs.com';
+        sendEmail({
+          to: recipient,
+          subject: `[ALERT] Service Readiness Failure (${ctx.requestId})`,
+          text: `Service Readiness Check Failed.\nStatus: DOWN\nD1: ${d1Status}\nR2: ${r2Status}\nCorrelation ID: ${ctx.requestId}\nTimestamp: ${new Date().toISOString()}`,
+          html: `<h2>[ALERT] Service Readiness Failure</h2><p><strong>Status:</strong> DOWN</p><p><strong>D1 Database:</strong> ${d1Status}</p><p><strong>R2 Storage:</strong> ${r2Status}</p><p><strong>Correlation ID:</strong> ${ctx.requestId}</p><p><strong>Timestamp:</strong> ${new Date().toISOString()}</p>`,
+          env: ctx.env
+        }).catch(() => {});
+      }
+    }).catch(() => {});
 
     return errorResponse(
       'Servis kullanılamıyor.',

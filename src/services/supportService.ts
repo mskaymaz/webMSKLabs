@@ -233,6 +233,22 @@ export async function updateSupportTicketService(
     WHERE id = ?
   `).bind(newStatus, newUrgency, newCategory, ticketId).run();
 
+  // Lifecycle Event Log (OBS-001)
+  try {
+    if (newStatus !== existing.status) {
+      await ctx.env.DB.prepare(`
+        INSERT INTO message_events (message_id, event_type, actor, metadata)
+        VALUES (?, 'STATUS_CHANGED', ?, ?)
+      `).bind(
+        ticketId,
+        ctx.user?.username || 'ADMIN',
+        JSON.stringify({ oldStatus: existing.status, newStatus, newUrgency })
+      ).run();
+    }
+  } catch {
+    // Ignore event insert error
+  }
+
   // Audit log
   try {
     await ctx.env.DB.prepare(`
@@ -430,6 +446,18 @@ export async function createPublicSupportTicketService(
     payload.message,
     payload.category || 'GENERAL'
   ).run();
+
+  try {
+    await ctx.env.DB.prepare(`
+      INSERT INTO message_events (message_id, event_type, actor, metadata)
+      VALUES (?, 'TICKET_CREATED', 'USER', ?)
+    `).bind(
+      ticketId,
+      JSON.stringify({ category: payload.category || 'GENERAL' })
+    ).run();
+  } catch {
+    // Ignore event insert failure
+  }
 
   return {
     status: 201,
