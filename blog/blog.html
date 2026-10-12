@@ -243,6 +243,73 @@
         </div>
       </div>
 
+      <!-- Yorum ve Değerlendirme Bölümü (INT-COM-001) -->
+      <section id="commentsSection" class="comments-section" style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color, #e2e8f0);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+          <h3 id="lblCommentsHeader" style="margin: 0; font-size: 1.2rem; font-weight: 700; color: var(--text-primary, #0f172a); display: flex; align-items: center; gap: 0.5rem;">
+            💬 <span id="lblCommentsHeaderTxt">Yorumlar & Değerlendirmeler</span>
+            <span id="commentsCountBadge" style="font-size: 0.78rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 999px; background: #e0f2fe; color: #0369a1;">0</span>
+          </h3>
+        </div>
+
+        <!-- Yorum Formu Kartı -->
+        <div class="comment-form-card" style="background: var(--bg-surface, #ffffff); border: 1px solid var(--border-color, #e2e8f0); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+          <h4 id="lblCommentFormTitle" style="margin: 0 0 0.5rem 0; font-size: 0.95rem; font-weight: 600; color: var(--text-primary, #1e293b);">
+            ✍️ Düşüncelerinizi Paylaşın
+          </h4>
+          <p id="lblCommentFormDesc" style="margin: 0 0 1rem 0; font-size: 0.8rem; color: var(--text-secondary, #64748b);">
+            Yorumunuz incelendikten ve onaylandıktan sonra burada yayınlanacaktır. E-posta adresiniz asla kamuya gösterilmez.
+          </p>
+
+          <form id="commentForm" onsubmit="handleCommentSubmit(event)">
+            <!-- Honeypot (Anti-bot gizli alan) -->
+            <div style="display: none !important;" aria-hidden="true">
+              <input type="text" id="commentHoneypot" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin-bottom: 0.75rem;">
+              <div>
+                <label for="commentAuthor" id="lblCommentAuthor" style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary, #475569); margin-bottom: 0.25rem;">
+                  İsim / Rumuz <span style="color: #ef4444;">*</span>
+                </label>
+                <input type="text" id="commentAuthor" required minlength="2" maxlength="50" placeholder="Örn: Ahmet Yılmaz" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.75rem; border: 1px solid var(--border-color, #cbd5e1); border-radius: 8px; font-size: 0.85rem; background: var(--bg-input, #ffffff); color: var(--text-primary, #0f172a);">
+              </div>
+              <div>
+                <label for="commentEmail" id="lblCommentEmail" style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary, #475569); margin-bottom: 0.25rem;">
+                  E-Posta <span style="color: #ef4444;">*</span> <span style="font-size: 0.72rem; font-weight: 400; color: #94a3b8;">(Gizli tutulur)</span>
+                </label>
+                <input type="email" id="commentEmail" required maxlength="255" placeholder="ornek@alanadi.com" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.75rem; border: 1px solid var(--border-color, #cbd5e1); border-radius: 8px; font-size: 0.85rem; background: var(--bg-input, #ffffff); color: var(--text-primary, #0f172a);">
+              </div>
+            </div>
+
+            <div style="margin-bottom: 0.75rem;">
+              <label for="commentText" id="lblCommentText" style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary, #475569); margin-bottom: 0.25rem;">
+                Yorumunuz <span style="color: #ef4444;">*</span>
+              </label>
+              <textarea id="commentText" required minlength="5" maxlength="1000" rows="3" placeholder="Makale hakkında görüşlerinizi, katkılarınızı veya sorularınızı yazabilirsiniz..." style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.75rem; border: 1px solid var(--border-color, #cbd5e1); border-radius: 8px; font-size: 0.85rem; background: var(--bg-input, #ffffff); color: var(--text-primary, #0f172a); font-family: inherit; resize: vertical;"></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+              <div id="commentFormAlert" style="display: none; font-size: 0.8rem; padding: 0.4rem 0.75rem; border-radius: 6px;"></div>
+              <button type="submit" id="btnSubmitComment" style="margin-left: auto; background: var(--bizce-primary, #0284c7); color: #ffffff; border: none; padding: 0.55rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.15s;">
+                <span id="btnSubmitCommentText">Yorumu Gönder 📨</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Onaylanmış Yorumlar Listesi -->
+        <div id="commentsListContainer">
+          <div id="commentsLoading" style="display: none; text-align: center; padding: 1.5rem; color: var(--text-secondary, #64748b); font-size: 0.85rem;">
+            ⏳ Yorumlar yükleniyor...
+          </div>
+          <div id="commentsEmpty" style="display: none; text-align: center; padding: 1.5rem; background: var(--bg-surface, #f8fafc); border-radius: 10px; border: 1px dashed var(--border-color, #cbd5e1); color: var(--text-secondary, #64748b); font-size: 0.85rem;">
+            Bu makaleye henüz yorum yapılmamış. İlk düşünceyi siz paylaşın! ✨
+          </div>
+          <div id="commentsList" style="display: flex; flex-direction: column; gap: 0.85rem;"></div>
+        </div>
+      </section>
+
       <div class="infeed-ad-container" style="margin-top: 2.5rem;">
         <div class="ad-placeholder">Sayfa Altı Reklam Alanı (Bottom Banner)</div>
       </div>
@@ -258,6 +325,7 @@
 
 <footer id="site-footer" class="site-footer"></footer>
 <script src="../assets/js/layout.js"></script>
+<script src="comments.js"></script>
 <script src="blog.js"></script>
 </body>
 </html>

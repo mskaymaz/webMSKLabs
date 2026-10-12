@@ -640,6 +640,9 @@ function openPost(id) {
   var readerView = document.getElementById('readerView');
   if (listView) listView.style.display = 'none';
   if (readerView) readerView.style.display = 'block';
+  if (typeof window.loadPostComments === 'function') {
+    window.loadPostComments(currentPost);
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -669,6 +672,9 @@ function showList() {
   var listView = document.getElementById('listView');
   if (readerView) readerView.style.display = 'none';
   if (listView) listView.style.display = 'block';
+  if (typeof window.resetCommentsUI === 'function') {
+    window.resetCommentsUI();
+  }
   updateHeaderAndTabs();
   renderSubCategories();
   renderPosts();
