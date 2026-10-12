@@ -2448,7 +2448,7 @@ body.lang-ar .static-page-card {
 /* Hakkımızda / Biz Kimiz Hero Image & Text Block */
 .hero-intro-section {
   text-align: center;
-  margin: 8px auto 22px auto;
+  margin: 8px auto 6px auto;
   max-width: 760px;
   padding: 0 10px;
 }
@@ -2520,15 +2520,12 @@ body.dark-theme .web-click-icon {
   font-size: 1.15rem;
   font-weight: 600;
   color: var(--primary-color);
-  margin: 0 0 8px 0;
+  margin: 0;
   line-height: 1.4;
 }
 
 .hero-intro-tagline {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  line-height: 1.55;
-  margin: 0;
+  display: none;
 }
 
 .about-hero-container {

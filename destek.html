@@ -267,35 +267,14 @@
       }
     });
 
-    const subjectEl = document.getElementById('subjectInput');
-    if (subjectEl) {
-      const subjectPlaceholders = {
-        tr: 'Örn: Profil sayfasında güncelleme hatası alıyorum',
-        en: 'E.g.: Getting update error on profile page',
-        ar: 'مثال: أواجه خطأ في التحديث في صفحة الملف الشخصي'
-      };
-      subjectEl.placeholder = subjectPlaceholders[lang] || subjectPlaceholders.tr;
-    }
-
-    const messageEl = document.getElementById('messageInput');
-    if (messageEl) {
-      const messagePlaceholders = {
-        tr: 'Talebinizi veya karşılaştığınız senaryoyu detaylıca açıklayınız.',
-        en: 'Explain your request or scenario in detail.',
-        ar: 'يرجى شرح طلبك أو السيناريو بالتفصيل.'
-      };
-      messageEl.placeholder = messagePlaceholders[lang] || messagePlaceholders.tr;
-    }
-
-    const emailEl = document.getElementById('emailInput');
-    if (emailEl) {
-      const emailPlaceholders = {
-        tr: 'ornek@domain.com',
-        en: 'example@domain.com',
-        ar: 'example@domain.com'
-      };
-      emailEl.placeholder = emailPlaceholders[lang] || emailPlaceholders.tr;
-    }
+    const phs = {
+      sub: { tr: 'Örn: Profil sayfasında güncelleme hatası alıyorum', en: 'E.g.: Getting update error on profile page', ar: 'مثال: أواجه خطأ في التحديث في صفحة الملف الشخصي' },
+      msg: { tr: 'Talebinizi veya karşılaştığınız senaryoyu detaylıca açıklayınız.', en: 'Explain your request or scenario in detail.', ar: 'يرجى شرح طلبك أو السيناريو بالتفصيل.' },
+      em: { tr: 'ornek@domain.com', en: 'example@domain.com', ar: 'example@domain.com' }
+    };
+    const sEl = document.getElementById('subjectInput'); if (sEl) sEl.placeholder = phs.sub[lang] || phs.sub.tr;
+    const mEl = document.getElementById('messageInput'); if (mEl) mEl.placeholder = phs.msg[lang] || phs.msg.tr;
+    const eEl = document.getElementById('emailInput'); if (eEl) eEl.placeholder = phs.em[lang] || phs.em.tr;
   }
 
   window.addEventListener('languageChanged', function(e) {
@@ -382,51 +361,61 @@
   // Handle Form Submit (API Call + Fallback)
   async function handleFormSubmit(e) {
     e.preventDefault();
-    
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.innerHTML = '⏳ <span>İletiliyor...</span>';
     submitBtn.disabled = true;
 
+    const emailVal = document.getElementById('emailInput').value.trim();
+    const subjectVal = document.getElementById('subjectInput').value.trim();
+    const messageVal = document.getElementById('messageInput').value.trim();
+    const categoryVal = document.getElementById('categoryInput').value;
+
+    let ticketId = generateTicketId();
     const payload = {
+      sender_name: appName ? (appName + ' Kullanıcısı') : 'Web Ziyaretçisi',
+      sender_email: emailVal || 'destek@msklabs.org',
+      subject: subjectVal,
+      content: messageVal,
+      category: categoryVal,
       app: appName,
       ver: appVer,
       os: appOs,
-      category: document.getElementById('categoryInput').value,
-      subject: document.getElementById('subjectInput').value,
-      message: document.getElementById('messageInput').value,
-      email: document.getElementById('emailInput').value
+      message: messageVal,
+      email: emailVal,
+      ticket_id: ticketId
     };
 
-    let ticketId = generateTicketId();
-
-    payload.ticket_id = ticketId;
-
-    const googleSheetsUrl = (window.SITE_CONFIG && window.SITE_CONFIG.googleSheetApiUrl) ? window.SITE_CONFIG.googleSheetApiUrl : 'https://script.google.com/macros/s/AKfycbxoT1OGEkYZ_1MJXv6XErJYjVe26qqtr2rZGIXiDXxbNG9gIzabfhWsPJhjInTlG3_NQw/exec';
-
     try {
-      // Direct POST to Google Apps Script Webhook
-      await fetch(googleSheetsUrl, {
+      const apiEndpoint = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl)
+        ? (window.SITE_CONFIG.apiUrl + '/support')
+        : 'http://localhost:8787/api/support';
+
+      const res = await fetch(apiEndpoint, {
         method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
         body: JSON.stringify(payload)
       });
-
-      // Success Screen
-      localStorage.removeItem('msk_support_draft_' + appName);
-      document.getElementById('ticketNumberDisplay').innerText = '#' + ticketId;
-      document.getElementById('supportFormCard').style.display = 'none';
-      document.getElementById('receiptCard').style.display = 'block';
+      if (res.ok) {
+        const json = await res.json().catch(function() { return null; });
+        if (json && (json.ticketId || json.ticket_id)) ticketId = json.ticketId || json.ticket_id;
+      }
     } catch (err) {
-      console.warn('Webhook İletim Hatası:', err);
-      // Fallback display if network fails
-      document.getElementById('ticketNumberDisplay').innerText = '#' + ticketId;
-      document.getElementById('supportFormCard').style.display = 'none';
-      document.getElementById('receiptCard').style.display = 'block';
-    } finally {
-      submitBtn.innerHTML = '🚀 <span>Talebi Gönder</span>';
-      submitBtn.disabled = false;
+      console.warn('Edge API iletimi fallback moduna geçti:', err);
     }
+
+    try {
+      const gUrl = (window.SITE_CONFIG && window.SITE_CONFIG.googleSheetApiUrl) ? window.SITE_CONFIG.googleSheetApiUrl : '';
+      if (gUrl) {
+        await fetch(gUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      }
+    } catch (gErr) {}
+
+    localStorage.removeItem('msk_support_draft_' + appName);
+    document.getElementById('ticketNumberDisplay').innerText = '#' + ticketId;
+    document.getElementById('supportFormCard').style.display = 'none';
+    document.getElementById('receiptCard').style.display = 'block';
+    submitBtn.innerHTML = '🚀 <span>Talebi Gönder</span>';
+    submitBtn.disabled = false;
   }
 
   // Copy Ticket Number

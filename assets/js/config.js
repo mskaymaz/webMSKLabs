@@ -7,6 +7,7 @@ window.SITE_CONFIG = {
   siteName: "MSK Labs",
   siteUrl: "https://msklabs.org",
   contactEmail: "msklabs.org@gmail.com",
+  apiUrl: (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) ? 'http://localhost:8787/api' : 'https://api.msklabs.org/api',
   googleSheetApiUrl: "https://script.google.com/macros/s/AKfycbxoT1OGEkYZ_1MJXv6XErJYjVe26qqtr2rZGIXiDXxbNG9gIzabfhWsPJhjInTlG3_NQw/exec",
   version: "1.0.0",
   getAppsData: function() {
