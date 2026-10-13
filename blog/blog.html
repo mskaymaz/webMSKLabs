@@ -289,6 +289,20 @@
               <textarea id="commentText" required minlength="5" maxlength="1000" rows="3" placeholder="Makale hakkında görüşlerinizi, katkılarınızı veya sorularınızı yazabilirsiniz..." style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.75rem; border: 1px solid var(--border-color, #cbd5e1); border-radius: 8px; font-size: 0.85rem; background: var(--bg-input, #ffffff); color: var(--text-primary, #0f172a); font-family: inherit; resize: vertical;"></textarea>
             </div>
 
+            <!-- Gerçek Kişi / İnsan Doğrulaması (Robot Koruması) -->
+            <div id="commentCaptchaRow" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+              <label for="commentCaptchaAnswer" id="lblCommentCaptcha" style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary, #475569); display: inline-flex; align-items: center; gap: 0.25rem;">
+                🛡️ <span id="lblCommentCaptchaText">Güvenlik Doğrulaması:</span>
+              </label>
+              <span id="commentCaptchaQuestion" style="font-size: 0.85rem; font-weight: 700; background: var(--bg-surface-alt, #f1f5f9); padding: 0.35rem 0.6rem; border-radius: 6px; border: 1px dashed var(--border-color, #cbd5e1); color: var(--text-primary, #0f172a); min-width: 65px; text-align: center;">
+                4 + 3 = ?
+              </span>
+              <input type="number" id="commentCaptchaAnswer" required placeholder="Cevap" style="width: 70px; padding: 0.45rem 0.5rem; border: 1px solid var(--border-color, #cbd5e1); border-radius: 6px; font-size: 0.85rem; text-align: center; background: var(--bg-input, #ffffff); color: var(--text-primary, #0f172a);">
+              <button type="button" id="btnRefreshCommentCaptcha" style="background: transparent; border: none; cursor: pointer; color: var(--text-secondary, #64748b); padding: 4px; font-size: 0.95rem;" title="Yeni Soru Üret">
+                🔄
+              </button>
+            </div>
+
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
               <div id="commentFormAlert" style="display: none; font-size: 0.8rem; padding: 0.4rem 0.75rem; border-radius: 6px;"></div>
               <button type="submit" id="btnSubmitComment" style="margin-left: auto; background: var(--bizce-primary, #0284c7); color: #ffffff; border: none; padding: 0.55rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.15s;">

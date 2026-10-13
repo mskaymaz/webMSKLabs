@@ -6,6 +6,17 @@
   'use strict';
 
   var currentActivePost = null;
+  var currentCaptcha = { a: 0, b: 0, answer: 0 };
+
+  function generateCaptcha() {
+    var a = Math.floor(Math.random() * 8) + 2;
+    var b = Math.floor(Math.random() * 8) + 1;
+    currentCaptcha = { a: a, b: b, answer: a + b };
+    var elQ = document.getElementById('commentCaptchaQuestion');
+    if (elQ) elQ.innerText = a + ' + ' + b + ' = ?';
+    var elAns = document.getElementById('commentCaptchaAnswer');
+    if (elAns) elAns.value = '';
+  }
 
   var I18N = {
     tr: {
@@ -20,7 +31,10 @@
       commentPlaceholder: 'Makale hakkında görüş ve katkılarınızı paylaşabilirsiniz...',
       submitBtn: 'Yorumu Gönder 📨',
       submittingBtn: 'Gönderiliyor... ⏳',
-      successMsg: 'Teşekkür ederiz! Yorumunuz incelenmek üzere alındı. Yönetici onayından sonra yayınlanacaktır.',
+      successMsg: 'Teşekkür ederiz! E-posta adresinize bir doğrulama bağlantısı gönderildi. Lütfen gelen kutunuzu kontrol edip "Yorumumu Onayla" butonuna tıklayınız. Onayınızın ardından yorumunuz yönetici incelemesine alınacaktır.',
+      captchaLabel: 'Güvenlik Doğrulaması:',
+      captchaPlaceholder: 'Cevap',
+      captchaError: 'Lütfen güvenlik doğrulamasını (robot testi) doğru yanıtlayınız.',
       emptyMsg: 'Bu makaleye henüz yorum yapılmamış. İlk düşünceyi siz paylaşın! ✨',
       loadingMsg: '⏳ Yorumlar yükleniyor...',
       errorMsg: 'Yorum gönderilirken bir hata oluştu. Lütfen bilgilerinizi kontrol edip tekrar deneyin.',
@@ -38,7 +52,10 @@
       commentPlaceholder: 'Share your thoughts and reflections on this article...',
       submitBtn: 'Submit Comment 📨',
       submittingBtn: 'Submitting... ⏳',
-      successMsg: 'Thank you! Your comment has been received and will be published after review.',
+      successMsg: 'Thank you! A confirmation link has been sent to your email. Please check your inbox and click "Confirm My Comment" to submit it for review.',
+      captchaLabel: 'Security Question:',
+      captchaPlaceholder: 'Answer',
+      captchaError: 'Please answer the security verification question correctly.',
       emptyMsg: 'No comments on this article yet. Be the first to share your thoughts! ✨',
       loadingMsg: '⏳ Loading comments...',
       errorMsg: 'An error occurred while submitting your comment. Please check inputs and try again.',
@@ -56,7 +73,10 @@
       commentPlaceholder: 'شاركنا أفكارك وملاحظاتك حول المقال...',
       submitBtn: 'إرسال التعليق 📨',
       submittingBtn: 'جارٍ الإرسال... ⏳',
-      successMsg: 'شكرًا لك! تم استلام تعليقك وسيتم نشره بعد موافقة الإدارة.',
+      successMsg: 'شكرًا لك! تم إرسال رابط تأكيد إلى بريدك الإلكتروني. يرجى مراجعة بريدك والنقر على "تأكيد تعليقي" لإرسال تعليقك للمراجعة.',
+      captchaLabel: 'التحقق الأمني:',
+      captchaPlaceholder: 'الإجابة',
+      captchaError: 'يرجى الإجابة على سؤال التحقق الأمني بشكل صحيح.',
       emptyMsg: 'لا توجد تعليقات على هذا المقال بعد. كن أول من يشارك برأيه! ✨',
       loadingMsg: '⏳ جاري تحميل التعليقات...',
       errorMsg: 'حدث خطأ أثناء إرسال التعليق. يرجى التحقق من المدخلات والمحاولة مرة أخرى.',
@@ -83,37 +103,30 @@
     var d = getDict();
     var elHeader = document.getElementById('lblCommentsHeaderTxt');
     if (elHeader) elHeader.innerText = d.header;
-
     var elFormTitle = document.getElementById('lblCommentFormTitle');
     if (elFormTitle) elFormTitle.innerText = d.formTitle;
-
     var elFormDesc = document.getElementById('lblCommentFormDesc');
     if (elFormDesc) elFormDesc.innerText = d.formDesc;
-
     var elAuthorLbl = document.getElementById('lblCommentAuthor');
     if (elAuthorLbl) elAuthorLbl.innerText = d.nameLabel;
-
     var elAuthorInp = document.getElementById('commentAuthor');
     if (elAuthorInp) elAuthorInp.setAttribute('placeholder', d.namePlaceholder);
-
     var elEmailLbl = document.getElementById('lblCommentEmail');
     if (elEmailLbl) elEmailLbl.innerText = d.emailLabel;
-
     var elEmailInp = document.getElementById('commentEmail');
     if (elEmailInp) elEmailInp.setAttribute('placeholder', d.emailPlaceholder);
-
     var elTextLbl = document.getElementById('lblCommentText');
     if (elTextLbl) elTextLbl.innerText = d.commentLabel;
-
     var elTextInp = document.getElementById('commentText');
     if (elTextInp) elTextInp.setAttribute('placeholder', d.commentPlaceholder);
-
     var elBtn = document.getElementById('btnSubmitCommentText');
     if (elBtn) elBtn.innerText = d.submitBtn;
-
+    var elCapLbl = document.getElementById('lblCommentCaptchaText');
+    if (elCapLbl) elCapLbl.innerText = d.captchaLabel || 'Güvenlik Doğrulaması:';
+    var elCapInp = document.getElementById('commentCaptchaAnswer');
+    if (elCapInp) elCapInp.setAttribute('placeholder', d.captchaPlaceholder || 'Cevap');
     var elEmpty = document.getElementById('commentsEmpty');
     if (elEmpty) elEmpty.innerText = d.emptyMsg;
-
     var elLoading = document.getElementById('commentsLoading');
     if (elLoading) elLoading.innerText = d.loadingMsg;
   }
@@ -294,6 +307,15 @@
       return;
     }
 
+    var captchaInp = document.getElementById('commentCaptchaAnswer');
+    var userCaptchaAns = captchaInp ? parseInt(captchaInp.value, 10) : NaN;
+    if (isNaN(userCaptchaAns) || userCaptchaAns !== currentCaptcha.answer) {
+      showAlert(d.captchaError, false);
+      generateCaptcha();
+      if (captchaInp) captchaInp.focus();
+      return;
+    }
+
     var postSlug = getPostSlug(currentActivePost);
     var postType = (currentActivePost && currentActivePost.type) ? currentActivePost.type : 'bizce';
 
@@ -309,7 +331,9 @@
       authorEmail: email,
       author_email: email,
       content: text,
-      comment_text: text
+      comment_text: text,
+      captcha_answer: userCaptchaAns,
+      captcha_expected: currentCaptcha.answer
     };
 
     var apiBase = getCommentsApiBase();
@@ -349,6 +373,7 @@
     .then(function() {
       showAlert(d.successMsg, true);
       if (textInp) textInp.value = '';
+      generateCaptcha();
     })
     .catch(function(err) {
       console.error('[COMMENT SUBMIT ERROR]', err);
@@ -357,6 +382,7 @@
       } else {
         showAlert(d.errorMsg, false);
       }
+      generateCaptcha();
     })
     .finally(function() {
       if (submitBtn) submitBtn.disabled = false;
@@ -377,11 +403,22 @@
     if (badge) badge.innerText = '0';
   }
 
+  function initCommentsModule() {
+    generateCaptcha();
+    var btnRefresh = document.getElementById('btnRefreshCommentCaptcha');
+    if (btnRefresh) {
+      btnRefresh.onclick = function() {
+        generateCaptcha();
+      };
+    }
+  }
+
   // Export to window
   window.loadPostComments = loadPostComments;
   window.handleCommentSubmit = handleCommentSubmit;
   window.resetCommentsUI = resetCommentsUI;
   window.updateCommentsI18n = updateCommentsI18n;
+  window.generateCommentCaptcha = generateCaptcha;
 
   window.addEventListener('languageChanged', function() {
     updateCommentsI18n();
@@ -389,5 +426,11 @@
       loadPostComments(currentActivePost);
     }
   });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCommentsModule);
+  } else {
+    initCommentsModule();
+  }
 
 })();

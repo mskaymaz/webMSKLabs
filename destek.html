@@ -40,22 +40,14 @@
   <div class="portfolio-container support-container">
 
     <!-- Ana Başlık -->
-    <h1 class="page-title">
-      <span class="lang-tr">Destek & Talep Merkezi</span>
-      <span class="lang-en">Support & Feedback</span>
-      <span class="lang-ar">مركز الدعم والطلبات</span>
-    </h1>
+    <h1 class="page-title"><span class="lang-tr">Destek & Talep Merkezi</span><span class="lang-en">Support & Feedback</span><span class="lang-ar">مركز الدعم والطلبات</span></h1>
 
     <!-- Dinamik Uygulama Bilgi Rozeti -->
     <div class="app-badge-banner" id="appBadgeBanner">
       <div class="app-badge-info">
         <div class="app-badge-icon" id="appBadgeIcon">📱</div>
         <div>
-          <div class="app-badge-title" id="appBadgeTitle">
-            <span class="lang-tr">MSK Labs Genel</span>
-            <span class="lang-en">MSK Labs General</span>
-            <span class="lang-ar">MSK Labs عام</span>
-          </div>
+          <div class="app-badge-title" id="appBadgeTitle"><span class="lang-tr">MSK Labs Genel</span><span class="lang-en">MSK Labs General</span><span class="lang-ar">MSK Labs عام</span></div>
           <div class="app-badge-meta">
             <span><span class="lang-tr">Sürüm:</span><span class="lang-en">Version:</span><span class="lang-ar">الإصدار:</span> <strong id="appBadgeVersion" class="app-badge-tag">Web</strong></span>
             <span><span class="lang-tr">Sistem:</span><span class="lang-en">OS:</span><span class="lang-ar">النظام:</span> <strong id="appBadgeOs" class="app-badge-tag"><span class="lang-tr">Windows / Web</span><span class="lang-en">Windows / Web</span><span class="lang-ar">ويندوز / الويب</span></strong></span>
@@ -67,42 +59,26 @@
     <!-- Form Kartı -->
     <div class="support-card" id="supportFormCard">
       <form id="feedbackForm" onsubmit="handleFormSubmit(event)">
-        
         <!-- Kategori Seçimi -->
         <div class="form-group">
-          <label class="form-label">
-            <span class="lang-tr">Talep Türü Seçiniz</span>
-            <span class="lang-en">Select Request Type</span>
-            <span class="lang-ar">اختر نوع الطلب</span>
-          </label>
+          <label class="form-label"><span class="lang-tr">Talep Türü Seçiniz</span><span class="lang-en">Select Request Type</span><span class="lang-ar">اختر نوع الطلب</span></label>
           
           <div class="category-grid">
             <div class="category-option selected" onclick="selectCategory('hata', this)">
               <span class="category-option-icon">🐛</span>
-              <span class="category-option-title lang-tr">Hata Bildirimi</span>
-              <span class="category-option-title lang-en">Bug Report</span>
-              <span class="category-option-title lang-ar">إبلاغ عن خطأ</span>
+              <span class="category-option-title lang-tr">Hata Bildirimi</span><span class="category-option-title lang-en">Bug Report</span><span class="category-option-title lang-ar">إبلاغ عن خطأ</span>
             </div>
-            
             <div class="category-option" onclick="selectCategory('istek', this)">
               <span class="category-option-icon">✨</span>
-              <span class="category-option-title lang-tr">Özellik Talebi</span>
-              <span class="category-option-title lang-en">Feature Request</span>
-              <span class="category-option-title lang-ar">طلب ميزة جديدة</span>
+              <span class="category-option-title lang-tr">Özellik Talebi</span><span class="category-option-title lang-en">Feature Request</span><span class="category-option-title lang-ar">طلب ميزة جديدة</span>
             </div>
-            
             <div class="category-option" onclick="selectCategory('tesekkur', this)">
               <span class="category-option-icon">❤️</span>
-              <span class="category-option-title lang-tr">Teşekkür / Övgü</span>
-              <span class="category-option-title lang-en">Feedback</span>
-              <span class="category-option-title lang-ar">شكر وتقييم</span>
+              <span class="category-option-title lang-tr">Teşekkür / Övgü</span><span class="category-option-title lang-en">Feedback</span><span class="category-option-title lang-ar">شكر وتقييم</span>
             </div>
-            
             <div class="category-option" onclick="selectCategory('fikir', this)">
               <span class="category-option-icon">💡</span>
-              <span class="category-option-title lang-tr">Yeni Fikir</span>
-              <span class="category-option-title lang-en">New App Idea</span>
-              <span class="category-option-title lang-ar">فكرة تطبيق جديد</span>
+              <span class="category-option-title lang-tr">Yeni Fikir</span><span class="category-option-title lang-en">New App Idea</span><span class="category-option-title lang-ar">فكرة تطبيق جديد</span>
             </div>
           </div>
           <input type="hidden" id="categoryInput" value="hata">
@@ -145,6 +121,11 @@
           </div>
         </div>
 
+        <!-- Honeypot (Anti-bot gizli alan) -->
+        <div style="display: none !important;" aria-hidden="true">
+          <input type="text" id="supportHoneypot" name="hp_company_field" tabindex="-1" autocomplete="off">
+        </div>
+
         <!-- E-posta Adresi -->
         <div class="form-group">
           <label class="form-label" for="emailInput">
@@ -159,6 +140,18 @@
             placeholder="ornek@domain.com" oninput="saveDraft()">
         </div>
 
+        <!-- Gerçek Kişi / İnsan Doğrulaması (Robot Koruması) -->
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label class="form-label" for="supportCaptchaAnswer">
+            <span>🛡️ <span class="lang-tr">Güvenlik Doğrulaması:</span><span class="lang-en">Security Verification:</span><span class="lang-ar">التحقق الأمني:</span></span>
+          </label>
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <span id="supportCaptchaQuestion" style="font-size: 0.95rem; font-weight: 700; background: var(--bg-surface-alt, #f1f5f9); padding: 0.5rem 0.75rem; border-radius: 8px; border: 1px dashed var(--border-color, #cbd5e1); color: var(--text-main, #0f172a); min-width: 70px; text-align: center;">4 + 3 = ?</span>
+            <input type="number" id="supportCaptchaAnswer" required placeholder="?" style="width: 80px; padding: 0.55rem; text-align: center; border: 1px solid var(--border-color, #cbd5e1); border-radius: 8px; font-size: 0.95rem; background: var(--bg-input, #ffffff); color: var(--text-main, #0f172a);">
+            <button type="button" onclick="generateSupportCaptcha()" style="background: transparent; border: none; cursor: pointer; color: var(--text-muted, #64748b); padding: 4px; font-size: 1.1rem;" title="Yeni Soru Üret">🔄</button>
+          </div>
+        </div>
+
         <button type="submit" class="submit-btn" id="submitBtn">
           <span>🚀 <span class="lang-tr">Talebi Gönder</span><span class="lang-en">Submit Request</span><span class="lang-ar">إرسال الطلب</span></span>
         </button>
@@ -169,48 +162,26 @@
     <!-- Bilet Makbuzu (Gönderim Sonrası Ekran) -->
     <div class="receipt-card" id="receiptCard">
       <div class="receipt-icon">✓</div>
-      
-      <h2>
-        <span class="lang-tr">Talebiniz Alındı ve Kaydedildi!</span>
-        <span class="lang-en">Request Received & Saved!</span>
-        <span class="lang-ar">تم استلام طلبك بنجاح!</span>
-      </h2>
+      <h2><span class="lang-tr">Talebiniz Alındı ve Kaydedildi!</span><span class="lang-en">Request Received & Saved!</span><span class="lang-ar">تم استلام طلبك بنجاح!</span></h2>
       <p style="color: var(--text-muted); font-size:0.95rem;">
         <span class="lang-tr">Talebiniz sistemimize ulaşmış ve yapay zeka analiz kuyruğuna alınmıştır.</span>
         <span class="lang-en">Your request has reached our system and entered the AI analysis queue.</span>
         <span class="lang-ar">وصل طلبك إلى نظامنا ودخل في قائمة تحليلات الذكاء الاصطناعي.</span>
       </p>
-
       <div class="ticket-number-box">
-        <span>
-          <span class="lang-tr">BİLET NUMARANIZ</span>
-          <span class="lang-en">YOUR TICKET NUMBER</span>
-          <span class="lang-ar">رقم التذكرة الخاص بك</span>
-        </span><br>
+        <span><span class="lang-tr">BİLET NUMARANIZ</span><span class="lang-en">YOUR TICKET NUMBER</span><span class="lang-ar">رقم التذكرة الخاص بك</span></span><br>
         <span class="ticket-number-value" id="ticketNumberDisplay">#MSK-84920</span>
-        <button type="button" class="copy-ticket-btn" onclick="copyTicketNumber()">
-          <span class="lang-tr">Kopyala</span><span class="lang-en">Copy</span><span class="lang-ar">نسخ</span>
-        </button>
+        <button type="button" class="copy-ticket-btn" onclick="copyTicketNumber()"><span class="lang-tr">Kopyala</span><span class="lang-en">Copy</span><span class="lang-ar">نسخ</span></button>
       </div>
 
       <div class="status-timeline">
         <div class="status-item">
           <div class="status-dot"></div>
-          <span>
-            <strong class="lang-tr">Sunucu Durumu:</strong><strong class="lang-en">Server Status:</strong><strong class="lang-ar">حالة السيرفر:</strong>
-            <span class="lang-tr">Talebiniz başarıyla kaydedildi.</span>
-            <span class="lang-en">Your request was saved successfully.</span>
-            <span class="lang-ar">تم حفظ طلبك بنجاح.</span>
-          </span>
+          <span><strong class="lang-tr">Sunucu Durumu:</strong><strong class="lang-en">Server Status:</strong><strong class="lang-ar">حالة السيرفر:</strong> <span class="lang-tr">Talebiniz başarıyla kaydedildi.</span><span class="lang-en">Your request was saved successfully.</span><span class="lang-ar">تم حفظ طلبك بنجاح.</span></span>
         </div>
         <div class="status-item">
           <div class="status-dot" style="background:#0284c7;"></div>
-          <span>
-            <strong class="lang-tr">AI Analiz Kuyruğu:</strong><strong class="lang-en">AI Queue:</strong><strong class="lang-ar">تحليل الذكاء الاصطناعي:</strong>
-            <span class="lang-tr">Gemini Flash ile sınıflandırma yapılıyor.</span>
-            <span class="lang-en">Classifying via Gemini Flash AI.</span>
-            <span class="lang-ar">جاري التصنيف بواسطة الذكاء الاصطناعي.</span>
-          </span>
+          <span><strong class="lang-tr">AI Analiz Kuyruğu:</strong><strong class="lang-en">AI Queue:</strong><strong class="lang-ar">تحليل الذكاء الاصطناعي:</strong> <span class="lang-tr">Gemini Flash ile sınıflandırma yapılıyor.</span><span class="lang-en">Classifying via Gemini Flash AI.</span><span class="lang-ar">جاري التصنيف بواسطة الذكاء الاصطناعي.</span></span>
         </div>
       </div>
 
@@ -348,19 +319,48 @@
       else activeLang = 'tr';
       saveToStorage = false;
     }
-    
     setLang(activeLang || 'tr', saveToStorage);
+    generateSupportCaptcha();
   });
 
-  // Ticket ID Generator
+  // Ticket ID Generator & Captcha State
   function generateTicketId() {
-    const rand = Math.floor(10000 + Math.random() * 90000);
-    return 'MSK-' + rand;
+    return 'MSK-' + Math.floor(10000 + Math.random() * 90000);
+  }
+
+  let supportCaptcha = { a: 0, b: 0, answer: 0 };
+  function generateSupportCaptcha() {
+    const a = Math.floor(Math.random() * 8) + 2;
+    const b = Math.floor(Math.random() * 8) + 1;
+    supportCaptcha = { a, b, answer: a + b };
+    const qEl = document.getElementById('supportCaptchaQuestion');
+    if (qEl) qEl.innerText = `${a} + ${b} = ?`;
+    const ansEl = document.getElementById('supportCaptchaAnswer');
+    if (ansEl) ansEl.value = '';
   }
 
   // Handle Form Submit (API Call + Fallback)
   async function handleFormSubmit(e) {
     e.preventDefault();
+    const hp = document.getElementById('supportHoneypot');
+    if (hp && hp.value) {
+      document.getElementById('ticketNumberDisplay').innerText = '#' + generateTicketId();
+      document.getElementById('supportFormCard').style.display = 'none';
+      document.getElementById('receiptCard').style.display = 'block';
+      return;
+    }
+
+    const captchaAns = parseInt(document.getElementById('supportCaptchaAnswer').value, 10);
+    if (isNaN(captchaAns) || captchaAns !== supportCaptcha.answer) {
+      const lang = document.documentElement.getAttribute('lang') || 'tr';
+      const msg = lang === 'ar' ? 'يرجى الإجابة على سؤال التحقق الأمني بشكل صحيح.' : (lang === 'en' ? 'Please answer the security verification correctly.' : 'Lütfen güvenlik doğrulamasını (robot testi) doğru yanıtlayınız.');
+      alert(msg);
+      generateSupportCaptcha();
+      const el = document.getElementById('supportCaptchaAnswer');
+      if (el) el.focus();
+      return;
+    }
+
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.innerHTML = '⏳ <span>İletiliyor...</span>';
     submitBtn.disabled = true;
@@ -382,7 +382,9 @@
       os: appOs,
       message: messageVal,
       email: emailVal,
-      ticket_id: ticketId
+      ticket_id: ticketId,
+      captcha_answer: captchaAns,
+      captcha_expected: supportCaptcha.answer
     };
 
     try {
@@ -416,6 +418,7 @@
     document.getElementById('receiptCard').style.display = 'block';
     submitBtn.innerHTML = '🚀 <span>Talebi Gönder</span>';
     submitBtn.disabled = false;
+    generateSupportCaptcha();
   }
 
   // Copy Ticket Number
@@ -429,6 +432,7 @@
   // Reset Form for New Request
   function resetForm() {
     document.getElementById('feedbackForm').reset();
+    generateSupportCaptcha();
     document.getElementById('supportFormCard').style.display = 'block';
     document.getElementById('receiptCard').style.display = 'none';
   }
