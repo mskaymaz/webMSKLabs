@@ -24,6 +24,15 @@ function adminRewritePlugin(): Plugin {
 }
 
 export default defineConfig({
+  server: {
+    port: 5174,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8787',
+        changeOrigin: true
+      }
+    }
+  },
   plugins: [
     react(),
     adminRewritePlugin(),

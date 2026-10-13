@@ -206,6 +206,13 @@
     return card;
   }
 
+  function getCommentsApiBase() {
+    if (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl) {
+      return window.SITE_CONFIG.apiUrl;
+    }
+    return '/api';
+  }
+
   function loadPostComments(post) {
     currentActivePost = post;
     updateCommentsI18n();
@@ -222,7 +229,8 @@
     if (loading) loading.style.display = 'block';
     if (badge) badge.innerText = '0';
 
-    var apiUrl = '/api/v1/comments?postSlug=' + encodeURIComponent(slug);
+    var apiBase = getCommentsApiBase();
+    var apiUrl = apiBase + '/comments?post_slug=' + encodeURIComponent(slug);
 
     fetch(apiUrl)
       .then(function(res) {
@@ -304,7 +312,10 @@
       comment_text: text
     };
 
-    fetch('/api/v1/comments', {
+    var apiBase = getCommentsApiBase();
+    var primaryUrl = apiBase + '/comments';
+
+    fetch(primaryUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -329,6 +340,8 @@
       if (!res.ok) {
         return res.json().then(function(errJson) {
           throw new Error(errJson.error || errJson.message || 'API_ERROR');
+        }).catch(function() {
+          throw new Error('API_ERROR');
         });
       }
       return res.json();
@@ -338,6 +351,7 @@
       if (textInp) textInp.value = '';
     })
     .catch(function(err) {
+      console.error('[COMMENT SUBMIT ERROR]', err);
       if (err.message === 'RATE_LIMIT') {
         showAlert(d.rateLimitMsg, false);
       } else {
