@@ -44,4 +44,5 @@ Bu dosya, msklabs.org/destek.html sayfasinin ve arka plan motorunun adim adim ge
 ## Adim 6: Güvenlik Doğrulaması & Robot Koruması (Anti-Bot & Double Opt-in)
 - [x] 6.1 Destek ve Blog yorumu formlarında dinamik matematik testi (sıfır maliyet, insan doğrulaması).
 - [x] 6.2 Bot yakalayıcı bal küpü (honeypot) alanı entegrasyonu.
-- [x] 6.3 Blog yorumları için çift aşamalı e-posta doğrulama (Double Opt-in) entegrasyonu.
+- [x] 6.3 Blog yorumları için çift aşamalı e-posta doğrulama (Double Opt-in) entegrasyonu.
+- [x] 6.4 Destek taleplerinde anlık DNS MX e-posta geçerlilik denetimi ve makbuz ekranında TR/EN/AR uyarı balonu entegrasyonu (14.10.2026 - 10:25).

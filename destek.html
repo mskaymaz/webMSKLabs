@@ -174,6 +174,21 @@
         <button type="button" class="copy-ticket-btn" onclick="copyTicketNumber()"><span class="lang-tr">Kopyala</span><span class="lang-en">Copy</span><span class="lang-ar">نسخ</span></button>
       </div>
 
+      <!-- E-Posta Doğrulama Uyarı Balonu -->
+      <div id="emailWarningBanner" style="display: none; margin: 16px 0; padding: 12px 14px; border-radius: 10px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4); color: #dc2626; text-align: left; font-size: 0.88rem; line-height: 1.45;">
+        <div style="font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <span>⚠️</span>
+          <span class="lang-tr">E-Posta Adresiniz Doğrulanamadı!</span>
+          <span class="lang-en">Email Address Could Not Be Verified!</span>
+          <span class="lang-ar">تعذر التحقق من بريدك الإلكتروني!</span>
+        </div>
+        <div>
+          <span class="lang-tr">Girdiğiniz e-posta sunucusuna ulaşılamadı. Talebiniz yöneticilerimize iletildi ancak geçersiz e-posta sebebiyle tarafınıza <strong>yanıt e-postası iletilemeyecektir.</strong></span>
+          <span class="lang-en">Your mail server could not be reached. Your request reached our team, but we will <strong>not be able to send an email reply</strong> because the address is invalid.</span>
+          <span class="lang-ar">تعذر الوصول إلى خادم البريد. وصل طلبك ولكن <strong>لن نتمكن من إرسال رد عبر البريد الإلكتروني</strong> لعدم صلاحية العنوان.</span>
+        </div>
+      </div>
+
       <div class="status-timeline">
         <div class="status-item">
           <div class="status-dot"></div>
@@ -190,52 +205,29 @@
       </button>
     </div>
 
-    <!-- Alt Bilgi / Footer -->
-    
-
-  </div> <!-- .portfolio-container Bitişi -->
-
-  <!-- Sağ Reklam -->
-  <aside class="desktop-ad desktop-ad-right">
-    <div class="ad-placeholder">Masaüstü Sağ Reklam<br>(120x300)</div>
-  </aside>
-
-</div> <!-- .layout-wrapper Bitişi -->
+  </div>
+  <aside class="desktop-ad desktop-ad-right"><div class="ad-placeholder">Masaüstü Sağ Reklam<br>(120x300)</div></aside>
+</div>
 
 <script>
-  // Dynamic URL Param Parsing
   const urlParams = new URLSearchParams(window.location.search);
-  const rawAppParam = urlParams.get('app');
-  const appName = rawAppParam || 'MSK Labs Genel';
-  const rawVerParam = urlParams.get('ver');
-  const appVer = rawVerParam || 'Web';
-  const rawOsParam = urlParams.get('os');
-  const appOs = rawOsParam || (navigator.platform.includes('Win') ? 'Windows' : 'Mobil');
+  const rawAppParam = urlParams.get('app'), appName = rawAppParam || 'MSK Labs Genel';
+  const rawVerParam = urlParams.get('ver'), appVer = rawVerParam || 'Web';
+  const rawOsParam = urlParams.get('os'), appOs = rawOsParam || (navigator.platform.includes('Win') ? 'Windows' : 'Mobil');
 
   if (rawAppParam) document.getElementById('appBadgeTitle').innerText = appName;
   if (rawVerParam) document.getElementById('appBadgeVersion').innerText = appVer;
   if (rawOsParam) document.getElementById('appBadgeOs').innerText = appOs;
 
-  // Language Switcher Logic
   function setLang(lang, saveToStorage) {
-    if (!lang) {
-      try { lang = localStorage.getItem('user_lang'); } catch(e) {}
-    }
+    if (!lang) { try { lang = localStorage.getItem('user_lang'); } catch(e) {} }
     lang = lang || 'tr';
-    if (saveToStorage !== false) {
-      try { localStorage.setItem('user_lang', lang); } catch(e) {}
-    }
-    
+    if (saveToStorage !== false) { try { localStorage.setItem('user_lang', lang); } catch(e) {} }
     document.body.className = 'lang-' + lang;
     document.documentElement.setAttribute('lang', lang);
     document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-    
     document.querySelectorAll('.lang-switcher button').forEach(function(btn) {
-      if (btn.getAttribute('data-lang') === lang) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
+      if (btn.getAttribute('data-lang') === lang) btn.classList.add('active'); else btn.classList.remove('active');
     });
 
     const phs = {
@@ -249,12 +241,9 @@
   }
 
   window.addEventListener('languageChanged', function(e) {
-    if (e.detail && e.detail.lang) {
-      setLang(e.detail.lang);
-    }
+    if (e.detail && e.detail.lang) setLang(e.detail.lang);
   });
 
-  // Category Selection
   function selectCategory(cat, element) {
     document.querySelectorAll('.category-option').forEach(el => el.classList.remove('selected'));
     element.classList.add('selected');
@@ -262,14 +251,12 @@
     saveDraft();
   }
 
-  // Handle Textarea Input & Counter
   function handleMessageInput() {
     const txt = document.getElementById('messageInput').value;
     document.getElementById('charCounter').innerText = txt.length;
     saveDraft();
   }
 
-  // Auto Draft Storage (localStorage)
   function saveDraft() {
     const draft = {
       category: document.getElementById('categoryInput').value,
@@ -278,13 +265,11 @@
       email: document.getElementById('emailInput').value
     };
     localStorage.setItem('msk_support_draft_' + appName, JSON.stringify(draft));
-    
     const indicator = document.getElementById('draftIndicator');
     indicator.classList.add('visible');
     setTimeout(() => { indicator.classList.remove('visible'); }, 2000);
   }
 
-  // Load Draft on Startup
   window.addEventListener('DOMContentLoaded', () => {
     const saved = localStorage.getItem('msk_support_draft_' + appName);
     if (saved) {
@@ -299,19 +284,13 @@
       } catch (e) {}
     }
 
-    // Initialize Language
     const langParam = urlParams.get('lang');
-    let savedLang = null;
-    let saveToStorage = true;
+    let savedLang = null, saveToStorage = true;
     try { savedLang = localStorage.getItem('user_lang'); } catch(e) {}
-    
     let activeLang = null;
-    if (langParam) {
-      activeLang = langParam.toLowerCase();
-      saveToStorage = false;
-    } else if (savedLang) {
-      activeLang = savedLang;
-    } else {
+    if (langParam) { activeLang = langParam.toLowerCase(); saveToStorage = false; }
+    else if (savedLang) { activeLang = savedLang; }
+    else {
       const sysLang = (navigator.language || '').toLowerCase();
       if (sysLang.indexOf('tr') === 0) activeLang = 'tr';
       else if (sysLang.indexOf('ar') === 0) activeLang = 'ar';
@@ -397,19 +376,23 @@
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
         body: JSON.stringify(payload)
       });
+      let isEmailValid = true;
       if (res.ok) {
         const json = await res.json().catch(function() { return null; });
-        if (json && (json.ticketId || json.ticket_id)) ticketId = json.ticketId || json.ticket_id;
+        if (json) {
+          if (json.ticketId || json.ticket_id) ticketId = json.ticketId || json.ticket_id;
+          if (json.email_valid === false || json.email_status === 'invalid') isEmailValid = false;
+        }
       }
+      const warnBanner = document.getElementById('emailWarningBanner');
+      if (warnBanner) warnBanner.style.display = isEmailValid ? 'none' : 'block';
     } catch (err) {
       console.warn('Edge API iletimi fallback moduna geçti:', err);
     }
 
     try {
       const gUrl = (window.SITE_CONFIG && window.SITE_CONFIG.googleSheetApiUrl) ? window.SITE_CONFIG.googleSheetApiUrl : '';
-      if (gUrl) {
-        await fetch(gUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      }
+      if (gUrl) await fetch(gUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
     } catch (gErr) {}
 
     localStorage.removeItem('msk_support_draft_' + appName);
@@ -421,18 +404,16 @@
     generateSupportCaptcha();
   }
 
-  // Copy Ticket Number
   function copyTicketNumber() {
     const ticketText = document.getElementById('ticketNumberDisplay').innerText;
-    navigator.clipboard.writeText(ticketText).then(() => {
-      alert('Bilet numaranız kopyalandı: ' + ticketText);
-    });
+    navigator.clipboard.writeText(ticketText).then(() => { alert('Bilet numaranız kopyalandı: ' + ticketText); });
   }
 
-  // Reset Form for New Request
   function resetForm() {
     document.getElementById('feedbackForm').reset();
     generateSupportCaptcha();
+    const wb = document.getElementById('emailWarningBanner');
+    if (wb) wb.style.display = 'none';
     document.getElementById('supportFormCard').style.display = 'block';
     document.getElementById('receiptCard').style.display = 'none';
   }
