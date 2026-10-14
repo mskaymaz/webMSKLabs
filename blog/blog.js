@@ -160,6 +160,12 @@ function updateHeaderAndTabs() {
       else if (currentLang === 'en') mainTitle.innerText = '📰 NEWS';
       else mainTitle.innerText = '📰 GÜNCEL';
     }
+  } else if (currentSection === 'vlog') {
+    if (mainTitle) {
+      if (currentLang === 'ar') mainTitle.innerText = '🎬 مدونة الفيديو';
+      else if (currentLang === 'en') mainTitle.innerText = '🎬 VLOG';
+      else mainTitle.innerText = '🎬 VLOG';
+    }
   } else {
     if (btnBizce) btnBizce.className = 'section-tab-btn active-bizce';
     if (mainTitle) {
@@ -235,6 +241,9 @@ function renderSubCategories() {
       '<button class="cat-pill ' + (currentSubFilter === 'all' ? 'active' : '') + '" onclick="setSubFilter(\'all\')">' + tAllGuncel + '</button>' +
       '<button class="cat-pill ' + (currentSubFilter === 'announce' ? 'active' : '') + '" onclick="setSubFilter(\'announce\')">' + tAnnounce + '</button>' +
       '<button class="cat-pill ' + (currentSubFilter === 'release' ? 'active' : '') + '" onclick="setSubFilter(\'release\')">' + tReleases + '</button>';
+  } else if (currentSection === 'vlog') {
+    var tAllVlog = (currentLang === 'ar' ? '🌟 جميع الفيديوهات' : (currentLang === 'en' ? '🌟 All Videos' : '🌟 Tüm Videolar'));
+    pillsContainer.innerHTML = '<button class="cat-pill active" onclick="setSubFilter(\'all\')">' + tAllVlog + '</button>';
   } else {
     var tAllBizce = (currentLang === 'ar' ? '🌟 جميع مقالات بيزجه' : (currentLang === 'en' ? '🌟 All Bizce Articles' : '🌟 Tüm Bizce Yazıları'));
     var tTech = (currentLang === 'ar' ? '💻 التكنولوجيا' : (currentLang === 'en' ? '💻 Technology' : '💻 Teknoloji'));
@@ -469,7 +478,12 @@ function renderPosts() {
   var filtered = blogPostsData.filter(function(p) {
     return p.type === currentSection;
   }).sort(function(a, b) {
-    return (b.id || 0) - (a.id || 0);
+    if (a.published_at && b.published_at) {
+      return new Date(b.published_at) - new Date(a.published_at);
+    }
+    var aNum = parseInt(String(a.id).replace(/\D/g, ''), 10) || 0;
+    var bNum = parseInt(String(b.id).replace(/\D/g, ''), 10) || 0;
+    return bNum - aNum;
   });
 
   var featuredPosts = filtered.slice(0, 3);
@@ -615,7 +629,9 @@ function updateBlogMetaAndSchema(post, langData) {
 
 function openPost(id) {
   stopTTS();
-  currentPost = blogPostsData.find(function(p) { return p.id === id; });
+  currentPost = blogPostsData.find(function(p) {
+    return p.id === id || String(p.id) === String(id) || p.slug === id;
+  });
   if (!currentPost) return;
 
   currentSection = currentPost.type;
@@ -623,6 +639,20 @@ function openPost(id) {
   updateReaderViewLanguage();
   toggleTTSAccordion(false);
   checkAdminPreListenUI();
+
+  // Video Player Yönetimi
+  var videoWrapper = document.getElementById('postVideoWrapper');
+  var videoIframe = document.getElementById('postVideoIframe');
+  if (videoWrapper && videoIframe) {
+    var embedUrl = getYouTubeEmbedUrl(currentPost.video_url);
+    if (embedUrl) {
+      videoIframe.src = embedUrl;
+      videoWrapper.style.display = 'block';
+    } else {
+      videoIframe.src = '';
+      videoWrapper.style.display = 'none';
+    }
+  }
 
   // Dinamik Sekme Başlığı, Meta Etiketleri, Schema.org ve URL Parametresi Güncelleme
   var langData = currentPost[currentLang] || currentPost['tr'];
@@ -648,6 +678,12 @@ function openPost(id) {
 
 function showList() {
   stopTTS();
+  var videoWrapper = document.getElementById('postVideoWrapper');
+  var videoIframe = document.getElementById('postVideoIframe');
+  if (videoWrapper && videoIframe) {
+    videoIframe.src = '';
+    videoWrapper.style.display = 'none';
+  }
   currentPost = null;
   document.title = 'MSK Labs - Bizce & Anıltılar & Güncel Yayın Platformu';
 
@@ -1161,15 +1197,17 @@ window.addEventListener('languageChanged', function(e) {
 function handleUrlParams() {
   var params = new URLSearchParams(window.location.search);
   var typeParam = (params.get('type') || params.get('cat') || '').toLowerCase();
-  var postIdParam = parseInt(params.get('id') || params.get('post') || '0', 10);
+  var postIdParam = params.get('id') || params.get('post') || '';
   var sec = 'bizce';
   if (typeParam === 'anilts' || typeParam === 'aniltilar' || typeParam === 'anilti') {
     sec = 'anilts';
   } else if (typeParam === 'guncel' || typeParam === 'news') {
     sec = 'guncel';
+  } else if (typeParam === 'vlog') {
+    sec = 'vlog';
   }
   switchSection(sec);
-  if (postIdParam > 0) {
+  if (postIdParam) {
     openPost(postIdParam);
   }
 }
@@ -1218,6 +1256,7 @@ document.addEventListener("DOMContentLoaded", function() {
   handleUrlParams();
   setLang(currentLang, saveToStorage);
   applyFontSize();
+  loadRemotePosts();
 });
 
 // Intercept clicks on Bizce, Anıltılar & Güncel nav links for instant list view switching without reload
@@ -1313,4 +1352,96 @@ function changeFontSize(delta) {
 function resetFontSize() {
   currentFontOffset = 0;
   applyFontSize();
+}
+
+/**
+ * YouTube Video URL Parser: converts various YouTube formats into privacy-enhanced embed URL
+ */
+function getYouTubeEmbedUrl(url) {
+  if (!url || typeof url !== 'string') return null;
+  var trimmed = url.trim();
+  if (!trimmed) return null;
+  var match = trimmed.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|watch\?.+&v=))([\w-]{11})/);
+  if (match && match[1]) {
+    return 'https://www.youtube-nocookie.com/embed/' + match[1] + '?rel=0';
+  }
+  return null;
+}
+
+/**
+ * Cloudflare D1 Dinamik Blog Yazıları Yükleyicisi
+ * Resilient: Eğer API başarısız olursa yerel statik verilerle kesintisiz çalışır.
+ */
+function loadRemotePosts() {
+  var apiUrl = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl) ? window.SITE_CONFIG.apiUrl : 'http://localhost:8787/api';
+  return fetch(apiUrl + '/v1/posts?limit=50')
+    .then(function(res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(function(data) {
+      if (data && Array.isArray(data.posts) && data.posts.length > 0) {
+        var remotePosts = data.posts.map(function(p) {
+          var sec = p.channel_slug === 'aniltilar' ? 'anilts' : p.channel_slug;
+          var dateStr = p.published_at
+            ? new Date(p.published_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
+            : '2026';
+
+          return {
+            id: p.id,
+            slug: p.slug,
+            type: sec,
+            category: p.channel_name_tr || 'Genel',
+            category_en: p.channel_name_en || 'General',
+            category_ar: p.channel_name_ar || 'عام',
+            date: dateStr,
+            readTime: '5 dk okuma',
+            icon: sec === 'anilts' ? '📖' : (sec === 'guncel' ? '📰' : (sec === 'vlog' ? '🎬' : '💡')),
+            image: p.cover_image || null,
+            video_url: p.video_url || null,
+            published_at: p.published_at,
+            tr: {
+              title: p.title_tr || p.title || '',
+              summary: p.summary_tr || p.summary || '',
+              content: p.content_tr || p.content || ''
+            },
+            en: {
+              title: p.title_en || p.title || '',
+              summary: p.summary_en || p.summary || '',
+              content: p.content_en || p.content || ''
+            },
+            ar: {
+              title: p.title_ar || p.title || '',
+              summary: p.summary_ar || p.summary || '',
+              content: p.content_ar || p.content || ''
+            }
+          };
+        });
+
+        blogPostsData = remotePosts;
+
+        var readerView = document.getElementById('readerView');
+        var isReading = (currentPost !== null && readerView && readerView.style.display !== 'none');
+        if (isReading) {
+          var found = blogPostsData.find(function(p) {
+            return p.id === currentPost.id || String(p.id) === String(currentPost.id) || p.slug === currentPost.slug;
+          });
+          if (found) {
+            currentPost = found;
+            updateReaderViewLanguage();
+          }
+        } else {
+          var params = new URLSearchParams(window.location.search);
+          var pId = params.get('id') || params.get('post');
+          if (pId) {
+            openPost(pId);
+          } else {
+            renderPosts();
+          }
+        }
+      }
+    })
+    .catch(function(err) {
+      console.warn('[MSK Blog] Remote posts fetch fallback to static data:', err.message);
+    });
 }
