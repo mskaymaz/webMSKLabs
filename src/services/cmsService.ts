@@ -14,6 +14,7 @@ export interface CmsPost {
   summary_en?: string;
   summary_ar?: string;
   cover_image?: string;
+  video_url?: string;
   meta_keywords?: string;
   author_name?: string;
   status: 'DRAFT' | 'REVIEW' | 'APPROVED' | 'PUBLISHED' | 'UNPUBLISHED' | 'ARCHIVED';

@@ -30,7 +30,7 @@ async function handlePublicPostsList(ctx: any) {
   if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
     try {
       const res = await ctx.env.DB.prepare(`
-        SELECT id, slug, title_tr, content_tr, summary_tr, cover_image, status, published_at, created_at
+        SELECT id, slug, title_tr, content_tr, summary_tr, cover_image, video_url, status, published_at, created_at
         FROM blog_posts
         WHERE status = 'PUBLISHED' AND (published_at IS NULL OR published_at <= CURRENT_TIMESTAMP)
         ORDER BY published_at DESC LIMIT 50
@@ -57,7 +57,7 @@ async function handlePublicPostDetail(ctx: any) {
   if (ctx.env?.DB && typeof ctx.env.DB.prepare === 'function') {
     try {
       post = await ctx.env.DB.prepare(`
-        SELECT id, slug, title_tr, title_en, title_ar, content_tr, content_en, content_ar, summary_tr, summary_en, summary_ar, cover_image, status, published_at, created_at, source_id, translation_status, revision_number
+        SELECT id, slug, title_tr, title_en, title_ar, content_tr, content_en, content_ar, summary_tr, summary_en, summary_ar, cover_image, video_url, status, published_at, created_at, source_id, translation_status, revision_number
         FROM blog_posts
         WHERE slug = ? AND status = 'PUBLISHED' AND (published_at IS NULL OR published_at <= CURRENT_TIMESTAMP)
       `).bind(slug).first();
