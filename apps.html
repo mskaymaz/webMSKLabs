@@ -312,8 +312,8 @@
 
       var html = filtered.map(function(app) {
         var rawIcon = app.icon_url;
-        if (rawIcon && rawIcon.startsWith('/media/')) {
-          rawIcon = 'https://msklabs.org' + rawIcon;
+        if (rawIcon && !rawIcon.startsWith('http')) {
+          rawIcon = 'https://msklabs.org/' + rawIcon.replace(/^\/+/, '');
         }
         var iconHtml = rawIcon 
           ? '<img src="' + rawIcon + '" alt="' + (app.name_tr || '') + '" onerror="this.onerror=null;this.parentNode.innerHTML=\'📱\';">' 
@@ -367,7 +367,9 @@
       })
       .then(function(data) {
         if (data && Array.isArray(data.apps) && data.apps.length > 0) {
-          allFetchedApps = data.apps;
+          allFetchedApps = data.apps.sort(function(a, b) {
+            return (a.display_order || 0) - (b.display_order || 0);
+          });
           renderApps(allFetchedApps, currentFilter);
         }
       })
