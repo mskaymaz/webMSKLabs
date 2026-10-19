@@ -276,19 +276,29 @@
     }
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
-      margin-bottom: 1.5rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 860px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 540px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
     }
     .feature-box {
-      background: var(--bg-surface, #f8fafc);
+      background: var(--bg-surface, #f9fafb);
       border: 1px solid var(--border-color, #e2e8f0);
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 14px;
+      padding: 18px 20px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      min-height: 148px;
+      min-height: 155px;
       position: relative;
       cursor: pointer;
       box-sizing: border-box;
@@ -297,11 +307,11 @@
     .feature-box:hover {
       border-color: var(--primary-color, #2563eb);
       transform: translateY(-2px);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
     }
     .feature-box h4 {
-      margin: 0 0 8px 0;
-      font-size: 0.98rem;
+      margin: 0 0 10px 0;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--text-main);
       display: flex;
@@ -329,31 +339,15 @@
     }
     .feature-box p {
       margin: 0;
-      font-size: 0.86rem;
-      color: var(--text-muted);
-      line-height: 1.5;
+      font-size: 0.88rem;
+      color: var(--text-muted, #334155);
+      line-height: 1.55;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
       flex: 1;
-    }
-    .feature-more-hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--primary-color, #2563eb);
-      margin-top: 8px;
-      align-self: flex-end;
-      opacity: 0.85;
-      transition: opacity 0.15s ease;
-    }
-    .feature-box:hover .feature-more-hint {
-      opacity: 1;
-      text-decoration: underline;
     }
 
     /* Popover Balon Yapısı */
@@ -842,7 +836,6 @@
               <div class="feature-box" onclick="window.openFeatureCardPopover(${idx})" title="${activeLang === 'ar' ? 'انقر لقراءة التفاصيل كاملة' : (activeLang === 'en' ? 'Click to read full details' : 'Metnin tamamını okumak için tıklayın')}">
                 <h4>${iconHtml} <span class="feature-box-title">${title}</span></h4>
                 <p>${desc}</p>
-                <span class="feature-more-hint">🔍 ${activeLang === 'ar' ? 'عرض التفاصيل' : (activeLang === 'en' ? 'Details' : 'Detayları Gör')}</span>
               </div>
             `;
           }).join('');
