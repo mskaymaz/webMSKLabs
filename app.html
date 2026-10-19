@@ -693,6 +693,8 @@
         feature_cards: fallbackApp.feature_cards || [],
         version: fallbackApp.version || '1.0.0',
         platform: fallbackApp.platform || 'Mobil & Masaüstü',
+        status: fallbackApp.status || (['haydinamaza', 'date_counter', 'rekatsay'].indexOf(appId) !== -1 ? 'active' : 'in_development'),
+        category: fallbackApp.category || (appId === 'haydinamaza' ? 'islamic' : 'utility'),
         downloads_count: 0,
         icon_url: fallbackApp.icon_url || fallbackApp.logoImg || ('media/' + (fallbackApp.id || appId).replace(/_/g, '') + '/icon.png'),
         permanent_download_url: fallbackApp.storeUrl,
@@ -766,17 +768,85 @@
         schemaEl.textContent = JSON.stringify(schemaData, null, 2);
       }
 
-      function formatPlatform(p) {
-        if (!p) return activeLang === 'ar' ? 'حل المحمول' : (activeLang === 'en' ? 'Mobile Solution' : 'Mobil Çözüm');
-        var pl = p.toLowerCase();
-        if (pl === 'android') return 'Android';
-        if (pl === 'ios') return 'iOS';
-        if (pl === 'web') return 'Web / PWA';
-        if (pl === 'desktop' || pl === 'windows') return 'Windows / Desktop';
-        if (pl.includes('mobil') || pl.includes('mobile') || pl === 'all') {
-          return activeLang === 'ar' ? 'حل المحمول' : (activeLang === 'en' ? 'Mobile Solution' : 'Mobil Çözüm');
+      function getPlatformBadgeInfo(p, lang) {
+        var pl = (p || 'android').toLowerCase().trim();
+        if (pl === 'desktop' || pl === 'windows' || pl.includes('desk') || pl.includes('win')) {
+          return {
+            icon: '💻',
+            label: lang === 'ar' ? 'تطبيق سطح المكتب (Windows)' : (lang === 'en' ? 'Desktop App (Windows)' : 'Masaüstü Sistem (Windows)')
+          };
         }
-        return p;
+        if (pl === 'ios') {
+          return {
+            icon: '🍏',
+            label: lang === 'ar' ? 'حل iOS' : (lang === 'en' ? 'iOS Solution' : 'iOS Çözümü')
+          };
+        }
+        if (pl.includes('android & ios') || pl.includes('android / ios') || pl.includes('mobil & masaüstü') || pl.includes('mobil & masaustu')) {
+          return {
+            icon: '📱',
+            label: lang === 'ar' ? 'المحمول (Android & iOS)' : (lang === 'en' ? 'Mobile (Android & iOS)' : 'Mobil (Android & iOS)')
+          };
+        }
+        if (pl === 'web' || pl === 'pwa') {
+          return {
+            icon: '🌐',
+            label: lang === 'ar' ? 'تطبيق الويب' : (lang === 'en' ? 'Web Application' : 'Web Uygulaması')
+          };
+        }
+        if (pl === 'all') {
+          return {
+            icon: '📱',
+            label: lang === 'ar' ? 'منصات متعددة' : (lang === 'en' ? 'Multi-Platform' : 'Çoklu Platform')
+          };
+        }
+        return {
+          icon: '📱',
+          label: lang === 'ar' ? 'حل المحمول (Android)' : (lang === 'en' ? 'Mobile Solution (Android)' : 'Mobil Çözüm (Android)')
+        };
+      }
+
+      function getCategoryBadgeInfo(cat, lang) {
+        var c = (cat || 'utility').toLowerCase().trim();
+        var catDict = {
+          'utility': { icon: '🛠️', tr: 'Araçlar & Yardımcılar', en: 'Utilities & Tools', ar: 'أدوات ومساعدات' },
+          'araçlar': { icon: '🛠️', tr: 'Araçlar & Yardımcılar', en: 'Utilities & Tools', ar: 'أدوات ومساعدات' },
+          'islamic': { icon: '🕋', tr: 'İslami / Dinî', en: 'Islamic / Religious', ar: 'إسلامي وديني' },
+          'ibadet': { icon: '🕋', tr: 'İbadet Asistanı', en: 'Worship Assistant', ar: 'مساعد العبادة' },
+          'productivity': { icon: '⚡', tr: 'Üretkenlik & Takip', en: 'Productivity & Tracking', ar: 'إنتاجية ومتابعة' },
+          'education': { icon: '📚', tr: 'Eğitim & İlim', en: 'Education & Knowledge', ar: 'تعليم ومعرفة' },
+          'lifestyle': { icon: '🌱', tr: 'Yaşam & Sağlık', en: 'Lifestyle & Health', ar: 'نمط حياة وصحة' },
+          'multimedia': { icon: '🎵', tr: 'Multimedya & Ses', en: 'Multimedia & Audio', ar: 'وسائط متعددة وصوت' },
+          'ai': { icon: '🤖', tr: 'Yapay Zekâ', en: 'Artificial Intelligence', ar: 'ذكاء اصطناعي' },
+          'system': { icon: '🛡️', tr: 'Sistem & Güvenlik', en: 'System & Security', ar: 'نظام وأمان' },
+          'mobil': { icon: '📱', tr: 'Mobil Uygulama', en: 'Mobile Application', ar: 'تطبيق جوال' },
+          'masaüstü': { icon: '💻', tr: 'Masaüstü Uygulama', en: 'Desktop Application', ar: 'تطبيق سطح المكتب' }
+        };
+        var match = catDict[c];
+        if (match) {
+          return { icon: match.icon, label: match[lang] || match.tr };
+        }
+        return { icon: '🏷️', label: cat || 'Araç' };
+      }
+
+      function getStatusBadgeInfo(st, lang) {
+        var s = (st || 'active').toLowerCase().trim();
+        if (s === 'active' || s === 'published' || s === 'yayında') {
+          return {
+            icon: '🚀',
+            label: lang === 'ar' ? 'مباشر' : (lang === 'en' ? 'Published' : 'Yayında')
+          };
+        }
+        if (s === 'planned' || s === 'planlanıyor') {
+          return {
+            icon: '📋',
+            label: lang === 'ar' ? 'مخطط له' : (lang === 'en' ? 'Planned' : 'Planlanıyor')
+          };
+        }
+        return {
+          icon: '🛠️',
+          label: lang === 'ar' ? 'التطوير قيد التقدم' : (lang === 'en' ? 'Development In Progress' : 'Geliştirme Devam Ediyor')
+        };
       }
 
       function renderApp() {
@@ -1056,6 +1126,10 @@
           `;
         }
 
+        var platInfo = getPlatformBadgeInfo(currentApp.platform, activeLang);
+        var catInfo = getCategoryBadgeInfo(currentApp.category, activeLang);
+        var statusInfo = getStatusBadgeInfo(currentApp.status, activeLang);
+
         // 6. Birleştirilmiş Şablon Çıktısı
         container.innerHTML = `
           <div class="app-header">
@@ -1064,9 +1138,9 @@
               <div class="app-title-group">
                 <h1>${appNameStr}</h1>
                 <div class="badges">
-                  <span class="badge badge-platform">📱 ${formatPlatform(currentApp.platform)}</span>
-                  <span class="badge badge-status">🛠️ ${t({ tr: 'Geliştirme Devam Ediyor', en: 'Development In Progress', ar: 'التطوير قيد التقدم' })}</span>
-                  ${currentApp.tagline ? `<span class="badge" style="background: var(--bg-surface); color: var(--text-muted); border: 1px solid var(--border-color);">🏷️ ${t(currentApp.tagline)}</span>` : ''}
+                  <span class="badge badge-platform">${platInfo.icon} ${platInfo.label}</span>
+                  <span class="badge badge-category" style="background: var(--bg-surface); color: var(--text-main); border: 1px solid var(--border-color);">${catInfo.icon} ${catInfo.label}</span>
+                  <span class="badge badge-status">${statusInfo.icon} ${statusInfo.label}</span>
                   <span class="badge" style="background: var(--bg-surface); color: var(--accent-primary, #2563eb); border: 1px solid var(--border-color);">v${currentApp.version}</span>
                 </div>
               </div>
@@ -1154,6 +1228,8 @@
               feature_cards: raw.feature_cards || [],
               version: raw.latest_version || '1.0.0',
               platform: raw.platform || 'all',
+              status: raw.status || (raw.is_active ? 'active' : 'in_development'),
+              category: raw.category || 'utility',
               downloads_count: raw.downloads_count || 0,
               icon_url: rawIcon,
               permanent_download_url: apiUrl + '/v1/apps/' + cleanId + '/download',
