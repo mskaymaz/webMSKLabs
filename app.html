@@ -276,7 +276,7 @@
     }
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 14px;
       margin-bottom: 1.5rem;
     }
@@ -285,26 +285,173 @@
       border: 1px solid var(--border-color, #e2e8f0);
       border-radius: 12px;
       padding: 16px;
-      transition: transform 0.15s ease, border-color 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      min-height: 148px;
+      position: relative;
+      cursor: pointer;
+      box-sizing: border-box;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     }
     .feature-box:hover {
       border-color: var(--primary-color, #2563eb);
       transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
     }
     .feature-box h4 {
-      margin: 0 0 6px 0;
-      font-size: 1rem;
+      margin: 0 0 8px 0;
+      font-size: 0.98rem;
       font-weight: 700;
       color: var(--text-main);
       display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.35;
+    }
+    .feature-box-icon {
+      font-size: 1.35rem;
+      line-height: 1;
+      flex-shrink: 0;
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+    }
+    .feature-box-icon img, .feature-box-icon svg {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+    }
+    .feature-box-title {
+      flex: 1;
     }
     .feature-box p {
       margin: 0;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: var(--text-muted);
       line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+    .feature-more-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--primary-color, #2563eb);
+      margin-top: 8px;
+      align-self: flex-end;
+      opacity: 0.85;
+      transition: opacity 0.15s ease;
+    }
+    .feature-box:hover .feature-more-hint {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    /* Popover Balon Yapısı */
+    .feature-popover-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(3px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+    .feature-popover-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .feature-popover-balloon {
+      background: var(--bg-card, #ffffff);
+      color: var(--text-main, #0f172a);
+      border: 1px solid var(--border-color, #cbd5e1);
+      border-radius: 16px;
+      max-width: 480px;
+      width: 100%;
+      padding: 22px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+      transform: scale(0.92);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .feature-popover-backdrop.active .feature-popover-balloon {
+      transform: scale(1);
+    }
+    .feature-popover-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color, #e2e8f0);
+    }
+    .feature-popover-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+    .feature-popover-icon {
+      font-size: 1.8rem;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .feature-popover-icon img, .feature-popover-icon svg {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+    .feature-popover-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 0;
+      line-height: 1.35;
+    }
+    .feature-popover-close {
+      background: var(--bg-surface, #f1f5f9);
+      border: 1px solid var(--border-color, #cbd5e1);
+      color: var(--text-main);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.88rem;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+    .feature-popover-close:hover {
+      background: var(--bg-surface-hover, #e2e8f0);
+      color: var(--primary-color, #2563eb);
+    }
+    .feature-popover-body {
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: var(--text-muted, #334155);
     }
     .feature-list {
       list-style: none;
@@ -542,7 +689,7 @@
         version: fallbackApp.version || '1.0.0',
         platform: fallbackApp.platform || 'Mobil & Masaüstü',
         downloads_count: 0,
-        icon_url: 'media/' + (fallbackApp.id || appId) + '/icon.png',
+        icon_url: fallbackApp.icon_url || fallbackApp.logoImg || ('media/' + (fallbackApp.id || appId).replace(/_/g, '') + '/icon.png'),
         permanent_download_url: fallbackApp.storeUrl,
         store_links: {},
         versions: []
@@ -651,17 +798,40 @@
         var changelogTitle = (activeLang === 'ar' ? 'سجل التحديثات والإصدارات' : (activeLang === 'en' ? 'Version History & Changelog' : 'Sürüm Günlüğü ve Değişiklikler'));
         var dlSectionTitle = (activeLang === 'ar' ? 'خيارات التنزيل وقنوات الإصدار' : (activeLang === 'en' ? 'Download Options & Release Channels' : 'İndirme Seçenekleri ve Yayın Kanalları'));
 
-        // 1. Öne Çıkan Özellikler (Parçalı Kartlar veya Liste Fallback)
+        // 1. Öne Çıkan Özellikler (Standart Kutu Kartlar ve Açılır Balon/Popover Desteği)
         var featuresSectionHTML = '';
-        if (Array.isArray(currentApp.feature_cards) && currentApp.feature_cards.length > 0) {
-          var cardsHTML = currentApp.feature_cards.map(function(card) {
+        var rawCards = (Array.isArray(currentApp.feature_cards) && currentApp.feature_cards.length > 0)
+          ? currentApp.feature_cards
+          : (Array.isArray(currentApp.features) && currentApp.features.length > 0
+            ? currentApp.features.map(function(f, i) {
+                var fTitle = t(f);
+                return {
+                  icon: '✨',
+                  title_tr: fTitle,
+                  title_en: fTitle,
+                  title_ar: fTitle,
+                  description_tr: fTitle,
+                  description_en: fTitle,
+                  description_ar: fTitle
+                };
+              })
+            : []);
+
+        if (rawCards.length > 0) {
+          window._currentCardsData = rawCards;
+          var cardsHTML = rawCards.map(function(card, idx) {
             var icon = card.icon || '⭐';
+            var iconHtml = (icon.startsWith('<') || icon.startsWith('http')) 
+              ? `<span class="feature-box-icon">${icon.startsWith('<') ? icon : `<img src="${icon}" alt="" />`}</span>` 
+              : `<span class="feature-box-icon">${icon}</span>`;
             var title = t({ tr: card.title_tr, en: card.title_en || card.title_tr, ar: card.title_ar || card.title_tr });
-            var desc = t({ tr: card.description_tr, en: card.description_en || card.description_tr, ar: card.description_ar || card.description_tr });
+            var desc = t({ tr: card.description_tr || card.desc_tr, en: card.description_en || card.desc_en || card.description_tr, ar: card.description_ar || card.desc_ar || card.description_tr });
+
             return `
-              <div class="feature-box">
-                <h4><span>${icon}</span> <span>${title}</span></h4>
+              <div class="feature-box" onclick="window.openFeatureCardPopover(${idx})" title="${activeLang === 'ar' ? 'انقر لقراءة التفاصيل كاملة' : (activeLang === 'en' ? 'Click to read full details' : 'Metnin tamamını okumak için tıklayın')}">
+                <h4>${iconHtml} <span class="feature-box-title">${title}</span></h4>
                 <p>${desc}</p>
+                <span class="feature-more-hint">🔍 ${activeLang === 'ar' ? 'عرض التفاصيل' : (activeLang === 'en' ? 'Details' : 'Detayları Gör')}</span>
               </div>
             `;
           }).join('');
@@ -672,21 +842,11 @@
               ${cardsHTML}
             </div>
           `;
-        } else if (Array.isArray(currentApp.features) && currentApp.features.length > 0) {
-          var listItems = currentApp.features.map(function(f) {
-            return '<li>✅ ' + t(f) + '</li>';
-          }).join('');
-          featuresSectionHTML = `
-            <div class="features-title">${featTitle}</div>
-            <ul class="feature-list">
-              ${listItems}
-            </ul>
-          `;
         }
 
-        // 2. İkon
+        // 2. İkon / Logo (D1 CDN -> Local Media Fallback -> Emoji Fallback)
         var iconMarkup = currentApp.icon_url 
-          ? `<img src="${currentApp.icon_url}" alt="${appNameStr}" onerror="this.onerror=null;this.parentNode.innerHTML='📱';">` 
+          ? `<img src="${currentApp.icon_url}" alt="${appNameStr}" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src='media/' + (currentApp.id || '').replace(/_/g, '') + '/icon.png';}else{this.onerror=null;this.parentNode.innerHTML='📱';}">` 
           : '📱';
 
         // 3. Sağ Dil Durum ve Çeviri Talep Paneli (TR, EN, AR Yalın Standart - Emojisiz Bayrak) + Hızlı İndir Butonu
@@ -1005,6 +1165,74 @@
           console.warn('[MSK App Detail] Canlı API verisi alınamadı, statik veriyle devam ediliyor:', err.message);
         });
     })();
+  </script>
+  <!-- Özellik Detay Açılır Balonu (Popover) -->
+  <div id="featureCardPopover" class="feature-popover-backdrop" onclick="if(event.target===this) window.closeFeatureCardPopover();">
+    <div class="feature-popover-balloon" role="dialog" aria-modal="true">
+      <div class="feature-popover-header">
+        <div class="feature-popover-header-left">
+          <span id="popoverIcon" class="feature-popover-icon">✨</span>
+          <h3 id="popoverTitle" class="feature-popover-title">Özellik Başlığı</h3>
+        </div>
+        <button type="button" class="feature-popover-close" onclick="window.closeFeatureCardPopover()" aria-label="Kapat">✕</button>
+      </div>
+      <div id="popoverBody" class="feature-popover-body">Özellik detay açıklaması...</div>
+    </div>
+  </div>
+
+  <script>
+    window.openFeatureCardPopover = function(idx) {
+      var cards = window._currentCardsData || [];
+      var card = cards[idx];
+      if (!card) return;
+
+      var activeLang = localStorage.getItem('user_lang') || 'tr';
+      function tCard(obj) {
+        if (!obj) return '';
+        if (typeof obj === 'string') return obj;
+        return obj[activeLang] || obj['tr'] || obj['en'] || '';
+      }
+
+      var icon = card.icon || '✨';
+      var iconEl = document.getElementById('popoverIcon');
+      if (iconEl) {
+        if (icon.startsWith('<') || icon.startsWith('http')) {
+          iconEl.innerHTML = icon.startsWith('<') ? icon : '<img src="' + icon + '" alt="" />';
+        } else {
+          iconEl.textContent = icon;
+        }
+      }
+
+      var titleEl = document.getElementById('popoverTitle');
+      if (titleEl) {
+        titleEl.textContent = tCard({ tr: card.title_tr, en: card.title_en || card.title_tr, ar: card.title_ar || card.title_tr });
+      }
+
+      var bodyEl = document.getElementById('popoverBody');
+      if (bodyEl) {
+        bodyEl.textContent = tCard({ tr: card.description_tr || card.desc_tr, en: card.description_en || card.desc_en || card.description_tr, ar: card.description_ar || card.desc_ar || card.description_tr });
+      }
+
+      var popover = document.getElementById('featureCardPopover');
+      if (popover) {
+        popover.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+
+    window.closeFeatureCardPopover = function() {
+      var popover = document.getElementById('featureCardPopover');
+      if (popover) {
+        popover.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    };
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        window.closeFeatureCardPopover();
+      }
+    });
   </script>
 </body>
 </html>
