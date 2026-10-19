@@ -467,10 +467,21 @@
       color: var(--text-muted, #334155);
       font-weight: 500;
     }
+    html {
+      scroll-behavior: smooth;
+    }
     .download-section {
       margin-top: 2rem;
       padding-top: 1.5rem;
       border-top: 2px dashed var(--border-color, #e2e8f0);
+      scroll-margin-top: 140px;
+      min-height: calc(100vh - 160px);
+    }
+    @media (max-width: 768px) {
+      .download-section {
+        scroll-margin-top: 85px;
+        min-height: calc(100vh - 120px);
+      }
     }
     .download-section-title {
       font-size: 1.25rem;
@@ -887,7 +898,7 @@
           `;
         }
         langRightPanelHTML += `
-            <a href="#download-section" class="hero-download-btn">
+            <a href="#download-section" onclick="window.scrollToDownloadSection(event)" class="hero-download-btn">
               <span>${dlBtnText}</span>
             </a>
             <a ${guideAttr} class="hero-guide-btn" title="${guideBtnText}">
@@ -1226,6 +1237,20 @@
         popover.classList.remove('active');
         document.body.style.overflow = '';
       }
+    };
+
+    window.scrollToDownloadSection = function(e) {
+      if (e) e.preventDefault();
+      var target = document.getElementById('download-section');
+      if (!target) return;
+      var stickyHeader = document.querySelector('.site-header-sticky');
+      var headerOffset = stickyHeader ? (stickyHeader.getBoundingClientRect().height + 14) : 130;
+      var targetPos = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: Math.max(0, targetPos),
+        behavior: 'smooth'
+      });
     };
 
     document.addEventListener('keydown', function(e) {
