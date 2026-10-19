@@ -21,6 +21,11 @@ window.MSK_APPS_DATA = {
     version: "2.1.0",
     platform: "Android / iOS",
     rating: "4.9 ⭐",
+    summary: {
+      tr: "Lokasyon bazlı ibadet planlaması ve zaman yönetimi otomasyonu.",
+      en: "Location-based worship planning and time management automation.",
+      ar: "تخطيط العبادة القائم على الموقع وأتمتة إدارة الوقت."
+    },
     description: {
       tr: "Haydi Namaza, günlük namaz vakitlerini Diyanet uyumlu hassas hesaplamalarla sunan, internet gerektirmeyen, %100 ücretsiz ve reklamsız bir mobil ibadet asistanıdır.",
       en: "Haydi Namaza provides accurate prayer times offline with no ads, completely free for all users worldwide.",
@@ -61,6 +66,11 @@ window.MSK_APPS_DATA = {
     version: "1.4.2",
     platform: "Windows / macOS",
     rating: "4.8 ⭐",
+    summary: {
+      tr: "Operasyonel hızı artıran, eklenti tabanlı modüler masaüstü verimlilik asistanı.",
+      en: "Plugin-based modular desktop productivity assistant.",
+      ar: "مساعد إنتاجية معيari لسطح المكتب."
+    },
     description: {
       tr: "DeskPilot, rutin masaüstü görevlerinizi otomatikleştiren, klavye kısayolları ve akıllı makrolarla verimliliğinizi 10 katına çıkaran hafif bir masaüstü yazılımıdır.",
       en: "DeskPilot automates desktop routines and boosts productivity with custom macros and lightweight design.",
@@ -94,6 +104,11 @@ window.MSK_APPS_DATA = {
     version: "1.2.0",
     platform: "Android / Web",
     rating: "4.9 ⭐",
+    summary: {
+      tr: "Kritik hizmet noktalarını anında tespit eden mobil lokasyon motoru.",
+      en: "Location engine that instantly detects critical service points.",
+      ar: "محرك الموقع الذي يكتشف نقاط الخدمة الحرجة."
+    },
     description: {
       tr: "Bulunduğunuz konuma en yakın cami ve mescitleri harita üzerinde yol tarifiyle birlikte listeleyen pratik navigasyon uygulaması.",
       en: "Find nearby mosques with real-time navigation and distance sorting.",
@@ -126,10 +141,15 @@ window.MSK_APPS_DATA = {
     version: "1.1.0",
     platform: "Windows Masaüstü",
     rating: "5.0 ⭐",
+    summary: {
+      tr: "Emeklilik, sınav ve özel hedeflerinizi masaüstünüzde ve görev çubuğunuzda canlı takip eden gelişmiş zaman sayacı.",
+      en: "Desktop & taskbar timer tracking retirement, exams, and milestones in real-time.",
+      ar: "مؤقت سطح المكتب وشريط المهام لمتابعة التقاعد والامتحانات والتواريخ الهامة."
+    },
     description: {
-      tr: "Emeklilik, sınav, proje teslimi, askerlik dönüşü ve özel günlerinizi masaüstünüzde ve görev çubuğunuzda anlık takip eden gelişmiş zaman sayacı.",
-      en: "Sleek desktop and taskbar docking countdown timer for retirement, exams, project deadlines, and milestone dates.",
-      ar: "عداد ومؤقت أنيق لسطح المكتب وشريط المهام لمتابعة التقاعد والامتحانات والتواريخ الهامة."
+      tr: "Date Counter (Tarih & Hedef Sayacı); hedef yaş hesaplamalarının yanı sıra sınav süreçleri, proje teslim tarihleri, askerlik dönüşü, yıl dönümleri veya hayatınızdaki önemli dönüm noktalarını anlık olarak takip etmenizi sağlayan şık ve gelişmiş bir masaüstü zaman yönetim aracıdır. Masaüstünüzde ve görev çubuğunuzda gözü yormayan şeffaf ve minimalist tasarımıyla yer alan uygulama; sade kullanım, yüksek kişiselleştirme, hassas zaman senkronizasyonu, tam 3 dil desteği ve %100 çevrimdışı gizlilik ilkeleriyle geliştirilmiştir. Hesap açma zorunluluğu yoktur; tüm hedef tarihleriniz doğrudan bilgisayarınızda güvenle saklanır.",
+      en: "Date Counter (Date & Goal Tracker) is a sleek and advanced desktop time management tool designed to track target age milestones as well as exam schedules, project deadlines, military service countdowns, anniversaries, or important milestone dates in your life. Featuring a clean and minimalist desktop and taskbar docking design, it is built on principles of ease of use, high customizability, precise time synchronization, full 3-language support, and 100% offline privacy. No account required; all target dates remain safe on your device.",
+      ar: "تطبيق Date Counter (عداد التاريخ والأهداف) هو أداة أنيقة ومتقدمة لإدارة الوقت على سطح المكتب تتيح لك متابعة حسابات العمر المستهدف، إلى جانب فترات الامتحانات، مواعيد تسليم المشاريع، العودة من الخدمة العسكرية، الذكريات السنوية، أو المحطات الهامة في حياتك بشكل فوري. بتصميم شفاف وبسيط على سطح المكتب وشريط المهام، تم تطويره وفق مبادئ سهولة الاستخدام، التخصيص العالي، التزامن الدقيق للوقت، الدعم الكامل لـ 3 لغات، والخصوصية الكاملة بدون إنترنت. لا يتطلب حساباً؛ تبقى جميع مواعيدك المحفوظة آمنة على جهازك."
     },
     feature_cards: [
       { id: "dc_1", icon: "🔒", title_tr: "Görev Çubuğu Entegrasyonu (Taskbar Docking)", title_en: "Taskbar Docking & Widget", title_ar: "تكامل شريط المهام ودجت", description_tr: "Ekranı kaplamadan görev çubuğunda yatay kaydırılabilir, Always-on-Top (Her zaman üstte) ve şeffaf sayaç görünümü.", description_en: "Horizontal dockable widget on the taskbar, Always-on-Top floating mode, and transparent counter layout.", description_ar: "ودجت أفقية على شريط المهام دون تغطية الشاشة، مع وضع البقاء في المقدمة دائماً والشريط الشفاف." },
@@ -162,6 +182,11 @@ window.MSK_APPS_DATA = {
     version: "1.1.0",
     platform: "Android",
     rating: "4.8 ⭐",
+    summary: {
+      tr: "Görev çubuğu üzerinde donanım sağlığını koruyan pil izleme ve bildirim servisi.",
+      en: "Taskbar battery monitoring and hardware protection service.",
+      ar: "خدمة مراقبة البطارية وحماية الأجهزة على شريط المهام."
+    },
     description: {
       tr: "Bataryanızın ömrünü uzatmak için dolum seviyesi %80'e ulaştığında veya aşırı ısınmada sesli uyarı veren batarya koruyucu.",
       en: "Protect battery lifespan with customizable charge limit alerts and thermal safety sounds.",
@@ -194,10 +219,15 @@ window.MSK_APPS_DATA = {
     version: "1.3.1",
     platform: "Android",
     rating: "4.9 ⭐",
+    summary: {
+      tr: "Odaklanmayı artıran, minimalist ve etkileşimli takip aracı.",
+      en: "A minimalist and interactive tracking tool that increases focus.",
+      ar: "أداة تتبع تفاعلية وبسيطة تزيد من التركيز."
+    },
     description: {
-      tr: "Namaz kılarken secde sensörlerini kullanarak kıldığınız rekatı ve secdeyi karıştırmadan otomatik sayan akıllı ibadet aracı.",
-      en: "Automatically counts rakaat and sujud during prayer using phone proximity sensors.",
-      ar: "تطبيق حساب عدد الركعات والسجدات تلقائياً عبر مستشعر التقارب."
+      tr: "RekatSay; namaz esnasında rekat ve secde sayılarını karıştırmadan, ibadetinize tam odaklanmanızı sağlamak amacıyla geliştirilmiş minimalist ve akıllı bir mobil uygulamadır. Sade ve sakin arayüz, temassız otomatik algılama ve yüksek gizlilik ilkeleri doğrultusunda tasarlanmıştır. Kamera veya yüz tanıma gibi müdahaleci yöntemler kullanmaz; tüm işlemler cihazınızın yerel sensörleri üzerinden %100 çevrimdışı ve güvenle gerçekleştirilir.",
+      en: "RekatSay is a minimalist and smart mobile application designed to keep track of rakat and sujud counts during prayer without confusion, allowing full focus on worship. Built on principles of touchless automatic detection, a calm interface, and total privacy with no camera or facial recognition.",
+      ar: "تطبيق RekatSay هو تطبيق محمول ذكي وبسيط مصمم لمتابعة عدد الركعات والسجدات أثناء الصلاة دون ارتباك، مما يتيح لك التركيز الكامل في العبادة. يعتمد على الكشف التلقائي بدون لمس، واجهة هادئة، وخصوصية تامة بدون استخدام الكاميرا أو التعرف على الوجه."
     },
     feature_cards: [
       { id: "rs_1", icon: "🖐️", title_tr: "Temassız Otomatik Secde Algılama", title_en: "Touchless Automatic Sujud Detection", title_ar: "كشف السجود التلقائي بدون لمس", description_tr: "Cihazınızın yakınlık ve ışık sensörlerinden yararlanarak secdeye varış hareketini temassız şekilde algılar; akıllı algoritmasıyla hatalı veya çift sayımları önler.", description_en: "Detects prostration movements touchlessly using your device's proximity and ambient light sensors; smart algorithm prevents false or double counts.", description_ar: "الكشف عن حركة السجود بدون لمس باستخدام مستشعرات القرب والإضاءة في جهازك؛ تمنع خوارزميته الذكية العد الخاطئ أو المزدوج." },

@@ -331,9 +331,9 @@
               <span class="lang-ar">${app.name_ar || app.name_tr || ''}</span>
             </h3>
             <p class="app-vision">
-              <span class="lang-tr">${app.description_tr || ''}</span>
-              <span class="lang-en">${app.description_en || app.description_tr || ''}</span>
-              <span class="lang-ar">${app.description_ar || app.description_tr || ''}</span>
+              <span class="lang-tr">${app.summary_tr || app.description_tr || ''}</span>
+              <span class="lang-en">${app.summary_en || app.description_en || app.summary_tr || app.description_tr || ''}</span>
+              <span class="lang-ar">${app.summary_ar || app.description_ar || app.summary_tr || app.description_tr || ''}</span>
             </p>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 10px;">
               <span class="app-status-badge active">
