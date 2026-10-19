@@ -27,9 +27,9 @@ window.MSK_APPS_DATA = {
       ar: "تخطيط العبادة القائم على الموقع وأتمتة إدارة الوقت."
     },
     description: {
-      tr: "Haydi Namaza, günlük namaz vakitlerini Diyanet uyumlu hassas hesaplamalarla sunan, internet gerektirmeyen, %100 ücretsiz ve reklamsız bir mobil ibadet asistanıdır.",
-      en: "Haydi Namaza provides accurate prayer times offline with no ads, completely free for all users worldwide.",
-      ar: "تطبيق حي على الصلاة يوفر مواقيت الصلاة الدقيقة بدون إعلانات وبدون الحاجة للإنترنت."
+      tr: "Haydi Namaza; günlük namaz vakitlerinizi takip etmenizi, kıble yönünüzü kolayca bulmanızı, günlük hatırlatma maksatlı yayınlanan dinî içeriklere ulaşmanızı ve vakit bildirimlerinizi tamamen kendi tercihlerinize göre kişiselleştirmenizi sağlayan modern bir mobil yardımcı uygulamadır. Sade arayüz, çevrimdışı kullanım kolaylığı, tam kullanıcı kontrolü ve veri şeffaflığı ilkeleriyle geliştirilmektedir. Hesap açma zorunluluğu bulunmaz; verileriniz ve kişisel ayarlarınız güvende kalacak şekilde doğrudan kendi cihazınızda saklanır.",
+      en: "Haydi Namaza is a modern mobile assistant application that allows you to track your daily prayer times, easily find the Qibla direction, access daily religious reminder content, and fully customize your prayer notifications. Developed with principles of a clean interface, offline-first convenience, full user control, and data transparency. No account creation required; your data and preferences remain safe on your device.",
+      ar: "تطبيق \"Haydi Namaza\" هو تطبيق محمول حديث يتيح لك متابعة أوقات الصلاة اليومية، وإيجاد اتجاه القبلة بسهولة، والوصول إلى المحتويات الدينية التذكيرية اليومية، وتخصيص إشعارات أوقات الصلاة بالكامل وفقاً لتفضيلاتك. يتم تطويره وفق مبادئ الواجهة البسيطة، سهولة الاستخدام بدون إنترنت، التحكم الكامل للمستخدم، وشفافية البيانات. لا يتطلب إنشاء حساب؛ تبقى بياناتك وتفضيلاتك آمنة على جهازك."
     },
     features: [
       { tr: "Diyanet Uyumlu Vakitler", en: "Diyanet Compatible Times", ar: "مواقيت معتمدة" },
