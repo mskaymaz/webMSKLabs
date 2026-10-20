@@ -849,6 +849,18 @@
         };
       }
 
+      function formatAppTitleHtml(rawName) {
+        if (!rawName) return '';
+        var trimmed = String(rawName).trim();
+        var match = trimmed.match(/^(.+?)\s*[\(（](.+?)[\)）]$/);
+        if (match) {
+          var main = match[1].trim();
+          var sub = match[2].trim();
+          return main + '<span class="app-name-sub" style="display:block; font-size:0.70em; font-weight:400; opacity:0.85; margin-top:2px;">(' + sub + ')</span>';
+        }
+        return trimmed;
+      }
+
       function renderApp() {
         if (!currentApp) return;
 
@@ -1136,7 +1148,7 @@
             <div class="app-header-left">
               <div class="app-big-icon">${iconMarkup}</div>
               <div class="app-title-group">
-                <h1>${appNameStr}</h1>
+                <h1>${formatAppTitleHtml(appNameStr)}</h1>
                 <div class="badges">
                   <span class="badge badge-platform">${platInfo.icon} ${platInfo.label}</span>
                   <span class="badge badge-category" style="background: var(--bg-surface); color: var(--text-main); border: 1px solid var(--border-color);">${catInfo.icon} ${catInfo.label}</span>

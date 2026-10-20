@@ -101,9 +101,9 @@
     <a href="app.html?id=date_counter" class="app-card" data-platform="desktop">
       <div class="app-icon"><img src="media/date-counter/icon.png" alt="Date Counter"></div>
       <h3 class="app-name">
-        <span class="lang-tr">Date Counter (Tarih &amp; Hedef Sayacı)</span>
-        <span class="lang-en">Date Counter (Date &amp; Goal Tracker)</span>
-        <span class="lang-ar">Date Counter (عداد التاريخ والأهداف)</span>
+        <span class="lang-tr">Date Counter<span class="app-name-sub" style="display:block; font-size:0.70em; font-weight:400; opacity:0.85; margin-top:2px;">(Tarih &amp; Hedef Sayacı)</span></span>
+        <span class="lang-en">Date Counter<span class="app-name-sub" style="display:block; font-size:0.70em; font-weight:400; opacity:0.85; margin-top:2px;">(Date &amp; Goal Tracker)</span></span>
+        <span class="lang-ar">Date Counter<span class="app-name-sub" style="display:block; font-size:0.70em; font-weight:400; opacity:0.85; margin-top:2px;">(عداد التاريخ والأهداف)</span></span>
       </h3>
       <p class="app-vision">
         <span class="lang-tr">Emeklilik, sınav ve özel hedeflerinizi masaüstünüzde ve görev çubuğunuzda canlı takip eden gelişmiş zaman sayacı.</span>
@@ -298,6 +298,18 @@
     var allFetchedApps = [];
     var currentFilter = 'all';
 
+    function formatAppTitleHtml(rawName) {
+      if (!rawName) return '';
+      var trimmed = String(rawName).trim();
+      var match = trimmed.match(/^(.+?)\s*[\(（](.+?)[\)）]$/);
+      if (match) {
+        var main = match[1].trim();
+        var sub = match[2].trim();
+        return main + '<span class="app-name-sub" style="display:block; font-size:0.70em; font-weight:400; opacity:0.85; margin-top:2px;">(' + sub + ')</span>';
+      }
+      return trimmed;
+    }
+
     function renderApps(apps, filter) {
       if (!apps || !apps.length) return;
 
@@ -331,9 +343,9 @@
           <a href="app.html?id=${encodeURIComponent(app.app_id)}" class="app-card" data-platform="${app.platform || 'all'}">
             <div class="app-icon">${iconHtml}</div>
             <h3 class="app-name">
-              <span class="lang-tr">${app.name_tr || ''}</span>
-              <span class="lang-en">${app.name_en || app.name_tr || ''}</span>
-              <span class="lang-ar">${app.name_ar || app.name_tr || ''}</span>
+              <span class="lang-tr">${formatAppTitleHtml(app.name_tr || '')}</span>
+              <span class="lang-en">${formatAppTitleHtml(app.name_en || app.name_tr || '')}</span>
+              <span class="lang-ar">${formatAppTitleHtml(app.name_ar || app.name_tr || '')}</span>
             </h3>
             <p class="app-vision">
               <span class="lang-tr">${app.summary_tr || app.description_tr || ''}</span>
