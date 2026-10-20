@@ -328,13 +328,16 @@
       }
 
       var html = filtered.map(function(app) {
-        var rawIcon = app.icon_url;
-        if (rawIcon && !rawIcon.startsWith('http')) {
-          rawIcon = 'https://msklabs.org/' + rawIcon.replace(/^\/+/, '');
+        var rawIcon = (app.icon_url || '').trim();
+        var iconHtml = '📱';
+        if (rawIcon) {
+          if (rawIcon.length <= 8 && !rawIcon.includes('/') && !rawIcon.includes('.')) {
+            iconHtml = rawIcon;
+          } else {
+            var iconSrc = rawIcon.startsWith('http') ? rawIcon : ('https://msklabs.org/' + rawIcon.replace(/^\/+/, ''));
+            iconHtml = '<img src="' + iconSrc + '" alt="' + (app.name_tr || '') + '" onerror="this.onerror=null;this.parentNode.innerHTML=\'📱\';">';
+          }
         }
-        var iconHtml = rawIcon 
-          ? '<img src="' + rawIcon + '" alt="' + (app.name_tr || '') + '" onerror="this.onerror=null;this.parentNode.innerHTML=\'📱\';">' 
-          : '📱';
 
         var verText = app.latest_version ? 'v' + app.latest_version : 'v1.0.0';
         var dlCountText = (app.downloads_count ? app.downloads_count + ' indirme' : '');

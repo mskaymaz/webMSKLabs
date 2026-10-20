@@ -931,9 +931,15 @@
         }
 
         // 2. İkon / Logo (D1 CDN -> Local Media Fallback -> Emoji Fallback)
-        var iconMarkup = currentApp.icon_url 
-          ? `<img src="${currentApp.icon_url}" alt="${appNameStr}" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src='media/' + (currentApp.id || '').replace(/_/g, '') + '/icon.png';}else{this.onerror=null;this.parentNode.innerHTML='📱';}">` 
-          : '📱';
+        var iconMarkup = '📱';
+        if (currentApp.icon_url) {
+          var trimmedIcon = String(currentApp.icon_url).trim();
+          if (trimmedIcon.length <= 8 && !trimmedIcon.includes('/') && !trimmedIcon.includes('.')) {
+            iconMarkup = trimmedIcon;
+          } else {
+            iconMarkup = '<img src="' + currentApp.icon_url + '" alt="' + appNameStr + '" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=\'media/\' + (currentApp.id || \'\').replace(/_/g, \'\') + \'/icon.png\';}else{this.onerror=null;this.parentNode.innerHTML=\'📱\';}">';
+          }
+        }
 
         // 3. Sağ Dil Durum ve Çeviri Talep Paneli (TR, EN, AR Yalın Standart - Emojisiz Bayrak) + Hızlı İndir Butonu
         var langStatusLabel = activeLang === 'ar' ? 'حالة اللغة:' : (activeLang === 'en' ? 'Language Status:' : 'Dil Durumu:');
