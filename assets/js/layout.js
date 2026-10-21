@@ -530,12 +530,7 @@
     });
   };
 
-  // Dynamic HTML lang and RTL attribute sync
-  // Priority order:
-  // 1. URL Parameter (?lang=) -> URL-based session override (does not overwrite user's saved preference)
-  // 2. Explicit User Preference (localStorage 'user_lang') -> Saved when user clicks language button
-  // 3. Browser / System Language (navigator.language) -> Automatically detects supported codes
-  // 4. Default Fallback ('tr')
+  // Dynamic HTML lang and RTL attribute sync (URL -> localStorage -> navigator -> fallback)
   function syncLangAttributes() {
     var config = window.MSK_I18N_CONFIG;
     var activeLang = null;
@@ -577,19 +572,29 @@
   var preTheme = getSavedTheme();
   document.documentElement.setAttribute('data-theme', preTheme);
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () {
-      initTheme();
-      renderHeader();
-      renderFooter();
-      highlightActiveTopNav();
-      syncLangAttributes();
-    });
-  } else {
+  // Dynamic AdSense Loader Injection
+  function injectAdsLoader() {
+    try {
+      if (document.querySelector('script[data-msk-ads]')) return;
+      var s = document.createElement('script');
+      s.src = basePath + 'assets/js/ads-loader.js';
+      s.defer = true;
+      s.setAttribute('data-msk-ads', 'true');
+      (document.head || document.documentElement).appendChild(s);
+    } catch (_) {}
+  }
+
+  function bootLayout() {
     initTheme();
     renderHeader();
     renderFooter();
     highlightActiveTopNav();
     syncLangAttributes();
+    injectAdsLoader();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootLayout);
+  } else {
+    bootLayout();
   }
 })();
