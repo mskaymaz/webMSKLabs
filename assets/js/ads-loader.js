@@ -53,6 +53,53 @@
     return found;
   }
 
+  function isAdAllowedOnCurrentPage(ad) {
+    if (!ad) return false;
+
+    var rawPath = (window.location.pathname || '').replace(/\\/g, '/');
+    var path = rawPath;
+    if (path === '' || path === '/' || path.endsWith('/')) {
+      path = path + 'index.html';
+    }
+    if (path.indexOf('/') !== 0) path = '/' + path;
+
+    // 1. Hariç tutulan sayfalar (Blacklist) kontrolü
+    var excluded = ad.excluded_paths || [];
+    for (var i = 0; i < excluded.length; i++) {
+      var ex = (excluded[i] || '').trim().toLowerCase();
+      if (!ex) continue;
+      if (ex.indexOf('/') !== 0) ex = '/' + ex;
+      if (path.toLowerCase().indexOf(ex) !== -1 || (ex === '/index.html' && (rawPath === '/' || rawPath === ''))) {
+        return false;
+      }
+    }
+
+    // 2. Kapsam (Target Scope) kontrolü
+    var scope = ad.target_scope || 'all';
+    if (scope === 'all') return true;
+    if (scope === 'home') {
+      return path.endsWith('/index.html') && path.indexOf('/blog/') === -1 && path.indexOf('/apps/') === -1;
+    }
+    if (scope === 'blog') {
+      return path.indexOf('/blog/') !== -1 || path.indexOf('blog.html') !== -1;
+    }
+    if (scope === 'apps') {
+      return path.indexOf('/apps/') !== -1 || path.indexOf('apps.html') !== -1;
+    }
+    if (scope === 'custom') {
+      var targets = ad.target_paths || [];
+      for (var j = 0; j < targets.length; j++) {
+        var tgt = (targets[j] || '').trim().toLowerCase();
+        if (!tgt) continue;
+        if (tgt.indexOf('/') !== 0) tgt = '/' + tgt;
+        if (path.toLowerCase().indexOf(tgt) !== -1) return true;
+      }
+      return false;
+    }
+
+    return true;
+  }
+
   function applyAdToElement(el, ad, isMobile) {
     var isVertical = ad.slot_key === 'ad_sidebar_left' || ad.slot_key === 'ad_sidebar_right';
 
@@ -178,10 +225,10 @@
             var adConfig = adsMap[key];
 
             for (var c = 0; c < containers.length; c++) {
-              if (adConfig && adConfig.is_enabled) {
+              if (adConfig && adConfig.is_enabled && isAdAllowedOnCurrentPage(adConfig)) {
                 applyAdToElement(containers[c], adConfig, isMobile);
               } else {
-                // Pasife alınmış veya silinmiş reklam yerleşimini vitrinde gizle
+                // Pasife alınmış, bu sayfada filtrelenmiş veya silinmiş reklam yerleşimini vitrinde gizle
                 containers[c].style.display = 'none';
               }
             }
