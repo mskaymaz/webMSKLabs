@@ -53,6 +53,33 @@
     return found;
   }
 
+  var CORPORATE_PAGES = [
+    'contact.html', 'about.html', 'destek.html', 'bizkimiz.html',
+    'who-we-are.html', 'faq.html', 'privacy.html', 'terms.html',
+    'iletisim.html', 'hakkimizda.html'
+  ];
+
+  function ensureContainer(key) {
+    if (key === 'ad_footer_bottom') {
+      var targetParent = document.querySelector('.portfolio-container') ||
+        document.querySelector('.blog-detail-container') ||
+        document.querySelector('.blog-container') ||
+        document.querySelector('main');
+      if (targetParent) {
+        var el = document.createElement('div');
+        el.className = 'infeed-ad-container';
+        el.setAttribute('data-ad-slot', 'footer_bottom');
+        var ph = document.createElement('div');
+        ph.className = 'ad-placeholder';
+        ph.textContent = 'Sayfa Sonu Reklamı (Bottom Banner)';
+        el.appendChild(ph);
+        targetParent.appendChild(el);
+        return [el];
+      }
+    }
+    return [];
+  }
+
   function isAdAllowedOnCurrentPage(ad) {
     if (!ad) return false;
 
@@ -74,6 +101,15 @@
       }
     }
 
+    var lowerPath = path.toLowerCase();
+    var isCorporatePage = false;
+    for (var k = 0; k < CORPORATE_PAGES.length; k++) {
+      if (lowerPath.indexOf(CORPORATE_PAGES[k]) !== -1) {
+        isCorporatePage = true;
+        break;
+      }
+    }
+
     // 2. Kapsam (Target Scope) kontrolü
     var scope = ad.target_scope || 'all';
     if (scope === 'all') return true;
@@ -86,13 +122,20 @@
     if (scope === 'apps') {
       return path.indexOf('/apps/') !== -1 || path.indexOf('apps.html') !== -1;
     }
+    if (scope === 'corporate') {
+      return isCorporatePage;
+    }
     if (scope === 'custom') {
       var targets = ad.target_paths || [];
+      // Kullanıcı "Özel Sayfalar" seçip alt yolu boş bıraktıysa kurumsal sayfaları hedefler
+      if (!targets || targets.length === 0) {
+        return isCorporatePage;
+      }
       for (var j = 0; j < targets.length; j++) {
         var tgt = (targets[j] || '').trim().toLowerCase();
         if (!tgt) continue;
-        if (tgt.indexOf('/') !== 0) tgt = '/' + tgt;
-        if (path.toLowerCase().indexOf(tgt) !== -1) return true;
+        var cleanTgt = tgt.replace(/^\//, '');
+        if (cleanTgt && lowerPath.indexOf(cleanTgt) !== -1) return true;
       }
       return false;
     }
@@ -223,9 +266,14 @@
           if (Object.prototype.hasOwnProperty.call(SLOT_SELECTORS, key)) {
             var containers = findContainers(SLOT_SELECTORS[key]);
             var adConfig = adsMap[key];
+            var isAllowed = adConfig && adConfig.is_enabled && isAdAllowedOnCurrentPage(adConfig);
+
+            if (isAllowed && containers.length === 0) {
+              containers = ensureContainer(key);
+            }
 
             for (var c = 0; c < containers.length; c++) {
-              if (adConfig && adConfig.is_enabled && isAdAllowedOnCurrentPage(adConfig)) {
+              if (isAllowed) {
                 applyAdToElement(containers[c], adConfig, isMobile);
               } else {
                 // Pasife alınmış, bu sayfada filtrelenmiş veya silinmiş reklam yerleşimini vitrinde gizle
