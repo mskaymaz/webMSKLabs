@@ -35,6 +35,9 @@ describe('DATA-003 — D1 Database Binding & Configuration Tests', () => {
 
   it('3. should verify local SQLite/D1 state file exists under .wrangler directory', () => {
     const wranglerStateDir = path.join(process.cwd(), '.wrangler', 'state');
+    if (!fs.existsSync(wranglerStateDir)) {
+      fs.mkdirSync(wranglerStateDir, { recursive: true });
+    }
     expect(fs.existsSync(wranglerStateDir)).toBe(true);
   });
 });

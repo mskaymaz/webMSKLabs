@@ -194,3 +194,8 @@ Tüm web ve mobil içerikler tek bir Google E-Tablo üzerinden kod yazmadan gör
 
 ### 📌 GELECEK OTURUM NOTU / NEXT SESSION NOTE
 - [ ] **Gözden Geçirme & İnceleme:** Blog sayfası altyapısı ve mimarisi tamamlandı. Ana sayfa (index.html) ile blog yapısının (log/blog.html) görsel, yapısal ve estetik bütünlüğü detaylı bir şekilde gözden geçirilecek ve ince ayarlar yapılacak. / Review & Refine: Blog architecture complete. Main page and blog UI will be visually and structurally reviewed and refined in the next session.
+
+#### Adım 21: CI/CD Quality Gates & Node.js 22 Güncellemesi (21.10.2026 - 15:00)
+- [x] 21.1 `.github/workflows/ci.yml` ve `d1_backup.yml` iş akışlarında Node.js sürümü 20'den 22'ye güncellendi (Node 20 deprecation ve `node:sqlite` uyumsuzluğu giderildi).
+- [x] 21.2 `tests/data003.test.ts` testi CI ortamı için `.wrangler/state` klasörünü otomatik oluşturan koruma mantığıyla güçlendirildi.
+- [x] 21.3 Yerel test ortamında tüm 5 Quality Gates (TypeScript, Satır Limiti, i18n, Vitest 604 test, Vite Build) başarıyla doğrulandı.
