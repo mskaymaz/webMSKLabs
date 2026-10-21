@@ -1125,9 +1125,9 @@ body.dark-theme .arabic-btn-icon {
 /* Reklam Alanları */
 .desktop-ad {
   width: 120px;
-  margin-top: var(--desktop-ad-top-margin, 195px); /* Navigasyon menüsünün bittiği yerin 15px altından başlar */
+  margin-top: 0;
   position: sticky;
-  top: 20px;
+  top: 140px;
   flex-shrink: 0;
 }
 
@@ -1137,17 +1137,6 @@ body.dark-theme .arabic-btn-icon {
 
 .desktop-ad-right {
   width: 120px;
-}
-
-/* Üst Sabit Header Bulunan İç Sayfalarda Reklam Başlangıcı */
-body:has(.site-header) .desktop-ad,
-body:has(.bizce-header) .desktop-ad,
-.site-header ~ .layout-wrapper .desktop-ad,
-.bizce-header ~ .layout-wrapper .desktop-ad,
-.site-header ~ nav ~ .layout-wrapper .desktop-ad,
-.bizce-header ~ nav ~ .layout-wrapper .desktop-ad {
-  margin-top: 95px;
-  top: 80px;
 }
 
 .ad-placeholder {
@@ -1165,21 +1154,27 @@ body:has(.bizce-header) .desktop-ad,
 }
 
 .desktop-ad .ad-placeholder {
-  height: 600px;
+  min-height: 120px;
 }
 
-.infeed-ad-container {
+.infeed-ad-container,
+.in-content-ad {
   margin: 20px auto;
-  max-width: 728px;
   width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 }
 
-.infeed-ad-container .ad-placeholder {
-  height: 90px;
-  max-height: 90px;
+.infeed-ad-container .ad-placeholder,
+.in-content-ad .ad-placeholder {
+  min-height: 90px;
   border-radius: 10px;
   padding: 8px;
   font-size: 0.8rem;
+  box-sizing: border-box;
 }
 
 /* Yan Reklam Gizleme Breakpoint'i (Tablet ve Mobil 1080px ve altı cihazlar) */

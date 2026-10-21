@@ -69,32 +69,56 @@
       return;
     }
 
-    // Reklam görünür yapılır
-    el.style.display = isVertical ? 'block' : 'flex';
-
-    // Marj ayarları uygulanır
-    if (cfg.margin_top !== undefined) el.style.marginTop = cfg.margin_top + 'px';
-    if (cfg.margin_bottom !== undefined) el.style.marginBottom = cfg.margin_bottom + 'px';
-    if (cfg.margin_left !== undefined) el.style.marginLeft = cfg.margin_left + 'px';
-    if (cfg.margin_right !== undefined) el.style.marginRight = cfg.margin_right + 'px';
-
-    // Sticky ayarı (yalnızca masaüstü)
-    if (!isMobile && cfg.is_sticky) {
-      el.style.position = 'sticky';
-      el.style.top = '20px';
-    }
-
-    // Hizalama (Yatay reklamlar için)
-    if (!isVertical) {
-      var alignMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
-      el.style.justifyContent = alignMap[cfg.align || 'center'] || 'center';
-    }
-
     // Boyut ayrıştırma
     var dim = parseDimensions(cfg.preset_size, cfg.custom_width, cfg.custom_height, isMobile);
-    if (!dim.isResponsive && dim.w > 0) {
-      if (isVertical) {
-        el.style.width = dim.w + 'px';
+
+    // Sabit duran hareketsiz üst panelin (header) yüksekliği
+    var headerEl = document.querySelector('.site-header-sticky') || document.querySelector('header');
+    var headerH = headerEl ? Math.round(headerEl.getBoundingClientRect().height) : 136;
+
+    var mTop = Number(cfg.margin_top) || 0;
+    var mBottom = Number(cfg.margin_bottom) || 0;
+    var mLeft = Number(cfg.margin_left) || 0;
+    var mRight = Number(cfg.margin_right) || 0;
+    var align = cfg.align || 'center';
+
+    if (isVertical) {
+      // 1. DİKEY REKLAMLAR: Üst marj sabit duran panelden (header) itibaren başlar
+      el.style.display = 'block';
+      el.style.width = dim.isResponsive ? '100%' : dim.w + 'px';
+      el.style.marginTop = mTop + 'px';
+      el.style.marginBottom = mBottom + 'px';
+      el.style.marginLeft = mLeft + 'px';
+      el.style.marginRight = mRight + 'px';
+
+      // Sticky: Kaydırma sırasında da sabit üst panelin hemen altındaki marj mesafesinde kilitlenir
+      if (!isMobile && cfg.is_sticky) {
+        el.style.position = 'sticky';
+        el.style.top = (headerH + mTop) + 'px';
+      } else {
+        el.style.position = 'static';
+        el.style.top = 'auto';
+      }
+    } else {
+      // 2. YATAY REKLAMLAR: Bölümler arası ve sayfa altı reklamları için kusursuz yatay ortalama
+      el.style.display = 'flex';
+      el.style.width = '100%';
+      el.style.boxSizing = 'border-box';
+      el.style.marginTop = mTop + 'px';
+      el.style.marginBottom = mBottom + 'px';
+
+      if (align === 'center') {
+        el.style.justifyContent = 'center';
+        el.style.marginLeft = 'auto';
+        el.style.marginRight = 'auto';
+      } else if (align === 'left') {
+        el.style.justifyContent = 'flex-start';
+        el.style.marginLeft = mLeft + 'px';
+        el.style.marginRight = 'auto';
+      } else if (align === 'right') {
+        el.style.justifyContent = 'flex-end';
+        el.style.marginLeft = 'auto';
+        el.style.marginRight = mRight + 'px';
       }
     }
 
@@ -110,8 +134,15 @@
       } catch (_) {}
     } else if (ph) {
       // Geliştirme/Önizleme modu: Boyut ve başlık bilgisini güncelle
-      ph.style.minHeight = dim.h + 'px';
       ph.style.width = dim.isResponsive ? '100%' : dim.w + 'px';
+      ph.style.maxWidth = '100%';
+      ph.style.height = dim.h + 'px';
+      ph.style.minHeight = dim.h + 'px';
+      ph.style.boxSizing = 'border-box';
+      ph.style.display = 'flex';
+      ph.style.flexDirection = 'column';
+      ph.style.alignItems = 'center';
+      ph.style.justifyContent = 'center';
       ph.innerHTML = (ad.title || 'Reklam Alanı') + '<br><small>(' + dim.w + 'x' + dim.h + ' px)</small>';
     }
   }
@@ -123,7 +154,8 @@
         ? 'http://localhost:8787/api'
         : 'https://api.msklabs.org/api');
 
-    fetch(apiUrl + '/v1/ads')
+    // Tarayıcı önbelleğini atlayarak anlık güncellemeyi sağlar
+    fetch(apiUrl + '/v1/ads?_t=' + Date.now(), { cache: 'no-store' })
       .then(function (res) {
         if (!res.ok) throw new Error('Ads API HTTP ' + res.status);
         return res.json();
