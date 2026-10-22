@@ -1,4 +1,4 @@
-/* ======================================================
+﻿/* ======================================================
    MSK LABS - GLOBAL DESIGN SYSTEM & STYLESHEET
    ====================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Flex:wght@300;400;500;600;700&display=swap');
@@ -1126,9 +1126,8 @@ body.dark-theme .arabic-btn-icon {
 .desktop-ad {
   width: 120px;
   margin-top: 0;
-  position: sticky;
-  top: 140px;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .desktop-ad-left {
