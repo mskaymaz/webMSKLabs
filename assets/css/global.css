@@ -1,4 +1,4 @@
-﻿/* ======================================================
+/* ======================================================
    MSK LABS - GLOBAL DESIGN SYSTEM & STYLESHEET
    ====================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Flex:wght@300;400;500;600;700&display=swap');
@@ -2702,4 +2702,232 @@ body.dark-theme .web-click-icon {
   height: 0 !important;
   min-height: 0 !important;
   border: none !important;
+}
+
+/* ==========================================================================
+   CMS KURUMSAL SAYFA BLOKLARI (CMS Studio Rich Blocks)
+   ========================================================================== */
+.cms-hero {
+  padding: 40px 20px;
+  margin-bottom: 24px;
+}
+.cms-hero.text-center { text-align: center; }
+.cms-hero.text-left { text-align: left; }
+.cms-hero.text-right { text-align: right; }
+.cms-hero h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 12px 0;
+  line-height: 1.25;
+}
+.cms-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  background: rgba(147, 51, 234, 0.12);
+  color: #9333ea;
+  margin-bottom: 10px;
+}
+.cms-btn-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.cms-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 22px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+}
+.cms-btn-primary {
+  background: #0284c7;
+  color: #ffffff !important;
+}
+.cms-btn-primary:hover {
+  background: #0369a1;
+}
+.cms-btn-secondary {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-main, #0f172a) !important;
+}
+.cms-btn-secondary:hover {
+  background: rgba(148, 163, 184, 0.25);
+}
+
+/* Izgara & Kartlar */
+.cms-features-section {
+  margin: 32px 0;
+}
+.cms-sub {
+  color: var(--text-muted, #64748b);
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+.cms-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+.cms-grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.cms-grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.cms-grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+.cms-card {
+  background: rgba(241, 245, 249, 0.6);
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cms-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.06);
+}
+.cms-card h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: var(--text-main, #0f172a);
+}
+
+/* SSS Akordeon */
+.cms-faq-group {
+  margin: 32px 0;
+}
+.cms-faq-item {
+  background: rgba(241, 245, 249, 0.6);
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+}
+.cms-faq-item summary {
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main, #0f172a);
+}
+.cms-faq-item p {
+  margin: 12px 0 0 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-secondary, #475569);
+}
+
+/* İletişim Kutusu */
+.cms-contact-box {
+  background: rgba(241, 245, 249, 0.6);
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 24px;
+  margin: 32px 0;
+}
+.cms-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.cms-contact-row {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+}
+
+/* CTA Banner */
+.cms-cta-banner {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.12), rgba(99, 102, 241, 0.12));
+  border: 1px solid rgba(2, 132, 199, 0.25);
+  border-radius: 14px;
+  padding: 36px 24px;
+  margin: 36px 0;
+}
+
+/* Fiyatlandırma ve Karşılaştırma */
+.cms-pricing-table {
+  margin: 36px 0;
+}
+.cms-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.cms-pricing-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.cms-pricing-card.featured {
+  border: 2px solid #0284c7;
+  background: rgba(2, 132, 199, 0.04);
+}
+.cms-price {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0284c7;
+  margin: 8px 0 16px 0;
+}
+.cms-pricing-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+}
+.cms-pricing-card li {
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 18px;
+}
+.cms-pricing-card li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #10b981;
+  font-weight: bold;
+}
+
+/* Koyu Tema Uyumu */
+[data-theme="dark"] .cms-card,
+[data-theme="dark"] .cms-faq-item,
+[data-theme="dark"] .cms-contact-box,
+[data-theme="dark"] .cms-pricing-card {
+  background: var(--bg-card, #1e293b);
+  border-color: var(--border-color, #334155);
+  color: var(--text-main, #f8fafc);
+}
+[data-theme="dark"] .cms-contact-row {
+  background: var(--bg-surface, #0f172a);
+  border-color: var(--border-color, #334155);
+}
+
+/* Arapça RTL Kuralları */
+html[dir="rtl"] .cms-hero.text-left,
+body.lang-ar .cms-hero.text-left {
+  text-align: right !important;
+}
+html[dir="rtl"] .cms-pricing-card li,
+body.lang-ar .cms-pricing-card li {
+  padding-left: 0 !important;
+  padding-right: 18px !important;
+}
+html[dir="rtl"] .cms-pricing-card li::before,
+body.lang-ar .cms-pricing-card li::before {
+  left: auto !important;
+  right: 0 !important;
 }
