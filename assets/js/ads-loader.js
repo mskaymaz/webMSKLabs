@@ -7,9 +7,13 @@
   'use strict';
 
   var SLOT_SELECTORS = {
-    ad_sidebar_right: ['.desktop-ad-right', 'aside.desktop-ad-right', '[data-ad-slot="sidebar_right"]'],
-    ad_sidebar_left: ['.desktop-ad-left', 'aside.desktop-ad-left', '[data-ad-slot="sidebar_left"]'],
-    ad_in_content: ['.in-content-ad', '[data-ad-slot="in_content"]', '.infeed-ad-between'],
+    ad_header_top: ['.top-ad-banner', '.header-ad-container', '[data-ad-slot="header_top"]'],
+    ad_sidebar_left: ['.desktop-ad-left-1', '[data-ad-slot="sidebar_left_1"]', '.desktop-ad-left', '[data-ad-slot="sidebar_left"]'],
+    ad_sidebar_left_2: ['.desktop-ad-left-2', '[data-ad-slot="sidebar_left_2"]'],
+    ad_sidebar_right: ['.desktop-ad-right-1', '[data-ad-slot="sidebar_right_1"]', '.desktop-ad-right', '[data-ad-slot="sidebar_right"]'],
+    ad_sidebar_right_2: ['.desktop-ad-right-2', '[data-ad-slot="sidebar_right_2"]'],
+    ad_in_content: ['.in-content-ad-1', '.in-content-ad:not(.in-content-ad-2)', '[data-ad-slot="in_content"]', '.infeed-ad-between'],
+    ad_in_content_2: ['.in-content-ad-2', '[data-ad-slot="in_content_2"]'],
     ad_footer_bottom: ['.infeed-ad-container', '.desktop-ad-footer', '[data-ad-slot="footer_bottom"]'],
   };
 
@@ -59,7 +63,81 @@
     'iletisim.html', 'hakkimizda.html'
   ];
 
+  function collapseElement(el) {
+    if (!el) return;
+    el.style.display = 'none';
+    el.style.marginTop = '0px';
+    el.style.marginBottom = '0px';
+    el.style.marginLeft = '0px';
+    el.style.marginRight = '0px';
+    el.style.padding = '0px';
+    el.style.height = '0px';
+    el.style.minHeight = '0px';
+    el.style.border = 'none';
+    el.setAttribute('data-ad-disabled', 'true');
+  }
+
+  function getCurrentPageKey() {
+    var rawPath = (window.location.pathname || '').replace(/\\/g, '/').toLowerCase();
+    if (rawPath === '' || rawPath === '/' || rawPath.endsWith('/')) {
+      return 'index.html';
+    }
+    var segments = rawPath.split('/').filter(Boolean);
+    var file = segments.length ? segments[segments.length - 1] : 'index.html';
+    if (file.indexOf('.html') === -1) file = file + '.html';
+    if (rawPath.indexOf('/blog/') !== -1 || file === 'blog.html') return 'blog.html';
+    if (rawPath.indexOf('/apps/') !== -1 || file === 'apps.html' || file === 'app.html') return 'apps.html';
+    if (file === 'bizkimiz.html') return 'who-we-are.html';
+    return file;
+  }
+
   function ensureContainer(key) {
+    if (key === 'ad_header_top') {
+      var headerEl = document.querySelector('.site-header-sticky') || document.querySelector('header');
+      if (headerEl && headerEl.parentNode) {
+        var elTop = document.createElement('div');
+        elTop.className = 'top-ad-banner';
+        elTop.setAttribute('data-ad-slot', 'header_top');
+        elTop.innerHTML = '<div class="ad-placeholder">Sayfa Başı Reklam (Top Banner)</div>';
+        headerEl.parentNode.insertBefore(elTop, headerEl.nextSibling);
+        return [elTop];
+      }
+    }
+    if (key === 'ad_sidebar_left_2') {
+      var leftAside = document.querySelector('aside.desktop-ad-left');
+      if (leftAside) {
+        var elL2 = document.createElement('div');
+        elL2.className = 'desktop-ad-left-2';
+        elL2.setAttribute('data-ad-slot', 'sidebar_left_2');
+        elL2.innerHTML = '<div class="ad-placeholder">Sol Dikey Reklam 2</div>';
+        leftAside.appendChild(elL2);
+        return [elL2];
+      }
+    }
+    if (key === 'ad_sidebar_right_2') {
+      var rightAside = document.querySelector('aside.desktop-ad-right');
+      if (rightAside) {
+        var elR2 = document.createElement('div');
+        elR2.className = 'desktop-ad-right-2';
+        elR2.setAttribute('data-ad-slot', 'sidebar_right_2');
+        elR2.innerHTML = '<div class="ad-placeholder">Sağ Dikey Reklam 2</div>';
+        rightAside.appendChild(elR2);
+        return [elR2];
+      }
+    }
+    if (key === 'ad_in_content_2') {
+      var contentParent = document.querySelector('.blog-content-body') ||
+        document.querySelector('.static-page-card') ||
+        document.querySelector('.portfolio-container');
+      if (contentParent) {
+        var elC2 = document.createElement('div');
+        elC2.className = 'in-content-ad in-content-ad-2';
+        elC2.setAttribute('data-ad-slot', 'in_content_2');
+        elC2.innerHTML = '<div class="ad-placeholder">Sayfa Ortası Reklam 2</div>';
+        contentParent.appendChild(elC2);
+        return [elC2];
+      }
+    }
     if (key === 'ad_footer_bottom') {
       var targetParent = document.querySelector('.portfolio-container') ||
         document.querySelector('.blog-detail-container') ||
@@ -78,6 +156,20 @@
       }
     }
     return [];
+  }
+
+  function isSlotActiveForCurrentPage(key, adConfig, matrix) {
+    if (!adConfig) return false;
+    var pageKey = getCurrentPageKey();
+
+    // 1. Sayfa-Reklam Dağılım Matrisi Kontrolü (Varsa doğrudan bağlayıcıdır)
+    if (matrix && matrix[pageKey] && typeof matrix[pageKey][key] === 'boolean') {
+      return matrix[pageKey][key] && (adConfig.is_enabled !== false);
+    }
+
+    // 2. Matriste tanımlı değilse adConfig bazlı kapsam kontrolü
+    if (!adConfig.is_enabled) return false;
+    return isAdAllowedOnCurrentPage(adConfig);
   }
 
   function isAdAllowedOnCurrentPage(ad) {
@@ -261,12 +353,14 @@
 
         var isMobile = window.innerWidth <= 850;
 
+        var matrix = data.matrix || null;
+
         // Tanımlı tüm yerleşimleri tara ve uygula
         for (var key in SLOT_SELECTORS) {
           if (Object.prototype.hasOwnProperty.call(SLOT_SELECTORS, key)) {
             var containers = findContainers(SLOT_SELECTORS[key]);
             var adConfig = adsMap[key];
-            var isAllowed = adConfig && adConfig.is_enabled && isAdAllowedOnCurrentPage(adConfig);
+            var isAllowed = isSlotActiveForCurrentPage(key, adConfig, matrix);
 
             if (isAllowed && containers.length === 0) {
               containers = ensureContainer(key);
@@ -276,11 +370,28 @@
               if (isAllowed) {
                 applyAdToElement(containers[c], adConfig, isMobile);
               } else {
-                // Pasife alınmış, bu sayfada filtrelenmiş veya silinmiş reklam yerleşimini vitrinde gizle
-                containers[c].style.display = 'none';
+                // Pasife alınmış reklam yerleşimini vitrinde sıfır boşlukla gizle
+                collapseElement(containers[c]);
               }
             }
           }
+        }
+
+        // Yan Sütun Temizliği: Sol veya sağ sütunun tüm reklamları pasifse sütunu sıfırla
+        var isLeftActive = isSlotActiveForCurrentPage('ad_sidebar_left', adsMap['ad_sidebar_left'], matrix) ||
+                           isSlotActiveForCurrentPage('ad_sidebar_left_2', adsMap['ad_sidebar_left_2'], matrix);
+        var leftAside = document.querySelector('aside.desktop-ad-left');
+        if (leftAside && !isLeftActive) {
+          collapseElement(leftAside);
+          leftAside.style.width = '0px';
+        }
+
+        var isRightActive = isSlotActiveForCurrentPage('ad_sidebar_right', adsMap['ad_sidebar_right'], matrix) ||
+                            isSlotActiveForCurrentPage('ad_sidebar_right_2', adsMap['ad_sidebar_right_2'], matrix);
+        var rightAside = document.querySelector('aside.desktop-ad-right');
+        if (rightAside && !isRightActive) {
+          collapseElement(rightAside);
+          rightAside.style.width = '0px';
         }
       })
       .catch(function (err) {
