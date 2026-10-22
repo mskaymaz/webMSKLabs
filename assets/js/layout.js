@@ -1,13 +1,4 @@
-/**
- * MSK Labs - Layout & Language/Theme Component Module
- * 
- * Policy:
- * 1. Tip 1 (Static Core Pages): Injects layout navigation, 2-Row Footer, language switcher, and dark theme toggle.
- * 2. Tip 2 (Dynamic Template Pages): Shared layout components for app showcase and blog templates.
- * 3. Active Link Highlighting: Pure CSS class toggle (.active-nav-link) on navigation anchors.
- * 4. Unified Language & Theme Module: Combines language buttons and theme toggle into a seamless header module.
- */
-
+// MSK Labs - Layout & Theme Module
 (function () {
   // Path depth detection
   var pathname = window.location.pathname.replace(/\\/g, '/');
@@ -515,9 +506,9 @@
         
         var queryParts = urlPathAndQuery.split('?');
         var path = queryParts[0];
-        var queryStr = queryParts[1] || '';
+
         
-        var params = new URLSearchParams(queryStr);
+        var params = new URLSearchParams(queryParts[1] || '');
         if (lang !== config.defaultLang) {
           params.set('lang', lang);
         } else {
@@ -581,6 +572,14 @@
       s.defer = true;
       s.setAttribute('data-msk-ads', 'true');
       (document.head || document.documentElement).appendChild(s);
+      if (!document.querySelector('script[data-msk-pages]')) {
+        var p = document.createElement('script');
+        p.src = basePath + 'assets/js/page-loader.js';
+        p.defer = true;
+        p.setAttribute('data-msk-pages', 'true');
+        (document.head || document.documentElement).appendChild(p);
+      }
+
     } catch (_) {}
   }
 
@@ -591,6 +590,7 @@
     highlightActiveTopNav();
     syncLangAttributes();
     injectAdsLoader();
+
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', bootLayout);
