@@ -357,13 +357,16 @@
 
     if (placement === 'right_floating' || placement === 'left_floating') {
       var cardW = item.cardWidth || (sizePreset === 'compact' ? 260 : sizePreset === 'large' ? 380 : 310);
-      var padCard = sizePreset === 'compact' ? '10px 12px' : sizePreset === 'large' ? '16px 18px' : '13px 15px';
-      var fontCard = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12.5px';
+      var padCard = sizePreset === 'compact' ? '8px 10px' : sizePreset === 'large' ? '14px 16px' : '10px 12px';
+      var fontCard = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12px';
+      var topOff = item.topOffset !== undefined ? item.topOffset : 110;
 
       container.className = 'msk-announcement-floating msk-theme-' + themeKey;
       container.style.width = cardW + 'px';
       container.style.padding = padCard;
       container.style.fontSize = fontCard;
+      container.style.top = topOff + 'px';
+      if (item.cardHeight) container.style.height = item.cardHeight + 'px';
       if (placement === 'left_floating') {
         container.style.left = '20px';
         container.style.right = 'auto';
@@ -397,9 +400,9 @@
       document.body.appendChild(container);
     } else {
       // Üst Askılı Şerit (Sayfayı asla aşağı itmez)
-      var minH = item.customHeight || (sizePreset === 'compact' ? 36 : sizePreset === 'large' ? 62 : 46);
-      var padHang = sizePreset === 'compact' ? '6px 14px' : sizePreset === 'large' ? '12px 20px' : '9px 16px';
-      var fontHang = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12.5px';
+      var minH = item.customHeight || (sizePreset === 'compact' ? 26 : sizePreset === 'large' ? 48 : 34);
+      var padHang = sizePreset === 'compact' ? '1px 10px' : sizePreset === 'large' ? '3px 16px' : '2px 12px';
+      var fontHang = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12px';
 
       container.className = 'msk-announcement-hanging msk-theme-' + themeKey;
       container.style.minHeight = minH + 'px';
