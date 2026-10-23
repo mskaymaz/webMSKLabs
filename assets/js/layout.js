@@ -157,6 +157,9 @@
               <button onclick="setLang('en')" data-lang="en" title="English">EN</button>
               <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img src="${basePath}img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
               <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Gece Modu / Light Mode">🌙</button>
+              <button id="mskAnnTriggerBtn" class="announcement-trigger-btn" style="display:none; position:relative; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; font-size:15px; padding:3px 6px; border-radius:6px; color:inherit;" title="Duyurular" aria-label="Duyurular">
+                📢<span id="mskAnnBadge" style="position:absolute; top:-2px; right:-2px; background:#ef4444; color:#fff; font-size:9px; font-weight:800; border-radius:10px; padding:1px 5px; line-height:1; display:none;">0</span>
+              </button>
             </div>
             <button type="button" class="hamburger-toggle-btn" id="hamburgerToggleBtn" aria-label="Menüyü Aç/Kapat" onclick="toggleMobileMenu()">
               ☰

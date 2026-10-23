@@ -1,19 +1,21 @@
 /**
- * MSK Labs - Dynamic Announcement & Banner Loader (Flyout Engine)
- * Fetches active announcements from /api/v1/templates (key_name: 'announcement_bar')
- * Supports:
- *  1. 'top_hanging': Flyout floating banner pinned directly beneath the sticky header (0 layout shift, never pushes page down)
- *  2. 'right_floating': Flyout floating card pinned to right edge (0 layout shift, never pushes page to the left)
- * Features: Rich HTML, images, designs, clickable URLs, dismissable 'X', size presets, custom px dimensions, opacity/transparency.
+ * MSK Labs - Dynamic Multi-Announcement & Ticker Loader (Flyout Engine v2)
+ * Features:
+ *  - Round-Robin queue across multi-announcements (different announcement per visit)
+ *  - Static multi-line vs. Ticker (kayan yazı) mode with pause-on-hover & speed/direction
+ *  - Flyout top_hanging banner (0 layout shift, never pushes page down)
+ *  - Header 📢 announcement button with badge & popover list to view/reopen any announcement
+ *  - Dismiss persistence per item with auto-advance to next announcement
  */
 (function () {
   'use strict';
 
-  var DISMISS_KEY = 'msk_announcement_dismissed_v1';
+  var DISMISS_KEY = 'msk_dismissed_items_v2';
+  var SEEN_KEY = 'msk_seen_items_v2';
 
   var BANNER_THEMES = {
     info: {
-      bgDark: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)',
+      bgDark: 'linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(30,58,138,0.95) 100%)',
       bgLight: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
       textDark: '#bfdbfe',
       textLight: '#1e40af',
@@ -22,7 +24,7 @@
       accent: '#2563eb',
     },
     success: {
-      bgDark: 'linear-gradient(135deg, #022c22 0%, #065f46 100%)',
+      bgDark: 'linear-gradient(135deg, rgba(2,44,34,0.95) 0%, rgba(6,95,70,0.95) 100%)',
       bgLight: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
       textDark: '#a7f3d0',
       textLight: '#166534',
@@ -31,7 +33,7 @@
       accent: '#16a34a',
     },
     warning: {
-      bgDark: 'linear-gradient(135deg, #451a03 0%, #78350f 100%)',
+      bgDark: 'linear-gradient(135deg, rgba(69,26,3,0.95) 0%, rgba(120,53,15,0.95) 100%)',
       bgLight: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)',
       textDark: '#fef08a',
       textLight: '#92400e',
@@ -40,8 +42,8 @@
       accent: '#d97706',
     },
     purple: {
-      bgDark: 'linear-gradient(135deg, #2e1065 0%, #581c87 100%)',
-      bgLight: 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%)',
+      bgDark: 'linear-gradient(135deg, rgba(46,16,101,0.95) 0%, rgba(88,28,135,0.95) 100%)',
+      bgLight: 'linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%)',
       textDark: '#e9d5ff',
       textLight: '#6b21a8',
       borderDark: '1px solid rgba(168, 85, 247, 0.4)',
@@ -87,9 +89,36 @@
         justify-content: space-between;
         gap: 14px;
         line-height: 1.5;
+        overflow: hidden;
       }
 
-      /* Flyout Sağ Kayan Kart (Sayfayı asla sola itmez, sağ kenarda yüzer) */
+      /* Kayan Yazı (Ticker / Marquee) */
+      .msk-ticker-wrap {
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .msk-ticker-track {
+        display: inline-block;
+        white-space: nowrap;
+        will-change: transform;
+      }
+      .msk-ticker-track:hover {
+        animation-play-state: paused !important;
+      }
+      @keyframes mskMarqueeRTL {
+        0% { transform: translateX(100vw); }
+        100% { transform: translateX(-100%); }
+      }
+      @keyframes mskMarqueeLTR {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100vw); }
+      }
+
+      /* Flyout Sağ Kayan Kart */
       .msk-announcement-floating {
         position: fixed !important;
         right: 20px !important;
@@ -110,107 +139,307 @@
         to { transform: translateX(0); opacity: 1; }
       }
 
-      /* Tema Renkleri - Açık Mod (Varsayılan Aydınlık) */
+      /* Tema Renkleri */
       .msk-theme-info {
         background: linear-gradient(135deg, rgba(239, 246, 255, 0.94) 0%, rgba(219, 234, 254, 0.94) 100%) !important;
-        color: #1e40af !important;
-        border-color: #bfdbfe !important;
+        color: #1e40af !important; border-color: #bfdbfe !important;
       }
       .msk-theme-success {
         background: linear-gradient(135deg, rgba(240, 253, 244, 0.94) 0%, rgba(220, 252, 231, 0.94) 100%) !important;
-        color: #166534 !important;
-        border-color: #bbf7d0 !important;
+        color: #166534 !important; border-color: #bbf7d0 !important;
       }
       .msk-theme-warning {
         background: linear-gradient(135deg, rgba(255, 251, 235, 0.94) 0%, rgba(254, 243, 199, 0.94) 100%) !important;
-        color: #92400e !important;
-        border-color: #fde68a !important;
+        color: #92400e !important; border-color: #fde68a !important;
       }
       .msk-theme-purple {
         background: linear-gradient(135deg, rgba(250, 245, 255, 0.94) 0%, rgba(243, 232, 255, 0.94) 100%) !important;
-        color: #6b21a8 !important;
-        border-color: #e9d5ff !important;
+        color: #6b21a8 !important; border-color: #e9d5ff !important;
       }
 
-      /* Tema Renkleri - Koyu Mod */
-      [data-theme="dark"] .msk-theme-info,
-      .dark-theme .msk-theme-info {
+      [data-theme="dark"] .msk-theme-info, .dark-theme .msk-theme-info {
         background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 58, 138, 0.92) 100%) !important;
-        color: #bfdbfe !important;
-        border-color: rgba(59, 130, 246, 0.4) !important;
+        color: #bfdbfe !important; border-color: rgba(59, 130, 246, 0.4) !important;
       }
-      [data-theme="dark"] .msk-theme-success,
-      .dark-theme .msk-theme-success {
+      [data-theme="dark"] .msk-theme-success, .dark-theme .msk-theme-success {
         background: linear-gradient(135deg, rgba(2, 44, 34, 0.92) 0%, rgba(6, 95, 70, 0.92) 100%) !important;
-        color: #a7f3d0 !important;
-        border-color: rgba(16, 185, 129, 0.4) !important;
+        color: #a7f3d0 !important; border-color: rgba(16, 185, 129, 0.4) !important;
       }
-      [data-theme="dark"] .msk-theme-warning,
-      .dark-theme .msk-theme-warning {
+      [data-theme="dark"] .msk-theme-warning, .dark-theme .msk-theme-warning {
         background: linear-gradient(135deg, rgba(69, 26, 3, 0.92) 0%, rgba(120, 53, 15, 0.92) 100%) !important;
-        color: #fef08a !important;
-        border-color: rgba(245, 158, 11, 0.4) !important;
+        color: #fef08a !important; border-color: rgba(245, 158, 11, 0.4) !important;
       }
-      [data-theme="dark"] .msk-theme-purple,
-      .dark-theme .msk-theme-purple {
+      [data-theme="dark"] .msk-theme-purple, .dark-theme .msk-theme-purple {
         background: linear-gradient(135deg, rgba(46, 16, 101, 0.92) 0%, rgba(88, 28, 135, 0.92) 100%) !important;
-        color: #e9d5ff !important;
-        border-color: rgba(168, 85, 247, 0.4) !important;
+        color: #e9d5ff !important; border-color: rgba(168, 85, 247, 0.4) !important;
       }
 
-      .msk-ann-content img {
-        max-width: 100% !important;
-        height: auto !important;
-        border-radius: 6px;
-        margin: 4px 0;
+      /* Header 📢 Popover Dropdown */
+      .msk-ann-popover {
+        position: fixed;
+        right: 20px;
+        top: 76px;
+        width: 320px;
+        max-width: calc(100vw - 32px);
+        background: var(--bg-card, #ffffff);
+        color: var(--text-main, #0f172a);
+        border: 1px solid var(--border-color, #e2e8f0);
+        border-radius: 12px;
+        box-shadow: 0 14px 40px rgba(0,0,0,0.22);
+        z-index: 10001;
+        overflow: hidden;
+        animation: mskFlyoutDown 0.2s ease;
       }
-      .msk-ann-content p {
-        margin: 2px 0;
+      [data-theme="dark"] .msk-ann-popover {
+        background: #0f172a;
+        color: #f8fafc;
+        border-color: #334155;
       }
-      .msk-ann-content a {
-        color: inherit;
-        text-decoration: underline;
-        font-weight: 700;
+      .msk-ann-popover-item {
+        padding: 10px 14px;
+        border-bottom: 1px solid rgba(128,128,128,0.15);
+        cursor: pointer;
+        transition: background 0.15s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+      }
+      .msk-ann-popover-item:hover {
+        background: rgba(59, 130, 246, 0.1);
       }
       .msk-ann-close-btn {
-        background: transparent;
-        border: none;
-        color: inherit;
-        opacity: 0.75;
-        cursor: pointer;
-        font-size: 16px;
-        line-height: 1;
-        padding: 4px;
-        border-radius: 4px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        transition: opacity 0.15s ease, background 0.15s ease;
-        flex-shrink: 0;
+        background: transparent; border: none; color: inherit; opacity: 0.75; cursor: pointer;
+        font-size: 16px; line-height: 1; padding: 4px; border-radius: 4px; display: inline-flex;
+        align-items: center; justify-content: center; flex-shrink: 0;
       }
-      .msk-ann-close-btn:hover {
-        opacity: 1;
-        background: rgba(128, 128, 128, 0.2);
-      }
+      .msk-ann-close-btn:hover { opacity: 1; background: rgba(128, 128, 128, 0.2); }
       .msk-ann-cta-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 5px 14px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 700;
-        text-decoration: none !important;
-        cursor: pointer;
-        transition: transform 0.15s ease, opacity 0.15s ease;
-        flex-shrink: 0;
-      }
-      .msk-ann-cta-btn:hover {
-        transform: translateY(-1px);
-        opacity: 0.95;
+        display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 20px;
+        font-size: 11px; font-weight: 700; text-decoration: none !important; cursor: pointer; flex-shrink: 0;
       }
     `;
     (document.head || document.documentElement).appendChild(style);
+  }
+
+  function renderAnnouncementBanner(item, meta, allActiveItems) {
+    var existing = document.getElementById('mskActiveAnnouncementContainer');
+    if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+
+    var lang = getLang();
+    var content = (lang === 'ar' ? item.content_ar : lang === 'en' ? item.content_en : item.content_tr) || item.content_tr || '';
+    if (!content || !content.trim()) return;
+
+    injectStyles();
+
+    var placement = item.placement || meta.placement || 'top_hanging';
+    var themeKey = item.bannerType || meta.bannerType || 'info';
+    var theme = BANNER_THEMES[themeKey] || BANNER_THEMES.info;
+
+    var container = document.createElement('div');
+    container.id = 'mskActiveAnnouncementContainer';
+    container.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+    var opacityVal = (typeof item.opacity === 'number' && item.opacity >= 30) ? (item.opacity / 100) : 0.95;
+    container.style.opacity = opacityVal.toString();
+
+    var ctaHtml = '';
+    var ctaText = item.ctaText || meta.ctaText;
+    var ctaUrl = item.ctaUrl || meta.ctaUrl;
+    if (ctaText && ctaUrl) {
+      ctaHtml = '<a href="' + ctaUrl + '" class="msk-ann-cta-btn" style="background:' + theme.accent + '; color:#ffffff;">' +
+        '<span>' + ctaText + '</span> ➔</a>';
+    }
+
+    var closeBtnHtml = '';
+    var isDismissable = item.isDismissable !== false && meta.isDismissable !== false;
+    if (isDismissable) {
+      closeBtnHtml = '<button type="button" class="msk-ann-close-btn" aria-label="Kapat" title="Kapat">✕</button>';
+    }
+
+    var sizePreset = item.sizePreset || meta.sizePreset || 'standard';
+    var isTicker = meta.displayMode === 'ticker';
+
+    if (placement === 'right_floating') {
+      var cardW = item.cardWidth || (sizePreset === 'compact' ? 260 : sizePreset === 'large' ? 380 : 310);
+      var padCard = sizePreset === 'compact' ? '10px 12px' : sizePreset === 'large' ? '16px 18px' : '13px 15px';
+      var fontCard = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12.5px';
+
+      container.className = 'msk-announcement-floating msk-theme-' + themeKey;
+      container.style.width = cardW + 'px';
+      container.style.padding = padCard;
+      container.style.fontSize = fontCard;
+
+      container.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; gap:8px;">
+          <div style="font-size:11px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase;">
+            ${item.title || 'Duyuru & Kampanya'}
+          </div>
+          ${closeBtnHtml}
+        </div>
+        <div class="msk-ann-content">${content}</div>
+        ${ctaHtml ? '<div style="margin-top:10px; display:flex; justify-content:flex-end;">' + ctaHtml + '</div>' : ''}
+      `;
+
+      if (item.targetUrl) {
+        container.style.cursor = 'pointer';
+        container.addEventListener('click', function(e) {
+          if (e.target.closest('.msk-ann-close-btn') || e.target.closest('a')) return;
+          window.location.href = item.targetUrl;
+        });
+      }
+      document.body.appendChild(container);
+    } else {
+      // Üst Askılı Şerit (Sayfayı asla aşağı itmez)
+      var minH = item.customHeight || (sizePreset === 'compact' ? 36 : sizePreset === 'large' ? 62 : 46);
+      var padHang = sizePreset === 'compact' ? '6px 14px' : sizePreset === 'large' ? '12px 20px' : '9px 16px';
+      var fontHang = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12.5px';
+
+      container.className = 'msk-announcement-hanging msk-theme-' + themeKey;
+      container.style.minHeight = minH + 'px';
+      container.style.padding = padHang;
+      container.style.fontSize = fontHang;
+
+      var headerEl = document.querySelector('header.site-header-sticky') || document.querySelector('header');
+      var topPos = headerEl ? headerEl.offsetHeight : 84;
+      container.style.top = topPos + 'px';
+
+      var bodyHtml = '';
+      if (isTicker) {
+        // Ticker / Kayan Yazı Modu
+        var speedSec = meta.tickerSpeed === 'slow' ? '30s' : meta.tickerSpeed === 'fast' ? '12s' : '20s';
+        var animName = (meta.tickerDirection === 'ltr') ? 'mskMarqueeLTR' : 'mskMarqueeRTL';
+        bodyHtml = `
+          <div class="msk-ticker-wrap">
+            <div class="msk-ticker-track" style="animation: ${animName} ${speedSec} linear infinite;">
+              ${content}
+            </div>
+          </div>
+        `;
+      } else {
+        bodyHtml = `<div class="msk-ann-content" style="flex:1; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">${content}</div>`;
+      }
+
+      container.innerHTML = `
+        <div class="msk-ann-inner">
+          ${bodyHtml}
+          <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+            ${ctaHtml}
+            ${closeBtnHtml}
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(container);
+    }
+
+    // Kapatma Aksiyonu
+    var closeBtn = container.querySelector('.msk-ann-close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        container.style.opacity = '0';
+        container.style.transform = placement === 'right_floating' ? 'translateX(40px)' : 'translateY(-100%)';
+        setTimeout(function () {
+          if (container.parentNode) container.parentNode.removeChild(container);
+        }, 260);
+
+        try {
+          var dismissed = JSON.parse(localStorage.getItem(DISMISS_KEY) || '[]');
+          if (dismissed.indexOf(item.id) === -1) dismissed.push(item.id);
+          localStorage.setItem(DISMISS_KEY, JSON.stringify(dismissed));
+        } catch (_) {}
+      });
+    }
+  }
+
+  function setupHeaderTrigger(activeItems, meta, currentItem) {
+    var triggerBtn = document.getElementById('mskAnnTriggerBtn');
+    var badge = document.getElementById('mskAnnBadge');
+    if (!triggerBtn) return;
+
+    if (!activeItems || activeItems.length === 0) {
+      triggerBtn.style.display = 'none';
+      return;
+    }
+
+    triggerBtn.style.display = 'inline-flex';
+    if (badge) {
+      badge.style.display = 'inline-block';
+      badge.textContent = activeItems.length.toString();
+    }
+
+    triggerBtn.onclick = function (e) {
+      e.stopPropagation();
+      var existingPop = document.getElementById('mskAnnPopoverMenu');
+      if (existingPop) {
+        existingPop.parentNode.removeChild(existingPop);
+        return;
+      }
+
+      var popover = document.createElement('div');
+      popover.id = 'mskAnnPopoverMenu';
+      popover.className = 'msk-ann-popover';
+
+      var listHtml = activeItems.map(function (it, idx) {
+        var dotColor = it.bannerType === 'success' ? '#10b981' : it.bannerType === 'warning' ? '#f59e0b' : it.bannerType === 'purple' ? '#8b5cf6' : '#3b82f6';
+        var isCurrent = it.id === currentItem.id;
+        return `
+          <div class="msk-ann-popover-item" data-ann-id="${it.id}">
+            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${dotColor}; flex-shrink:0;"></span>
+            <span style="flex:1; font-weight:${isCurrent ? '700' : '500'};">${it.title || ('Duyuru #' + (idx + 1))}</span>
+            ${isCurrent ? '<span style="font-size:10px; opacity:0.7;">(Aktif)</span>' : ''}
+          </div>
+        `;
+      }).join('');
+
+      popover.innerHTML = `
+        <div style="padding:10px 14px; background:rgba(128,128,128,0.08); font-size:11px; font-weight:800; display:flex; justify-content:space-between; align-items:center;">
+          <span>📢 DUYURULAR & KAMPANYALAR (${activeItems.length})</span>
+          <button type="button" id="mskClosePopBtn" style="background:none; border:none; cursor:pointer; font-size:14px; color:inherit;">✕</button>
+        </div>
+        <div style="max-height:220px; overflow-y:auto;">${listHtml}</div>
+        <div style="padding:8px 12px; background:rgba(128,128,128,0.05); text-align:center;">
+          <button type="button" id="mskToggleBannerVisibilityBtn" style="font-size:11px; padding:4px 10px; border-radius:6px; border:1px solid rgba(128,128,128,0.3); background:transparent; color:inherit; cursor:pointer;">
+            Şeridi Yeniden Göster / Gizle
+          </button>
+        </div>
+      `;
+
+      document.body.appendChild(popover);
+
+      // Event handlers
+      popover.querySelector('#mskClosePopBtn').onclick = function () {
+        popover.parentNode.removeChild(popover);
+      };
+
+      popover.querySelector('#mskToggleBannerVisibilityBtn').onclick = function () {
+        var banner = document.getElementById('mskActiveAnnouncementContainer');
+        if (banner) {
+          banner.parentNode.removeChild(banner);
+        } else {
+          renderAnnouncementBanner(currentItem, meta, activeItems);
+        }
+        popover.parentNode.removeChild(popover);
+      };
+
+      popover.querySelectorAll('.msk-ann-popover-item').forEach(function (el) {
+        el.onclick = function () {
+          var targetId = el.getAttribute('data-ann-id');
+          var selected = activeItems.find(function (x) { return x.id === targetId; }) || activeItems[0];
+          currentItem = selected;
+          renderAnnouncementBanner(selected, meta, activeItems);
+          popover.parentNode.removeChild(popover);
+        };
+      });
+
+      document.addEventListener('click', function closeOut(ev) {
+        if (!popover.contains(ev.target) && ev.target !== triggerBtn) {
+          if (popover.parentNode) popover.parentNode.removeChild(popover);
+          document.removeEventListener('click', closeOut);
+        }
+      });
+    };
   }
 
   function initAnnouncementLoader() {
@@ -235,8 +464,7 @@
           }
         }
 
-        if (!ann) return;
-        if (ann.is_active !== undefined && (ann.is_active === 0 || ann.is_active === false)) return;
+        if (!ann || (ann.is_active !== undefined && (ann.is_active === 0 || ann.is_active === false))) return;
 
         var meta = {};
         if (ann.meta_json) {
@@ -245,124 +473,73 @@
           } catch (_) {}
         }
 
-        // Dismiss check - only dismiss if closed for this exact version
-        var lastDismissed = localStorage.getItem(DISMISS_KEY);
-        if (meta.isDismissable && lastDismissed && ann.updated_at && String(lastDismissed) === String(ann.updated_at)) {
-          return;
-        }
+        // Çoklu Havuz ve Varsayılan Dönüşümü
+        var pool = (meta.items && Array.isArray(meta.items) && meta.items.length > 0)
+          ? meta.items
+          : [{
+              id: 'ann_default',
+              title: 'Ana Duyuru',
+              content_tr: ann.content_tr || '',
+              content_en: ann.content_en || '',
+              content_ar: ann.content_ar || '',
+              bannerType: meta.bannerType || 'info',
+              placement: meta.placement || 'top_hanging',
+              sizePreset: meta.sizePreset || 'standard',
+              customHeight: meta.customHeight,
+              cardWidth: meta.cardWidth,
+              opacity: meta.opacity,
+              isDismissable: meta.isDismissable !== false,
+              ctaText: meta.ctaText,
+              ctaUrl: meta.ctaUrl,
+              targetUrl: meta.targetUrl,
+              isActive: true,
+            }];
 
-        var lang = getLang();
-        var content = (lang === 'ar' ? ann.content_ar : lang === 'en' ? ann.content_en : ann.content_tr) || ann.content_tr || '';
-        if (!content || !content.trim()) return;
+        var activeItems = pool.filter(function (it) { return it.isActive !== false; });
+        if (activeItems.length === 0) return;
 
-        injectStyles();
+        // Round-Robin Queue (Sırayla ve Farklı Duyuru Gösterimi)
+        var seenIds = [];
+        try { seenIds = JSON.parse(localStorage.getItem(SEEN_KEY) || '[]'); } catch (_) {}
 
-        var placement = meta.placement || 'top_hanging'; // 'top_hanging' | 'right_floating'
-        var themeKey = meta.bannerType || 'info';
-        var theme = BANNER_THEMES[themeKey] || BANNER_THEMES.info;
+        var dismissedIds = [];
+        try { dismissedIds = JSON.parse(localStorage.getItem(DISMISS_KEY) || '[]'); } catch (_) {}
 
-        var container = document.createElement('div');
-        container.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-
-        // Şeffaflık (Opacity) Ayarı
-        var opacityVal = (typeof meta.opacity === 'number' && meta.opacity >= 30 && meta.opacity <= 100)
-          ? (meta.opacity / 100)
-          : 0.95;
-        container.style.opacity = opacityVal.toString();
-
-        var ctaHtml = '';
-        if (meta.ctaText && meta.ctaUrl) {
-          ctaHtml = '<a href="' + meta.ctaUrl + '" class="msk-ann-cta-btn" style="background:' + theme.accent + '; color:#ffffff;">' +
-            '<span>' + meta.ctaText + '</span> ➔</a>';
-        }
-
-        var closeBtnHtml = '';
-        if (meta.isDismissable) {
-          closeBtnHtml = '<button type="button" class="msk-ann-close-btn" aria-label="Kapat" title="Kapat">✕</button>';
-        }
-
-        var sizePreset = meta.sizePreset || 'standard';
-
-        if (placement === 'right_floating') {
-          // 1. Sağ Kenar Flyout Kayan Kart (Sayfayı asla sola itmez)
-          var cardW = meta.cardWidth || (sizePreset === 'compact' ? 260 : sizePreset === 'large' ? 380 : 310);
-          var padCard = sizePreset === 'compact' ? '10px 12px' : sizePreset === 'large' ? '16px 18px' : '13px 15px';
-          var fontCard = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12.5px';
-
-          container.className = 'msk-announcement-floating msk-theme-' + themeKey;
-          container.style.width = cardW + 'px';
-          container.style.padding = padCard;
-          container.style.fontSize = fontCard;
-
-          container.innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; gap:8px;">
-              <div style="font-size:11px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase;">
-                Duyuru & Kampanya
-              </div>
-              ${closeBtnHtml}
-            </div>
-            <div class="msk-ann-content">
-              ${content}
-            </div>
-            ${ctaHtml ? '<div style="margin-top:10px; display:flex; justify-content:flex-end;">' + ctaHtml + '</div>' : ''}
-          `;
-
-          if (meta.targetUrl) {
-            container.style.cursor = 'pointer';
-            container.addEventListener('click', function(e) {
-              if (e.target.closest('.msk-ann-close-btn') || e.target.closest('a')) return;
-              window.location.href = meta.targetUrl;
-            });
+        // Dismiss edilmemiş ve henüz görülmemiş olan sıradaki duyuruyu bul
+        var chosenItem = null;
+        for (var k = 0; k < activeItems.length; k++) {
+          var candidate = activeItems[k];
+          if (dismissedIds.indexOf(candidate.id) === -1 && seenIds.indexOf(candidate.id) === -1) {
+            chosenItem = candidate;
+            break;
           }
+        }
 
-          document.body.appendChild(container);
+        // Eğer hepsi görülmüş ama dismiss edilmemiş varsa sıfırla ve baştan seç
+        if (!chosenItem) {
+          var undismissed = activeItems.filter(function (x) { return dismissedIds.indexOf(x.id) === -1; });
+          if (undismissed.length > 0) {
+            chosenItem = undismissed[0];
+            seenIds = [chosenItem.id];
+          } else {
+            // Tümü kapatılmışsa flyout açılmaz ama Header 📢 butonunda hazır bekler
+            chosenItem = activeItems[0];
+          }
         } else {
-          // 2. Üst Askılı Flyout Şerit (Sayfayı asla aşağı itmez, sabit panelin altında yüzer)
-          var minH = meta.customHeight || (sizePreset === 'compact' ? 36 : sizePreset === 'large' ? 62 : 46);
-          var padHang = sizePreset === 'compact' ? '6px 14px' : sizePreset === 'large' ? '12px 20px' : '9px 16px';
-          var fontHang = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12.5px';
+          seenIds.push(chosenItem.id);
+        }
+        try { localStorage.setItem(SEEN_KEY, JSON.stringify(seenIds)); } catch (_) {}
 
-          container.className = 'msk-announcement-hanging msk-theme-' + themeKey;
-          container.style.minHeight = minH + 'px';
-          container.style.padding = padHang;
-          container.style.fontSize = fontHang;
-
-          // Sabit header yüksekliğinin hemen altına yerleşir (Sayfayı aşağı itmez)
-          var headerEl = document.querySelector('header.site-header-sticky') || document.querySelector('header');
-          var topPos = headerEl ? headerEl.offsetHeight : 84;
-          container.style.top = topPos + 'px';
-
-          container.innerHTML = `
-            <div class="msk-ann-inner">
-              <div class="msk-ann-content" style="flex:1; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                ${content}
-              </div>
-              <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
-                ${ctaHtml}
-                ${closeBtnHtml}
-              </div>
-            </div>
-          `;
-
-          document.body.appendChild(container);
+        // Eğer bu duyuru henüz dismiss edilmemişse ekrana flyout olarak bas
+        if (dismissedIds.indexOf(chosenItem.id) === -1) {
+          renderAnnouncementBanner(chosenItem, meta, activeItems);
         }
 
-        // Close button click handler
-        var closeBtn = container.querySelector('.msk-ann-close-btn');
-        if (closeBtn) {
-          closeBtn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            container.style.opacity = '0';
-            container.style.transform = placement === 'right_floating' ? 'translateX(40px)' : 'translateY(-100%)';
-            setTimeout(function () {
-              if (container.parentNode) container.parentNode.removeChild(container);
-            }, 260);
-            localStorage.setItem(DISMISS_KEY, ann.updated_at || Date.now().toString());
-          });
-        }
+        // Header sağ megafon / zil butonunu hazırla
+        setupHeaderTrigger(activeItems, meta, chosenItem);
       })
       .catch(function (err) {
-        console.warn('[MSK Announcement] Duyuru yüklenemedi:', err.message);
+        console.warn('[MSK Announcement] Hata:', err.message);
       });
   }
 
