@@ -353,7 +353,7 @@
     }
 
     var sizePreset = item.sizePreset || meta.sizePreset || 'standard';
-    var isTicker = meta.displayMode === 'ticker';
+    var isTicker = (item.displayMode || meta.displayMode) === 'ticker';
 
     if (placement === 'right_floating' || placement === 'left_floating') {
       var cardW = item.cardWidth || (sizePreset === 'compact' ? 260 : sizePreset === 'large' ? 380 : 310);
@@ -420,8 +420,10 @@
       var bodyHtml = '';
       if (isTicker) {
         // Ticker / Kayan Yazı Modu
-        var speedSec = meta.tickerSpeed === 'slow' ? '30s' : meta.tickerSpeed === 'fast' ? '12s' : '20s';
-        var animName = (meta.tickerDirection === 'ltr') ? 'mskMarqueeLTR' : 'mskMarqueeRTL';
+        var curSpeed = item.tickerSpeed || meta.tickerSpeed;
+        var curDir = item.tickerDirection || meta.tickerDirection;
+        var speedSec = curSpeed === 'slow' ? '30s' : curSpeed === 'fast' ? '12s' : '20s';
+        var animName = (curDir === 'ltr') ? 'mskMarqueeLTR' : 'mskMarqueeRTL';
         bodyHtml = `
           <div class="msk-ticker-wrap">
             <div class="msk-ticker-track" style="animation: ${animName} ${speedSec} linear infinite;">
