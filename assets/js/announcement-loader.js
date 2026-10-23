@@ -380,6 +380,11 @@
       var popover = document.createElement('div');
       popover.id = 'mskAnnPopoverMenu';
       popover.className = 'msk-ann-popover';
+      try {
+        var rect = triggerBtn.getBoundingClientRect();
+        popover.style.top = (rect.bottom + 8) + 'px';
+        popover.style.right = Math.max(12, Math.round(window.innerWidth - rect.right)) + 'px';
+      } catch (_) {}
 
       var listHtml = activeItems.map(function (it, idx) {
         var dotColor = it.bannerType === 'success' ? '#10b981' : it.bannerType === 'warning' ? '#f59e0b' : it.bannerType === 'purple' ? '#8b5cf6' : '#3b82f6';
