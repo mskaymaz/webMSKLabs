@@ -3027,3 +3027,43 @@ body.lang-ar .cms-pricing-card li::before {
     top: 72px !important;
   }
 }
+
+/* ===== Ticker / Marquee Keyframes & Duyuru Alanları ===== */
+@keyframes marqueeRTL {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+@keyframes marqueeLTR {
+  0%   { transform: translate3d(-100%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+.ann-ticker-wrap {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ann-ticker-track {
+  display: inline-block;
+  white-space: pre;
+  padding-left: 100%;
+  will-change: transform;
+}
+.ann-ticker-track p {
+  display: inline;
+  margin: 0;
+  white-space: pre;
+}
+.ann-ticker-track:hover {
+  animation-play-state: paused !important;
+}
+.ann-rich-content {
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.45;
+}
+.ann-rich-content p {
+  margin: 0 0 4px 0;
+}
+.ann-rich-content p:last-child {
+  margin-bottom: 0;
+}

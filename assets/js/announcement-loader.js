@@ -112,19 +112,35 @@
       }
       .msk-ticker-track {
         display: inline-block;
-        white-space: nowrap;
+        white-space: pre;
+        padding-left: 100%;
         will-change: transform;
+      }
+      .msk-ticker-track p {
+        display: inline;
+        margin: 0;
+        white-space: pre;
       }
       .msk-ticker-track:hover {
         animation-play-state: paused !important;
       }
       @keyframes mskMarqueeRTL {
-        0% { transform: translateX(100vw); }
-        100% { transform: translateX(-100%); }
+        0% { transform: translate3d(0, 0, 0); }
+        100% { transform: translate3d(-100%, 0, 0); }
       }
       @keyframes mskMarqueeLTR {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(100vw); }
+        0% { transform: translate3d(-100%, 0, 0); }
+        100% { transform: translate3d(0, 0, 0); }
+      }
+      .msk-ann-content {
+        white-space: pre-wrap !important;
+        word-break: break-word !important;
+      }
+      .msk-ann-content p {
+        margin: 0 0 4px 0;
+      }
+      .msk-ann-content p:last-child {
+        margin-bottom: 0;
       }
 
       /* Flyout Sağ Kayan Kart */
@@ -411,13 +427,13 @@
           </div>
         `;
       } else {
-        bodyHtml = `<div class="msk-ann-content" style="flex:1; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">${content}</div>`;
+        bodyHtml = `<div class="msk-ann-content" style="flex:1;">${content}</div>`;
       }
 
       container.innerHTML = `
-        <div class="msk-ann-inner">
+        <div class="msk-ann-inner" style="align-items: ${isTicker ? 'center' : 'flex-start'};">
           ${bodyHtml}
-          <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+          <div style="display:flex; align-items:center; gap:8px; flex-shrink:0; margin-top: ${isTicker ? '0' : '2px'};">
             ${ctaHtml}
             ${closeBtnHtml}
           </div>
