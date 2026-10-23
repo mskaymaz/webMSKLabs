@@ -50,6 +50,15 @@
       borderLight: '1px solid #e9d5ff',
       accent: '#9333ea',
     },
+    custom: {
+      bgDark: '#1e293b',
+      bgLight: '#f8fafc',
+      textDark: '#f8fafc',
+      textLight: '#0f172a',
+      borderDark: '1px solid #475569',
+      borderLight: '1px solid #cbd5e1',
+      accent: '#3b82f6',
+    },
   };
 
   function getLang() {
@@ -330,7 +339,7 @@
     var sizePreset = item.sizePreset || meta.sizePreset || 'standard';
     var isTicker = meta.displayMode === 'ticker';
 
-    if (placement === 'right_floating') {
+    if (placement === 'right_floating' || placement === 'left_floating') {
       var cardW = item.cardWidth || (sizePreset === 'compact' ? 260 : sizePreset === 'large' ? 380 : 310);
       var padCard = sizePreset === 'compact' ? '10px 12px' : sizePreset === 'large' ? '16px 18px' : '13px 15px';
       var fontCard = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12.5px';
@@ -339,6 +348,17 @@
       container.style.width = cardW + 'px';
       container.style.padding = padCard;
       container.style.fontSize = fontCard;
+      if (placement === 'left_floating') {
+        container.style.left = '20px';
+        container.style.right = 'auto';
+      } else {
+        container.style.right = '20px';
+        container.style.left = 'auto';
+      }
+      if (themeKey === 'custom') {
+        if (item.customBg) container.style.background = item.customBg;
+        if (item.customText) container.style.color = item.customText;
+      }
 
       container.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; gap:8px;">
@@ -369,6 +389,10 @@
       container.style.minHeight = minH + 'px';
       container.style.padding = padHang;
       container.style.fontSize = fontHang;
+      if (themeKey === 'custom') {
+        if (item.customBg) container.style.background = item.customBg;
+        if (item.customText) container.style.color = item.customText;
+      }
 
       var headerEl = document.querySelector('header.site-header-sticky') || document.querySelector('header');
       var topPos = headerEl ? headerEl.offsetHeight : 84;
