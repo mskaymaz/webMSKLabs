@@ -216,11 +216,19 @@
         transform: scale(1.1) !important;
         opacity: 0.9 !important;
       }
-      .announcement-trigger-btn .ann-icon-glyph {
-        display: inline-block !important;
-        line-height: 1 !important;
-        font-size: 18px !important;
-        vertical-align: middle !important;
+      .announcement-trigger-btn .ann-icon-svg {
+        display: block !important;
+        width: 18px !important;
+        height: 18px !important;
+        stroke: #f59e0b !important;
+        transition: transform 0.15s ease, stroke 0.15s ease !important;
+      }
+      .announcement-trigger-btn:hover .ann-icon-svg {
+        transform: scale(1.1) !important;
+        stroke: #d97706 !important;
+      }
+      [data-theme="dark"] .announcement-trigger-btn:hover .ann-icon-svg {
+        stroke: #fbbf24 !important;
       }
       #mskAnnBadge {
         position: absolute !important;
@@ -462,7 +470,14 @@
 
       popover.innerHTML = `
         <div style="padding:10px 14px; background:rgba(128,128,128,0.08); font-size:11px; font-weight:800; display:flex; justify-content:space-between; align-items:center;">
-          <span>📢 DUYURULAR & KAMPANYALAR (${activeItems.length})</span>
+          <span style="display:inline-flex; align-items:center; gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0;">
+              <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+              <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
+              <path d="M8 6v8"/>
+            </svg>
+            DUYURULAR & KAMPANYALAR (${activeItems.length})
+          </span>
           <button type="button" id="mskClosePopBtn" style="background:none; border:none; cursor:pointer; font-size:14px; color:inherit;">✕</button>
         </div>
         <div style="max-height:220px; overflow-y:auto;">${listHtml}</div>
