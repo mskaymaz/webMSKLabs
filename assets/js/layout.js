@@ -1,5 +1,11 @@
 // MSK Labs - Layout & Theme Module
 (function () {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  if (!window.location.hash) {
+    window.scrollTo(0, 0);
+  }
   // Path depth detection
   var pathname = window.location.pathname.replace(/\\/g, '/');
   var isSubfolder = pathname.indexOf('/blog/') !== -1 || pathname.indexOf('/apps/') !== -1;
@@ -583,6 +589,17 @@
     } catch (_) {}
   }
 
+  function injectAnnouncementLoader() {
+    try {
+      if (document.querySelector('script[data-msk-announcement]')) return;
+      var a = document.createElement('script');
+      a.src = basePath + 'assets/js/announcement-loader.js';
+      a.defer = true;
+      a.setAttribute('data-msk-announcement', 'true');
+      (document.head || document.documentElement).appendChild(a);
+    } catch (_) {}
+  }
+
   function bootLayout() {
     initTheme();
     renderHeader();
@@ -590,6 +607,7 @@
     highlightActiveTopNav();
     syncLangAttributes();
     injectAdsLoader();
+    injectAnnouncementLoader();
 
   }
   if (document.readyState === 'loading') {
