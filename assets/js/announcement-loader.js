@@ -135,12 +135,37 @@
       .msk-ann-content {
         white-space: pre-wrap !important;
         word-break: break-word !important;
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .msk-ann-content img {
+        max-width: 100% !important;
+        height: auto !important;
+        display: block !important;
+        box-sizing: border-box !important;
+        margin: 6px auto !important;
       }
       .msk-ann-content p {
         margin: 0 0 4px 0;
       }
       .msk-ann-content p:last-child {
         margin-bottom: 0;
+      }
+
+      /* Dikey Satır Dönüşümlü Akış (Rotator) */
+      .msk-rotator-wrap {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .msk-rotator-item {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 100%;
       }
 
       /* Flyout Sağ ve Sol Kayan Kart */
@@ -329,7 +354,10 @@
   }
 
   function renderAnnouncementBanner(item, meta, allActiveItems) {
-    var existing = document.getElementById('mskActiveAnnouncementContainer');
+    var placement = item.placement || meta.placement || 'top_hanging';
+    var isFloating = placement === 'right_floating' || placement === 'left_floating';
+    var containerId = isFloating ? 'mskActiveFloatingContainer' : 'mskActiveTopContainer';
+    var existing = document.getElementById(containerId);
     if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
 
     var lang = getLang();
@@ -338,12 +366,11 @@
 
     injectStyles();
 
-    var placement = item.placement || meta.placement || 'top_hanging';
     var themeKey = item.bannerType || meta.bannerType || 'info';
     var theme = BANNER_THEMES[themeKey] || BANNER_THEMES.info;
 
     var container = document.createElement('div');
-    container.id = 'mskActiveAnnouncementContainer';
+    container.id = containerId;
     container.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
 
     var opacityVal = (typeof item.opacity === 'number' && item.opacity >= 30) ? (item.opacity / 100) : 0.95;
@@ -365,8 +392,9 @@
 
     var sizePreset = item.sizePreset || meta.sizePreset || 'standard';
     var isTicker = (item.displayMode || meta.displayMode) === 'ticker';
+    var isRotator = (item.displayMode || meta.displayMode) === 'rotator';
 
-    if (placement === 'right_floating' || placement === 'left_floating') {
+    if (isFloating) {
       var cardW = item.cardWidth || (sizePreset === 'compact' ? 260 : sizePreset === 'large' ? 380 : 310);
       var padCard = sizePreset === 'compact' ? '8px 10px' : sizePreset === 'large' ? '14px 16px' : '10px 12px';
       var fontCard = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12px';
@@ -423,16 +451,41 @@
 
       var bodyHtml = '';
       if (isTicker) {
-        // Ticker / Kayan Yazı Modu
+        // Ticker / Kayan Yazı Modu (Çok satırlı metinlerde satırlar arası boşluk)
         var curSpeed = item.tickerSpeed || meta.tickerSpeed;
         var curDir = item.tickerDirection || meta.tickerDirection;
         var speedSec = curSpeed === 'slow' ? '30s' : curSpeed === 'fast' ? '12s' : '20s';
         var animName = (curDir === 'ltr') ? 'mskMarqueeLTR' : 'mskMarqueeRTL';
+        var tickerHtml = content.replace(/<\/p>\s*<p[^>]*>/gi, '<span style="display:inline-block; margin:0 35px; opacity:0.6;">•</span>');
         bodyHtml = `
           <div class="msk-ticker-wrap">
             <div class="msk-ticker-track" style="animation: ${animName} ${speedSec} linear infinite;">
-              ${content}
+              ${tickerHtml}
             </div>
+          </div>
+        `;
+      } else if (isRotator) {
+        // Dikey Satır Satır Nöbetleşe / Fade Döngüsü (Rotator)
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
+        var pEls = tempDiv.querySelectorAll('p');
+        var lines = [];
+        if (pEls && pEls.length > 1) {
+          pEls.forEach(function (p) { if (p.innerHTML.trim()) lines.push(p.innerHTML.trim()); });
+        } else {
+          var brSplit = tempDiv.innerHTML.split(/<br\s*[\/]?>/gi);
+          if (brSplit.length > 1) {
+            brSplit.forEach(function (s) { if (s.trim()) lines.push(s.trim()); });
+          } else {
+            lines.push(tempDiv.innerHTML.trim());
+          }
+        }
+
+        bodyHtml = `
+          <div class="msk-rotator-wrap" style="height:22px; flex:1; position:relative; overflow:hidden;">
+            ${lines.map(function (ln, idx) {
+              return `<div class="msk-rotator-item" style="transition: opacity 0.4s ease, transform 0.4s ease; position:${idx === 0 ? 'relative' : 'absolute'}; top:0; left:0; width:100%; opacity:${idx === 0 ? '1' : '0'}; transform:${idx === 0 ? 'translateY(0)' : 'translateY(8px)'}; pointer-events:${idx === 0 ? 'auto' : 'none'};">${ln}</div>`;
+            }).join('')}
           </div>
         `;
       } else {
@@ -450,6 +503,35 @@
       `;
 
       document.body.appendChild(container);
+
+      // Rotator Zamanlayıcısı (4.5s döngü, hover durdurur)
+      if (isRotator) {
+        var rotItems = container.querySelectorAll('.msk-rotator-item');
+        if (rotItems && rotItems.length > 1) {
+          var rotIdx = 0;
+          var isPaused = false;
+          container.addEventListener('mouseenter', function () { isPaused = true; });
+          container.addEventListener('mouseleave', function () { isPaused = false; });
+          setInterval(function () {
+            if (isPaused) return;
+            var prev = rotItems[rotIdx];
+            rotIdx = (rotIdx + 1) % rotItems.length;
+            var next = rotItems[rotIdx];
+            if (prev) {
+              prev.style.opacity = '0';
+              prev.style.transform = 'translateY(-8px)';
+              prev.style.position = 'absolute';
+              prev.style.pointerEvents = 'none';
+            }
+            if (next) {
+              next.style.opacity = '1';
+              next.style.transform = 'translateY(0)';
+              next.style.position = 'relative';
+              next.style.pointerEvents = 'auto';
+            }
+          }, 4500);
+        }
+      }
     }
 
     // Kapatma Aksiyonu
@@ -458,7 +540,7 @@
       closeBtn.addEventListener('click', function (e) {
         e.stopPropagation();
         container.style.opacity = '0';
-        container.style.transform = placement === 'right_floating' ? 'translateX(40px)' : (placement === 'left_floating' ? 'translateX(-40px)' : 'translateY(-100%)');
+        container.style.transform = isFloating ? (placement === 'right_floating' ? 'translateX(40px)' : 'translateX(-40px)') : 'translateY(-100%)';
         setTimeout(function () {
           if (container.parentNode) container.parentNode.removeChild(container);
         }, 260);
@@ -553,9 +635,11 @@
       };
 
       popover.querySelector('#mskToggleBannerVisibilityBtn').onclick = function () {
-        var banner = document.getElementById('mskActiveAnnouncementContainer');
-        if (banner) {
-          banner.parentNode.removeChild(banner);
+        var topB = document.getElementById('mskActiveTopContainer');
+        var floatB = document.getElementById('mskActiveFloatingContainer');
+        if (topB || floatB) {
+          if (topB && topB.parentNode) topB.parentNode.removeChild(topB);
+          if (floatB && floatB.parentNode) floatB.parentNode.removeChild(floatB);
         } else {
           renderAnnouncementBanner(currentItem, meta, activeItems);
         }
@@ -638,45 +722,73 @@
         var activeItems = pool.filter(function (it) { return it.isActive !== false; });
         if (activeItems.length === 0) return;
 
-        // Round-Robin Queue (Sırayla ve Farklı Duyuru Gösterimi)
-        var seenIds = [];
-        try { seenIds = JSON.parse(localStorage.getItem(SEEN_KEY) || '[]'); } catch (_) {}
-
+        // İki Bağımsız Kanal Ayrımı (Üst Şerit ve Sağ/Sol Kart)
         var dismissedIds = [];
         try { dismissedIds = JSON.parse(localStorage.getItem(DISMISS_KEY) || '[]'); } catch (_) {}
 
-        // Dismiss edilmemiş ve henüz görülmemiş olan sıradaki duyuruyu bul
-        var chosenItem = null;
-        for (var k = 0; k < activeItems.length; k++) {
-          var candidate = activeItems[k];
-          if (dismissedIds.indexOf(candidate.id) === -1 && seenIds.indexOf(candidate.id) === -1) {
-            chosenItem = candidate;
-            break;
-          }
-        }
+        var TOP_SEEN_KEY = 'msk_seen_top_items_v2';
+        var FLOAT_SEEN_KEY = 'msk_seen_float_items_v2';
 
-        // Eğer hepsi görülmüş ama dismiss edilmemiş varsa sıfırla ve baştan seç
-        if (!chosenItem) {
-          var undismissed = activeItems.filter(function (x) { return dismissedIds.indexOf(x.id) === -1; });
-          if (undismissed.length > 0) {
-            chosenItem = undismissed[0];
-            seenIds = [chosenItem.id];
+        // 1. Üst Şerit Kanalı (top_hanging) - Kendi içinde nöbetleşe round-robin
+        var topPool = activeItems.filter(function (it) {
+          return (it.placement || meta.placement || 'top_hanging') === 'top_hanging';
+        });
+        if (topPool.length > 0) {
+          var seenTop = [];
+          try { seenTop = JSON.parse(localStorage.getItem(TOP_SEEN_KEY) || '[]'); } catch (_) {}
+          var chosenTop = null;
+          for (var t = 0; t < topPool.length; t++) {
+            if (dismissedIds.indexOf(topPool[t].id) === -1 && seenTop.indexOf(topPool[t].id) === -1) {
+              chosenTop = topPool[t];
+              break;
+            }
+          }
+          if (!chosenTop) {
+            var undismissedTop = topPool.filter(function (x) { return dismissedIds.indexOf(x.id) === -1; });
+            if (undismissedTop.length > 0) {
+              chosenTop = undismissedTop[0];
+              seenTop = [chosenTop.id];
+            }
           } else {
-            // Tümü kapatılmışsa flyout açılmaz ama Header 📢 butonunda hazır bekler
-            chosenItem = activeItems[0];
+            seenTop.push(chosenTop.id);
           }
-        } else {
-          seenIds.push(chosenItem.id);
+          try { localStorage.setItem(TOP_SEEN_KEY, JSON.stringify(seenTop)); } catch (_) {}
+          if (chosenTop && dismissedIds.indexOf(chosenTop.id) === -1) {
+            renderAnnouncementBanner(chosenTop, meta, activeItems);
+          }
         }
-        try { localStorage.setItem(SEEN_KEY, JSON.stringify(seenIds)); } catch (_) {}
 
-        // Eğer bu duyuru henüz dismiss edilmemişse ekrana flyout olarak bas
-        if (dismissedIds.indexOf(chosenItem.id) === -1) {
-          renderAnnouncementBanner(chosenItem, meta, activeItems);
+        // 2. Sağ ve Sol Kart Kanalı (floating) - Birlikte tek havuz, asla ikisi aynı anda değil!
+        var floatPool = activeItems.filter(function (it) {
+          return it.placement === 'left_floating' || it.placement === 'right_floating';
+        });
+        if (floatPool.length > 0) {
+          var seenFloat = [];
+          try { seenFloat = JSON.parse(localStorage.getItem(FLOAT_SEEN_KEY) || '[]'); } catch (_) {}
+          var chosenFloat = null;
+          for (var f = 0; f < floatPool.length; f++) {
+            if (dismissedIds.indexOf(floatPool[f].id) === -1 && seenFloat.indexOf(floatPool[f].id) === -1) {
+              chosenFloat = floatPool[f];
+              break;
+            }
+          }
+          if (!chosenFloat) {
+            var undismissedFloat = floatPool.filter(function (x) { return dismissedIds.indexOf(x.id) === -1; });
+            if (undismissedFloat.length > 0) {
+              chosenFloat = undismissedFloat[0];
+              seenFloat = [chosenFloat.id];
+            }
+          } else {
+            seenFloat.push(chosenFloat.id);
+          }
+          try { localStorage.setItem(FLOAT_SEEN_KEY, JSON.stringify(seenFloat)); } catch (_) {}
+          if (chosenFloat && dismissedIds.indexOf(chosenFloat.id) === -1) {
+            renderAnnouncementBanner(chosenFloat, meta, activeItems);
+          }
         }
 
         // Header sağ megafon / zil butonunu hazırla
-        setupHeaderTrigger(activeItems, meta, chosenItem);
+        setupHeaderTrigger(activeItems, meta, activeItems[0]);
       })
       .catch(function (err) {
         console.warn('[MSK Announcement] Hata:', err.message);
