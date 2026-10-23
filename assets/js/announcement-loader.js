@@ -143,11 +143,9 @@
         margin-bottom: 0;
       }
 
-      /* Flyout Sağ Kayan Kart */
+      /* Flyout Sağ ve Sol Kayan Kart */
       .msk-announcement-floating {
         position: fixed !important;
-        right: 20px !important;
-        top: 110px !important;
         box-sizing: border-box !important;
         border-radius: 12px !important;
         border-width: 1px !important;
@@ -156,11 +154,24 @@
         box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22) !important;
         backdrop-filter: blur(12px) !important;
         -webkit-backdrop-filter: blur(12px) !important;
-        animation: mskFlyoutRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
         transition: transform 0.25s ease, opacity 0.25s ease !important;
+      }
+      .msk-floating-right {
+        right: 20px !important;
+        left: auto !important;
+        animation: mskFlyoutRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      }
+      .msk-floating-left {
+        left: 20px !important;
+        right: auto !important;
+        animation: mskFlyoutLeft 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
       }
       @keyframes mskFlyoutRight {
         from { transform: translateX(40px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes mskFlyoutLeft {
+        from { transform: translateX(-40px); opacity: 0; }
         to { transform: translateX(0); opacity: 1; }
       }
 
@@ -361,19 +372,12 @@
       var fontCard = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12px';
       var topOff = item.topOffset !== undefined ? item.topOffset : 110;
 
-      container.className = 'msk-announcement-floating msk-theme-' + themeKey;
+      container.className = 'msk-announcement-floating ' + (placement === 'left_floating' ? 'msk-floating-left' : 'msk-floating-right') + ' msk-theme-' + themeKey;
       container.style.width = cardW + 'px';
       container.style.padding = padCard;
       container.style.fontSize = fontCard;
       container.style.top = topOff + 'px';
       if (item.cardHeight) container.style.height = item.cardHeight + 'px';
-      if (placement === 'left_floating') {
-        container.style.left = '20px';
-        container.style.right = 'auto';
-      } else {
-        container.style.right = '20px';
-        container.style.left = 'auto';
-      }
       if (themeKey === 'custom') {
         if (item.customBg) container.style.background = item.customBg;
         if (item.customText) container.style.color = item.customText;
@@ -454,7 +458,7 @@
       closeBtn.addEventListener('click', function (e) {
         e.stopPropagation();
         container.style.opacity = '0';
-        container.style.transform = placement === 'right_floating' ? 'translateX(40px)' : 'translateY(-100%)';
+        container.style.transform = placement === 'right_floating' ? 'translateX(40px)' : (placement === 'left_floating' ? 'translateX(-40px)' : 'translateY(-100%)');
         setTimeout(function () {
           if (container.parentNode) container.parentNode.removeChild(container);
         }, 260);
