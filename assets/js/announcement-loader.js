@@ -447,13 +447,21 @@
         return;
       }
 
+      injectStyles();
       var popover = document.createElement('div');
       popover.id = 'mskAnnPopoverMenu';
       popover.className = 'msk-ann-popover';
+      popover.style.position = 'fixed';
+      popover.style.zIndex = '10001';
+      popover.style.top = '84px';
+      popover.style.right = '20px';
       try {
         var rect = triggerBtn.getBoundingClientRect();
-        popover.style.top = (rect.bottom + 8) + 'px';
-        popover.style.right = Math.max(12, Math.round(window.innerWidth - rect.right)) + 'px';
+        if (rect && rect.bottom > 0) {
+          popover.style.top = (Math.round(rect.bottom) + 8) + 'px';
+          var rightDist = Math.max(16, Math.round(window.innerWidth - rect.right));
+          popover.style.right = rightDist + 'px';
+        }
       } catch (_) {}
 
       var listHtml = activeItems.map(function (it, idx) {
@@ -516,7 +524,7 @@
       });
 
       document.addEventListener('click', function closeOut(ev) {
-        if (!popover.contains(ev.target) && ev.target !== triggerBtn) {
+        if (!popover.contains(ev.target) && !triggerBtn.contains(ev.target)) {
           if (popover.parentNode) popover.parentNode.removeChild(popover);
           document.removeEventListener('click', closeOut);
         }
@@ -525,6 +533,7 @@
   }
 
   function initAnnouncementLoader() {
+    injectStyles();
     var apiUrl = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl)
       ? window.SITE_CONFIG.apiUrl
       : ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
