@@ -167,9 +167,10 @@
           <nav class="top-main-nav" style="width: 100%; text-align: center;">
             ${navLinksHTML}
           </nav>
-          <div class="header-nav-right" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; z-index: 10;">
-            <button id="mskAnnTriggerBtn" class="announcement-trigger-btn" style="display:none; position:relative; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; font-size:14px; padding:2px 6px; border-radius:6px; color:inherit;" title="Duyurular & Kampanyalar" aria-label="Duyurular">
-              📢<span id="mskAnnBadge" style="position:absolute; top:-3px; right:-3px; background:#ef4444; color:#fff; font-size:9px; font-weight:800; border-radius:10px; padding:1px 4px; line-height:1; display:none;">0</span>
+          <div class="header-nav-right" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; z-index: 10;">
+            <button id="mskAnnTriggerBtn" class="announcement-trigger-btn" style="display:none; position:relative; align-items:center; justify-content:center; background:transparent; border:none; outline:none; box-shadow:none; cursor:pointer; font-size:18px; line-height:1; padding:0; margin:0; width:24px; height:24px; color:inherit;" title="Duyurular & Kampanyalar" aria-label="Duyurular">
+              <span class="ann-icon-glyph" style="display:inline-block; line-height:1; font-size:18px; vertical-align:middle;">📢</span>
+              <span id="mskAnnBadge" style="position:absolute; top:-5px; right:-7px; background:#ef4444; color:#fff; font-size:9px; font-weight:800; border-radius:10px; padding:1px 4px; line-height:1; display:none; pointer-events:none;">0</span>
             </button>
           </div>
         </div>

@@ -174,6 +174,68 @@
         color: #e9d5ff !important; border-color: rgba(168, 85, 247, 0.4) !important;
       }
 
+      /* Header 📢 Tetikleyici Buton Sıfırlama */
+      .header-nav-right {
+        position: absolute !important;
+        right: 0 !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        z-index: 10 !important;
+      }
+      html[dir="rtl"] .header-nav-right,
+      body.lang-ar .header-nav-right {
+        right: auto !important;
+        left: 0 !important;
+      }
+      .announcement-trigger-btn {
+        background: transparent !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        cursor: pointer !important;
+        font-size: 18px !important;
+        line-height: 1 !important;
+        width: 24px !important;
+        height: 24px !important;
+        min-width: 24px !important;
+        min-height: 24px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: relative !important;
+        transition: transform 0.15s ease, opacity 0.15s ease !important;
+      }
+      .announcement-trigger-btn:hover {
+        transform: scale(1.1) !important;
+        opacity: 0.9 !important;
+      }
+      .announcement-trigger-btn .ann-icon-glyph {
+        display: inline-block !important;
+        line-height: 1 !important;
+        font-size: 18px !important;
+        vertical-align: middle !important;
+      }
+      #mskAnnBadge {
+        position: absolute !important;
+        top: -5px !important;
+        right: -7px !important;
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        font-size: 9px !important;
+        font-weight: 800 !important;
+        border-radius: 999px !important;
+        padding: 1px 4px !important;
+        line-height: 1 !important;
+        pointer-events: none !important;
+      }
+
       /* Header 📢 Popover Dropdown */
       .msk-ann-popover {
         position: fixed;
