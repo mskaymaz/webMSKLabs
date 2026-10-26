@@ -97,7 +97,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 14px;
-        line-height: 1.5;
+        line-height: 1.15;
         overflow: hidden;
       }
 
@@ -111,15 +111,19 @@
         align-items: center;
       }
       .msk-ticker-track {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         white-space: pre;
         padding-left: 100%;
         will-change: transform;
+        line-height: 1.15;
       }
       .msk-ticker-track p {
-        display: inline;
+        display: inline-flex;
+        align-items: center;
         margin: 0;
         white-space: pre;
+        line-height: inherit;
       }
       .msk-ticker-track:hover {
         animation-play-state: paused !important;
@@ -341,8 +345,8 @@
       }
       .msk-ann-close-btn {
         background: transparent; border: none; color: inherit; opacity: 0.75; cursor: pointer;
-        font-size: 16px; line-height: 1; padding: 4px; border-radius: 4px; display: inline-flex;
-        align-items: center; justify-content: center; flex-shrink: 0;
+        font-size: 13px; line-height: 1; padding: 2px 4px; border-radius: 4px; display: inline-flex;
+        align-items: center; justify-content: center; flex-shrink: 0; height: 18px; width: 18px;
       }
       .msk-ann-close-btn:hover { opacity: 1; background: rgba(128, 128, 128, 0.2); }
       .msk-ann-cta-btn {
@@ -373,14 +377,20 @@
     container.id = containerId;
     container.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
 
-    var opacityVal = (typeof item.opacity === 'number' && item.opacity >= 30) ? (item.opacity / 100) : 0.95;
-    container.style.opacity = opacityVal.toString();
+    var bgOpacityVal = (typeof item.bgOpacity === 'number') ? (item.bgOpacity / 100) : (typeof item.opacity === 'number' ? (item.opacity / 100) : 0.95);
+    var textOpacityVal = (typeof item.textOpacity === 'number') ? (item.textOpacity / 100) : 1.0;
+
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark' || document.body.classList.contains('dark-theme');
+    var currentBg = themeKey === 'custom' ? (item.customBg || (isDark ? '#1e293b' : '#f8fafc')) : (isDark ? theme.bgDark : theme.bgLight);
+    var currentText = themeKey === 'custom' ? (item.customText || (isDark ? '#f8fafc' : '#0f172a')) : (isDark ? theme.textDark : theme.textLight);
+    var currentBorder = isDark ? theme.borderDark : theme.borderLight;
 
     var ctaHtml = '';
     var ctaText = item.ctaText || meta.ctaText;
     var ctaUrl = item.ctaUrl || meta.ctaUrl;
+    var activeUrl = item.targetUrl || ctaUrl;
     if (ctaText && ctaUrl) {
-      ctaHtml = '<a href="' + ctaUrl + '" class="msk-ann-cta-btn" style="background:' + theme.accent + '; color:#ffffff;">' +
+      ctaHtml = '<a href="' + ctaUrl + '" target="_blank" rel="noopener noreferrer" class="msk-ann-cta-btn" style="background:' + theme.accent + '; color:#ffffff;">' +
         '<span>' + ctaText + '</span> ➔</a>';
     }
 
@@ -396,54 +406,51 @@
 
     if (isFloating) {
       var cardW = item.cardWidth || (sizePreset === 'compact' ? 260 : sizePreset === 'large' ? 380 : 310);
-      var padCard = sizePreset === 'compact' ? '8px 10px' : sizePreset === 'large' ? '14px 16px' : '10px 12px';
+      var cardPadY = item.paddingY !== undefined ? item.paddingY : (sizePreset === 'compact' ? 8 : sizePreset === 'large' ? 14 : 10);
+      var padCard = cardPadY + 'px ' + (sizePreset === 'compact' ? '10px' : sizePreset === 'large' ? '16px' : '12px');
       var fontCard = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12px';
       var topOff = item.topOffset !== undefined ? item.topOffset : 110;
 
-      container.className = 'msk-announcement-floating ' + (placement === 'left_floating' ? 'msk-floating-left' : 'msk-floating-right') + ' msk-theme-' + themeKey;
+      container.className = 'msk-announcement-floating ' + (placement === 'left_floating' ? 'msk-floating-left' : 'msk-floating-right');
       container.style.width = cardW + 'px';
-      container.style.padding = padCard;
-      container.style.fontSize = fontCard;
       container.style.top = topOff + 'px';
+      container.style.fontSize = fontCard;
+      container.style.color = currentText;
+      container.style.overflow = 'hidden';
+      if (currentBorder) container.style.border = currentBorder;
       if (item.cardHeight) container.style.height = item.cardHeight + 'px';
-      if (themeKey === 'custom') {
-        if (item.customBg) container.style.background = item.customBg;
-        if (item.customText) container.style.color = item.customText;
-      }
 
       container.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; gap:8px;">
-          <div style="font-size:11px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase;">
-            ${item.title || 'Duyuru & Kampanya'}
+        <div class="msk-ann-bg-layer" style="position:absolute; inset:0; z-index:0; pointer-events:none; background:${currentBg}; opacity:${bgOpacityVal};"></div>
+        <div class="msk-ann-floating-inner" style="position:relative; z-index:1; opacity:${textOpacityVal}; padding:${padCard}; height:100%; display:flex; flex-direction:column; box-sizing:border-box;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; gap:8px;">
+            <div style="font-size:11px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase;">
+              ${item.title || 'Duyuru & Kampanya'}
+            </div>
+            ${closeBtnHtml}
           </div>
-          ${closeBtnHtml}
+          <div class="msk-ann-content" style="flex:1;">${content}</div>
+          ${ctaHtml ? '<div style="margin-top:10px; display:flex; justify-content:flex-end;">' + ctaHtml + '</div>' : ''}
         </div>
-        <div class="msk-ann-content">${content}</div>
-        ${ctaHtml ? '<div style="margin-top:10px; display:flex; justify-content:flex-end;">' + ctaHtml + '</div>' : ''}
       `;
 
-      if (item.targetUrl) {
-        container.style.cursor = 'pointer';
-        container.addEventListener('click', function(e) {
-          if (e.target.closest('.msk-ann-close-btn') || e.target.closest('a')) return;
-          window.location.href = item.targetUrl;
-        });
-      }
       document.body.appendChild(container);
     } else {
       // Üst Askılı Şerit (Sayfayı asla aşağı itmez)
       var minH = item.customHeight || (sizePreset === 'compact' ? 26 : sizePreset === 'large' ? 48 : 34);
-      var padHang = sizePreset === 'compact' ? '1px 10px' : sizePreset === 'large' ? '3px 16px' : '2px 12px';
+      var padY = item.paddingY !== undefined ? item.paddingY : (sizePreset === 'compact' ? 1 : sizePreset === 'large' ? 3 : 2);
+      var padHang = padY + 'px ' + (sizePreset === 'compact' ? '10px' : sizePreset === 'large' ? '16px' : '12px');
       var fontHang = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12px';
 
-      container.className = 'msk-announcement-hanging msk-theme-' + themeKey;
+      container.className = 'msk-announcement-hanging';
       container.style.minHeight = minH + 'px';
-      container.style.padding = padHang;
-      container.style.fontSize = fontHang;
-      if (themeKey === 'custom') {
-        if (item.customBg) container.style.background = item.customBg;
-        if (item.customText) container.style.color = item.customText;
+      if (isTicker) {
+        container.style.height = minH + 'px';
       }
+      container.style.overflow = 'hidden';
+      container.style.fontSize = fontHang;
+      container.style.color = currentText;
+      if (currentBorder) container.style.borderBottom = currentBorder;
 
       var headerEl = document.querySelector('header.site-header-sticky') || document.querySelector('header');
       var topPos = headerEl ? headerEl.offsetHeight : 84;
@@ -456,14 +463,8 @@
         var curDir = item.tickerDirection || meta.tickerDirection;
         var speedSec = curSpeed === 'slow' ? '30s' : curSpeed === 'fast' ? '12s' : '20s';
         var animName = (curDir === 'ltr') ? 'mskMarqueeLTR' : 'mskMarqueeRTL';
-        var tickerHtml = content.replace(/<\/p>\s*<p[^>]*>/gi, '<span style="display:inline-block; margin:0 35px; opacity:0.6;">•</span>');
-        bodyHtml = `
-          <div class="msk-ticker-wrap">
-            <div class="msk-ticker-track" style="animation: ${animName} ${speedSec} linear infinite;">
-              ${tickerHtml}
-            </div>
-          </div>
-        `;
+        var tickerHtml = content.replace(/<\/p>\s*<p[^>]*>/gi, '<span style="display:inline-block; margin:0 35px; opacity:0.6;">•</span>').trim();
+        bodyHtml = '<div class="msk-ticker-wrap"><div class="msk-ticker-track" style="animation: ' + animName + ' ' + speedSec + ' linear infinite;">' + tickerHtml + '</div></div>';
       } else if (isRotator) {
         // Dikey Satır Satır Nöbetleşe / Fade Döngüsü (Rotator)
         var tempDiv = document.createElement('div');
@@ -489,13 +490,14 @@
           </div>
         `;
       } else {
-        bodyHtml = `<div class="msk-ann-content" style="flex:1;">${content}</div>`;
+        bodyHtml = `<div class="msk-ann-content" style="flex:1; display:flex; align-items:center; line-height:1.25; margin:0;">${content}</div>`;
       }
 
       container.innerHTML = `
-        <div class="msk-ann-inner" style="align-items: ${isTicker ? 'center' : 'flex-start'};">
+        <div class="msk-ann-bg-layer" style="position:absolute; inset:0; z-index:0; pointer-events:none; background:${currentBg}; opacity:${bgOpacityVal};"></div>
+        <div class="msk-ann-inner" style="position:relative; z-index:1; opacity:${textOpacityVal}; padding:${padHang}; align-items:center; box-sizing:border-box;">
           ${bodyHtml}
-          <div style="display:flex; align-items:center; gap:8px; flex-shrink:0; margin-top: ${isTicker ? '0' : '2px'};">
+          <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
             ${ctaHtml}
             ${closeBtnHtml}
           </div>
@@ -534,6 +536,14 @@
       }
     }
 
+    if (activeUrl) {
+      container.style.cursor = 'pointer';
+      container.addEventListener('click', function(e) {
+        if (e.target.closest('.msk-ann-close-btn') || e.target.closest('a')) return;
+        window.open(activeUrl, '_blank', 'noopener,noreferrer');
+      });
+    }
+
     // Kapatma Aksiyonu
     var closeBtn = container.querySelector('.msk-ann-close-btn');
     if (closeBtn) {
@@ -546,9 +556,7 @@
         }, 260);
 
         try {
-          var dismissed = JSON.parse(localStorage.getItem(DISMISS_KEY) || '[]');
-          if (dismissed.indexOf(item.id) === -1) dismissed.push(item.id);
-          localStorage.setItem(DISMISS_KEY, JSON.stringify(dismissed));
+          sessionStorage.setItem('msk_dismissed_' + item.id, 'true');
         } catch (_) {}
       });
     }
@@ -722,67 +730,38 @@
         var activeItems = pool.filter(function (it) { return it.isActive !== false; });
         if (activeItems.length === 0) return;
 
-        // İki Bağımsız Kanal Ayrımı (Üst Şerit ve Sağ/Sol Kart)
-        var dismissedIds = [];
-        try { dismissedIds = JSON.parse(localStorage.getItem(DISMISS_KEY) || '[]'); } catch (_) {}
-
-        var TOP_SEEN_KEY = 'msk_seen_top_items_v2';
-        var FLOAT_SEEN_KEY = 'msk_seen_float_items_v2';
-
-        // 1. Üst Şerit Kanalı (top_hanging) - Kendi içinde nöbetleşe round-robin
+        // 1. Üst Şerit Kanalı (top_hanging) - Dizin Tabanlı Kusursuz Nöbetleşe (Round-Robin)
         var topPool = activeItems.filter(function (it) {
           return (it.placement || meta.placement || 'top_hanging') === 'top_hanging';
         });
         if (topPool.length > 0) {
-          var seenTop = [];
-          try { seenTop = JSON.parse(localStorage.getItem(TOP_SEEN_KEY) || '[]'); } catch (_) {}
-          var chosenTop = null;
-          for (var t = 0; t < topPool.length; t++) {
-            if (dismissedIds.indexOf(topPool[t].id) === -1 && seenTop.indexOf(topPool[t].id) === -1) {
-              chosenTop = topPool[t];
-              break;
-            }
-          }
-          if (!chosenTop) {
-            var undismissedTop = topPool.filter(function (x) { return dismissedIds.indexOf(x.id) === -1; });
-            if (undismissedTop.length > 0) {
-              chosenTop = undismissedTop[0];
-              seenTop = [chosenTop.id];
-            }
-          } else {
-            seenTop.push(chosenTop.id);
-          }
-          try { localStorage.setItem(TOP_SEEN_KEY, JSON.stringify(seenTop)); } catch (_) {}
-          if (chosenTop && dismissedIds.indexOf(chosenTop.id) === -1) {
+          var lastTopIdx = -1;
+          try { lastTopIdx = parseInt(localStorage.getItem('msk_last_top_idx') || '-1', 10); } catch (_) {}
+          var nextTopIdx = (isNaN(lastTopIdx) || lastTopIdx < 0 || lastTopIdx >= topPool.length - 1) ? 0 : (lastTopIdx + 1);
+          var chosenTop = topPool[nextTopIdx];
+          try { localStorage.setItem('msk_last_top_idx', nextTopIdx.toString()); } catch (_) {}
+
+          var isTopDismissed = false;
+          try { isTopDismissed = sessionStorage.getItem('msk_dismissed_' + chosenTop.id) === 'true'; } catch (_) {}
+          if (chosenTop && !isTopDismissed) {
             renderAnnouncementBanner(chosenTop, meta, activeItems);
           }
         }
 
-        // 2. Sağ ve Sol Kart Kanalı (floating) - Birlikte tek havuz, asla ikisi aynı anda değil!
+        // 2. Sağ ve Sol Kart Kanalı (floating) - Dizin Tabanlı Kusursuz Nöbetleşe (Round-Robin)
         var floatPool = activeItems.filter(function (it) {
           return it.placement === 'left_floating' || it.placement === 'right_floating';
         });
         if (floatPool.length > 0) {
-          var seenFloat = [];
-          try { seenFloat = JSON.parse(localStorage.getItem(FLOAT_SEEN_KEY) || '[]'); } catch (_) {}
-          var chosenFloat = null;
-          for (var f = 0; f < floatPool.length; f++) {
-            if (dismissedIds.indexOf(floatPool[f].id) === -1 && seenFloat.indexOf(floatPool[f].id) === -1) {
-              chosenFloat = floatPool[f];
-              break;
-            }
-          }
-          if (!chosenFloat) {
-            var undismissedFloat = floatPool.filter(function (x) { return dismissedIds.indexOf(x.id) === -1; });
-            if (undismissedFloat.length > 0) {
-              chosenFloat = undismissedFloat[0];
-              seenFloat = [chosenFloat.id];
-            }
-          } else {
-            seenFloat.push(chosenFloat.id);
-          }
-          try { localStorage.setItem(FLOAT_SEEN_KEY, JSON.stringify(seenFloat)); } catch (_) {}
-          if (chosenFloat && dismissedIds.indexOf(chosenFloat.id) === -1) {
+          var lastFloatIdx = -1;
+          try { lastFloatIdx = parseInt(localStorage.getItem('msk_last_float_idx') || '-1', 10); } catch (_) {}
+          var nextFloatIdx = (isNaN(lastFloatIdx) || lastFloatIdx < 0 || lastFloatIdx >= floatPool.length - 1) ? 0 : (lastFloatIdx + 1);
+          var chosenFloat = floatPool[nextFloatIdx];
+          try { localStorage.setItem('msk_last_float_idx', nextFloatIdx.toString()); } catch (_) {}
+
+          var isFloatDismissed = false;
+          try { isFloatDismissed = sessionStorage.getItem('msk_dismissed_' + chosenFloat.id) === 'true'; } catch (_) {}
+          if (chosenFloat && !isFloatDismissed) {
             renderAnnouncementBanner(chosenFloat, meta, activeItems);
           }
         }
