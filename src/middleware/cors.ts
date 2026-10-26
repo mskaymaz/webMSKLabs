@@ -4,8 +4,8 @@ export function getCorsHeaders(request: Request, env: Env): Record<string, strin
   const origin = request.headers.get('Origin');
 
   const defaultOrigins = env.ENVIRONMENT === 'production'
-    ? 'https://mskaymaz.com,https://webmsklabs.pages.dev'
-    : 'http://localhost:3000,http://localhost:5173,https://mskaymaz.com';
+    ? 'https://mskaymaz.com,https://msklabs.org,https://dev.msklabs.org,https://webmsklabs.pages.dev'
+    : 'http://localhost:3000,http://localhost:5173,https://mskaymaz.com,https://msklabs.org,https://dev.msklabs.org';
 
   const allowedOriginsStr = env.ALLOWED_ORIGINS || defaultOrigins;
   const allowedOrigins = allowedOriginsStr.split(',').map(o => o.trim()).filter(Boolean);

@@ -1,7 +1,11 @@
-# Cloudflare Pages & D1 / R2 / KV Configuration for webMSKLabs / DevAdmin
-name = "webmsklabs"
-pages_build_output_dir = "."
+# Cloudflare Worker & D1 / R2 / KV Configuration for webMSKLabs / DevAdmin
+name = "uygulamalar"
+main = "src/index.ts"
 compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+[build]
+command = "npm run build"
 
 [[d1_databases]]
 binding = "DB"
@@ -19,4 +23,4 @@ id = "00000000000000000000000000000000"
 
 [vars]
 ENVIRONMENT = "development"
-ALLOWED_ORIGINS = "http://localhost:3000,http://localhost:5173,https://mskaymaz.com"
+ALLOWED_ORIGINS = "http://localhost:3000,http://localhost:5173,https://mskaymaz.com,https://msklabs.org,https://dev.msklabs.org"

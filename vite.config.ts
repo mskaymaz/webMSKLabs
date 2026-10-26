@@ -46,6 +46,7 @@ function blogRewritePlugin(): Plugin {
 export default defineConfig({
   server: {
     port: 5174,
+    allowedHosts: true,
     proxy: {
       '/api': {
         target: 'http://localhost:8787',
@@ -104,7 +105,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
-        admin: path.resolve(__dirname, 'admin/index.html')
+        admin: path.resolve(__dirname, 'admin/index.html'),
+        blog: path.resolve(__dirname, 'blog/blog.html')
       },
       output: {
         manualChunks: {
