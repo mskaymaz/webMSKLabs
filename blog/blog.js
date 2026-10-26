@@ -200,9 +200,9 @@ function switchSection(sec) {
 
   // Sync browser address bar URL parameters smoothly
   try {
-    var langParam = currentLang && currentLang !== 'tr' ? '&lang=' + currentLang : '';
-    var newUrl = 'blog.html?type=' + sec + langParam;
-    if (window.location.search.indexOf('type=' + sec) === -1) {
+    var langParam = currentLang && currentLang !== 'tr' ? '?lang=' + currentLang : '';
+    var newUrl = '/blog/' + sec + langParam;
+    if (window.location.pathname !== '/blog/' + sec) {
       window.history.pushState({ section: sec }, '', newUrl);
     }
   } catch(e) {}
@@ -355,24 +355,9 @@ function updateReaderViewLanguage() {
   if (btnPause) btnPause.innerText = (currentLang === 'ar' ? '⏸️ إيقاف مؤقت' : (currentLang === 'en' ? '⏸️ Pause' : '⏸️ Duraklat'));
   if (btnStop) btnStop.innerText = (currentLang === 'ar' ? '⏹️ إيقاف' : (currentLang === 'en' ? '⏹️ Stop' : '⏹️ Durdur'));
 
-  var voiceLabels = document.querySelectorAll('.tts-selects label');
-  if (voiceLabels && voiceLabels.length >= 2) {
-    voiceLabels[0].innerText = (currentLang === 'ar' ? 'الصوت:' : (currentLang === 'en' ? 'Voice:' : 'Ses:'));
-    voiceLabels[1].innerText = (currentLang === 'ar' ? 'السرعة:' : (currentLang === 'en' ? 'Speed:' : 'Hız:'));
-  }
-
-  var genderSel = document.getElementById('voiceGender');
-  if (genderSel && genderSel.options.length >= 2) {
-    genderSel.options[0].text = (currentLang === 'ar' ? '👨 رجل' : (currentLang === 'en' ? '👨 Male' : '👨 Erkek'));
-    genderSel.options[1].text = (currentLang === 'ar' ? '👩 امرأة' : (currentLang === 'en' ? '👩 Female' : '👩 Kadın'));
-  }
-  checkAndDetectDeviceVoices();
-
-  var speedSel = document.getElementById('voiceSpeed');
-  if (speedSel && speedSel.options.length >= 3) {
-    speedSel.options[0].text = '1.0x';
-    speedSel.options[1].text = '1.25x';
-    speedSel.options[2].text = '1.5x';
+  var lblSpeed = document.querySelector('label[for="voiceSpeed"]');
+  if (lblSpeed) {
+    lblSpeed.innerText = (currentLang === 'ar' ? 'السرعة:' : (currentLang === 'en' ? 'Speed:' : 'Hız:'));
   }
 
   var lblFontSizer = document.getElementById('lblFontSizer');

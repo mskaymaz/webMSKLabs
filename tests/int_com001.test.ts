@@ -19,7 +19,7 @@ describe('INT-COM-001 — Kamusal Blog Yorum Arayüzü & Entegrasyon Testleri', 
     expect(html).toContain('id="btnSubmitComment"');
     expect(html).toContain('id="commentsList"');
     expect(html).toContain('id="commentsCountBadge"');
-    expect(html).toContain('src="comments.js"');
+    expect(html).toMatch(/src=["'].*comments\.js["']/);
   });
 
   it('2. should verify honeypot anti-bot trap is hidden and aria-hidden in blog.html', () => {
