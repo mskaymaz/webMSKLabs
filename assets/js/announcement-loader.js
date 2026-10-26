@@ -81,8 +81,6 @@
         border-bottom-width: 1px !important;
         border-bottom-style: solid !important;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
-        backdrop-filter: blur(10px) !important;
-        -webkit-backdrop-filter: blur(10px) !important;
         animation: mskFlyoutDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
         transition: transform 0.25s ease, opacity 0.25s ease !important;
       }
@@ -181,17 +179,13 @@
         border-style: solid !important;
         z-index: 9999 !important;
         box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22) !important;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
         transition: transform 0.25s ease, opacity 0.25s ease !important;
       }
       .msk-floating-right {
-        right: 20px !important;
         left: auto !important;
         animation: mskFlyoutRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
       }
       .msk-floating-left {
-        left: 20px !important;
         right: auto !important;
         animation: mskFlyoutLeft 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
       }
@@ -202,6 +196,42 @@
       @keyframes mskFlyoutLeft {
         from { transform: translateX(-40px); opacity: 0; }
         to { transform: translateX(0); opacity: 1; }
+      }
+
+      /* Dikey Kulakçık (Askı Rozet / Tab) */
+      .msk-ann-tab {
+        position: fixed !important;
+        z-index: 9999 !important;
+        box-sizing: border-box !important;
+        display: none;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        writing-mode: vertical-rl !important;
+        text-orientation: mixed !important;
+        font-family: inherit !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: 1px !important;
+        padding: 10px 4px !important;
+        cursor: pointer !important;
+        user-select: none !important;
+        border-width: 1px !important;
+        border-style: solid !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, box-shadow 0.2s ease !important;
+      }
+      .msk-ann-tab:hover {
+        transform: scale(1.06) !important;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.28) !important;
+      }
+      .msk-ann-tab-left {
+        border-radius: 0 8px 8px 0 !important;
+        border-left: none !important;
+      }
+      .msk-ann-tab-right {
+        border-radius: 8px 0 0 8px !important;
+        border-right: none !important;
       }
 
       /* Tema Renkleri */
@@ -363,6 +393,10 @@
     var containerId = isFloating ? 'mskActiveFloatingContainer' : 'mskActiveTopContainer';
     var existing = document.getElementById(containerId);
     if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+    if (isFloating) {
+      var existingTab = document.getElementById('mskActiveFloatingTab');
+      if (existingTab && existingTab.parentNode) existingTab.parentNode.removeChild(existingTab);
+    }
 
     var lang = getLang();
     var content = (lang === 'ar' ? item.content_ar : lang === 'en' ? item.content_en : item.content_tr) || item.content_tr || '';
@@ -410,15 +444,31 @@
       var padCard = cardPadY + 'px ' + (sizePreset === 'compact' ? '10px' : sizePreset === 'large' ? '16px' : '12px');
       var fontCard = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12px';
       var topOff = item.topOffset !== undefined ? item.topOffset : 110;
+      var sideOff = item.sideOffset !== undefined ? item.sideOffset : 5;
+      var tabText = item.tabText || 'SİZİN İÇİN';
+      var autoDelay = (typeof item.autoCollapseDelay === 'number') ? item.autoCollapseDelay : 4;
 
       container.className = 'msk-announcement-floating ' + (placement === 'left_floating' ? 'msk-floating-left' : 'msk-floating-right');
       container.style.width = cardW + 'px';
       container.style.top = topOff + 'px';
+      if (placement === 'left_floating') {
+        container.style.left = sideOff + 'px';
+        container.style.right = 'auto';
+      } else {
+        container.style.right = sideOff + 'px';
+        container.style.left = 'auto';
+      }
       container.style.fontSize = fontCard;
       container.style.color = currentText;
       container.style.overflow = 'hidden';
       if (currentBorder) container.style.border = currentBorder;
       if (item.cardHeight) container.style.height = item.cardHeight + 'px';
+
+      var glassEffect = item.glassEffect || meta.glassEffect || 'none';
+      if (glassEffect === 'blur') {
+        container.style.backdropFilter = 'blur(10px)';
+        container.style.webkitBackdropFilter = 'blur(10px)';
+      }
 
       container.innerHTML = `
         <div class="msk-ann-bg-layer" style="position:absolute; inset:0; z-index:0; pointer-events:none; background:${currentBg}; opacity:${bgOpacityVal};"></div>
@@ -434,7 +484,113 @@
         </div>
       `;
 
+      // Dikey Kulakçık (Askı Rozet / Tab - İkonsuz, İnce ve Yalın)
+      var tabEl = document.createElement('div');
+      tabEl.id = 'mskActiveFloatingTab';
+      tabEl.className = 'msk-ann-tab ' + (placement === 'left_floating' ? 'msk-ann-tab-left' : 'msk-ann-tab-right');
+      tabEl.style.top = topOff + 'px';
+      if (placement === 'left_floating') {
+        tabEl.style.left = sideOff + 'px';
+        tabEl.style.right = 'auto';
+      } else {
+        tabEl.style.right = sideOff + 'px';
+        tabEl.style.left = 'auto';
+      }
+      tabEl.style.background = currentBg;
+      tabEl.style.color = currentText;
+      if (currentBorder) tabEl.style.borderColor = currentBorder;
+      if (glassEffect === 'blur') {
+        tabEl.style.backdropFilter = 'blur(10px)';
+        tabEl.style.webkitBackdropFilter = 'blur(10px)';
+      }
+
+      tabEl.innerHTML = `<span style="line-height:1.2; padding:2px 0;">${tabText}</span>`;
+
+      // İlk Başlangıç Görünürlüğü (DOM'a eklenmeden ÖNCE kesinlikle atanır)
+      var isCollapsed = false;
+      var collapseTimer = null;
+      var isHovered = false;
+
+      if (autoDelay <= 0) {
+        // Doğrudan kulakçık başla
+        isCollapsed = true;
+        container.style.setProperty('display', 'none', 'important');
+        tabEl.style.setProperty('display', 'flex', 'important');
+        tabEl.style.opacity = '1';
+      } else {
+        // Açık başla, kulakçık kesinlikle gizli
+        isCollapsed = false;
+        container.style.setProperty('display', 'flex', 'important');
+        container.style.opacity = '1';
+        tabEl.style.setProperty('display', 'none', 'important');
+        tabEl.style.opacity = '0';
+      }
+
       document.body.appendChild(container);
+      document.body.appendChild(tabEl);
+
+      // Kart <-> Kulakçık Durum Yönetimi
+      function collapseToTab() {
+        if (isCollapsed) return;
+        isCollapsed = true;
+        container.style.opacity = '0';
+        container.style.transform = (placement === 'right_floating') ? 'translateX(30px) scale(0.95)' : 'translateX(-30px) scale(0.95)';
+        setTimeout(function () {
+          container.style.setProperty('display', 'none', 'important');
+          tabEl.style.setProperty('display', 'flex', 'important');
+          tabEl.style.opacity = '0';
+          tabEl.style.transform = (placement === 'right_floating') ? 'translateX(15px)' : 'translateX(-15px)';
+          requestAnimationFrame(function () {
+            tabEl.style.opacity = '1';
+            tabEl.style.transform = 'translateX(0)';
+          });
+        }, 250);
+      }
+
+      function expandToCard() {
+        if (!isCollapsed) return;
+        isCollapsed = false;
+        tabEl.style.opacity = '0';
+        tabEl.style.transform = (placement === 'right_floating') ? 'translateX(15px)' : 'translateX(-15px)';
+        setTimeout(function () {
+          tabEl.style.setProperty('display', 'none', 'important');
+          container.style.setProperty('display', 'flex', 'important');
+          container.style.opacity = '0';
+          container.style.transform = (placement === 'right_floating') ? 'translateX(30px) scale(0.95)' : 'translateX(-30px) scale(0.95)';
+          requestAnimationFrame(function () {
+            container.style.opacity = '1';
+            container.style.transform = 'translateX(0) scale(1)';
+          });
+        }, 200);
+      }
+
+      tabEl.addEventListener('click', function (e) {
+        e.stopPropagation();
+        expandToCard();
+      });
+
+      if (autoDelay > 0) {
+        container.addEventListener('mouseenter', function () {
+          isHovered = true;
+          if (collapseTimer) clearTimeout(collapseTimer);
+        });
+        container.addEventListener('mouseleave', function () {
+          isHovered = false;
+          collapseTimer = setTimeout(collapseToTab, 1500);
+        });
+        collapseTimer = setTimeout(function () {
+          if (!isHovered) collapseToTab();
+        }, autoDelay * 1000);
+      }
+
+      // Kapatma butonuna basıldığında kartı yok etmek yerine kulakçığa büzüştür
+      var closeBtn = container.querySelector('.msk-ann-close-btn');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          collapseToTab();
+        });
+      }
     } else {
       // Üst Askılı Şerit (Sayfayı asla aşağı itmez)
       var minH = item.customHeight || (sizePreset === 'compact' ? 26 : sizePreset === 'large' ? 48 : 34);
@@ -451,6 +607,11 @@
       container.style.fontSize = fontHang;
       container.style.color = currentText;
       if (currentBorder) container.style.borderBottom = currentBorder;
+      var glassEffect = item.glassEffect || meta.glassEffect || 'none';
+      if (glassEffect === 'blur') {
+        container.style.backdropFilter = 'blur(10px)';
+        container.style.webkitBackdropFilter = 'blur(10px)';
+      }
 
       var headerEl = document.querySelector('header.site-header-sticky') || document.querySelector('header');
       var topPos = headerEl ? headerEl.offsetHeight : 84;
@@ -544,21 +705,23 @@
       });
     }
 
-    // Kapatma Aksiyonu
-    var closeBtn = container.querySelector('.msk-ann-close-btn');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        container.style.opacity = '0';
-        container.style.transform = isFloating ? (placement === 'right_floating' ? 'translateX(40px)' : 'translateX(-40px)') : 'translateY(-100%)';
-        setTimeout(function () {
-          if (container.parentNode) container.parentNode.removeChild(container);
-        }, 260);
+    // Kapatma Aksiyonu (Yalnızca üst asılı bant için)
+    if (!isFloating) {
+      var closeBtn = container.querySelector('.msk-ann-close-btn');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          container.style.opacity = '0';
+          container.style.transform = 'translateY(-100%)';
+          setTimeout(function () {
+            if (container.parentNode) container.parentNode.removeChild(container);
+          }, 260);
 
-        try {
-          sessionStorage.setItem('msk_dismissed_' + item.id, 'true');
-        } catch (_) {}
-      });
+          try {
+            sessionStorage.setItem('msk_dismissed_' + item.id, 'true');
+          } catch (_) {}
+        });
+      }
     }
   }
 
@@ -645,9 +808,11 @@
       popover.querySelector('#mskToggleBannerVisibilityBtn').onclick = function () {
         var topB = document.getElementById('mskActiveTopContainer');
         var floatB = document.getElementById('mskActiveFloatingContainer');
-        if (topB || floatB) {
+        var floatTab = document.getElementById('mskActiveFloatingTab');
+        if (topB || floatB || floatTab) {
           if (topB && topB.parentNode) topB.parentNode.removeChild(topB);
           if (floatB && floatB.parentNode) floatB.parentNode.removeChild(floatB);
+          if (floatTab && floatTab.parentNode) floatTab.parentNode.removeChild(floatTab);
         } else {
           renderAnnouncementBanner(currentItem, meta, activeItems);
         }
