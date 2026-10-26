@@ -296,6 +296,7 @@ body {
   color: var(--anilts-primary) !important;
 }
 .card-tts-badge {
+  display: none !important;
   background: #f0f9ff;
   color: #0284c7;
   border: 1px solid #bae6fd;

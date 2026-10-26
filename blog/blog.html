@@ -37,17 +37,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/global.css?v=55">
+  <base href="/">
+  <link rel="stylesheet" href="/assets/css/global.css?v=55">
   
-  <link rel="icon" type="image/png" href="../img/MSKLabs_favicon.png">
-  <link rel="shortcut icon" href="../img/MSKLabs_favicon.png" type="image/x-icon">
+  <link rel="icon" type="image/png" href="/img/MSKLabs_favicon.png">
+  <link rel="shortcut icon" href="/img/MSKLabs_favicon.png" type="image/x-icon">
 
 
-  <script src="../assets/js/config.js" defer></script>
-  <script src="../assets/js/analytics.js" defer></script>
+  <script src="/assets/js/config.js" defer></script>
+  <script src="/assets/js/analytics.js" defer></script>
 
 
-  <link rel="stylesheet" href="../assets/css/blog.css?v=55">
+  <link rel="stylesheet" href="/assets/css/blog.css?v=55">
 </head>
 <body class="lang-tr">
 
@@ -129,8 +130,8 @@
         </div>
       </div>
 
-      <div class="tts-player-bar" id="ttsPlayerBar">
-        <audio id="html5AudioPlayer" style="display: none;"></audio>
+      <div class="tts-player-bar" id="ttsPlayerBar" style="display: none !important;">
+        <audio id="html5AudioPlayer" controls preload="auto" style="width: 100%; margin-top: 0.5rem; margin-bottom: 0.65rem; border-radius: 8px;"></audio>
         <div class="tts-header" onclick="toggleTTSAccordion()" title="Sesli Oku panelini aç/kapat" style="cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between;">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
             <span id="lblTtsTitle" style="font-weight: 700;">🔊 Sesli Oku</span>
@@ -350,8 +351,8 @@
 </div>
 
 <footer id="site-footer" class="site-footer"></footer>
-<script src="../assets/js/layout.js"></script>
-<script src="comments.js"></script>
-<script src="blog.js"></script>
+<script src="/assets/js/layout.js"></script>
+<script src="/blog/comments.js"></script>
+<script src="/blog/blog.js"></script>
 </body>
 </html>

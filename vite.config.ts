@@ -23,6 +23,26 @@ function adminRewritePlugin(): Plugin {
   };
 }
 
+function blogRewritePlugin(): Plugin {
+  return {
+    name: 'blog-rewrite-plugin',
+    configureServer(server) {
+      server.middlewares.use((req, _res, next) => {
+        if (req.url) {
+          const urlPath = req.url.split('?')[0];
+          if (urlPath === '/blog' || urlPath === '/blog/' || (urlPath.startsWith('/blog/') && !urlPath.includes('.'))) {
+            const query = req.url.includes('?') ? '?' + req.url.split('?')[1] : '';
+            const target = '/blog/blog.html' + query;
+            req.url = target;
+            (req as any).originalUrl = target;
+          }
+        }
+        next();
+      });
+    }
+  };
+}
+
 export default defineConfig({
   server: {
     port: 5174,
@@ -36,6 +56,7 @@ export default defineConfig({
   plugins: [
     react(),
     adminRewritePlugin(),
+    blogRewritePlugin(),
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {

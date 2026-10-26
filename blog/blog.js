@@ -6,15 +6,13 @@ var currentLang = 'tr';
 var currentSection = 'bizce'; // 'bizce', 'anilts' or 'guncel'
 var currentSubFilter = 'all';
 var currentPost = null;
-var synth = window.speechSynthesis;
-var currentUtterance = null;
-var ttsChunks = [];
-var ttsCurrentIndex = 0;
-var ttsIsActive = false;
+// Standart HTML5 MP3 Ses Oynatıcı Durum Değişkenleri
+var audioIsActive = false;
 
 var blogPostsData = [
   {
     "id": 1,
+    "slug": "bizce-nedir",
     "type": "bizce",
     "category": "Manifesto & İlk Makale",
     "category_en": "Manifesto & First Article",
@@ -23,9 +21,9 @@ var blogPostsData = [
     "readTime": "6 dk okuma",
     "icon": "💡",
     "audio": {
-      "tr": { "status": "approved", "url": "../media/audio/post_1_tr.mp3", "version": 1 },
-      "en": { "status": "approved", "url": "../media/audio/post_1_en.mp3", "version": 1 },
-      "ar": { "status": "approved", "url": "../media/audio/post_1_ar.mp3", "version": 1 }
+      "tr": { "status": "approved", "url": "/media/audio/post_1_tr.mp3", "version": 1 },
+      "en": { "status": "approved", "url": "/media/audio/post_1_en.mp3", "version": 1 },
+      "ar": { "status": "approved", "url": "/media/audio/post_1_ar.mp3", "version": 1 }
     },
     "tr": {
       "title": "BİZCE Nedir? — Sessiz Kalabalığın Sesi ve Başka Bir Pencere",
@@ -45,6 +43,7 @@ var blogPostsData = [
   },
   {
     "id": 2,
+    "slug": "aniltilar-nedir",
     "type": "anilts",
     "category": "Manifesto & İlk Makale",
     "category_en": "Manifesto & First Article",
@@ -70,6 +69,7 @@ var blogPostsData = [
   },
   {
     "id": 3,
+    "slug": "guncel-nedir",
     "type": "guncel",
     "category": "Manifesto & İlk Makale",
     "category_en": "Manifesto & First Article",
@@ -117,21 +117,21 @@ var blogPostsData = [
     "date": "1 Ekim 2026",
     "readTime": "5 dk okuma",
     "icon": "🇵🇸",
-    "image": "../media/blog/guncel/001_filistin_konya_maci/001_Filistin_Konya_Maci.png",
+    "image": "/media/blog/guncel/001_filistin_konya_maci/001_Filistin_Konya_Maci.png",
     "tr": {
       "title": "Maçın Ertelenme Düdüğü Çalar, Herkes Kaldığı Yerden Devam Eder",
       "summary": "Konyaspor ile Filistin Millî Futbol Takımı arasındaki dostluk maçı üzerinden; görünürdeki eylemler ile gerçek dayanışma, boykot bilinci ve samimi sorumluluk arasındaki fark üzerine bir GÜNCEL analizi.",
-      "content": "<p class=\"lead\">Konyaspor ile Filistin Millî Futbol Takımı arasında oynanacağı duyurulan dostluk maçı, Filistin'e destek amacıyla gerçekleştirilen bir faaliyet olarak kamuoyuna sunuluyor. Peki, Filistin halkı böylesine ağır bir zulüm ve soykırım altındayken bir futbol maçının gerçek karşılığı nedir? Maçın bitiş düdüğü daha sonra devam edilmek üzere 89:59’da çaldığında Filistin için ne değişmiş olacak?</p><figure class=\"blog-post-figure\" style=\"margin: 1.5rem 0; text-align: center;\"><img src=\"../media/blog/guncel/001_filistin_konya_maci/001_Filistin_Konya_Maci.png\" alt=\"Konyaspor Filistin Maçı\" style=\"max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.12);\" loading=\"lazy\"><figcaption style=\"margin-top: 8px; font-size: 0.9rem; color: var(--text-secondary); opacity: 0.85;\">Konyaspor - Filistin Dostluk Maçı Görseli</figcaption></figure><p>Elbette Filistin'e destek vermek, yaşananları unutturmamak ve toplumun dikkatini bu meseleye çekmek önemlidir. Ancak bir faaliyetin anlamı, yalnızca nasıl sunulduğuyla değil, ne sonuç doğurduğuyla da değerlendirilmelidir. Tribünlerin dolması, bayrakların açılması ve destek mesajlarının verilmesi güzel görüntüler oluşturabilir. Fakat bu görüntülerin Filistin'de yaşanan zulmün sona ermesine nasıl bir katkı sağlayacağı ayrıca düşünülmelidir.</p><p><strong>Asıl mesele, Filistin'e destek veriliyormuş görüntüsü oluşturmakla gerçekten etkili bir destek ortaya koymak arasındaki farktır.</strong></p><p>Bir maç düzenlemek, kamuoyuna Filistin'in unutulmadığı mesajını verebilir. Ancak bu tür faaliyetler, daha ciddi adımların yerine konulduğunda yalnızca göstermelik bir eyleme dönüşme riski taşır. Toplumun hassasiyetleri geçici olarak karşılanır; insanlar üzerlerine düşeni yaptıklarını düşünebilirler. Oysa etkinlik sona erdiğinde günlük hayat aynı şekilde devam ediyor, Filistin'deki acılar da sürüyorsa, ortaya çıkan sonucun sorgulanması gerekir.</p><p>Bu organizasyonu düzenleyenlerin niyetleri hakkında kesin hükümler vermek yerine, ortaya çıkan faaliyetin sonucuna bakmak daha anlamlıdır. Bir şeyi iyi niyetle yapmak, yapılan faaliyetin mutlaka olumlu sonuç doğuracağı anlamına gelmez. Bununla birlikte şu soru da sorulmalıdır: Filistin'e destek konusunda daha ciddi ve etkili adımlar atılabilecekken neden çoğu zaman sembolik faaliyetlerle yetiniliyor? Makamların, ekonomik imkânların veya mevcut ilişkilerin zarar görmesi ihtimali, alınması gereken kararların ve yapılması gereken yaptırımların önüne mi geçiyor? Bu soruların cevapları, yalnızca bir maçın değerlendirilmesinden çok daha önemlidir.</p><p>Filistin'e desteğin yalnızca futbol maçlarıyla sınırlı kalmaması gerekir. Boykot, bu desteğin gündelik hayatta sürdürülebilecek en kolay yollarından biridir. Tüketicilerin tercihlerini bilinçli yapması, millî üretimin desteklenmesi ve Filistin meselesinin geçici bir gündem olmaktan çıkarılması önem taşır. Bir akşam tribünde gösterilen duyarlılık, ertesi gün alışverişte ve diğer tercihlerde de devam edebilmelidir.</p><p>Ancak maç süresince reklam panolarında boykot çağrıları yapılırken neyin, neden ve nasıl boykot edilmesi gerektiğine ilişkin somut bir bilgilendirme sunulmaması, bu çağrıların ne kadar karşılık bulacağını sorgulatıyor. <strong>İnsanlara yalnızca “boykot yapın” demek, bilinçli ve etkili bir boykot için yeterli değildir.</strong> Ne alınmayacağı, neden alınmayacağı ve bireysel tercihlerin nasıl bir anlam taşıdığı, alternatif alınabilecek ve kullanılabilecek ürün ve yapılar da ifade edilmeli ve anlatılmalıdır. Aksi hâlde ortaya, <strong>“Saldık bayıra, Mevlam kayıra”</strong> anlayışından öteye geçemeyen bir yaklaşım çıkar.</p><p>Benzer şekilde, terörist devletin temsilcilerinin ülkeye gelişinde 20 özel kaliteli kumaştan yapılmış bayraklarla karşılanması ile maç sırasında katılımcılara dağıtılan, maliyeti birkaç lira olan küçük Filistin bayrakları arasındaki tezat da sorgulanmaya değer. Buradaki mesele bayrakların maddi değeri değil, gösterilen özen ile ortaya konulan desteğin niteliği arasındaki farktır. Filistin davasına verilen değer, yalnızca taşınan bayraklarla değil, bu desteğin ne kadar bilinçli ve kararlı biçimde sürdürüldüğüyle ölçülmelidir.</p><p>Aynı şekilde, Filistin için yapılan bir etkinliğin başarısı yalnızca katılımcı sayısıyla, haberlerde ne kadar yer aldığıyla veya oluşturduğu görüntülerle ölçülemez. Asıl ölçü, bu faaliyetin kalıcı bir bilinç ve somut bir dayanışma doğurup doğurmadığıdır. Aksi hâlde bugün futbol maçı, yarın bir yürüyüş, ertesi gün birkaç afiş gündeme gelir; her birinin ardından hayat olağan akışına döner. Değişmeyen ise Filistin halkının yaşadığı acılar ve soykırım olur.</p><p>Burada sorgulanması gereken futbol değil, <strong>dayanışmayı yalnızca görünür, usulen yapılan faaliyetlerden ibaret gören anlayıştır.</strong> Filistin için yapılan her faaliyetin ardından şu soruyu sormak gerekir: <em>Bu adım, yaşanan zulmün sona ermesine ne tür bir katkı sağladı veya sağlayacak, yalnızca usulen bir destek görüntüsü mü oluşturacak?</em></p><p>Maç 89 küsuruncu dakikada duracak, tribünler 10 dakikada boşalacak, gündem değişmeyecek. Herkes kaldığı yerden fantastik hayatına devam edecek. Filistin halkının yaşadığı acılar bir maçın süresiyle sınırlı olmamalı. Filistin'e destek de maçı durduran düdükle birlikte sona ermemeli, burada başlamalı ama zulüm ve kan sona erene kadar da aralıksız devam etmeli. Eylem olarak sunulan maçın sonrasında sahanın tribünlerinde maç durdurulduktan 15 dakika sonra 1 tane insan bile kalmamıştı. Ne bir slogan, ne bir marş, ne bir bayrak, ne bir branda ne de bir direniş eylemi.. Bu bile bir saman alevi gibi usulen eylem olduğunu ortaya koyuyor.</p><blockquote class=\"manifesto-quote\"><p>“Burada önemli olan, Filistin için bir maç düzenlemiş olmak değil; maç bittikten sonra da Filistin için ne yapmaya devam ettiğimizdir.”</p><cite>— MSK Labs GÜNCEL Değerlendirmesi</cite></blockquote>"
+      "content": "<p class=\"lead\">Konyaspor ile Filistin Millî Futbol Takımı arasında oynanacağı duyurulan dostluk maçı, Filistin'e destek amacıyla gerçekleştirilen bir faaliyet olarak kamuoyuna sunuluyor. Peki, Filistin halkı böylesine ağır bir zulüm ve soykırım altındayken bir futbol maçının gerçek karşılığı nedir? Maçın bitiş düdüğü daha sonra devam edilmek üzere 89:59’da çaldığında Filistin için ne değişmiş olacak?</p><figure class=\"blog-post-figure\" style=\"margin: 1.5rem 0; text-align: center;\"><img src=\"/media/blog/guncel/001_filistin_konya_maci/001_Filistin_Konya_Maci.png\" alt=\"Konyaspor Filistin Maçı\" style=\"max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.12);\" loading=\"lazy\"><figcaption style=\"margin-top: 8px; font-size: 0.9rem; color: var(--text-secondary); opacity: 0.85;\">Konyaspor - Filistin Dostluk Maçı Görseli</figcaption></figure><p>Elbette Filistin'e destek vermek, yaşananları unutturmamak ve toplumun dikkatini bu meseleye çekmek önemlidir. Ancak bir faaliyetin anlamı, yalnızca nasıl sunulduğuyla değil, ne sonuç doğurduğuyla da değerlendirilmelidir. Tribünlerin dolması, bayrakların açılması ve destek mesajlarının verilmesi güzel görüntüler oluşturabilir. Fakat bu görüntülerin Filistin'de yaşanan zulmün sona ermesine nasıl bir katkı sağlayacağı ayrıca düşünülmelidir.</p><p><strong>Asıl mesele, Filistin'e destek veriliyormuş görüntüsü oluşturmakla gerçekten etkili bir destek ortaya koymak arasındaki farktır.</strong></p><p>Bir maç düzenlemek, kamuoyuna Filistin'in unutulmadığı mesajını verebilir. Ancak bu tür faaliyetler, daha ciddi adımların yerine konulduğunda yalnızca göstermelik bir eyleme dönüşme riski taşır. Toplumun hassasiyetleri geçici olarak karşılanır; insanlar üzerlerine düşeni yaptıklarını düşünebilirler. Oysa etkinlik sona erdiğinde günlük hayat aynı şekilde devam ediyor, Filistin'deki acılar da sürüyorsa, ortaya çıkan sonucun sorgulanması gerekir.</p><p>Bu organizasyonu düzenleyenlerin niyetleri hakkında kesin hükümler vermek yerine, ortaya çıkan faaliyetin sonucuna bakmak daha anlamlıdır. Bir şeyi iyi niyetle yapmak, yapılan faaliyetin mutlaka olumlu sonuç doğuracağı anlamına gelmez. Bununla birlikte şu soru da sorulmalıdır: Filistin'e destek konusunda daha ciddi ve etkili adımlar atılabilecekken neden çoğu zaman sembolik faaliyetlerle yetiniliyor? Makamların, ekonomik imkânların veya mevcut ilişkilerin zarar görmesi ihtimali, alınması gereken kararların ve yapılması gereken yaptırımların önüne mi geçiyor? Bu soruların cevapları, yalnızca bir maçın değerlendirilmesinden çok daha önemlidir.</p><p>Filistin'e desteğin yalnızca futbol maçlarıyla sınırlı kalmaması gerekir. Boykot, bu desteğin gündelik hayatta sürdürülebilecek en kolay yollarından biridir. Tüketicilerin tercihlerini bilinçli yapması, millî üretimin desteklenmesi ve Filistin meselesinin geçici bir gündem olmaktan çıkarılması önem taşır. Bir akşam tribünde gösterilen duyarlılık, ertesi gün alışverişte ve diğer tercihlerde de devam edebilmelidir.</p><p>Ancak maç süresince reklam panolarında boykot çağrıları yapılırken neyin, neden ve nasıl boykot edilmesi gerektiğine ilişkin somut bir bilgilendirme sunulmaması, bu çağrıların ne kadar karşılık bulacağını sorgulatıyor. <strong>İnsanlara yalnızca “boykot yapın” demek, bilinçli ve etkili bir boykot için yeterli değildir.</strong> Ne alınmayacağı, neden alınmayacağı ve bireysel tercihlerin nasıl bir anlam taşıdığı, alternatif alınabilecek ve kullanılabilecek ürün ve yapılar da ifade edilmeli ve anlatılmalıdır. Aksi hâlde ortaya, <strong>“Saldık bayıra, Mevlam kayıra”</strong> anlayışından öteye geçemeyen bir yaklaşım çıkar.</p><p>Benzer şekilde, terörist devletin temsilcilerinin ülkeye gelişinde 20 özel kaliteli kumaştan yapılmış bayraklarla karşılanması ile maç sırasında katılımcılara dağıtılan, maliyeti birkaç lira olan küçük Filistin bayrakları arasındaki tezat da sorgulanmaya değer. Buradaki mesele bayrakların maddi değeri değil, gösterilen özen ile ortaya konulan desteğin niteliği arasındaki farktır. Filistin davasına verilen değer, yalnızca taşınan bayraklarla değil, bu desteğin ne kadar bilinçli ve kararlı biçimde sürdürüldüğüyle ölçülmelidir.</p><p>Aynı şekilde, Filistin için yapılan bir etkinliğin başarısı yalnızca katılımcı sayısıyla, haberlerde ne kadar yer aldığıyla veya oluşturduğu görüntülerle ölçülemez. Asıl ölçü, bu faaliyetin kalıcı bir bilinç ve somut bir dayanışma doğurup doğurmadığıdır. Aksi hâlde bugün futbol maçı, yarın bir yürüyüş, ertesi gün birkaç afiş gündeme gelir; her birinin ardından hayat olağan akışına döner. Değişmeyen ise Filistin halkının yaşadığı acılar ve soykırım olur.</p><p>Burada sorgulanması gereken futbol değil, <strong>dayanışmayı yalnızca görünür, usulen yapılan faaliyetlerden ibaret gören anlayıştır.</strong> Filistin için yapılan her faaliyetin ardından şu soruyu sormak gerekir: <em>Bu adım, yaşanan zulmün sona ermesine ne tür bir katkı sağladı veya sağlayacak, yalnızca usulen bir destek görüntüsü mü oluşturacak?</em></p><p>Maç 89 küsuruncu dakikada duracak, tribünler 10 dakikada boşalacak, gündem değişmeyecek. Herkes kaldığı yerden fantastik hayatına devam edecek. Filistin halkının yaşadığı acılar bir maçın süresiyle sınırlı olmamalı. Filistin'e destek de maçı durduran düdükle birlikte sona ermemeli, burada başlamalı ama zulüm ve kan sona erene kadar da aralıksız devam etmeli. Eylem olarak sunulan maçın sonrasında sahanın tribünlerinde maç durdurulduktan 15 dakika sonra 1 tane insan bile kalmamıştı. Ne bir slogan, ne bir marş, ne bir bayrak, ne bir branda ne de bir direniş eylemi.. Bu bile bir saman alevi gibi usulen eylem olduğunu ortaya koyuyor.</p><blockquote class=\"manifesto-quote\"><p>“Burada önemli olan, Filistin için bir maç düzenlemiş olmak değil; maç bittikten sonra da Filistin için ne yapmaya devam ettiğimizdir.”</p><cite>— MSK Labs GÜNCEL Değerlendirmesi</cite></blockquote>"
     },
     "en": {
       "title": "When the Postponement Whistle Blows, Everyone Resumes Their Routine",
       "summary": "An analysis on the friendly match between Konyaspor and the Palestine National Football Team: The distinction between superficial gestures and genuine solidarity, boycott consciousness, and active responsibility.",
-      "content": "<p class=\"lead\">The friendly match announced between Konyaspor and the Palestine National Football Team is presented to the public as an initiative to support Palestine. Yet, while the people of Palestine endure such horrific oppression and genocide, what is the true impact of a football match? When the final whistle blows at 89:59 to be resumed at a later time, what will have actually changed for Palestine?</p><figure class=\"blog-post-figure\" style=\"margin: 1.5rem 0; text-align: center;\"><img src=\"../media/blog/guncel/001_filistin_konya_maci/001_Filistin_Konya_Maci.png\" alt=\"Konyaspor Palestine Match\" style=\"max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.12);\" loading=\"lazy\"><figcaption style=\"margin-top: 8px; font-size: 0.9rem; color: var(--text-secondary); opacity: 0.85;\">Konyaspor - Palestine Friendly Match Image</figcaption></figure><p>Supporting Palestine, keeping memory alive, and drawing public attention to this cause is undeniably important. However, the true meaning of any action must be judged not by how it is packaged and presented, but by the tangible outcomes it produces. Packed stadiums, waving flags, and solidarity messages create impressive scenes. But we must earnestly examine how these images contribute to halting the oppression in Palestine.</p><p><strong>The core issue lies in the contrast between projecting an image of support and delivering truly effective action.</strong></p><p>Organizing a match may send a public message that Palestine is not forgotten. Yet such symbolic activities carry the risk of becoming mere superficial gestures when substituted for more decisive, concrete steps. Public sensitivities are temporarily satisfied, and people feel they have done their part. However, if daily life continues unchanged once the event ends while suffering in Palestine persists, the real outcome must be questioned.</p><p>Rather than making definitive claims about the intentions of the organizers, it is far more meaningful to look at the results. Acting with good intentions does not automatically guarantee positive impact. Furthermore, a crucial question arises: when more serious and impactful steps could be taken for Palestine, why are symbolic activities so often deemed sufficient? Does the risk of risking official titles, economic gains, or existing relations take precedence over taking required actions and sanctions? The answers to these questions are far more critical than evaluating a football match alone.</p><p>Support for Palestine must not remain confined to 90 minutes on a football pitch. Boycotting represents one of the simplest ways to sustain this support in daily life. Conscious consumer choices, backing domestic production, and preventing Palestine from becoming a temporary media trend are essential. The empathy demonstrated in stadium stands one evening must extend to daily shopping and life choices the next morning.</p><p>However, when boycott calls appear on stadium advertising boards without offering clear, actionable guidance on what, why, and how to boycott—or identifying viable alternatives—it raises doubts about how effective these calls can truly be. <strong>Telling people simply to \"boycott\" is insufficient for a conscious, strategic effort.</strong> What products to avoid, why to avoid them, the meaning of individual choices, and viable alternatives must be clearly communicated. Otherwise, the approach devolves into a passive <strong>“Leaving it to chance and fate”</strong> posture.</p><p>Similarly, the stark contrast between welcoming representatives of the terrorist state with around 20 specially made, high-quality fabric flags versus handing out small, inexpensive plastic flags to match attendees is worth questioning. The issue here is not the financial cost of the flags, but the gap between the meticulous care shown to one side versus the superficial support offered to the other. The true value assigned to the Palestinian cause must be measured not by temporary flags, but by how consciously and resolutely this support is maintained.</p><p>Likewise, the success of an event for Palestine cannot be judged solely by turnout, news coverage, or visual impressions. The true benchmark is whether it generates lasting awareness and active, ongoing solidarity. Otherwise, today it is a football match, tomorrow a march, the next day a few posters; after each, life quietly returns to its routine while the suffering and genocide endured by the Palestinian people remain unchanged.</p><p>What must be questioned here is not football itself, but <strong>the mindset that reduces solidarity to visible, procedural gestures.</strong> After every initiative for Palestine, we must ask: <em>Did this step genuinely contribute to stopping the ongoing oppression, or did it merely construct a temporary image of support?</em></p><p>The whistle blows around the 89th minute, the stands empty within 10 minutes, the headlines shift, and everyone resumes their routine lives. The suffering of Palestine cannot be bound to the duration of a match. Support for Palestine must not end with the whistle; it must begin there and continue relentlessly until blood and tyranny end. Just 15 minutes after the whistle, not a single person remained in the stands—no slogans, no chants, no banners, no flags. This immediate emptiness reflects how quickly procedural actions can fade like a temporary spark.</p><blockquote class=\"manifesto-quote\"><p>“What matters is not having organized a match for Palestine, but what we continue to do for Palestine after the match ends.”</p><cite>— MSK Labs GÜNCEL Analysis</cite></blockquote>"
+      "content": "<p class=\"lead\">The friendly match announced between Konyaspor and the Palestine National Football Team is presented to the public as an initiative to support Palestine. Yet, while the people of Palestine endure such horrific oppression and genocide, what is the true impact of a football match? When the final whistle blows at 89:59 to be resumed at a later time, what will have actually changed for Palestine?</p><figure class=\"blog-post-figure\" style=\"margin: 1.5rem 0; text-align: center;\"><img src=\"/media/blog/guncel/001_filistin_konya_maci/001_Filistin_Konya_Maci.png\" alt=\"Konyaspor Palestine Match\" style=\"max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.12);\" loading=\"lazy\"><figcaption style=\"margin-top: 8px; font-size: 0.9rem; color: var(--text-secondary); opacity: 0.85;\">Konyaspor - Palestine Friendly Match Image</figcaption></figure><p>Supporting Palestine, keeping memory alive, and drawing public attention to this cause is undeniably important. However, the true meaning of any action must be judged not by how it is packaged and presented, but by the tangible outcomes it produces. Packed stadiums, waving flags, and solidarity messages create impressive scenes. But we must earnestly examine how these images contribute to halting the oppression in Palestine.</p><p><strong>The core issue lies in the contrast between projecting an image of support and delivering truly effective action.</strong></p><p>Organizing a match may send a public message that Palestine is not forgotten. Yet such symbolic activities carry the risk of becoming mere superficial gestures when substituted for more decisive, concrete steps. Public sensitivities are temporarily satisfied, and people feel they have done their part. However, if daily life continues unchanged once the event ends while suffering in Palestine persists, the real outcome must be questioned.</p><p>Rather than making definitive claims about the intentions of the organizers, it is far more meaningful to look at the results. Acting with good intentions does not automatically guarantee positive impact. Furthermore, a crucial question arises: when more serious and impactful steps could be taken for Palestine, why are symbolic activities so often deemed sufficient? Does the risk of risking official titles, economic gains, or existing relations take precedence over taking required actions and sanctions? The answers to these questions are far more critical than evaluating a football match alone.</p><p>Support for Palestine must not remain confined to 90 minutes on a football pitch. Boycotting represents one of the simplest ways to sustain this support in daily life. Conscious consumer choices, backing domestic production, and preventing Palestine from becoming a temporary media trend are essential. The empathy demonstrated in stadium stands one evening must extend to daily shopping and life choices the next morning.</p><p>However, when boycott calls appear on stadium advertising boards without offering clear, actionable guidance on what, why, and how to boycott—or identifying viable alternatives—it raises doubts about how effective these calls can truly be. <strong>Telling people simply to \"boycott\" is insufficient for a conscious, strategic effort.</strong> What products to avoid, why to avoid them, the meaning of individual choices, and viable alternatives must be clearly communicated. Otherwise, the approach devolves into a passive <strong>“Leaving it to chance and fate”</strong> posture.</p><p>Similarly, the stark contrast between welcoming representatives of the terrorist state with around 20 specially made, high-quality fabric flags versus handing out small, inexpensive plastic flags to match attendees is worth questioning. The issue here is not the financial cost of the flags, but the gap between the meticulous care shown to one side versus the superficial support offered to the other. The true value assigned to the Palestinian cause must be measured not by temporary flags, but by how consciously and resolutely this support is maintained.</p><p>Likewise, the success of an event for Palestine cannot be judged solely by turnout, news coverage, or visual impressions. The true benchmark is whether it generates lasting awareness and active, ongoing solidarity. Otherwise, today it is a football match, tomorrow a march, the next day a few posters; after each, life quietly returns to its routine while the suffering and genocide endured by the Palestinian people remain unchanged.</p><p>What must be questioned here is not football itself, but <strong>the mindset that reduces solidarity to visible, procedural gestures.</strong> After every initiative for Palestine, we must ask: <em>Did this step genuinely contribute to stopping the ongoing oppression, or did it merely construct a temporary image of support?</em></p><p>The whistle blows around the 89th minute, the stands empty within 10 minutes, the headlines shift, and everyone resumes their routine lives. The suffering of Palestine cannot be bound to the duration of a match. Support for Palestine must not end with the whistle; it must begin there and continue relentlessly until blood and tyranny end. Just 15 minutes after the whistle, not a single person remained in the stands—no slogans, no chants, no banners, no flags. This immediate emptiness reflects how quickly procedural actions can fade like a temporary spark.</p><blockquote class=\"manifesto-quote\"><p>“What matters is not having organized a match for Palestine, but what we continue to do for Palestine after the match ends.”</p><cite>— MSK Labs GÜNCEL Analysis</cite></blockquote>"
     },
     "ar": {
       "title": "عندما تُنفخ صفارة التأجيل، يعود الجميع إلى حياتهم المعتادة",
       "summary": "تحليل حول المباراة الودية بين قونية سبور والمنتخب الفلسطيني: الفرق بين المظاهر الرسمية والتضامن الفعلي الواعي.",
-      "content": "<p class=\"lead\">أُعلن عن المباراة الودية بين قونية سبور والمنتخب الوطني الفلسطيني كفاعلية تضامنية لدعم فلسطين. ولكن في ظل ما يواجهه الشعب الفلسطيني من ظلم صارخ وإبادة جماعية، ما هو الأثر الحقيقي لمباراة كرة قدم؟ عندما تُطلق صفارة نهاية المباراة في الدقيقة 89:59 لتُستكمل لاحقاً، ماذا يتغير حقاً بالنسبة لفلسطين؟</p><figure class=\"blog-post-figure\" style=\"margin: 1.5rem 0; text-align: center;\"><img src=\"../media/blog/guncel/001_filistin_konya_maci/001_Filistin_Konya_Maci.png\" alt=\"مباراة قونية سبور وفلسطين\" style=\"max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.12);\" loading=\"lazy\"><figcaption style=\"margin-top: 8px; font-size: 0.9rem; color: var(--text-secondary); opacity: 0.85;\">صورة مباراة قونية سبور وفلسطين الودية</figcaption></figure><p>إن دعم فلسطين وإبقاء القضية حية في الوعي أمر بالغ الأهمية. لكن قيمة أي عمل يجب أن تظهر في نتائجه العملية لا في طريقة عرضه الإعلامي فقط. امتلاء المدرجات ورفع الأعلام قد يقدمان مشاهد مؤشرة، لكن السؤال الأساسي هو: كيف تسهم هذه المشاهد عملياً في إيقاف الظلم القائم؟</p><p><strong>الجوهر يكمن في الفرق بين إعطاء انطباع بالتضامن وبين تقديم دعم فعالي ومؤثر حقاً.</strong></p><p>المقاطعة الاقتصادية والتوعية المستمرة وتحديد البدائل الوطنية هي خطوات عملية يومية يجب أن تستمر إلى ما بعد صافرة النهاية. <strong>مجرد قول «قاطعوا» للناس ليس كافياً لمقاطعة واعية وفعالة.</strong> كما أن التناقض بين استقبال ممثلي الدولة الإرهابية بنحو 20 راية مصنوعة من أقمشة خاصة عالية الجودة، وبين توزيع أعلام صغيرة زهيدة على الجمهور، يدعو للتأمل في مدى الجدية والالتزام.</p><p>ما يجب المساءلة عنه هنا ليس كرة القدم، بل <strong>العقلية التي تختزل التضامن في أنشطة شكلية وظاهرية فقط.</strong></p><blockquote class=\"manifesto-quote\"><p>«العبرة ليست بإقامة مباراة لأجل فلسطين، بل بما نواصل فعله لأجل فلسطين بعد انتهاء المباراة.»</p><cite>— تقييم MSK Labs GÜNCEL</cite></blockquote>"
+      "content": "<p class=\"lead\">أُعلن عن المباراة الودية بين قونية سبور والمنتخب الوطني الفلسطيني كفاعلية تضامنية لدعم فلسطين. ولكن في ظل ما يواجهه الشعب الفلسطيني من ظلم صارخ وإبادة جماعية، ما هو الأثر الحقيقي لمباراة كرة قدم؟ عندما تُطلق صفارة نهاية المباراة في الدقيقة 89:59 لتُستكمل لاحقاً، ماذا يتغير حقاً بالنسبة لفلسطين؟</p><figure class=\"blog-post-figure\" style=\"margin: 1.5rem 0; text-align: center;\"><img src=\"/media/blog/guncel/001_filistin_konya_maci/001_Filistin_Konya_Maci.png\" alt=\"مباراة قونية سبور وفلسطين\" style=\"max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.12);\" loading=\"lazy\"><figcaption style=\"margin-top: 8px; font-size: 0.9rem; color: var(--text-secondary); opacity: 0.85;\">صورة مباراة قونية سبور وفلسطين الودية</figcaption></figure><p>إن دعم فلسطين وإبقاء القضية حية في الوعي أمر بالغ الأهمية. لكن قيمة أي عمل يجب أن تظهر في نتائجه العملية لا في طريقة عرضه الإعلامي فقط. امتلاء المدرجات ورفع الأعلام قد يقدمان مشاهد مؤشرة، لكن السؤال الأساسي هو: كيف تسهم هذه المشاهد عملياً في إيقاف الظلم القائم؟</p><p><strong>الجوهر يكمن في الفرق بين إعطاء انطباع بالتضامن وبين تقديم دعم فعالي ومؤثر حقاً.</strong></p><p>المقاطعة الاقتصادية والتوعية المستمرة وتحديد البدائل الوطنية هي خطوات عملية يومية يجب أن تستمر إلى ما بعد صافرة النهاية. <strong>مجرد قول «قاطعوا» للناس ليس كافياً لمقاطعة واعية وفعالة.</strong> كما أن التناقض بين استقبال ممثلي الدولة الإرهابية بنحو 20 راية مصنوعة من أقمشة خاصة عالية الجودة، وبين توزيع أعلام صغيرة زهيدة على الجمهور، يدعو للتأمل في مدى الجدية والالتزام.</p><p>ما يجب المساءلة عنه هنا ليس كرة القدم، بل <strong>العقلية التي تختزل التضامن في أنشطة شكلية وظاهرية فقط.</strong></p><blockquote class=\"manifesto-quote\"><p>«العبرة ليست بإقامة مباراة لأجل فلسطين، بل بما نواصل فعله لأجل فلسطين بعد انتهاء المباراة.»</p><cite>— تقييم MSK Labs GÜNCEL</cite></blockquote>"
     }
   }
 ];
@@ -300,6 +300,10 @@ function toggleTTSAccordion(forceOpen) {
     wrapper.style.opacity = '1';
     wrapper.style.marginTop = '0.85rem';
     if (chevron) chevron.style.transform = 'rotate(180deg)';
+    var audio = getAudioElement();
+    if (audio && (audio.paused || audio.currentTime === 0)) {
+      playTTS();
+    }
   } else {
     if (bar) bar.classList.remove('expanded');
     wrapper.style.maxHeight = '0';
@@ -327,7 +331,8 @@ function updateReaderViewLanguage() {
   if (elDate) elDate.innerText = currentPost.date;
 
   if (elContent) {
-    elContent.innerHTML = langData.content;
+    var rawContent = langData.content || '';
+    elContent.innerHTML = rawContent.replace(/\.\.\/media\//g, '/media/');
     applyFontSize();
   }
 
@@ -441,7 +446,8 @@ function setLang(lang, saveToStorage) {
 
   if (isReading) {
     updateReaderViewLanguage();
-    if (synth && synth.speaking) {
+    var audio = getAudioElement();
+    if (audio && !audio.paused) {
       playTTS();
     }
   } else {
@@ -512,7 +518,8 @@ function renderPosts() {
 
     var readTimeStr = getDynamicReadTime(langData.content, currentLang);
 
-    card.innerHTML = '<div class="' + imgClass + '">' + (post.image ? '<img src="' + post.image + '" alt="' + (langData.title || '') + '" style="width:100%; height:100%; object-fit:cover; border-radius:inherit;" loading="lazy">' : (post.icon || '📝')) + '</div>' +
+    var cardImg = post.image ? (post.image.startsWith('../') ? post.image.replace(/^\.\.\//, '/') : post.image) : '';
+    card.innerHTML = '<div class="' + imgClass + '">' + (cardImg ? '<img src="' + cardImg + '" alt="' + (langData.title || '') + '" style="width:100%; height:100%; object-fit:cover; border-radius:inherit;" loading="lazy">' : (post.icon || '📝')) + '</div>' +
       '<div class="card-body">' +
         '<div>' +
           '<div class="post-meta">' +
@@ -658,11 +665,26 @@ function openPost(id) {
   var langData = currentPost[currentLang] || currentPost['tr'];
   updateBlogMetaAndSchema(currentPost, langData);
 
+  // Preload approved audio for instant playback
+  var audioEl = getAudioElement();
+  if (audioEl) {
+    var normId = String(currentPost.id).replace(/^post_/, '');
+    var aInfo = getAudioStatusInfo(normId, currentLang);
+    if (aInfo && aInfo.status === 'approved' && aInfo.url) {
+      if (!audioEl.src || !audioEl.src.includes(aInfo.url)) {
+        audioEl.src = aInfo.url;
+      }
+    }
+  }
+
   try {
-    var langParam = currentLang && currentLang !== 'tr' ? '&lang=' + currentLang : '';
-    var newUrl = 'blog.html?type=' + currentSection + '&id=' + id + langParam;
-    if (window.location.search.indexOf('id=' + id) === -1) {
-      window.history.pushState({ post: id }, '', newUrl);
+    var langParam = currentLang && currentLang !== 'tr' ? '?lang=' + currentLang : '';
+    var postSlug = currentPost.slug || id;
+    var newUrl = '/blog/' + currentSection + '/' + postSlug + langParam;
+    var curPath = window.location.pathname.replace(/\/+$/, '');
+    var targetPath = ('/blog/' + currentSection + '/' + postSlug).replace(/\/+$/, '');
+    if (curPath !== targetPath || window.location.search.indexOf('id=') !== -1) {
+      window.history.pushState({ post: postSlug, section: currentSection }, '', newUrl);
     }
   } catch(e) {}
 
@@ -699,8 +721,8 @@ function showList() {
   }
 
   try {
-    var langParam = currentLang && currentLang !== 'tr' ? '&lang=' + currentLang : '';
-    var newUrl = 'blog.html?type=' + currentSection + langParam;
+    var langParam = currentLang && currentLang !== 'tr' ? '?lang=' + currentLang : '';
+    var newUrl = '/blog/' + currentSection + langParam;
     window.history.pushState({ section: currentSection }, '', newUrl);
   } catch(e) {}
 
@@ -719,10 +741,10 @@ function showList() {
 
 /* --- Sosyal Medya ve Bağlantı Paylaşım Fonksiyonları --- */
 function getPostShareUrl() {
-  var baseUrl = window.location.origin + window.location.pathname;
-  if (!currentPost) return baseUrl;
-  var langParam = currentLang && currentLang !== 'tr' ? '&lang=' + currentLang : '';
-  return baseUrl + '?type=' + currentPost.type + '&id=' + currentPost.id + langParam;
+  if (!currentPost) return window.location.origin + '/blog';
+  var langParam = currentLang && currentLang !== 'tr' ? '?lang=' + currentLang : '';
+  var postSlug = currentPost.slug || currentPost.id;
+  return window.location.origin + '/blog/' + (currentPost.type || currentSection || 'bizce') + '/' + postSlug + langParam;
 }
 
 function shareWhatsApp() {
@@ -871,20 +893,24 @@ function isAdminPreListenMode() {
 }
 
 function getAudioStatusInfo(postId, lang) {
-  var storageKey = 'audio_status_post_' + postId + '_' + lang;
+  var normId = String(postId || (currentPost ? currentPost.id : '1')).replace(/^post_/, '');
+  var storageKey = 'audio_status_post_' + normId + '_' + lang;
   var overrideStatus = null;
   try { overrideStatus = localStorage.getItem(storageKey); } catch(e) {}
 
-  var defaultStatus = 'none';
-  var defaultUrl = '../media/audio/post_' + postId + '_' + lang + '.mp3';
+  var isPostOne = (normId === '1' || (currentPost && (currentPost.slug === 'bizce-nedir' || currentPost.id === 1 || currentPost.id === 'post_1')));
+  var defaultStatus = isPostOne ? 'approved' : 'none';
+  var defaultUrl = '/media/audio/post_' + normId + '_' + lang + '.mp3';
   var articleVer = (currentPost && currentPost.version) ? currentPost.version : 1;
   var audioVer = 1;
 
   if (currentPost && currentPost.audio && currentPost.audio[lang]) {
-    defaultStatus = currentPost.audio[lang].status || 'none';
+    defaultStatus = currentPost.audio[lang].status || defaultStatus;
     if (currentPost.audio[lang].url) defaultUrl = currentPost.audio[lang].url;
     if (currentPost.audio[lang].version) audioVer = currentPost.audio[lang].version;
   }
+
+  if (defaultUrl.startsWith('../')) defaultUrl = defaultUrl.replace(/^\.\.\//, '/');
 
   // STEP 6.6, 6.7 & 6.8: Detect version mismatch (old audio vs updated article)
   var isStale = articleVer > audioVer;
@@ -1097,7 +1123,8 @@ function playTTS() {
   if (!audio) return;
 
   var postId = currentPost ? currentPost.id : 1;
-  var audioInfo = getAudioStatusInfo(postId, currentLang);
+  var normId = String(postId).replace(/^post_/, '');
+  var audioInfo = getAudioStatusInfo(normId, currentLang);
   var isAdmin = isAdminPreListenMode();
 
   var noticeEl = document.getElementById('ttsNotice');
@@ -1114,38 +1141,46 @@ function playTTS() {
     return;
   }
 
-  var audioSrc = audioInfo.url || ('../media/audio/post_' + postId + '_' + currentLang + '.mp3');
+  var audioSrc = audioInfo.url || ('/media/audio/post_' + normId + '_' + currentLang + '.mp3');
+  if (audioSrc.startsWith('../')) audioSrc = audioSrc.replace(/^\.\.\//, '/');
 
   // If paused and same src, resume
-  if (audio.src && audio.src.includes('post_' + postId + '_' + currentLang) && audio.paused && audio.currentTime > 0) {
+  if (audio.src && audio.src.includes('post_' + normId + '_' + currentLang) && audio.paused && audio.currentTime > 0) {
     var speedEl = document.getElementById('voiceSpeed');
     if (speedEl) audio.playbackRate = parseFloat(speedEl.value || '1.0');
     audio.play().then(function() {
       var wave = document.getElementById('audioWave');
       if (wave) wave.style.display = 'inline-flex';
-    }).catch(function() {
+    }).catch(function(err) {
+      console.error('[TTS Player] Resume error:', err);
       showTTSUnavailableNotice();
     });
     return;
   }
 
-  // Set new source
-  audio.src = audioSrc;
+  // Set new source if different
+  if (!audio.src || !audio.src.includes(audioSrc)) {
+    audio.src = audioSrc;
+  }
   var speedEl = document.getElementById('voiceSpeed');
   if (speedEl) audio.playbackRate = parseFloat(speedEl.value || '1.0');
 
-  audio.onerror = function() {
+  audio.onerror = function(err) {
+    console.error('[TTS Player] Audio source failed to load:', audio.src, err);
     showTTSUnavailableNotice();
     var wave = document.getElementById('audioWave');
     if (wave) wave.style.display = 'none';
   };
 
-  audio.play().then(function() {
-    var wave = document.getElementById('audioWave');
-    if (wave) wave.style.display = 'inline-flex';
-  }).catch(function() {
-    showTTSUnavailableNotice();
-  });
+  var playPromise = audio.play();
+  if (playPromise !== undefined) {
+    playPromise.then(function() {
+      var wave = document.getElementById('audioWave');
+      if (wave) wave.style.display = 'inline-flex';
+    }).catch(function(err) {
+      console.warn('[TTS Player] Play request note:', err.message);
+    });
+  }
 }
 
 function hideTTSNotice() {
@@ -1195,9 +1230,30 @@ window.addEventListener('languageChanged', function(e) {
 });
 
 function handleUrlParams() {
+  var path = window.location.pathname.replace(/\/+$/, '');
+  var segments = path.split('/').filter(Boolean);
+  var blogIdx = segments.indexOf('blog');
+  var pathSection = '';
+  var pathSlug = '';
+
+  if (blogIdx !== -1) {
+    var sub = segments.slice(blogIdx + 1);
+    if (sub.length >= 2) {
+      pathSection = sub[0].toLowerCase();
+      pathSlug = sub[1];
+    } else if (sub.length === 1) {
+      var single = sub[0].toLowerCase();
+      if (['bizce', 'aniltilar', 'anilts', 'guncel', 'news', 'vlog'].indexOf(single) !== -1) {
+        pathSection = single;
+      } else if (single !== 'blog.html') {
+        pathSlug = single;
+      }
+    }
+  }
+
   var params = new URLSearchParams(window.location.search);
-  var typeParam = (params.get('type') || params.get('cat') || '').toLowerCase();
-  var postIdParam = params.get('id') || params.get('post') || '';
+  var typeParam = pathSection || (params.get('type') || params.get('cat') || '').toLowerCase();
+  var postIdParam = pathSlug || params.get('id') || params.get('post') || '';
   var sec = 'bizce';
   if (typeParam === 'anilts' || typeParam === 'aniltilar' || typeParam === 'anilti') {
     sec = 'anilts';
@@ -1221,7 +1277,8 @@ window.addEventListener('languageChanged', function(e) {
 
   if (isReading) {
     updateReaderViewLanguage();
-    if (synth && synth.speaking) {
+    var audio = getAudioElement();
+    if (audio && !audio.paused) {
       playTTS();
     }
   } else {
@@ -1230,7 +1287,7 @@ window.addEventListener('languageChanged', function(e) {
   }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+function initBlogPage() {
   var urlParams = new URLSearchParams(window.location.search);
   var langParam = urlParams.get('lang');
   var storedLang = localStorage.getItem('user_lang');
@@ -1257,7 +1314,13 @@ document.addEventListener("DOMContentLoaded", function() {
   setLang(currentLang, saveToStorage);
   applyFontSize();
   loadRemotePosts();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initBlogPage);
+} else {
+  initBlogPage();
+}
 
 // Intercept clicks on Bizce, Anıltılar & Güncel nav links for instant list view switching without reload
 document.addEventListener('click', function(e) {
@@ -1288,37 +1351,7 @@ window.addEventListener('popstate', function() {
 /* --- Erişilebilirlik: Okuma Metni Boyutu Ölçekleme (Font Resizer) --- */
 var currentFontOffset = parseInt(localStorage.getItem('msk_font_offset') || '0', 10);
 
-function checkAndDetectDeviceVoices() {
-  if (!synth) return;
-  var voices = synth.getVoices();
-  if (!voices || voices.length === 0) return;
-
-  var langPrefix = (currentLang || 'tr').slice(0, 2).toLowerCase();
-  var langVoices = voices.filter(function(v) {
-    return v.lang.toLowerCase().startsWith(langPrefix);
-  });
-
-  var femaleKeywords = ['female', 'zira', 'yelda', 'seda', 'emel', 'filiz', 'dilara', 'ayşegül', 'gül', 'woman', 'lady'];
-  var hasFemale = langVoices.some(function(v) {
-    var lower = v.name.toLowerCase();
-    return femaleKeywords.some(function(kw) { return lower.includes(kw); });
-  });
-
-  var genderSel = document.getElementById('voiceGender');
-  if (genderSel && genderSel.options.length >= 2) {
-    if (!hasFemale && langVoices.length > 0) {
-      genderSel.options[1].text = (currentLang === 'ar' 
-        ? '👩 امرأة (غير متوفر)' 
-        : (currentLang === 'en' ? '👩 Female (Not on device)' : '👩 Kadın (Cihazınızda Yok)'));
-    } else {
-      genderSel.options[1].text = (currentLang === 'ar' ? '👩 امرأة' : (currentLang === 'en' ? '👩 Female' : '👩 Kadın'));
-    }
-  }
-}
-
-if (synth) {
-  synth.onvoiceschanged = checkAndDetectDeviceVoices;
-}
+// Legacy Web Speech API device voices check removed in favor of Server MP3 Engine.
 
 function applyFontSize() {
   var elContent = document.getElementById('readContent');
@@ -1387,10 +1420,23 @@ function loadRemotePosts() {
             ? new Date(p.published_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
             : '2026';
 
+          var existingLocal = blogPostsData.find(function(lp) {
+            return String(lp.id) === String(p.id) || String(lp.id) === String(p.id).replace(/^post_/, '') || lp.slug === p.slug;
+          });
+          var audioData = p.audio || (existingLocal ? existingLocal.audio : null);
+          if (!audioData && (p.id === 'post_1' || p.id === 1 || p.slug === 'bizce-nedir')) {
+            audioData = {
+              tr: { status: 'approved', url: '/media/audio/post_1_tr.mp3', version: 1 },
+              en: { status: 'approved', url: '/media/audio/post_1_en.mp3', version: 1 },
+              ar: { status: 'approved', url: '/media/audio/post_1_ar.mp3', version: 1 }
+            };
+          }
+
           return {
             id: p.id,
             slug: p.slug,
             type: sec,
+            audio: audioData,
             category: p.channel_name_tr || 'Genel',
             category_en: p.channel_name_en || 'General',
             category_ar: p.channel_name_ar || 'عام',
@@ -1421,6 +1467,9 @@ function loadRemotePosts() {
         blogPostsData = remotePosts;
 
         var readerView = document.getElementById('readerView');
+        var readContent = document.getElementById('readContent');
+        var isPreRendered = (readContent && readContent.innerHTML.trim().length > 50);
+
         var isReading = (currentPost !== null && readerView && readerView.style.display !== 'none');
         if (isReading) {
           var found = blogPostsData.find(function(p) {
@@ -1431,11 +1480,22 @@ function loadRemotePosts() {
             updateReaderViewLanguage();
           }
         } else {
+          var path = window.location.pathname.replace(/\/+$/, '');
+          var segments = path.split('/').filter(Boolean);
+          var blogIdx = segments.indexOf('blog');
+          var urlSlug = '';
+          if (blogIdx !== -1 && segments.length > blogIdx + 1) {
+            var lastSegment = segments[segments.length - 1];
+            if (['bizce', 'aniltilar', 'anilts', 'guncel', 'news', 'vlog', 'blog.html'].indexOf(lastSegment.toLowerCase()) === -1) {
+              urlSlug = lastSegment;
+            }
+          }
+
           var params = new URLSearchParams(window.location.search);
-          var pId = params.get('id') || params.get('post');
+          var pId = urlSlug || params.get('id') || params.get('post');
           if (pId) {
             openPost(pId);
-          } else {
+          } else if (!isPreRendered) {
             renderPosts();
           }
         }
