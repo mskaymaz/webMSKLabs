@@ -731,13 +731,13 @@
     if (!triggerBtn) return;
 
     triggerBtn.style.display = 'inline-flex';
-    if (!activeItems || activeItems.length === 0) {
-      if (badge) badge.style.display = 'none';
-      return;
-    }
     if (badge) {
-      badge.style.display = 'inline-block';
-      badge.textContent = activeItems.length.toString();
+      if (!activeItems || activeItems.length === 0) {
+        badge.style.display = 'none';
+      } else {
+        badge.style.display = 'inline-block';
+        badge.textContent = activeItems.length.toString();
+      }
     }
 
     triggerBtn.onclick = function (e) {
@@ -765,7 +765,9 @@
         }
       } catch (_) {}
 
-      var listHtml = activeItems.map(function (it, idx) {
+      var listHtml = (!activeItems || activeItems.length === 0)
+        ? '<div style="padding:18px 14px; text-align:center; color:var(--text-muted); font-size:13px;">Şu an aktif bir duyuru bulunmuyor.</div>'
+        : activeItems.map(function (it, idx) {
         var dotColor = it.bannerType === 'success' ? '#10b981' : it.bannerType === 'warning' ? '#f59e0b' : it.bannerType === 'purple' ? '#8b5cf6' : '#3b82f6';
         var isCurrent = it.id === currentItem.id;
         return `

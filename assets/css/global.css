@@ -1198,7 +1198,7 @@ body.dark-theme .arabic-btn-icon {
 }
 
 /* Tablet Breakpoint (541px - 850px) */
-@media (max-width: 850px) and (min-width: 541px) {
+@media (max-width: 850px) {
   /* Tek Sütunlu Uygulama Listesi (Google Play & App Store Formatı - Explicit Grid Areas) */
   .app-grid {
     grid-template-columns: 1fr !important;
