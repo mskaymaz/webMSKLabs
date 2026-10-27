@@ -293,7 +293,7 @@
     var activeGrid = document.getElementById('activeAppsGrid');
     if (!activeGrid) return;
 
-    var apiUrl = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl) || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8787/api' : 'https://msklabsdesk-backend.msklabs-org.workers.dev/api');
+    var apiUrl = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl) || 'https://msklabsdesk-backend.msklabs-org.workers.dev/api';
     var appsEndpoint = apiUrl + '/v1/apps';
     var allFetchedApps = [];
     var currentFilter = 'all';
@@ -355,11 +355,11 @@
               <span class="lang-en">${app.summary_en || app.description_en || app.summary_tr || app.description_tr || ''}</span>
               <span class="lang-ar">${app.summary_ar || app.description_ar || app.summary_tr || app.description_tr || ''}</span>
             </p>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 10px;">
+            <div class="app-card-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 6px;">
               <span class="app-status-badge active">
-                <span class="lang-tr">Yayında (${verText})</span>
-                <span class="lang-en">Active (${verText})</span>
-                <span class="lang-ar">مباشر (${verText})</span>
+                <span class="lang-tr">Yayında</span>
+                <span class="lang-en">Active</span>
+                <span class="lang-ar">مباشر</span>
               </span>
               ${dlCountText ? '<span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 500;">' + dlCountText + '</span>' : ''}
             </div>
@@ -370,13 +370,33 @@
       activeGrid.innerHTML = html;
     }
 
+    function filterCards(filter) {
+      if (allFetchedApps && allFetchedApps.length > 0) {
+        renderApps(allFetchedApps, filter);
+        return;
+      }
+      var cards = activeGrid.querySelectorAll('.app-card');
+      cards.forEach(function(card) {
+        if (!filter || filter === 'all') {
+          card.style.display = '';
+          return;
+        }
+        var p = (card.getAttribute('data-platform') || '').toLowerCase();
+        var match = false;
+        if (filter === 'mobile') match = (p === 'mobile' || p === 'android' || p === 'ios' || p === 'all');
+        else if (filter === 'desktop') match = (p === 'desktop' || p === 'windows' || p === 'macos' || p === 'all');
+        else if (filter === 'web') match = (p === 'web' || p === 'pwa' || p === 'all');
+        card.style.display = match ? '' : 'none';
+      });
+    }
+
     var filterBtns = document.querySelectorAll('.app-filter-pill');
     filterBtns.forEach(function(btn) {
       btn.addEventListener('click', function() {
         filterBtns.forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
         currentFilter = btn.getAttribute('data-filter') || 'all';
-        renderApps(allFetchedApps, currentFilter);
+        filterCards(currentFilter);
       });
     });
 

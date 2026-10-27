@@ -1319,6 +1319,8 @@ body.dark-theme .arabic-btn-icon {
     text-align: left !important;
     overflow: hidden !important;
     position: relative !important;
+    min-height: auto !important;
+    height: auto !important;
   }
 
   .app-icon {
@@ -1360,7 +1362,9 @@ body.dark-theme .arabic-btn-icon {
     margin: 0 !important;
   }
 
-  .lang-badges {
+  .lang-badges,
+  .app-card-footer,
+  .app-card .app-status-badge {
     grid-area: badges !important;
     margin-top: 2px !important;
     display: flex !important;
