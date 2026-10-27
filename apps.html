@@ -334,7 +334,7 @@
           if (rawIcon.length <= 8 && !rawIcon.includes('/') && !rawIcon.includes('.')) {
             iconHtml = rawIcon;
           } else {
-            var iconSrc = rawIcon.startsWith('http') ? rawIcon : ('https://msklabs.org/' + rawIcon.replace(/^\/+/, ''));
+            var iconSrc = rawIcon.startsWith('http') ? rawIcon : ('/' + rawIcon.replace(/^\/+/, ''));
             iconHtml = '<img src="' + iconSrc + '" alt="' + (app.name_tr || '') + '" onerror="this.onerror=null;this.parentNode.innerHTML=\'📱\';">';
           }
         }

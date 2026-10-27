@@ -1231,8 +1231,8 @@
             };
 
             var rawIcon = raw.icon_url || (currentApp ? currentApp.icon_url : '');
-            if (rawIcon && rawIcon.startsWith('/media/')) {
-              rawIcon = 'https://msklabs.org' + rawIcon;
+            if (rawIcon && !rawIcon.startsWith('http')) {
+              rawIcon = '/' + rawIcon.replace(/^\/+/, '');
             }
 
             var cleanId = raw.slug || (raw.app_id ? raw.app_id.replace(/^app_/, '') : appId);
