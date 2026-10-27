@@ -359,7 +359,7 @@
       ? window.SITE_CONFIG.apiUrl
       : ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
         ? 'http://localhost:8787/api'
-        : 'https://api.msklabs.org/api');
+        : 'https://msklabsdesk-backend.msklabs-org.workers.dev/api');
 
     // Tarayıcı önbelleğini atlayarak anlık güncellemeyi sağlar
     fetch(apiUrl + '/v1/ads?_t=' + Date.now(), { cache: 'no-store' })

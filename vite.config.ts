@@ -2,6 +2,83 @@ import { defineConfig, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
+import fs from 'fs';
+
+function getHtmlInputs() {
+  const inputs: Record<string, string> = {};
+
+  // 1. Root HTML files
+  const rootFiles = fs.readdirSync(__dirname);
+  for (const file of rootFiles) {
+    if (file.endsWith('.html')) {
+      const name = file === 'index.html' ? 'main' : file.replace('.html', '');
+      inputs[name] = path.resolve(__dirname, file);
+    }
+  }
+
+  // 2. Subdirectories with HTML: admin, blog, apps
+  const subdirs = ['admin', 'blog', 'apps'];
+  for (const dir of subdirs) {
+    const dirPath = path.resolve(__dirname, dir);
+    if (fs.existsSync(dirPath)) {
+      const files = fs.readdirSync(dirPath);
+      for (const file of files) {
+        if (file.endsWith('.html')) {
+          const key = `${dir}_${file.replace('.html', '').replace(/[^a-zA-Z0-9_]/g, '_')}`;
+          inputs[key] = path.resolve(dirPath, file);
+        }
+      }
+    }
+  }
+
+  return inputs;
+}
+
+function copyStaticAssetsPlugin(): Plugin {
+  return {
+    name: 'copy-static-assets-plugin',
+    closeBundle() {
+      const outDir = path.resolve(__dirname, 'dist');
+
+      const copyDir = (src: string, dest: string) => {
+        if (fs.existsSync(src)) {
+          fs.cpSync(src, dest, { recursive: true, force: true });
+        }
+      };
+
+      const copyFile = (src: string, dest: string) => {
+        if (fs.existsSync(src)) {
+          fs.copyFileSync(src, dest);
+        }
+      };
+
+      // 1. Static assets directory (assets/js, assets/css, assets/data, assets/img)
+      copyDir(path.resolve(__dirname, 'assets'), path.resolve(outDir, 'assets'));
+
+      // 2. Top-level img and media directories
+      copyDir(path.resolve(__dirname, 'img'), path.resolve(outDir, 'img'));
+      copyDir(path.resolve(__dirname, 'media'), path.resolve(outDir, 'media'));
+
+      // 3. Blog auxiliary scripts and assets (blog.js, comments.js, etc.)
+      const blogDir = path.resolve(__dirname, 'blog');
+      const distBlogDir = path.resolve(outDir, 'blog');
+      if (fs.existsSync(blogDir)) {
+        if (!fs.existsSync(distBlogDir)) fs.mkdirSync(distBlogDir, { recursive: true });
+        for (const file of fs.readdirSync(blogDir)) {
+          if (file.endsWith('.js') || file.endsWith('.json')) {
+            copyFile(path.resolve(blogDir, file), path.resolve(distBlogDir, file));
+          }
+        }
+      }
+
+      // 4. Root static metadata files
+      const rootFiles = ['announcements.json', 'CNAME', 'robots.txt', 'sitemap.xml', 'manifest.json'];
+      for (const f of rootFiles) {
+        copyFile(path.resolve(__dirname, f), path.resolve(outDir, f));
+      }
+    }
+  };
+}
 
 function adminRewritePlugin(): Plugin {
   return {
@@ -58,6 +135,7 @@ export default defineConfig({
     react(),
     adminRewritePlugin(),
     blogRewritePlugin(),
+    copyStaticAssetsPlugin(),
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {
@@ -90,7 +168,8 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-        cleanupOutdatedCaches: true
+        cleanupOutdatedCaches: true,
+        maximumFileSizeToCacheInBytes: 15 * 1024 * 1024
       }
     })
   ],
@@ -103,11 +182,7 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'index.html'),
-        admin: path.resolve(__dirname, 'admin/index.html'),
-        blog: path.resolve(__dirname, 'blog/blog.html')
-      },
+      input: getHtmlInputs(),
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],

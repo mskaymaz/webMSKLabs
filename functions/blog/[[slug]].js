@@ -10,6 +10,11 @@ export async function onRequest(context) {
   const { request, env, params } = context;
   const url = new URL(request.url);
 
+  // Statik varlık isteklerini (.js, .css, .json, resimler vb.) doğrudan Cloudflare Pages ASSETS'e devret
+  if (url.pathname.match(/\.(js|css|json|png|jpg|jpeg|gif|svg|ico|webmanifest|map)$/i)) {
+    return env.ASSETS ? env.ASSETS.fetch(request) : fetch(request);
+  }
+
   // 1. Slug ve Kategori Tespiti
   const pathParts = (params.slug || []).filter(Boolean);
   let channel = '';
