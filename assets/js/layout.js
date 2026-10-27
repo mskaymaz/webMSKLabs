@@ -157,25 +157,25 @@
               <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img src="${basePath}img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
               <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Gece Modu / Light Mode">🌙</button>
             </div>
-            <button type="button" class="hamburger-toggle-btn" id="hamburgerToggleBtn" aria-label="Menüyü Aç/Kapat" onclick="toggleMobileMenu()">
-              ☰
-            </button>
+            <div class="header-action-toggles">
+              <button id="mskAnnTriggerBtn" class="announcement-trigger-btn" style="display:none; position:relative; align-items:center; justify-content:center; background:transparent; border:none; outline:none; box-shadow:none; cursor:pointer; padding:0; margin:0; width:26px; height:26px; min-width:26px; min-height:26px; color:inherit;" title="Duyurular & Kampanyalar" aria-label="Duyurular">
+                <svg class="ann-icon-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0;">
+                  <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+                  <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
+                  <path d="M8 6v8"/>
+                </svg>
+                <span id="mskAnnBadge" style="position:absolute; top:-5px; right:-7px; background:#ef4444; color:#fff; font-size:9px; font-weight:800; border-radius:10px; padding:1px 4px; line-height:1; display:none; pointer-events:none;">0</span>
+              </button>
+              <button type="button" class="hamburger-toggle-btn" id="hamburgerToggleBtn" aria-label="Menüyü Aç/Kapat" onclick="toggleMobileMenu()">
+                ☰
+              </button>
+            </div>
           </div>
         </div>
         <div class="header-nav-row" style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%;">
           <nav class="top-main-nav" style="width: 100%; text-align: center;">
             ${navLinksHTML}
           </nav>
-          <div class="header-nav-right" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; z-index: 10;">
-            <button id="mskAnnTriggerBtn" class="announcement-trigger-btn" style="display:none; position:relative; align-items:center; justify-content:center; background:transparent; border:none; outline:none; box-shadow:none; cursor:pointer; padding:0; margin:0; width:24px; height:24px; color:inherit;" title="Duyurular & Kampanyalar" aria-label="Duyurular">
-              <svg class="ann-icon-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0;">
-                <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
-                <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
-                <path d="M8 6v8"/>
-              </svg>
-              <span id="mskAnnBadge" style="position:absolute; top:-5px; right:-7px; background:#ef4444; color:#fff; font-size:9px; font-weight:800; border-radius:10px; padding:1px 4px; line-height:1; display:none; pointer-events:none;">0</span>
-            </button>
-          </div>
         </div>
       </div>
       <div class="mobile-drawer-menu" id="mobileDrawerMenu">
