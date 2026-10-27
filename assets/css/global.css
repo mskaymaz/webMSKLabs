@@ -566,16 +566,15 @@ html[dir="rtl"] .arrow-icon-directional {
 /* Medya Sorguları (768px ve Altı Mobil Mod) */
 @media (max-width: 768px) {
   .layout-wrapper {
-    margin-top: 56px !important;
+    margin-top: 96px;
   }
 
   .header-sticky-container {
-    padding: 0.3rem 0.75rem !important;
+    padding: 0.5rem 1rem;
   }
 
   .header-top-row {
-    min-height: 48px !important;
-    align-items: center !important;
+    min-height: 76px;
   }
 
   .header-page-title {
@@ -589,14 +588,14 @@ html[dir="rtl"] .arrow-icon-directional {
   }
 
   .header-logo-img {
-    height: 38px !important;
+    height: 65px;
   }
 
   .header-actions-right {
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-end !important;
-    gap: 0.3rem !important;
+    gap: 0.35rem !important;
   }
 
   .header-action-toggles {
@@ -1200,126 +1199,13 @@ body.dark-theme .arabic-btn-icon {
 
 /* Tablet Breakpoint (541px - 850px) */
 @media (max-width: 850px) and (min-width: 541px) {
+  /* Tek Sütunlu Uygulama Listesi (Google Play & App Store Formatı - Explicit Grid Areas) */
   .app-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 16px !important;
-  }
-}
-
-/* Mobil ve Tablet Dokunmatik Navigasyon & Header (<=768px) */
-@media (max-width: 768px) {
-  .top-main-nav {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 5px 6px !important;
-    margin: 0.5rem 0 1rem 0 !important;
-    padding: 0 4px !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
   }
 
-  .top-main-nav a {
-    background: var(--bg-card, #ffffff) !important;
-    border: 1px solid var(--border-color, #cbd5e1) !important;
-    border-radius: 8px !important;
-    padding: 0.3rem 0.65rem !important;
-    min-height: 36px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-sizing: border-box !important;
-    font-size: 0.82rem !important;
-    font-weight: 600 !important;
-    color: var(--text-main, #334155) !important;
-    text-decoration: none !important;
-    flex-shrink: 0;
-    transition: all 0.2s ease !important;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
-  }
-
-  .top-main-nav a:hover {
-    border-color: var(--primary-color, #0284c7) !important;
-    color: var(--primary-color, #0284c7) !important;
-  }
-
-  .top-main-nav a.active-nav-link {
-    background: var(--primary-color, #0284c7) !important;
-    color: #ffffff !important;
-    border-color: var(--primary-color, #0284c7) !important;
-    font-weight: 700 !important;
-    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3) !important;
-  }
-
-  .site-footer a.active-nav-link,
-  .footer-links a.active-nav-link,
-  .footer-links-row1 a.active-nav-link,
-  .footer-links-row2 a.active-nav-link {
-    color: var(--primary-color, #0284c7) !important;
-    font-weight: 700 !important;
-    text-decoration: underline !important;
-  }
-
-  .top-main-nav .nav-divider,
-  .top-main-nav span:not([class]) {
-    display: none !important;
-  }
-
-  .lang-switcher {
-    gap: 4px !important;
-    margin-bottom: 0 !important;
-    justify-content: flex-end !important;
-  }
-
-  .lang-switcher button,
-  #themeToggleBtn {
-    padding: 3px 6px !important;
-    font-size: 0.75rem !important;
-    min-height: 32px !important;
-    min-width: 32px !important;
-    border-radius: 6px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-sizing: border-box !important;
-  }
-
-  .arabic-btn-icon {
-    height: 16px !important;
-    width: auto !important;
-  }
-}
-
-/* Mobil Breakpoint (<=540px): Store Card & Clean Mobile Spacing */
-@media (max-width: 540px) {
-  .portfolio-container {
-    padding: 20px 14px !important;
-  }
-
-  .logo-container {
-    margin-bottom: 25px !important;
-  }
-
-  .main-logo {
-    width: clamp(190px, 40vw, 240px) !important;
-  }
-
-  .page-title {
-    font-size: 1.55rem !important;
-    margin-bottom: 24px !important;
-  }
-
-  .category-title {
-    font-size: 1.15rem !important;
-    margin: 20px 0 12px 0 !important;
-  }
-
-  /* 2'li Izgara Düzeni (Mobil Vitrin) */
-  .app-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
-  }
-
-  .app-card:not(.app-card-flip) {
+  .app-card {
     display: grid !important;
     grid-template-columns: 64px 1fr !important;
     grid-template-areas:
@@ -1338,7 +1224,7 @@ body.dark-theme .arabic-btn-icon {
     height: auto !important;
   }
 
-  .app-card:not(.app-card-flip) .app-icon {
+  .app-icon {
     grid-area: icon !important;
     width: 64px !important;
     height: 64px !important;
@@ -1355,7 +1241,7 @@ body.dark-theme .arabic-btn-icon {
     box-sizing: border-box !important;
   }
 
-  .app-card:not(.app-card-flip) .app-icon img {
+  .app-icon img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
@@ -1363,23 +1249,22 @@ body.dark-theme .arabic-btn-icon {
     display: block !important;
   }
 
-  .app-card:not(.app-card-flip) .app-name {
+  .app-name {
     grid-area: name !important;
     font-size: 1.05rem !important;
     margin: 0 !important;
     line-height: 1.25 !important;
   }
 
-  .app-card:not(.app-card-flip) .app-vision {
+  .app-vision {
     grid-area: vision !important;
     font-size: 0.82rem !important;
     line-height: 1.35 !important;
-    margin: 0 !important;
   }
 
-  .app-card:not(.app-card-flip) .lang-badges,
-  .app-card:not(.app-card-flip) .app-card-footer,
-  .app-card:not(.app-card-flip) .app-status-badge {
+  .lang-badges,
+  .app-card-footer,
+  .app-card .app-status-badge {
     grid-area: badges !important;
     margin-top: 2px !important;
     display: flex !important;

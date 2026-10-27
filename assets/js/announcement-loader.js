@@ -730,12 +730,11 @@
     var badge = document.getElementById('mskAnnBadge');
     if (!triggerBtn) return;
 
+    triggerBtn.style.display = 'inline-flex';
     if (!activeItems || activeItems.length === 0) {
-      triggerBtn.style.display = 'none';
+      if (badge) badge.style.display = 'none';
       return;
     }
-
-    triggerBtn.style.display = 'inline-flex';
     if (badge) {
       badge.style.display = 'inline-block';
       badge.textContent = activeItems.length.toString();
