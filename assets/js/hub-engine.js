@@ -8,6 +8,7 @@
   var hubBlogData = [
     {
       id: 4,
+      slug: "neden-ucretsiz",
       type: "bizce",
       category: "Yazılım & Felsefe",
       date: "30 Eylül 2026",
@@ -26,6 +27,7 @@
     },
     {
       id: 1,
+      slug: "bizce-nedir",
       type: "bizce",
       category: "Manifesto & İlk Makale",
       date: "29 Eylül 2026",
@@ -44,6 +46,7 @@
     },
     {
       id: 2,
+      slug: "aniltilar-nedir",
       type: "anilts",
       category: "Manifesto & İlk Makale",
       date: "29 Eylül 2026",
@@ -62,6 +65,7 @@
     },
     {
       id: 5,
+      slug: "macin-ertelenme-dudugu-calar",
       type: "guncel",
       category: "Güncel Analiz & Toplum",
       date: "1 Ekim 2026",
@@ -80,6 +84,7 @@
     },
     {
       id: 3,
+      slug: "guncel-nedir",
       type: "guncel",
       category: "Manifesto & İlk Makale",
       date: "28 Eylül 2026",
@@ -213,7 +218,8 @@
     if (latestEl && latestPost) {
       var latestTitleText = getPostTitle(latestPost);
       var langParam = (lang !== 'tr') ? '&lang=' + lang : '';
-      var latestUrl = 'blog/blog.html?type=' + type + '&id=' + latestPost.id + langParam;
+      var latestSlug = latestPost.slug || latestPost.id;
+      var latestUrl = '/blog/' + type + '/' + latestSlug + langParam;
       latestEl.innerHTML = `
         <div class="hub-latest-title">
           <a href="${latestUrl}" style="color: var(--text-main); text-decoration: none;">${latestTitleText}</a>
@@ -227,7 +233,8 @@
     if (recEl && recommendedPost) {
       var recTitleText = getPostTitle(recommendedPost);
       var recLangParam = (lang !== 'tr') ? '&lang=' + lang : '';
-      var recUrl = 'blog/blog.html?type=' + type + '&id=' + recommendedPost.id + recLangParam;
+      var recSlug = recommendedPost.slug || recommendedPost.id;
+      var recUrl = '/blog/' + type + '/' + recSlug + recLangParam;
       recEl.innerHTML = `
         <div class="hub-rec-title" style="font-size:0.88rem; font-weight:600;">
           <a href="${recUrl}" style="color: var(--text-main); text-decoration: none;">${recTitleText}</a>
@@ -283,10 +290,10 @@
       });
     }
 
-    bindCardClick('hubCardBizce', 'blog/blog.html?type=bizce');
-    bindCardClick('hubCardApps', 'apps.html');
-    bindCardClick('hubCardGuncel', 'blog/blog.html?type=guncel');
-    bindCardClick('hubCardAnilts', 'blog/blog.html?type=anilts');
+    bindCardClick('hubCardBizce', '/blog/blog.html?type=bizce');
+    bindCardClick('hubCardApps', '/apps.html');
+    bindCardClick('hubCardGuncel', '/blog/blog.html?type=guncel');
+    bindCardClick('hubCardAnilts', '/blog/blog.html?type=anilts');
   }
 
   // Global Engine Init

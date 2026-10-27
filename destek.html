@@ -369,7 +369,9 @@
     try {
       const apiEndpoint = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl)
         ? (window.SITE_CONFIG.apiUrl + '/support')
-        : 'http://localhost:8787/api/support';
+        : ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+          ? 'http://localhost:8787/api/support'
+          : 'https://msklabsdesk-backend.msklabs-org.workers.dev/api/support');
 
       const res = await fetch(apiEndpoint, {
         method: 'POST',

@@ -6,10 +6,9 @@
   if (!window.location.hash) {
     window.scrollTo(0, 0);
   }
-  // Path depth detection
+  // Path depth detection - Use root-relative path for web server hosting
   var pathname = window.location.pathname.replace(/\\/g, '/');
-  var isSubfolder = pathname.indexOf('/blog/') !== -1 || pathname.indexOf('/apps/') !== -1;
-  var basePath = isSubfolder ? '../' : './';
+  var basePath = '/';
   var pageName = pathname.substring(pathname.lastIndexOf('/') + 1) || 'index.html';
 
   // Helper to resolve current page title with multi-language support

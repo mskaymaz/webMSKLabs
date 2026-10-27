@@ -1186,7 +1186,7 @@
       window.setLang(activeLang);
 
       // 2. Canlı D1 Public API'den Uygulama Verisini Çek
-      var apiUrl = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl) || 'http://localhost:8787/api';
+      var apiUrl = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl) || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8787/api' : 'https://msklabsdesk-backend.msklabs-org.workers.dev/api');
       fetch(apiUrl + '/v1/apps/' + encodeURIComponent(appId))
         .then(function(res) {
           if (!res.ok) throw new Error('HTTP ' + res.status);

@@ -95,6 +95,7 @@ var blogPostsData = [
   },
   {
     "id": 4,
+    "slug": "neden-ucretsiz",
     "type": "bizce",
     "category": "Yazılım & Felsefe",
     "category_en": "Software & Philosophy",
@@ -110,6 +111,7 @@ var blogPostsData = [
   },
   {
     "id": 5,
+    "slug": "macin-ertelenme-dudugu-calar",
     "type": "guncel",
     "category": "Güncel Analiz & Toplum",
     "category_en": "Current Analysis & Society",
@@ -664,7 +666,17 @@ function openPost(id) {
 
   try {
     var langParam = currentLang && currentLang !== 'tr' ? '?lang=' + currentLang : '';
-    var postSlug = currentPost.slug || id;
+    var postSlug = currentPost.slug;
+    if (!postSlug || /^\d+$/.test(String(postSlug))) {
+      var rawTitle = (currentPost.tr && currentPost.tr.title) || currentPost.title || '';
+      var cleanTitle = rawTitle.toLowerCase().trim()
+        .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
+        .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/[\s_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+      postSlug = cleanTitle || currentPost.slug || id;
+    }
     var newUrl = '/blog/' + currentSection + '/' + postSlug + langParam;
     var curPath = window.location.pathname.replace(/\/+$/, '');
     var targetPath = ('/blog/' + currentSection + '/' + postSlug).replace(/\/+$/, '');
@@ -1391,7 +1403,11 @@ function getYouTubeEmbedUrl(url) {
  * Resilient: Eğer API başarısız olursa yerel statik verilerle kesintisiz çalışır.
  */
 function loadRemotePosts() {
-  var apiUrl = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl) ? window.SITE_CONFIG.apiUrl : 'http://localhost:8787/api';
+  var apiUrl = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl)
+    ? window.SITE_CONFIG.apiUrl
+    : ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      ? 'http://localhost:8787/api'
+      : 'https://msklabsdesk-backend.msklabs-org.workers.dev/api');
   return fetch(apiUrl + '/v1/posts?limit=50')
     .then(function(res) {
       if (!res.ok) throw new Error('HTTP ' + res.status);

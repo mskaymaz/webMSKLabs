@@ -293,7 +293,7 @@
     var activeGrid = document.getElementById('activeAppsGrid');
     if (!activeGrid) return;
 
-    var apiUrl = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl) || 'http://localhost:8787/api';
+    var apiUrl = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl) || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8787/api' : 'https://msklabsdesk-backend.msklabs-org.workers.dev/api');
     var appsEndpoint = apiUrl + '/v1/apps';
     var allFetchedApps = [];
     var currentFilter = 'all';
