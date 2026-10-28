@@ -715,6 +715,17 @@
   window.syncAnnouncementPosition = syncAnnouncementPosition;
   window.addEventListener('resize', syncAnnouncementPosition);
 
+  function injectCookieConsent() {
+    try {
+      if (document.querySelector("script[data-msk-cookie]")) return;
+      var s = document.createElement("script");
+      s.src = basePath + "assets/js/cookie-consent.js";
+      s.defer = true;
+      s.setAttribute("data-msk-cookie", "true");
+      (document.head || document.documentElement).appendChild(s);
+    } catch (_) {}
+  }
+
   function bootLayout() {
     initTheme();
     renderHeader();
@@ -723,6 +734,7 @@
     syncLangAttributes();
     injectAdsLoader();
     injectAnnouncementLoader();
+    injectCookieConsent();
     syncAnnouncementPosition();
     setTimeout(syncAnnouncementPosition, 100);
   }
