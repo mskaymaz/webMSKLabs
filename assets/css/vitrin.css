@@ -1,0 +1,534 @@
+/* ==========================================================================
+   MSK LABS — VİTRİN (MOBILE SHOWCASE WEBVIEW DESIGN SYSTEM)
+   Dosya: assets/css/vitrin.css
+   Amaç: Mobil WebView için hafif, 2 sütunlu, 3D flip kart mimarisi
+   ========================================================================== */
+
+:root {
+  --vitrin-safe-top: env(safe-area-inset-top, 0px);
+  --vitrin-safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+body.vitrin-body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-page, #f8fafc);
+  color: var(--text-main, #0f172a);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+[data-theme="dark"] body.vitrin-body {
+  background-color: var(--bg-page, #0f172a);
+  color: var(--text-main, #f8fafc);
+}
+
+/* Multi-Language Visibility Rules */
+body.lang-tr .lang-en, body.lang-tr .lang-ar { display: none !important; }
+body.lang-en .lang-tr, body.lang-en .lang-ar { display: none !important; }
+body.lang-ar .lang-tr, body.lang-ar .lang-en { display: none !important; }
+
+html[dir="rtl"] body.vitrin-body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* 1. Minimalist Antet (WebView Header) */
+.vitrin-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle, #e2e8f0);
+  padding: calc(10px + var(--vitrin-safe-top)) 14px 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+[data-theme="dark"] .vitrin-header {
+  background: rgba(15, 23, 42, 0.94);
+  border-bottom-color: var(--border-color, #334155);
+}
+
+.vitrin-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text-main, #0f172a);
+}
+
+.vitrin-brand img {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+.vitrin-brand-text {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.vitrin-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vitrin-theme-btn {
+  background: var(--bg-surface, #f1f5f9);
+  border: 1px solid var(--border-color, #cbd5e1);
+  color: var(--text-main, #0f172a);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+[data-theme="dark"] .vitrin-theme-btn {
+  background: #1e293b;
+  border-color: #334155;
+  color: #fbbf24;
+}
+
+.vitrin-lang-group {
+  display: flex;
+  background: var(--bg-surface, #f1f5f9);
+  border: 1px solid var(--border-color, #cbd5e1);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+
+[data-theme="dark"] .vitrin-lang-group {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.vitrin-lang-btn {
+  background: transparent;
+  border: none;
+  padding: 3px 6px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted, #475569);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+[data-theme="dark"] .vitrin-lang-btn {
+  color: #94a3b8;
+}
+
+.vitrin-lang-btn.active {
+  background: var(--primary-color, #2563eb);
+  color: #ffffff !important;
+}
+
+/* 2. Hero & Filtre Çubuğu */
+.vitrin-hero {
+  padding: 16px 14px 6px 14px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.vitrin-title {
+  font-size: 1.30rem;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: var(--text-main, #0f172a);
+}
+
+.vitrin-subtitle {
+  font-size: 0.80rem;
+  color: var(--text-muted, #475569);
+  margin: 0;
+  line-height: 1.4;
+}
+
+[data-theme="dark"] .vitrin-subtitle {
+  color: #94a3b8;
+}
+
+.vitrin-filter-bar {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px 12px 14px;
+  max-width: 600px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.vitrin-filter-pill {
+  padding: 6px 14px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  border-radius: 999px;
+  border: 1px solid var(--border-color, #cbd5e1);
+  background: var(--bg-card, #ffffff);
+  color: var(--text-muted, #475569);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+[data-theme="dark"] .vitrin-filter-pill {
+  background: #1e293b;
+  border-color: #334155;
+  color: #cbd5e1;
+}
+
+.vitrin-filter-pill.active {
+  background: var(--primary-color, #2563eb) !important;
+  border-color: var(--primary-color, #2563eb) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.28);
+}
+
+/* 3. İki Sütunlu Kart Izgarası (Mobile-First 2-Column Grid) */
+.vitrin-grid-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4px 14px calc(36px + var(--vitrin-safe-bottom)) 14px;
+}
+
+.vitrin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .vitrin-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+/* 4. 3D Flip Kart Mimarisi */
+.vitrin-card {
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+  height: 275px;
+  min-height: 275px;
+}
+
+.vitrin-card.hidden {
+  display: none !important;
+}
+
+.vitrin-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 18px;
+}
+
+.vitrin-card.is-flipped .vitrin-card-inner {
+  transform: rotateY(180deg);
+}
+
+html[dir="rtl"] .vitrin-card.is-flipped .vitrin-card-inner {
+  transform: rotateY(-180deg);
+}
+
+.vitrin-card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 18px;
+  padding: 12px 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid var(--border-color, #cbd5e1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.vitrin-card-front {
+  background: var(--bg-card, #ffffff);
+  z-index: 2;
+  transform: rotateY(0deg);
+  cursor: pointer;
+}
+
+.vitrin-card-back {
+  background: var(--bg-surface, #f8fafc);
+  transform: rotateY(180deg);
+  z-index: 1;
+  justify-content: space-between;
+}
+
+html[dir="rtl"] .vitrin-card-back {
+  transform: rotateY(-180deg);
+}
+
+[data-theme="dark"] .vitrin-card-front {
+  background: var(--bg-card, #1e293b);
+  border-color: var(--border-color, #334155);
+}
+
+[data-theme="dark"] .vitrin-card-back {
+  background: #182234;
+  border-color: var(--border-color, #334155);
+}
+
+/* Ön Yüz Detayları */
+.vitrin-badge-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2px;
+}
+
+.vitrin-badge {
+  font-size: 0.60rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.vitrin-badge.active {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.28);
+}
+
+.vitrin-badge.dev {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+}
+
+.vitrin-icon {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  min-height: 64px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 2px 0 8px 0;
+  background: var(--bg-surface, #f1f5f9);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+
+.vitrin-icon img,
+.vitrin-icon svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 16px;
+}
+
+.vitrin-card-name {
+  font-size: 0.90rem;
+  font-weight: 700;
+  color: var(--text-main, #0f172a);
+  margin: 0 0 3px 0;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.vitrin-card-tagline {
+  font-size: 0.70rem;
+  color: var(--text-muted, #475569);
+  line-height: 1.35;
+  margin: 0 0 auto 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .vitrin-card-tagline {
+  color: #94a3b8;
+}
+
+.vitrin-flip-trigger {
+  width: 100%;
+  margin-top: 6px;
+  padding: 5px 8px;
+  font-size: 0.70rem;
+  font-weight: 600;
+  color: var(--primary-color, #2563eb);
+  background: var(--bg-surface, #f1f5f9);
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: background 0.15s;
+}
+
+[data-theme="dark"] .vitrin-flip-trigger {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #60a5fa;
+}
+
+/* Arka Yüz Detayları */
+.vitrin-back-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-subtle, #e2e8f0);
+}
+
+[data-theme="dark"] .vitrin-back-head {
+  border-bottom-color: var(--border-color, #334155);
+}
+
+.vitrin-back-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-main, #0f172a);
+  margin: 0;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vitrin-platform-tag {
+  font-size: 0.58rem;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 6px;
+  background: var(--bg-card, #ffffff);
+  color: var(--text-muted, #475569);
+  border: 1px solid var(--border-subtle, #cbd5e1);
+}
+
+[data-theme="dark"] .vitrin-platform-tag {
+  background: #0f172a;
+  border-color: #334155;
+  color: #cbd5e1;
+}
+
+.vitrin-back-desc {
+  font-size: 0.68rem;
+  color: var(--text-muted, #475569);
+  line-height: 1.4;
+  text-align: left;
+  margin: 0 0 auto 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 100%;
+}
+
+html[dir="rtl"] .vitrin-back-title,
+html[dir="rtl"] .vitrin-back-desc {
+  text-align: right;
+}
+
+[data-theme="dark"] .vitrin-back-desc {
+  color: #cbd5e1;
+}
+
+.vitrin-back-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 6px 0 4px 0;
+}
+
+.vitrin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 8px;
+  font-size: 0.70rem;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.vitrin-btn:active {
+  transform: scale(0.97);
+}
+
+.vitrin-btn-primary {
+  background: var(--primary-color, #2563eb);
+  color: #ffffff !important;
+}
+
+.vitrin-btn-download {
+  background: var(--bg-card, #ffffff);
+  color: var(--text-main, #0f172a) !important;
+  border: 1px solid var(--border-color, #cbd5e1);
+}
+
+[data-theme="dark"] .vitrin-btn-download {
+  background: #0f172a;
+  border-color: #334155;
+  color: #f8fafc !important;
+}
+
+.vitrin-unflip-btn {
+  background: transparent;
+  border: none;
+  padding: 3px;
+  font-size: 0.66rem;
+  color: var(--text-subtle, #64748b);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin: 0 auto;
+}
+
+.vitrin-unflip-btn:hover {
+  color: var(--primary-color, #2563eb);
+}
+
+/* 5. Minimalist Footer */
+.vitrin-footer {
+  text-align: center;
+  padding: 16px 14px calc(24px + var(--vitrin-safe-bottom)) 14px;
+  font-size: 0.72rem;
+  color: var(--text-subtle, #64748b);
+  border-top: 1px solid var(--border-subtle, #e2e8f0);
+}
+
+[data-theme="dark"] .vitrin-footer {
+  border-top-color: var(--border-color, #334155);
+}
