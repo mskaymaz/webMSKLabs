@@ -11,14 +11,49 @@
   var basePath = '/';
   var pageName = pathname.substring(pathname.lastIndexOf('/') + 1) || 'index.html';
 
+  function isBlogRoute() {
+    var cur = (window.location.pathname || pathname || '').toLowerCase().replace(/\\/g, '/');
+    return cur.indexOf('/blog') !== -1 || cur.indexOf('blog.html') !== -1;
+  }
+
+  function getActiveBlogSection() {
+    if (typeof window.currentSection === 'string' && window.currentSection) {
+      var s = window.currentSection.toLowerCase();
+      if (s === 'aniltilar' || s === 'anilti') return 'anilts';
+      return s;
+    }
+    if (window.currentPost && window.currentPost.type) {
+      var pt = String(window.currentPost.type).toLowerCase();
+      if (pt === 'aniltilar' || pt === 'anilti') return 'anilts';
+      return pt;
+    }
+    var cur = (window.location.pathname || pathname || '').toLowerCase().replace(/\\/g, '/');
+    var parts = cur.split('/').filter(Boolean);
+    var bIdx = parts.indexOf('blog');
+    if (bIdx !== -1 && parts[bIdx + 1]) {
+      var seg = parts[bIdx + 1];
+      if (seg === 'guncel' || seg === 'news') return 'guncel';
+      if (seg === 'anilts' || seg === 'aniltilar' || seg === 'anilti' || seg === 'memoirs') return 'anilts';
+      if (seg === 'bizce' || seg === 'opinions') return 'bizce';
+      if (seg === 'vlog') return 'vlog';
+    }
+    try {
+      var q = new URLSearchParams(window.location.search);
+      var qt = (q.get('type') || q.get('cat') || '').toLowerCase();
+      if (qt === 'guncel' || qt === 'news') return 'guncel';
+      if (qt === 'anilts' || qt === 'aniltilar' || qt === 'anilti') return 'anilts';
+      if (qt === 'bizce') return 'bizce';
+      if (qt === 'vlog') return 'vlog';
+    } catch (_) {}
+    if (isBlogRoute()) return 'bizce';
+    return '';
+  }
+
   // Helper to resolve current page title with multi-language support
   function getPageTitleHTML() {
     var p = pageName.toLowerCase();
-    var bType = '';
-    if (p.indexOf('blog') !== -1) {
-      var bParams = new URLSearchParams(window.location.search);
-      bType = (bParams.get('type') || bParams.get('cat') || 'bizce').toLowerCase();
-    }
+    var cur = (window.location.pathname || pathname || '').toLowerCase().replace(/\\/g, '/');
+    var bType = isBlogRoute() ? getActiveBlogSection() : '';
 
     if (bType === 'anilts') {
       return '<span class="lang-tr">📖 ANILTILAR</span><span class="lang-en">📖 MEMOIRS</span><span class="lang-ar">📖 ذكريات</span>';
@@ -26,7 +61,7 @@
       return '<span class="lang-tr">📰 GÜNCEL</span><span class="lang-en">📰 NEWS</span><span class="lang-ar">📰 الأخبار</span>';
     } else if (bType === 'bizce' || p.indexOf('blog') !== -1) {
       return '<span class="lang-tr">✍️ BİZCE</span><span class="lang-en">✍️ OPINIONS</span><span class="lang-ar">✍️ رأينا</span>';
-    } else if (p === 'index.html' || p === '') {
+    } else if (p === 'index.html' || p === '' || cur === '/') {
       return '<span class="lang-tr">🏠 ANA SAYFA</span><span class="lang-en">🏠 HOME</span><span class="lang-ar">🏠 الرئيسية</span>';
     } else if (p.indexOf('apps') !== -1 || p.indexOf('app.html') !== -1 || pathname.indexOf('/apps/') !== -1) {
       return '<span class="lang-tr">📱 UYGULAMALARIMIZ</span><span class="lang-en">📱 OUR APPS</span><span class="lang-ar">📱 تطبيقاتنا</span>';
@@ -50,6 +85,8 @@
       return '<span class="lang-tr">📝 DEĞİŞİKLİK GÜNLÜĞÜ</span><span class="lang-en">📝 CHANGELOG</span><span class="lang-ar">📝 سجل التغييرات</span>';
     } else if (p.indexOf('roadmap') !== -1) {
       return '<span class="lang-tr">🗺️ YOL HARİTASI</span><span class="lang-en">🗺️ ROADMAP</span><span class="lang-ar">🗺️ خريطة الطريق</span>';
+    } else if (p.indexOf('vitrin') !== -1) {
+      return '<span class="lang-tr">📱 VİTRİN</span><span class="lang-en">📱 SHOWCASE</span><span class="lang-ar">📱 المعرض</span>';
     }
     return '<span>MSK LABS</span>';
   }
@@ -100,15 +137,15 @@
         <span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span>
       </a>
       <span class="nav-divider">|</span>
-      <a href="${basePath}blog/blog.html?type=bizce">
+      <a href="${basePath}blog/bizce" data-nav="bizce">
         <span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span>
       </a>
       <span class="nav-divider">|</span>
-      <a href="${basePath}blog/blog.html?type=anilts">
+      <a href="${basePath}blog/anilts" data-nav="anilts">
         <span class="lang-tr">Anıltılar</span><span class="lang-en">Memoirs</span><span class="lang-ar">ذكريات</span>
       </a>
       <span class="nav-divider">|</span>
-      <a href="${basePath}blog/blog.html?type=guncel">
+      <a href="${basePath}blog/guncel" data-nav="guncel">
         <span class="lang-tr">Güncel</span><span class="lang-en">News</span><span class="lang-ar">الأخبار</span>
       </a>
       <span class="nav-divider">|</span>
@@ -131,9 +168,9 @@
 
     var mobileLinksHTML = `
       <a href="${basePath}index.html"><span class="lang-tr">🏠 Ana Sayfa</span><span class="lang-en">🏠 Home</span><span class="lang-ar">🏠 الرئيسية</span></a>
-      <a href="${basePath}blog/blog.html?type=bizce"><span class="lang-tr">✍️ Bizce</span><span class="lang-en">✍️ Bizce</span><span class="lang-ar">✍️ بيزجه</span></a>
-      <a href="${basePath}blog/blog.html?type=anilts"><span class="lang-tr">📖 Anıltılar</span><span class="lang-en">📖 Memoirs</span><span class="lang-ar">📖 ذكريات</span></a>
-      <a href="${basePath}blog/blog.html?type=guncel"><span class="lang-tr">📰 Güncel</span><span class="lang-en">📰 News</span><span class="lang-ar">📰 الأخبار</span></a>
+      <a href="${basePath}blog/bizce" data-nav="bizce"><span class="lang-tr">✍️ Bizce</span><span class="lang-en">✍️ Bizce</span><span class="lang-ar">✍️ بيزجه</span></a>
+      <a href="${basePath}blog/anilts" data-nav="anilts"><span class="lang-tr">📖 Anıltılar</span><span class="lang-en">📖 Memoirs</span><span class="lang-ar">📖 ذكريات</span></a>
+      <a href="${basePath}blog/guncel" data-nav="guncel"><span class="lang-tr">📰 Güncel</span><span class="lang-en">📰 News</span><span class="lang-ar">📰 الأخبار</span></a>
       <a href="${basePath}apps.html"><span class="lang-tr">📱 Uygulamalarımız</span><span class="lang-en">📱 Our Apps</span><span class="lang-ar">📱 تطبيقاتنا</span></a>
       <a href="${basePath}about.html"><span class="lang-tr">ℹ️ Hakkımızda</span><span class="lang-en">ℹ️ About Us</span><span class="lang-ar">ℹ️ عن الشركة</span></a>
       <a href="${basePath}destek.html"><span class="lang-tr">🎫 Destek &amp; Talep</span><span class="lang-en">🎫 Support</span><span class="lang-ar">🎫 الدعم والطلبات</span></a>
@@ -204,30 +241,38 @@
     });
   }
 
-  // 2. Safe 2-Row Footer Injector
+  // 2. Safe 2-Row Footer Injector (Autonomous & Self-Healing)
   function renderFooter() {
     var footerEl = document.querySelector('footer.site-footer') || document.getElementById('site-footer');
-    if (!footerEl) return;
+    if (!footerEl) {
+      footerEl = document.createElement('footer');
+      footerEl.className = 'site-footer';
+      footerEl.id = 'site-footer';
+      var layoutWrapper = document.querySelector('.layout-wrapper');
+      if (layoutWrapper && layoutWrapper.parentNode) {
+        layoutWrapper.parentNode.insertBefore(footerEl, layoutWrapper.nextSibling);
+      } else {
+        document.body.appendChild(footerEl);
+      }
+    }
 
-    function getLinkClass(keyword) {
+        function getLinkClass(keyword) {
+      if (isBlogRoute()) {
+        var sec = getActiveBlogSection();
+        if (keyword === sec) return ' active-nav-link';
+        return '';
+      }
       if (keyword === 'index' && (pageName === 'index.html' || pageName === '')) return ' active-nav-link';
       if (keyword !== 'index' && pageName.indexOf(keyword) !== -1) return ' active-nav-link';
-      // Blog sayfasında URL type parametresine göre footer aktif link vurgulama
-      if (pageName === 'blog.html') {
-        var bParams = new URLSearchParams(window.location.search);
-        var bType = (bParams.get('type') || bParams.get('cat') || 'bizce').toLowerCase();
-        if (keyword === bType) return ' active-nav-link';
-        if (!bParams.get('type') && !bParams.get('cat') && keyword === 'bizce') return ' active-nav-link';
-      }
       return '';
     }
 
     var footerHTML = `
       <div class="footer-links-row1" style="margin-bottom: 0.4rem; font-weight: 600;">
         <a href="${basePath}index.html" class="${getLinkClass('index')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a> |
-        <a href="${basePath}blog/blog.html?type=bizce" class="${getLinkClass('bizce')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a> |
-        <a href="${basePath}blog/blog.html?type=anilts" class="${getLinkClass('anilts')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Anıltılar</span><span class="lang-en">Memoirs</span><span class="lang-ar">ذكريات</span></a> |
-        <a href="${basePath}blog/blog.html?type=guncel" class="${getLinkClass('guncel')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Güncel</span><span class="lang-en">News</span><span class="lang-ar">الأخبار</span></a> |
+        <a href="${basePath}blog/bizce" class="${getLinkClass('bizce')}" data-nav="bizce" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a> |
+        <a href="${basePath}blog/anilts" class="${getLinkClass('anilts')}" data-nav="anilts" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Anıltılar</span><span class="lang-en">Memoirs</span><span class="lang-ar">ذكريات</span></a> |
+        <a href="${basePath}blog/guncel" class="${getLinkClass('guncel')}" data-nav="guncel" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Güncel</span><span class="lang-en">News</span><span class="lang-ar">الأخبار</span></a> |
         <a href="${basePath}apps.html" class="${getLinkClass('apps')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Uygulamalarımız</span><span class="lang-en">Our Apps</span><span class="lang-ar">تطبيقاتنا</span></a> |
         <a href="${basePath}about.html" class="${getLinkClass('about')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a> |
         <a href="${basePath}bizkimiz.html" class="${getLinkClass('bizkimiz')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Biz Kimiz</span><span class="lang-en">Who We Are</span><span class="lang-ar">من نحن</span></a> |
@@ -256,34 +301,42 @@
 
   // 3. Safe Active Link Highlighter & Nav Sync
   function highlightActiveTopNav() {
-    var navLinks = document.querySelectorAll('.top-main-nav a, .site-subnav a, .footer-links a, .footer-links-row1 a, .footer-links-row2 a');
-    var params = new URLSearchParams(window.location.search);
-    var typeParam = (params.get('type') || params.get('cat') || '').toLowerCase();
+    var navLinks = document.querySelectorAll('.top-main-nav a, .site-subnav a, .mobile-drawer-menu a, .footer-links a, .footer-links-row1 a, .footer-links-row2 a');
+    var isBlog = isBlogRoute();
+    var activeBlogSec = isBlog ? getActiveBlogSection() : '';
+    var curPage = pageName.toLowerCase();
+    var curPath = (window.location.pathname || pathname || '').toLowerCase().replace(/\\/g, '/');
 
     navLinks.forEach(function (link) {
       link.classList.remove('active-nav-link');
-      var href = link.getAttribute('href');
+      var href = (link.getAttribute('href') || '').toLowerCase();
+      var dataNav = (link.getAttribute('data-nav') || '').toLowerCase();
       if (!href) return;
 
       var isActive = false;
-      if (pageName === 'blog.html') {
-        if (typeParam === 'anilts' || typeParam === 'aniltilar' || typeParam === 'anilti') {
-          if (href.indexOf('type=anilts') !== -1 || href.indexOf('cat=anilts') !== -1) isActive = true;
-        } else if (typeParam === 'guncel') {
-          if (href.indexOf('type=guncel') !== -1 || href.indexOf('cat=guncel') !== -1) isActive = true;
-        } else {
-          if (href.indexOf('type=bizce') !== -1 || href.indexOf('cat=bizce') !== -1) isActive = true;
+      if (isBlog) {
+        if (activeBlogSec === 'anilts') {
+          if (dataNav === 'anilts' || href.indexOf('/blog/anilts') !== -1 || href.indexOf('type=anilts') !== -1 || href.indexOf('/blog/aniltilar') !== -1) isActive = true;
+        } else if (activeBlogSec === 'guncel') {
+          if (dataNav === 'guncel' || href.indexOf('/blog/guncel') !== -1 || href.indexOf('type=guncel') !== -1) isActive = true;
+        } else if (activeBlogSec === 'bizce') {
+          if (dataNav === 'bizce' || href.indexOf('/blog/bizce') !== -1 || href.indexOf('type=bizce') !== -1) isActive = true;
         }
-      } else if (pageName === 'index.html' || pageName === '') {
-        if (href.indexOf('index.html') !== -1 && href.indexOf('#apps') === -1) isActive = true;
+      } else if (curPage === 'index.html' || curPage === '' || curPath === '/') {
+        if (href.indexOf('index.html') !== -1 && href.indexOf('#') === -1) isActive = true;
       } else {
-        if (href.indexOf(pageName) !== -1) isActive = true;
+        if (curPage && href.indexOf(curPage) !== -1) isActive = true;
       }
 
       if (isActive) {
         link.classList.add('active-nav-link');
       }
     });
+
+    var titleEl = document.getElementById('stickyHeaderTitle');
+    if (titleEl) {
+      titleEl.innerHTML = getPageTitleHTML();
+    }
   }
 
   window.highlightActiveTopNav = highlightActiveTopNav;

@@ -197,8 +197,10 @@ function updateHeaderAndTabs() {
 function switchSection(sec) {
   stopTTS();
   currentSection = sec;
+  window.currentSection = sec;
   currentSubFilter = 'all';
   currentPost = null;
+  window.currentPost = null;
 
   // Sync browser address bar URL parameters smoothly
   try {
@@ -629,8 +631,11 @@ function openPost(id) {
   if (!currentPost) return;
 
   currentSection = currentPost.type;
+  window.currentSection = currentPost.type;
+  window.currentPost = currentPost;
   updateHeaderAndTabs();
   updateReaderViewLanguage();
+  if (typeof window.highlightActiveTopNav === 'function') window.highlightActiveTopNav();
   toggleTTSAccordion(false);
   checkAdminPreListenUI();
 
@@ -733,6 +738,7 @@ function showList() {
   updateHeaderAndTabs();
   renderSubCategories();
   renderPosts();
+  if (typeof window.highlightActiveTopNav === 'function') window.highlightActiveTopNav();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1263,6 +1269,7 @@ function handleUrlParams() {
   if (postIdParam) {
     openPost(postIdParam);
   }
+  if (typeof window.highlightActiveTopNav === 'function') window.highlightActiveTopNav();
 }
 
 window.addEventListener('languageChanged', function(e) {
@@ -1323,21 +1330,21 @@ if (document.readyState === 'loading') {
 document.addEventListener('click', function(e) {
   var a = e.target.closest('a');
   if (!a) return;
-  var href = a.getAttribute('href');
-  if (href && href.indexOf('blog.html') !== -1) {
-    if (href.indexOf('type=anilts') !== -1 || href.indexOf('cat=anilts') !== -1) {
-      e.preventDefault();
-      try { window.history.pushState({}, '', href); } catch(err) {}
-      switchSection('anilts');
-    } else if (href.indexOf('type=guncel') !== -1 || href.indexOf('cat=guncel') !== -1) {
-      e.preventDefault();
-      try { window.history.pushState({}, '', href); } catch(err) {}
-      switchSection('guncel');
-    } else if (href.indexOf('type=bizce') !== -1 || href.indexOf('cat=bizce') !== -1) {
-      e.preventDefault();
-      try { window.history.pushState({}, '', href); } catch(err) {}
-      switchSection('bizce');
-    }
+  var href = a.getAttribute('href') || '';
+  var dataNav = a.getAttribute('data-nav') || '';
+
+  if (dataNav === 'anilts' || href.indexOf('/blog/anilts') !== -1 || href.indexOf('type=anilts') !== -1 || href.indexOf('cat=anilts') !== -1) {
+    e.preventDefault();
+    try { window.history.pushState({ section: 'anilts' }, '', '/blog/anilts' + (currentLang && currentLang !== 'tr' ? '?lang=' + currentLang : '')); } catch(err) {}
+    switchSection('anilts');
+  } else if (dataNav === 'guncel' || href.indexOf('/blog/guncel') !== -1 || href.indexOf('type=guncel') !== -1 || href.indexOf('cat=guncel') !== -1) {
+    e.preventDefault();
+    try { window.history.pushState({ section: 'guncel' }, '', '/blog/guncel' + (currentLang && currentLang !== 'tr' ? '?lang=' + currentLang : '')); } catch(err) {}
+    switchSection('guncel');
+  } else if (dataNav === 'bizce' || href.indexOf('/blog/bizce') !== -1 || href.indexOf('type=bizce') !== -1 || href.indexOf('cat=bizce') !== -1) {
+    e.preventDefault();
+    try { window.history.pushState({ section: 'bizce' }, '', '/blog/bizce' + (currentLang && currentLang !== 'tr' ? '?lang=' + currentLang : '')); } catch(err) {}
+    switchSection('bizce');
   }
 });
 

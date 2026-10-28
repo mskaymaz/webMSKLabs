@@ -457,9 +457,8 @@
 
   <script>
     // MERKEZİ SİTE KONFİGÜRASYONU (Blogger & HTML Uyumlu)
-    var SITE_CONFIG = {
-      contactEmail: "msklabs.org@gmail.com"
-    };
+    window.SITE_CONFIG = window.SITE_CONFIG || {};
+  window.SITE_CONFIG.contactEmail = window.SITE_CONFIG.contactEmail || "msklabs.org@gmail.com";
 
     // E-posta adreslerini ve mailto bağlantılarını merkezi konfigürasyondan doldurur
     function syncCentralConfig() {

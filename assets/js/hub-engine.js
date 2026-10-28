@@ -290,10 +290,10 @@
       });
     }
 
-    bindCardClick('hubCardBizce', '/blog/blog.html?type=bizce');
+    bindCardClick('hubCardBizce', '/blog/bizce');
     bindCardClick('hubCardApps', '/apps.html');
-    bindCardClick('hubCardGuncel', '/blog/blog.html?type=guncel');
-    bindCardClick('hubCardAnilts', '/blog/blog.html?type=anilts');
+    bindCardClick('hubCardGuncel', '/blog/guncel');
+    bindCardClick('hubCardAnilts', '/blog/anilts');
   }
 
   // Global Engine Init

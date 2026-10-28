@@ -23,44 +23,12 @@
   <link rel="icon" type="image/png" href="img/MSKLabs_favicon.png">
   <link rel="shortcut icon" href="img/MSKLabs_favicon.png" type="image/x-icon">
   <link rel="apple-touch-icon" href="img/MSKLabs_favicon.png">
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/analytics.js"></script>
 </head>
 <body class="vitrin-body lang-tr">
 
-  <!-- 1. Standart Kurumsal Antet (Megafon ve Hamburger Kaldırıldı) -->
-  <header class="site-header-sticky">
-    <div class="header-sticky-container">
-      <div class="header-top-row">
-        
-        <!-- Sol Taraf: Standart Kurumsal Başlık -->
-        <div class="header-page-title" id="stickyHeaderTitle">
-          <span class="lang-tr">📱 VİTRİN</span>
-          <span class="lang-en">📱 SHOWCASE</span>
-          <span class="lang-ar">📱 المعرض</span>
-        </div>
-
-        <!-- Merkez / Sol Kurumsal Logo -->
-        <div class="header-logo-center">
-          <a href="index.html" title="MSK Labs Ana Sayfa">
-            <img src="img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="header-logo-img logo-light">
-            <img src="img/MSKLabsType_white.svg" alt="MSK Labs Logo" class="header-logo-img logo-dark">
-          </a>
-        </div>
-
-        <!-- Sağ Taraf: Standart Kurumsal Dil ve Gece Modu Butonları -->
-        <div class="header-actions-right">
-          <div class="lang-switcher">
-            <button type="button" onclick="setVitrinLang('tr')" data-lang="tr" class="active" title="Türkçe">TR</button>
-            <button type="button" onclick="setVitrinLang('en')" data-lang="en" title="English">EN</button>
-            <button type="button" onclick="setVitrinLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic">
-              <img src="img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon">
-            </button>
-            <button type="button" id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleVitrinTheme()" title="Gece Modu / Light Mode">🌙</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </header>
+  <header class="site-header-sticky"></header>
 
   <!-- 2. Ana Vitrin Gövdesi -->
   <main class="vitrin-container">
@@ -517,42 +485,23 @@
         });
       });
 
-      // İlk Dil Durumunu Ayarla
-      var initialLang = localStorage.getItem('user_lang') || 'tr';
-      setVitrinLang(initialLang);
     });
 
-    // C. Dil Değiştirici
+    // C. Dil ve Tema Uyumluluğu
     function setVitrinLang(lang) {
-      document.body.classList.remove('lang-tr', 'lang-en', 'lang-ar');
-      document.body.classList.add('lang-' + lang);
-      if (lang === 'ar') {
-        document.documentElement.setAttribute('dir', 'rtl');
-      } else {
-        document.documentElement.setAttribute('dir', 'ltr');
+      if (typeof setLang === 'function') {
+        setLang(lang);
       }
-      var langButtons = document.querySelectorAll('.lang-switcher button[data-lang]');
-      langButtons.forEach(function (b) {
-        if (b.getAttribute('data-lang') === lang) {
-          b.classList.add('active');
-        } else {
-          b.classList.remove('active');
-        }
-      });
-      localStorage.setItem('user_lang', lang);
     }
 
-    // D. Tema Değiştirici
     function toggleVitrinTheme() {
-      var current = document.documentElement.getAttribute('data-theme');
-      var target = current === 'dark' ? 'light' : 'dark';
-      if (target === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
+      if (typeof toggleTheme === 'function') {
+        toggleTheme();
       }
-      localStorage.setItem('user_theme', target);
     }
   </script>
+
+  <footer class="site-footer"></footer>
+  <script src="assets/js/layout.js"></script>
 </body>
 </html>

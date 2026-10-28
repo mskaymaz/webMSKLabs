@@ -35,50 +35,18 @@ html[dir="rtl"] body.vitrin-body {
   text-align: right;
 }
 
-/* 1. Kurumsal Antet (Site Header) */
-.vitrin-body .site-header-sticky {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
-.vitrin-body .header-top-row {
-  align-items: center !important;
-  justify-content: space-between !important;
-  min-height: 72px !important;
-  position: relative !important;
-}
-
-.vitrin-body .header-actions-right {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  margin-left: auto !important;
-  margin-right: 0 !important;
-}
-
-html[dir="rtl"] .vitrin-body .header-actions-right,
-body.lang-ar.vitrin-body .header-actions-right {
-  margin-left: 0 !important;
-  margin-right: auto !important;
-  justify-content: flex-start !important;
-}
-
-/* 2. Ana Vitrin Kapsayıcısı (Üst Panelden 10-12px Nefes Payı) */
+/* 2. Ana Vitrin Kapsayıcısı */
 .vitrin-container {
   max-width: 640px;
   width: 100%;
-  margin: 94px auto 0 auto;
+  margin: 136px auto 0 auto;
   padding: 10px 10px calc(36px + var(--vitrin-safe-bottom)) 10px;
   box-sizing: border-box;
 }
 
-@media (min-width: 851px) {
+@media (max-width: 768px) {
   .vitrin-container {
-    margin-top: 106px;
+    margin-top: 96px;
   }
 }
 
