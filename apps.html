@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/global.css?v=26">
+    <link rel="stylesheet" href="assets/css/global.css?v=20261028_1145">
     
     <!-- MSK Labs Favicon -->
     <link rel="icon" type="image/png" href="img/MSKLabs_favicon.png">
@@ -52,7 +52,7 @@
   </div>
   
   <!-- KATEGORİ VE PLATFORM FİLTRELEME ÇUBUĞU -->
-  <div class="app-filter-bar" id="appFilterBar" style="display: flex; gap: 8px; margin: 20px 0 16px; flex-wrap: wrap;">
+  <div class="app-filter-bar" id="appFilterBar" style="display: flex !important; justify-content: center !important; align-items: center !important; text-align: center !important; gap: 8px !important; margin: 16px auto 16px auto !important; flex-wrap: wrap !important; width: 100% !important; box-sizing: border-box !important;">
     <button type="button" class="app-filter-pill active" data-filter="all">
       <span class="lang-tr">Tümü</span><span class="lang-en">All</span><span class="lang-ar">الكل</span>
     </button>
@@ -267,6 +267,27 @@
     .notice-line-1 {
       white-space: normal;
       font-size: 0.78rem !important;
+    }
+  }
+  .app-filter-bar {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 8px !important;
+    margin: 16px auto 16px auto !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  @media (max-width: 850px) {
+    .app-filter-bar {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      text-align: center !important;
+      margin: 14px auto 14px auto !important;
+      width: 100% !important;
     }
   }
   .app-filter-pill {

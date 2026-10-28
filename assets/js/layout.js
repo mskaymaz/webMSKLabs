@@ -30,6 +30,8 @@
       return '<span class="lang-tr">🏠 ANA SAYFA</span><span class="lang-en">🏠 HOME</span><span class="lang-ar">🏠 الرئيسية</span>';
     } else if (p.indexOf('apps') !== -1 || p.indexOf('app.html') !== -1 || pathname.indexOf('/apps/') !== -1) {
       return '<span class="lang-tr">📱 UYGULAMALARIMIZ</span><span class="lang-en">📱 OUR APPS</span><span class="lang-ar">📱 تطبيقاتنا</span>';
+    } else if (p.indexOf('vitrin') !== -1) {
+      return '<span class="lang-tr">📱 VİTRİN</span><span class="lang-en">📱 SHOWCASE</span><span class="lang-ar">📱 المعرض</span>';
     } else if (p.indexOf('about') !== -1) {
       return '<span class="lang-tr">ℹ️ HAKKIMIZDA</span><span class="lang-en">ℹ️ ABOUT US</span><span class="lang-ar">ℹ️ عن الشركة</span>';
     } else if (p.indexOf('destek') !== -1) {
@@ -158,13 +160,14 @@
               <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Gece Modu / Light Mode">🌙</button>
             </div>
             <div class="header-action-toggles">
-              <button id="mskAnnTriggerBtn" class="announcement-trigger-btn" style="display:none; position:relative; align-items:center; justify-content:center; background:transparent; border:none; outline:none; box-shadow:none; cursor:pointer; padding:0; margin:0; width:26px; height:26px; min-width:26px; min-height:26px; color:inherit;" title="Duyurular & Kampanyalar" aria-label="Duyurular">
+              <!-- Mobil Duyuru Butonu (Yalnızca <=768px ekranda hamburger yanında görünür) -->
+              <button id="mskAnnTriggerBtnMob" class="announcement-trigger-btn ann-trigger-mobile" style="display:none; position:relative; align-items:center; justify-content:center; background:transparent; border:none; outline:none; box-shadow:none; cursor:pointer; padding:0; margin:0; width:26px; height:26px; min-width:26px; min-height:26px; color:inherit;" title="Duyurular &amp; Kampanyalar" aria-label="Duyurular">
                 <svg class="ann-icon-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0;">
                   <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
                   <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
                   <path d="M8 6v8"/>
                 </svg>
-                <span id="mskAnnBadge" style="position:absolute; top:-5px; right:-7px; background:#ef4444; color:#fff; font-size:9px; font-weight:800; border-radius:10px; padding:1px 4px; line-height:1; display:none; pointer-events:none;">0</span>
+                <span class="msk-ann-badge" style="position:absolute; top:-5px; right:-7px; background:#ef4444; color:#fff; font-size:9px; font-weight:800; border-radius:10px; padding:1px 4px; line-height:1; display:none; pointer-events:none;">0</span>
               </button>
               <button type="button" class="hamburger-toggle-btn" id="hamburgerToggleBtn" aria-label="Menüyü Aç/Kapat" onclick="toggleMobileMenu()">
                 ☰
@@ -176,6 +179,17 @@
           <nav class="top-main-nav" style="width: 100%; text-align: center;">
             ${navLinksHTML}
           </nav>
+          <!-- Masaüstü Duyuru Butonu (İkinci satırda sağda tema ikonu hizasında, linkleri itelemez) -->
+          <div class="header-nav-announcement" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; z-index: 2;">
+            <button id="mskAnnTriggerBtnDesk" class="announcement-trigger-btn ann-trigger-desktop" style="display:none; position:relative; align-items:center; justify-content:center; background:transparent; border:none; outline:none; box-shadow:none; cursor:pointer; padding:0; margin:0; width:26px; height:26px; min-width:26px; min-height:26px; color:inherit;" title="Duyurular &amp; Kampanyalar" aria-label="Duyurular">
+              <svg class="ann-icon-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0;">
+                <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+                <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
+                <path d="M8 6v8"/>
+              </svg>
+              <span class="msk-ann-badge" id="mskAnnBadge" style="position:absolute; top:-5px; right:-7px; background:#ef4444; color:#fff; font-size:9px; font-weight:800; border-radius:10px; padding:1px 4px; line-height:1; display:none; pointer-events:none;">0</span>
+            </button>
+          </div>
         </div>
       </div>
       <div class="mobile-drawer-menu" id="mobileDrawerMenu">
@@ -220,6 +234,7 @@
         <a href="${basePath}contact.html" class="${getLinkClass('contact')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a>
       </div>
       <div class="footer-links-row2" style="margin-bottom: 0.75rem; font-weight: 500; font-size: 0.8rem;">
+        <a href="${basePath}vitrin.html" class="${getLinkClass('vitrin')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Vitrin</span><span class="lang-en">Showcase</span><span class="lang-ar">المعرض</span></a> |
         <a href="${basePath}destek.html" class="${getLinkClass('destek')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a> |
         <a href="${basePath}faq.html" class="${getLinkClass('faq')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">SSS</span><span class="lang-en">FAQ</span><span class="lang-ar">الأسئلة الشائعة</span></a> |
         <a href="${basePath}privacy.html" class="${getLinkClass('privacy')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Gizlilik Politikası</span><span class="lang-en">Privacy Policy</span><span class="lang-ar">سياسة الخصوصية</span></a> |
@@ -536,6 +551,10 @@
         a.setAttribute('href', path + (newQuery ? '?' + newQuery : '') + hash);
       }
     });
+
+    if (typeof window.syncAnnouncementPosition === 'function') {
+      window.syncAnnouncementPosition();
+    }
   };
 
   // Dynamic HTML lang and RTL attribute sync (URL -> localStorage -> navigator -> fallback)
@@ -611,6 +630,38 @@
     } catch (_) {}
   }
 
+  function syncAnnouncementPosition() {
+    var themeBtn = document.getElementById('themeToggleBtn');
+    var annContainer = document.querySelector('.header-nav-announcement');
+    var navRow = document.querySelector('.header-nav-row');
+    if (!themeBtn || !annContainer || !navRow) return;
+
+    if (window.innerWidth > 768) {
+      var themeRect = themeBtn.getBoundingClientRect();
+      var navRect = navRow.getBoundingClientRect();
+      var isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+
+      annContainer.style.width = Math.round(themeRect.width) + 'px';
+      annContainer.style.justifyContent = 'center';
+
+      if (isRTL) {
+        var leftOffset = Math.round(themeRect.left - navRect.left);
+        annContainer.style.left = leftOffset + 'px';
+        annContainer.style.right = 'auto';
+      } else {
+        var rightOffset = Math.round(navRect.right - themeRect.right);
+        annContainer.style.right = rightOffset + 'px';
+        annContainer.style.left = 'auto';
+      }
+    } else {
+      annContainer.style.right = '';
+      annContainer.style.left = '';
+      annContainer.style.width = '';
+    }
+  }
+  window.syncAnnouncementPosition = syncAnnouncementPosition;
+  window.addEventListener('resize', syncAnnouncementPosition);
+
   function bootLayout() {
     initTheme();
     renderHeader();
@@ -619,7 +670,8 @@
     syncLangAttributes();
     injectAdsLoader();
     injectAnnouncementLoader();
-
+    syncAnnouncementPosition();
+    setTimeout(syncAnnouncementPosition, 100);
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', bootLayout);

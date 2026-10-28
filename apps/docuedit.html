@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuEdit - Doküman Görüntüleme &amp; Düzenleme | MSK Labs</title>
+    <meta name="description" content="DocuEdit; Word, Excel, PowerPoint ve PDF dokümanlarını görüntüleme, düzenleme ve üzerine yazma asistanı. Reklamsız ve bağımsız MSK Labs yazılımı.">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="canonical" href="https://msklabs.org/apps/docuedit.html">
+    <script>!function(){var t=localStorage.getItem("user_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"===t&&document.documentElement.setAttribute("data-theme","dark")}()</script>
+
+    <!-- Google Fonts: Inter & Global Stylesheet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/global.css?v=31">
+    
+    <style>
+      .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+      .back-btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-main, #334155); font-weight: 600; font-size: 0.95rem; background: var(--bg-card, #fff); padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border-color, #cbd5e1); box-shadow: 2px 2px 5px rgba(0,0,0,0.05); transition: all 0.2s ease; }
+      .back-btn:hover { background: var(--bg-surface-hover, #f1f5f9); color: var(--primary-color, #2563eb); transform: translateX(-3px); }
+      .detail-card { background: var(--bg-card, #ffffff); border: 1px solid var(--border-color, #cbd5e1); border-radius: 16px; padding: 40px; box-shadow: 0 6px 16px rgba(0,0,0,0.03); margin-bottom: 30px; }
+      .app-header { display: flex; align-items: center; gap: 24px; margin-bottom: 24px; }
+      .app-big-icon { width: 96px; height: 96px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 48px; background: var(--bg-surface, #f1f5f9); border: 1px solid var(--border-color, #cbd5e1); flex-shrink: 0; }
+      .app-title-group { display: flex; flex-direction: column; gap: 6px; }
+      .app-title-group h1 { font-size: 2.2rem; font-weight: 700; color: var(--text-main, #1e293b); margin: 0; }
+      .badges { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+      .badge { font-size: 0.85rem; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
+      .badge-platform { background: var(--bg-surface, #e2e8f0); color: var(--text-muted, #475569); }
+      .badge-status { background: rgba(2, 132, 199, 0.15); color: #0284c7; }
+      .app-header-right { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+      .global-status-panel { background: var(--bg-surface, #f8fafc); border: 1px solid var(--border-color, #cbd5e1); padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-main, #334155); }
+      .status-tag.active { color: #0284c7; }
+      .app-description { font-size: 1.15rem; line-height: 1.6; color: var(--text-main, #334155); margin-bottom: 30px; border-bottom: 1px solid var(--border-subtle, #f1f5f9); padding-bottom: 24px; }
+      .features-title { font-size: 1.3rem; font-weight: 700; color: var(--text-main, #1e293b); margin-bottom: 16px; }
+      .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 30px; }
+      .feature-box { background: var(--bg-surface, #f8fafc); border: 1px solid var(--border-color, #e2e8f0); border-radius: 12px; padding: 20px; }
+      .feature-box h4 { font-size: 1.05rem; font-weight: 600; margin: 0 0 8px 0; color: var(--text-main, #1e293b); }
+      .feature-box p { font-size: 0.92rem; color: var(--text-muted, #475569); margin: 0; line-height: 1.5; }
+      .pipeline-notice { background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: 12px; padding: 20px; text-align: center; color: var(--text-main, #0f172a); }
+      .pipeline-notice h3 { margin: 0 0 6px 0; color: #0284c7; font-size: 1.15rem; }
+      .pipeline-notice p { margin: 0; font-size: 0.92rem; color: var(--text-muted, #475569); }
+      @media (max-width: 768px) {
+        .detail-card { padding: 20px; }
+        .app-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+        .app-header-right { align-items: flex-start; margin-left: 0; width: 100%; }
+        .app-title-group h1 { font-size: 1.7rem; }
+      }
+    </style>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+  <script src="../assets/js/layout.js"></script>
+</head>
+<body class="lang-tr">
+
+<header class="site-header-sticky"></header>
+
+<div class="layout-wrapper">
+  <div class="portfolio-container" style="max-width: 860px; margin: 0 auto; padding: 30px 16px;">
+    
+    <div class="top-nav">
+      <a href="../vitrin.html" onclick="if(history.length>1){history.back();return false;}" class="back-btn">
+        <span>←</span>
+        <span class="lang-tr">Uygulamalara Dön</span>
+        <span class="lang-en">Back to Apps</span>
+        <span class="lang-ar">العودة للتطبيقات</span>
+      </a>
+    </div>
+
+    <!-- Uygulama Kartı -->
+    <div class="detail-card">
+      <div class="app-header">
+        <div class="app-big-icon">📄</div>
+        <div class="app-title-group">
+          <h1>DocuEdit</h1>
+          <div class="badges">
+            <span class="badge badge-platform">
+              <span class="lang-tr">💻 Masaüstü &amp; Web</span>
+              <span class="lang-en">💻 Desktop &amp; Web</span>
+              <span class="lang-ar">💻 سطح المكتب والويب</span>
+            </span>
+            <span class="badge badge-status">
+              <span class="lang-tr">📐 Tasarım Aşamasında</span>
+              <span class="lang-en">📐 Design In Progress</span>
+              <span class="lang-ar">📐 قيد التصميم</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="app-header-right">
+          <div class="global-status-panel">
+            <span class="lang-tr">🌐 Dil Durumu: <strong class="status-tag active">TR, EN, AR</strong></span>
+            <span class="lang-en">🌐 Languages: <strong class="status-tag active">TR, EN, AR</strong></span>
+            <span class="lang-ar">🌐 اللغات: <strong class="status-tag active">TR, EN, AR</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-description">
+        <span class="lang-tr">Word, Excel, PowerPoint ve PDF dokümanlarını ağır ofis yazılımlarına ihtiyaç duymadan anında görüntüleyen, not alan ve hafif düzenlemeler sunan modern ofis asistanı.</span>
+        <span class="lang-en">Modern lightweight office assistant that views, annotates, and edits Word, Excel, PowerPoint, and PDF documents instantly without bulky software.</span>
+        <span class="lang-ar">مساعد مكتبي حديث وسريع لعرض وتحرير وإضافة ملاحظات على مستندات Word و Excel و PPT و PDF دون الحاجة إلى برامج ثقيلة.</span>
+      </div>
+
+      <div class="features-title">
+        <span class="lang-tr">Planlanan Özellikler</span>
+        <span class="lang-en">Planned Features</span>
+        <span class="lang-ar">الميزات المخططة</span>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-box">
+          <h4>📑 
+            <span class="lang-tr">Evrensel Format Desteği</span>
+            <span class="lang-en">Universal Format Support</span>
+            <span class="lang-ar">دعم الصيغ العالمية</span>
+          </h4>
+          <p>
+            <span class="lang-tr">DOCX, XLSX, PPTX ve PDF dosyalarını tek ekranda yüksek hızla açın.</span>
+            <span class="lang-en">Open DOCX, XLSX, PPTX, and PDF files on a single screen with high speed.</span>
+            <span class="lang-ar">فتح ملفات DOCX و XLSX و PPTX و PDF على شاشة واحدة بسرعة عالية.</span>
+          </p>
+        </div>
+
+        <div class="feature-box">
+          <h4>✏️ 
+            <span class="lang-tr">Doküman Üzerine Not &amp; Çizim</span>
+            <span class="lang-en">Document Annotation</span>
+            <span class="lang-ar">التدوين والتعليق على المستندات</span>
+          </h4>
+          <p>
+            <span class="lang-tr">Sayfaların üzerine vurgulamalar yapın, notlar iliştirin ve dışa aktarın.</span>
+            <span class="lang-en">Highlight text, attach sticky notes, and export marked-up documents.</span>
+            <span class="lang-ar">تمييز النصوص وإرفاق الملاحظات وتصدير المستندات المعلمة.</span>
+          </p>
+        </div>
+
+        <div class="feature-box">
+          <h4>⚡ 
+            <span class="lang-tr">Hafif ve Kaynak Dostu</span>
+            <span class="lang-en">Lightweight &amp; Fast</span>
+            <span class="lang-ar">خفيف وسريع</span>
+          </h4>
+          <p>
+            <span class="lang-tr">Saniyeler içinde başlatılır, bellek tüketimi minimum düzeyde tutulur.</span>
+            <span class="lang-en">Launches in seconds with minimal memory and CPU resource usage.</span>
+            <span class="lang-ar">يبدأ في ثوانٍ مع استهلاك минималь للذاكرة والمعالج.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Bilgilendirme Alanı -->
+      <div class="pipeline-notice">
+        <h3>
+          <span class="lang-tr">📐 Tasarım ve Planlama Sürecinde</span>
+          <span class="lang-en">📐 In Design &amp; Planning Stage</span>
+          <span class="lang-ar">📐 قيد مرحلة التصميم والتخطيط</span>
+        </h3>
+        <p>
+          <span class="lang-tr">Bu uygulama MSK Labs ürün yol haritasında yer almakta olup arayüz ve mimari tasarım aşamasındadır. Yayınlandığında buradan indirilebilecektir.</span>
+          <span class="lang-en">This application is part of the MSK Labs product roadmap and currently in interface design. It will be available for download once released.</span>
+          <span class="lang-ar">هذا التطبيق ضمن خارطة طريق إم إس كيه لابس وهو حالياً في مرحلة التصميم. سيكون متاحاً للتنزيل فور إطلاقه.</span>
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer"></footer>
+</body>
+</html>

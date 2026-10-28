@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-  <title>MSK Labs Vitrin | Mobil Uygulama Vitrini</title>
-  <meta name="description" content="MSK Labs bağımsız mobil ve masaüstü yazılım vitrini. Ücretsiz, reklamsız ve odaklı çözümler.">
+  <title>Uygulamalarımız | MSK Labs</title>
+  <meta name="description" content="MSK Labs bağımsız mobil ve masaüstü yazılım portföyü. Ücretsiz, reklamsız ve odaklı çözümler.">
   <meta name="theme-color" content="#0f172a">
   <link rel="canonical" href="https://msklabs.org/vitrin.html">
   <script>
@@ -17,8 +17,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/global.css?v=27">
-  <link rel="stylesheet" href="assets/css/vitrin.css?v=1">
+  <link rel="stylesheet" href="assets/css/global.css?v=31">
+  <link rel="stylesheet" href="assets/css/vitrin.css?v=20261028_1152">
   
   <link rel="icon" type="image/png" href="img/MSKLabs_favicon.png">
   <link rel="shortcut icon" href="img/MSKLabs_favicon.png" type="image/x-icon">
@@ -26,341 +26,436 @@
 </head>
 <body class="vitrin-body lang-tr">
 
-  <!-- 1. Minimalist WebView Antet Barı -->
-  <header class="vitrin-header">
-    <a href="index.html" class="vitrin-brand" aria-label="MSK Labs Ana Sayfa">
-      <img src="img/MSK_logo.png" alt="MSK Labs" class="logo-light" height="28">
-      <img src="img/MSK_logo_dark.png" alt="MSK Labs" class="logo-dark" height="28">
-      <span class="vitrin-brand-text">MSK Labs</span>
-    </a>
-    
-    <div class="vitrin-controls">
-      <div class="vitrin-lang-group" role="group" aria-label="Dil">
-        <button type="button" class="vitrin-lang-btn active" data-lang="tr">TR</button>
-        <button type="button" class="vitrin-lang-btn" data-lang="en">EN</button>
-        <button type="button" class="vitrin-lang-btn" data-lang="ar">AR</button>
+  <!-- 1. Standart Kurumsal Antet (Megafon ve Hamburger Kaldırıldı) -->
+  <header class="site-header-sticky">
+    <div class="header-sticky-container">
+      <div class="header-top-row">
+        
+        <!-- Sol Taraf: Standart Kurumsal Başlık -->
+        <div class="header-page-title" id="stickyHeaderTitle">
+          <span class="lang-tr">📱 VİTRİN</span>
+          <span class="lang-en">📱 SHOWCASE</span>
+          <span class="lang-ar">📱 المعرض</span>
+        </div>
+
+        <!-- Merkez / Sol Kurumsal Logo -->
+        <div class="header-logo-center">
+          <a href="index.html" title="MSK Labs Ana Sayfa">
+            <img src="img/MSKLabsLogo.svg" alt="MSK Labs Logo" class="header-logo-img logo-light">
+            <img src="img/MSKLabsType_white.svg" alt="MSK Labs Logo" class="header-logo-img logo-dark">
+          </a>
+        </div>
+
+        <!-- Sağ Taraf: Standart Kurumsal Dil ve Gece Modu Butonları -->
+        <div class="header-actions-right">
+          <div class="lang-switcher">
+            <button type="button" onclick="setVitrinLang('tr')" data-lang="tr" class="active" title="Türkçe">TR</button>
+            <button type="button" onclick="setVitrinLang('en')" data-lang="en" title="English">EN</button>
+            <button type="button" onclick="setVitrinLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic">
+              <img src="img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon">
+            </button>
+            <button type="button" id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleVitrinTheme()" title="Gece Modu / Light Mode">🌙</button>
+          </div>
+        </div>
+
       </div>
-      <button type="button" class="vitrin-theme-btn" id="vitrinThemeBtn" aria-label="Tema">🌓</button>
     </div>
   </header>
 
-  <!-- 2. Hero Başlık & Açıklama -->
-  <section class="vitrin-hero">
-    <h1 class="vitrin-title">
-      <span class="lang-tr">Uygulama Vitrini</span>
-      <span class="lang-en">App Showcase</span>
-      <span class="lang-ar">معرض التطبيقات</span>
-    </h1>
-    <p class="vitrin-subtitle">
-      <span class="lang-tr">Ücretsiz, reklamsız bağımsız çözümlerimiz. Detaylar ve indirme seçenekleri için kartlara dokunun.</span>
-      <span class="lang-en">Our free, ad-free independent software. Tap cards for details and download options.</span>
-      <span class="lang-ar">برامجنا المستقلة المجانية وبدون إعلانات. المس البطاقات للتفاصيل وخيارات التنزيل.</span>
-    </p>
-  </section>
+  <!-- 2. Ana Vitrin Gövdesi -->
+  <main class="vitrin-container">
+    
+    <!-- Başlık -->
+    <section class="vitrin-hero">
+      <h1 class="vitrin-title">
+        <span class="lang-tr">Uygulamalarımız</span>
+        <span class="lang-en">Our Applications</span>
+        <span class="lang-ar">تطبيقاتنا</span>
+      </h1>
+    </section>
 
-  <!-- 3. Platform Filtreleme Butonları -->
-  <nav class="vitrin-filter-bar" aria-label="Platform Filtresi">
-    <button type="button" class="vitrin-filter-pill active" data-filter="all">
-      <span class="lang-tr">Tümü</span><span class="lang-en">All</span><span class="lang-ar">الكل</span>
-    </button>
-    <button type="button" class="vitrin-filter-pill" data-filter="mobile">
-      <span class="lang-tr">Mobil</span><span class="lang-en">Mobile</span><span class="lang-ar">الهاتف</span>
-    </button>
-    <button type="button" class="vitrin-filter-pill" data-filter="desktop">
-      <span class="lang-tr">Masaüstü</span><span class="lang-en">Desktop</span><span class="lang-ar">سطح المكتب</span>
-    </button>
-  </nav>
+    <!-- Platform Filtreleme Butonları (Tümü, Mobil, Masaüstü, Web) -->
+    <nav class="vitrin-filter-bar" aria-label="Platform Filtresi">
+      <button type="button" class="vitrin-filter-pill active" data-filter="all">
+        <span class="lang-tr">Tümü</span><span class="lang-en">All</span><span class="lang-ar">الكل</span>
+      </button>
+      <button type="button" class="vitrin-filter-pill" data-filter="mobile">
+        <span class="lang-tr">Mobil</span><span class="lang-en">Mobile</span><span class="lang-ar">الهاتف</span>
+      </button>
+      <button type="button" class="vitrin-filter-pill" data-filter="desktop">
+        <span class="lang-tr">Masaüstü</span><span class="lang-en">Desktop</span><span class="lang-ar">سطح المكتب</span>
+      </button>
+      <button type="button" class="vitrin-filter-pill" data-filter="web">
+        <span class="lang-tr">Web</span><span class="lang-en">Web</span><span class="lang-ar">الويب</span>
+      </button>
+    </nav>
 
-  <!-- 4. İki Sütunlu 3D Flip Kart Izgarası -->
-  <main class="vitrin-grid-container">
+    <!-- Web İçin Geçici Bilgilendirme Kutusu -->
+    <div id="vitrinEmptyWeb" class="vitrin-empty-state">
+      <span class="lang-tr">Henüz yayınlanmış bir web uygulamamız bulunmamaktadır.</span>
+      <span class="lang-en">No web applications published yet.</span>
+      <span class="lang-ar">لا توجد تطبيقات ويب منشورة حتى الآن.</span>
+    </div>
+
+    <!-- 3. ÜÇ SÜTUNLU (3xN) 3D FLIP KART IZGARASI -->
     <div class="vitrin-grid" id="vitrinGrid">
 
-      <!-- 1. HaydiNamaza -->
+      <!-- 1. HaydiNamaza (Yayında) -->
       <article class="vitrin-card" data-platform="mobile">
         <div class="vitrin-card-inner">
           <div class="vitrin-card-face vitrin-card-front">
-            <div class="vitrin-badge-wrap">
+            <div class="vitrin-front-body">
+              <div class="vitrin-icon">
+                <img src="media/haydinamaza/icon.png" alt="HaydiNamaza" loading="lazy">
+              </div>
+              <h2 class="vitrin-card-name">HaydiNamaza</h2>
+            </div>
+            <div class="vitrin-card-footer">
               <span class="vitrin-badge active">
-                <span class="lang-tr">Yayında</span><span class="lang-en">Live</span><span class="lang-ar">مباشر</span>
+                <span class="lang-tr">Yayında</span><span class="lang-en">Active</span><span class="lang-ar">مباشر</span>
               </span>
+              <a href="apps/haydinamaza.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
+              </a>
             </div>
-            <div class="vitrin-icon">
-              <img src="media/haydinamaza/icon.png" alt="HaydiNamaza" loading="lazy">
-            </div>
-            <h2 class="vitrin-card-name">HaydiNamaza</h2>
-            <p class="vitrin-card-tagline">
-              <span class="lang-tr">Lokasyon bazlı ibadet planlaması ve zaman yönetimi otomasyonu.</span>
-              <span class="lang-en">Location-based worship planning and time management automation.</span>
-              <span class="lang-ar">تخطيط العبادة القائم على الموقع وأتمتة إدارة الوقت.</span>
-            </p>
-            <button type="button" class="vitrin-flip-trigger">
-              <span class="lang-tr">Detaylar ↻</span><span class="lang-en">Details ↻</span><span class="lang-ar">التفاصيل ↻</span>
-            </button>
           </div>
           <div class="vitrin-card-face vitrin-card-back">
-            <div class="vitrin-back-head">
+            <div class="vitrin-back-body">
               <h3 class="vitrin-back-title">HaydiNamaza</h3>
-              <span class="vitrin-platform-tag">
-                <span class="lang-tr">Mobil</span><span class="lang-en">Mobile</span><span class="lang-ar">الهاتف</span>
+              <p class="vitrin-back-desc">
+                <span class="lang-tr">Namaz vakitleri, geri sayım sayaçları, widgetlar, nafile vakitler ve kıble tespiti.</span>
+                <span class="lang-en">Prayer times, countdown widgets, nafilah times, and Qibla compass.</span>
+                <span class="lang-ar">أوقات الصلاة، عداد تنازلي، إضافة النوافل، وبوصلة القبلة.</span>
+              </p>
+            </div>
+            <div class="vitrin-card-footer">
+              <span class="vitrin-badge active">
+                <span class="lang-tr">Yayında</span><span class="lang-en">Active</span><span class="lang-ar">مباشر</span>
               </span>
-            </div>
-            <p class="vitrin-back-desc">
-              <span class="lang-tr">Namaz vakitleri, canlı geri sayım widgetları, nafile vakit ekleme, akıllı kerahat uyarıları ve hassas kıble pusulası.</span>
-              <span class="lang-en">Prayer times, live countdown widgets, custom nafilah times, kerahat warnings, and precise Qibla compass.</span>
-              <span class="lang-ar">أوقات الصلاة، عداد تنازلي، إضافة أوقات النوافل، تنبيهات الكراهة، وبوصلة القبلة الدقيقة.</span>
-            </p>
-            <div class="vitrin-back-actions">
-              <a href="apps/haydinamaza.html" class="vitrin-btn vitrin-btn-primary">
-                <span class="lang-tr">İncele</span><span class="lang-en">Explore</span><span class="lang-ar">استعراض</span>
-              </a>
-              <a href="https://github.com/mskaymaz/AllApp/raw/main/releases/HaydiNamaza.apk" target="_blank" rel="noopener noreferrer" class="vitrin-btn vitrin-btn-download">
-                <span class="lang-tr">APK İndir</span><span class="lang-en">Download APK</span><span class="lang-ar">تنزيل APK</span>
+              <a href="apps/haydinamaza.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
               </a>
             </div>
-            <button type="button" class="vitrin-unflip-btn">
-              <span class="lang-tr">↺ Karta Dön</span><span class="lang-en">↺ Return</span><span class="lang-ar">↺ عودة</span>
-            </button>
           </div>
         </div>
       </article>
 
-      <!-- 2. RekatSay -->
+      <!-- 2. RekatSay (Yayında) -->
       <article class="vitrin-card" data-platform="mobile">
         <div class="vitrin-card-inner">
           <div class="vitrin-card-face vitrin-card-front">
-            <div class="vitrin-badge-wrap">
+            <div class="vitrin-front-body">
+              <div class="vitrin-icon">
+                <img src="media/rekatsay/icon.png" alt="RekatSay" loading="lazy">
+              </div>
+              <h2 class="vitrin-card-name">RekatSay</h2>
+            </div>
+            <div class="vitrin-card-footer">
               <span class="vitrin-badge active">
-                <span class="lang-tr">Yayında</span><span class="lang-en">Live</span><span class="lang-ar">مباشر</span>
+                <span class="lang-tr">Yayında</span><span class="lang-en">Active</span><span class="lang-ar">مباشر</span>
               </span>
+              <a href="apps/rekatsay.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
+              </a>
             </div>
-            <div class="vitrin-icon">
-              <img src="media/rekatsay/icon.png" alt="RekatSay" loading="lazy">
-            </div>
-            <h2 class="vitrin-card-name">RekatSay</h2>
-            <p class="vitrin-card-tagline">
-              <span class="lang-tr">Odaklanmayı artıran, minimalist ve etkileşimli takip aracı.</span>
-              <span class="lang-en">A minimalist and interactive tracking tool that increases focus.</span>
-              <span class="lang-ar">أداة تتبع تفاعلية وبسيطة تزيد من التركيز.</span>
-            </p>
-            <button type="button" class="vitrin-flip-trigger">
-              <span class="lang-tr">Detaylar ↻</span><span class="lang-en">Details ↻</span><span class="lang-ar">التفاصيل ↻</span>
-            </button>
           </div>
           <div class="vitrin-card-face vitrin-card-back">
-            <div class="vitrin-back-head">
+            <div class="vitrin-back-body">
               <h3 class="vitrin-back-title">RekatSay</h3>
-              <span class="vitrin-platform-tag">
-                <span class="lang-tr">Mobil</span><span class="lang-en">Mobile</span><span class="lang-ar">الهاتف</span>
+              <p class="vitrin-back-desc">
+                <span class="lang-tr">Rekat ve secdeleri dokunmatik veya sensörlerle hatasız sayan ibadet aracı.</span>
+                <span class="lang-en">Interactive tool counting rakats and prostrations via touch or sensors.</span>
+                <span class="lang-ar">أداة تفاعلية لحساب الركعات والسجدات باللمس أو أجهزة الاستشعار.</span>
+              </p>
+            </div>
+            <div class="vitrin-card-footer">
+              <span class="vitrin-badge active">
+                <span class="lang-tr">Yayında</span><span class="lang-en">Active</span><span class="lang-ar">مباشر</span>
               </span>
-            </div>
-            <p class="vitrin-back-desc">
-              <span class="lang-tr">Namaz ve ibadet sırasında rekat ve secde adımlarını sensör veya dokunmatik destekle sayan sade ve odaklayıcı araç.</span>
-              <span class="lang-en">A clean, focused tool counting rakat and prostrations with sensor and touch support during prayers.</span>
-              <span class="lang-ar">أداة بسيطة تركز على حساب الركعات والسجدات بدعم المستشعر واللمس أثناء الصلاة.</span>
-            </p>
-            <div class="vitrin-back-actions">
-              <a href="apps/rekatsay.html" class="vitrin-btn vitrin-btn-primary">
-                <span class="lang-tr">İncele</span><span class="lang-en">Explore</span><span class="lang-ar">استعراض</span>
-              </a>
-              <a href="https://github.com/mskaymaz/AllApp/raw/main/releases/RekatSay.apk" target="_blank" rel="noopener noreferrer" class="vitrin-btn vitrin-btn-download">
-                <span class="lang-tr">APK İndir</span><span class="lang-en">Download APK</span><span class="lang-ar">تنزيل APK</span>
+              <a href="apps/rekatsay.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
               </a>
             </div>
-            <button type="button" class="vitrin-unflip-btn">
-              <span class="lang-tr">↺ Karta Dön</span><span class="lang-en">↺ Return</span><span class="lang-ar">↺ عودة</span>
-            </button>
           </div>
         </div>
       </article>
 
-      <!-- 3. Date Counter -->
+      <!-- 3. Date Counter (Yayında) -->
       <article class="vitrin-card" data-platform="desktop">
         <div class="vitrin-card-inner">
           <div class="vitrin-card-face vitrin-card-front">
-            <div class="vitrin-badge-wrap">
+            <div class="vitrin-front-body">
+              <div class="vitrin-icon">
+                <img src="media/date-counter/icon.png" alt="Date Counter" loading="lazy">
+              </div>
+              <h2 class="vitrin-card-name">Date Counter</h2>
+            </div>
+            <div class="vitrin-card-footer">
               <span class="vitrin-badge active">
-                <span class="lang-tr">Yayında (v1.1)</span><span class="lang-en">Live (v1.1)</span><span class="lang-ar">مباشر (v1.1)</span>
+                <span class="lang-tr">Yayında</span><span class="lang-en">Active</span><span class="lang-ar">مباشر</span>
               </span>
-            </div>
-            <div class="vitrin-icon">
-              <img src="media/date-counter/icon.png" alt="Date Counter" loading="lazy">
-            </div>
-            <h2 class="vitrin-card-name">Date Counter</h2>
-            <p class="vitrin-card-tagline">
-              <span class="lang-tr">Masaüstü ve görev çubuğu hedef &amp; zaman sayacı.</span>
-              <span class="lang-en">Desktop and taskbar milestone and date counter.</span>
-              <span class="lang-ar">مؤقت سطح المكتب وشريط المهام للمراحل الهامة.</span>
-            </p>
-            <button type="button" class="vitrin-flip-trigger">
-              <span class="lang-tr">Detaylar ↻</span><span class="lang-en">Details ↻</span><span class="lang-ar">التفاصيل ↻</span>
-            </button>
-          </div>
-          <div class="vitrin-card-face vitrin-card-back">
-            <div class="vitrin-back-head">
-              <h3 class="vitrin-back-title">Date Counter</h3>
-              <span class="vitrin-platform-tag">
-                <span class="lang-tr">Masaüstü</span><span class="lang-en">Desktop</span><span class="lang-ar">سطح المكتب</span>
-              </span>
-            </div>
-            <p class="vitrin-back-desc">
-              <span class="lang-tr">Emeklilik, sınav, proje ve özel hedefleri Windows görev çubuğu ve masaüstünde anlık canlı takip eden zaman motoru.</span>
-              <span class="lang-en">Real-time timer tracking retirement, exams, projects, and custom milestones on Windows taskbar.</span>
-              <span class="lang-ar">مؤقت لحظي لمتابعة التقاعد والامتحانات والمشاريع على شريط مهام ويندوز.</span>
-            </p>
-            <div class="vitrin-back-actions">
-              <a href="apps/date_counter.html" class="vitrin-btn vitrin-btn-primary">
-                <span class="lang-tr">İncele</span><span class="lang-en">Explore</span><span class="lang-ar">استعراض</span>
+              <a href="apps/date_counter.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
               </a>
             </div>
-            <button type="button" class="vitrin-unflip-btn">
-              <span class="lang-tr">↺ Karta Dön</span><span class="lang-en">↺ Return</span><span class="lang-ar">↺ عودة</span>
-            </button>
+          </div>
+          <div class="vitrin-card-face vitrin-card-back">
+            <div class="vitrin-back-body">
+              <h3 class="vitrin-back-title">Date Counter</h3>
+              <p class="vitrin-back-desc">
+                <span class="lang-tr">Emeklilik, sınav ve hedefleri Windows görev çubuğunda canlı takip eden sayaç.</span>
+                <span class="lang-en">Real-time taskbar countdown tracking retirement, exams, and milestones.</span>
+                <span class="lang-ar">مؤقت شريط المهام لمتابعة التقاعد والامتحانات والمراحل الهامة مباشرة.</span>
+              </p>
+            </div>
+            <div class="vitrin-card-footer">
+              <span class="vitrin-badge active">
+                <span class="lang-tr">Yayında</span><span class="lang-en">Active</span><span class="lang-ar">مباشر</span>
+              </span>
+              <a href="apps/date_counter.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
+              </a>
+            </div>
           </div>
         </div>
       </article>
 
-      <!-- 4. En Yakın -->
+      <!-- 4. En Yakın (Yapımda) -->
       <article class="vitrin-card" data-platform="mobile">
         <div class="vitrin-card-inner">
           <div class="vitrin-card-face vitrin-card-front">
-            <div class="vitrin-badge-wrap">
+            <div class="vitrin-front-body">
+              <div class="vitrin-icon">
+                <img src="media/enyakin/icon.png" alt="En Yakın" loading="lazy">
+              </div>
+              <h2 class="vitrin-card-name">
+                <span class="lang-tr">En Yakın</span><span class="lang-en">Nearest</span><span class="lang-ar">الأقرب</span>
+              </h2>
+            </div>
+            <div class="vitrin-card-footer">
               <span class="vitrin-badge dev">
-                <span class="lang-tr">Yapım Aşamasında</span><span class="lang-en">In Dev</span><span class="lang-ar">قيد التطوير</span>
+                <span class="lang-tr">Yapımda</span><span class="lang-en">In Dev</span><span class="lang-ar">قيد التطوير</span>
               </span>
+              <a href="apps/enyakin.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
+              </a>
             </div>
-            <div class="vitrin-icon">
-              <img src="media/enyakin/icon.png" alt="En Yakın" loading="lazy">
-            </div>
-            <h2 class="vitrin-card-name">
-              <span class="lang-tr">En Yakın</span><span class="lang-en">Nearest</span><span class="lang-ar">الأقرب</span>
-            </h2>
-            <p class="vitrin-card-tagline">
-              <span class="lang-tr">Kritik hizmet noktalarını anında tespit eden mobil lokasyon motoru.</span>
-              <span class="lang-en">Location engine that instantly detects critical service points.</span>
-              <span class="lang-ar">محرك الموقع الذي يكتشف نقاط الخدمة الحرجة فوراً.</span>
-            </p>
-            <button type="button" class="vitrin-flip-trigger">
-              <span class="lang-tr">Detaylar ↻</span><span class="lang-en">Details ↻</span><span class="lang-ar">التفاصيل ↻</span>
-            </button>
           </div>
           <div class="vitrin-card-face vitrin-card-back">
-            <div class="vitrin-back-head">
+            <div class="vitrin-back-body">
               <h3 class="vitrin-back-title">
                 <span class="lang-tr">En Yakın</span><span class="lang-en">Nearest</span><span class="lang-ar">الأقرب</span>
               </h3>
-              <span class="vitrin-platform-tag">
-                <span class="lang-tr">Mobil</span><span class="lang-en">Mobile</span><span class="lang-ar">الهاتف</span>
-              </span>
+              <p class="vitrin-back-desc">
+                <span class="lang-tr">Nöbetçi eczaneler, hastaneler ve acil noktaları haritada anında tespit eden motor.</span>
+                <span class="lang-en">Location engine finding pharmacies, hospitals, and emergency points.</span>
+                <span class="lang-ar">محرك لتحديد الصيدليات والمستشفيات ونقاط الطوارئ فوراً على الخريطة.</span>
+              </p>
             </div>
-            <p class="vitrin-back-desc">
-              <span class="lang-tr">Nöbetçi eczaneler, hastaneler, acil noktalar ve yakınınızdaki temel ihtiyaç istasyonlarını haritada anlık gösterir.</span>
-              <span class="lang-en">Instantly locate on-duty pharmacies, hospitals, emergency points, and essential services near you.</span>
-              <span class="lang-ar">تحديد موقع الصيدليات المناوبة والمستشفيات ونقاط الطوارئ والخدمات القريبة منك على الفور.</span>
-            </p>
-            <div class="vitrin-back-actions">
-              <a href="apps/enyakin.html" class="vitrin-btn vitrin-btn-primary">
-                <span class="lang-tr">İncele</span><span class="lang-en">Explore</span><span class="lang-ar">استعراض</span>
+            <div class="vitrin-card-footer">
+              <span class="vitrin-badge dev">
+                <span class="lang-tr">Yapımda</span><span class="lang-en">In Dev</span><span class="lang-ar">قيد التطوير</span>
+              </span>
+              <a href="apps/enyakin.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
               </a>
             </div>
-            <button type="button" class="vitrin-unflip-btn">
-              <span class="lang-tr">↺ Karta Dön</span><span class="lang-en">↺ Return</span><span class="lang-ar">↺ عودة</span>
-            </button>
           </div>
         </div>
       </article>
 
-      <!-- 5. DeskPilot -->
+      <!-- 5. DeskPilot (Yapımda) -->
       <article class="vitrin-card" data-platform="desktop">
         <div class="vitrin-card-inner">
           <div class="vitrin-card-face vitrin-card-front">
-            <div class="vitrin-badge-wrap">
+            <div class="vitrin-front-body">
+              <div class="vitrin-icon">
+                <img src="media/deskpilot/icon.png" alt="DeskPilot" loading="lazy">
+              </div>
+              <h2 class="vitrin-card-name">DeskPilot</h2>
+            </div>
+            <div class="vitrin-card-footer">
               <span class="vitrin-badge dev">
-                <span class="lang-tr">Yapım Aşamasında</span><span class="lang-en">In Dev</span><span class="lang-ar">قيد التطوير</span>
+                <span class="lang-tr">Yapımda</span><span class="lang-en">In Dev</span><span class="lang-ar">قيد التطوير</span>
               </span>
+              <a href="apps/deskpilot.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
+              </a>
             </div>
-            <div class="vitrin-icon">
-              <img src="media/deskpilot/icon.png" alt="DeskPilot" loading="lazy">
-            </div>
-            <h2 class="vitrin-card-name">DeskPilot</h2>
-            <p class="vitrin-card-tagline">
-              <span class="lang-tr">Operasyonel hızı artıran modüler masaüstü verimlilik asistanı.</span>
-              <span class="lang-en">Plugin-based modular desktop productivity assistant.</span>
-              <span class="lang-ar">مساعد إنتاجية معياري لسطح المكتب يزيد السرعة التشغيلية.</span>
-            </p>
-            <button type="button" class="vitrin-flip-trigger">
-              <span class="lang-tr">Detaylar ↻</span><span class="lang-en">Details ↻</span><span class="lang-ar">التفاصيل ↻</span>
-            </button>
           </div>
           <div class="vitrin-card-face vitrin-card-back">
-            <div class="vitrin-back-head">
+            <div class="vitrin-back-body">
               <h3 class="vitrin-back-title">DeskPilot</h3>
-              <span class="vitrin-platform-tag">
-                <span class="lang-tr">Masaüstü</span><span class="lang-en">Desktop</span><span class="lang-ar">سطح المكتب</span>
-              </span>
+              <p class="vitrin-back-desc">
+                <span class="lang-tr">Masaüstü iş akışlarını otomatikleştiren eklenti tabanlı modüler verimlilik asistanı.</span>
+                <span class="lang-en">Modular productivity assistant with plugin architecture to automate tasks.</span>
+                <span class="lang-ar">مساعد إنتاجية معياري مع بنية إضافية لأتمتة مهام سطح المكتب.</span>
+              </p>
             </div>
-            <p class="vitrin-back-desc">
-              <span class="lang-tr">Masaüstü iş akışlarını hızlandıran, eklenti mimarisine ve genişletilebilir araç kutusuna sahip verimlilik istasyonu.</span>
-              <span class="lang-en">Productivity hub with plugin architecture and expandable toolbox to speed up desktop workflows.</span>
-              <span class="lang-ar">محطة إنتاجية ذات بنية إضافية وصندوق أدوات قابل للتوسيع لتسريع سير العمل على سطح المكتب.</span>
-            </p>
-            <div class="vitrin-back-actions">
-              <a href="apps/deskpilot.html" class="vitrin-btn vitrin-btn-primary">
-                <span class="lang-tr">İncele</span><span class="lang-en">Explore</span><span class="lang-ar">استعراض</span>
+            <div class="vitrin-card-footer">
+              <span class="vitrin-badge dev">
+                <span class="lang-tr">Yapımda</span><span class="lang-en">In Dev</span><span class="lang-ar">قيد التطوير</span>
+              </span>
+              <a href="apps/deskpilot.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
               </a>
             </div>
-            <button type="button" class="vitrin-unflip-btn">
-              <span class="lang-tr">↺ Karta Dön</span><span class="lang-en">↺ Return</span><span class="lang-ar">↺ عودة</span>
-            </button>
           </div>
         </div>
       </article>
 
-      <!-- 6. GÇ Pil Uyarı -->
+      <!-- 6. GÇ Pil Uyarı (Yapımda - 🔋) -->
       <article class="vitrin-card" data-platform="desktop">
         <div class="vitrin-card-inner">
           <div class="vitrin-card-face vitrin-card-front">
-            <div class="vitrin-badge-wrap">
+            <div class="vitrin-front-body">
+              <div class="vitrin-icon vitrin-icon-emoji">🔋</div>
+              <h2 class="vitrin-card-name">
+                <span class="lang-tr">GÇ Pil Uyarı</span><span class="lang-en">GC Battery</span><span class="lang-ar">تنبيه البطارية</span>
+              </h2>
+            </div>
+            <div class="vitrin-card-footer">
               <span class="vitrin-badge dev">
-                <span class="lang-tr">Yapım Aşamasında</span><span class="lang-en">In Dev</span><span class="lang-ar">قيد التطوير</span>
+                <span class="lang-tr">Yapımda</span><span class="lang-en">In Dev</span><span class="lang-ar">قيد التطوير</span>
               </span>
+              <a href="apps/gcpiluyari.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
+              </a>
             </div>
-            <div class="vitrin-icon">
-              <img src="media/gcpiluyari/icon.svg" alt="GÇ Pil Uyarı" loading="lazy">
-            </div>
-            <h2 class="vitrin-card-name">
-              <span class="lang-tr">GÇ Pil Uyarı</span><span class="lang-en">GC Battery</span><span class="lang-ar">تنبيه البطارية</span>
-            </h2>
-            <p class="vitrin-card-tagline">
-              <span class="lang-tr">Donanım sağlığını koruyan pil izleme ve bildirim servisi.</span>
-              <span class="lang-en">Taskbar battery monitoring and hardware protection service.</span>
-              <span class="lang-ar">خدمة مراقبة البطارية وحماية الأجهزة على شريط المهام.</span>
-            </p>
-            <button type="button" class="vitrin-flip-trigger">
-              <span class="lang-tr">Detaylar ↻</span><span class="lang-en">Details ↻</span><span class="lang-ar">التفاصيل ↻</span>
-            </button>
           </div>
           <div class="vitrin-card-face vitrin-card-back">
-            <div class="vitrin-back-head">
+            <div class="vitrin-back-body">
               <h3 class="vitrin-back-title">
                 <span class="lang-tr">GÇ Pil Uyarı</span><span class="lang-en">GC Battery</span><span class="lang-ar">تنبيه البطارية</span>
               </h3>
-              <span class="vitrin-platform-tag">
-                <span class="lang-tr">Masaüstü</span><span class="lang-en">Desktop</span><span class="lang-ar">سطح المكتب</span>
-              </span>
+              <p class="vitrin-back-desc">
+                <span class="lang-tr">Görev çubuğu pil doluluk ve aşırı şarj uyarılarıyla donanım ve pil ömrünü korur.</span>
+                <span class="lang-en">Taskbar battery service protecting hardware with real-time charge alerts.</span>
+                <span class="lang-ar">خدمة بطارية شريط المهام لحماية الجهاز عبر تنبيهات الشحن المباشرة.</span>
+              </p>
             </div>
-            <p class="vitrin-back-desc">
-              <span class="lang-tr">Görev çubuğu üzerinde pil doluluk ve aşırı şarj uyarıları sunarak donanım ve batarya ömrünü korur.</span>
-              <span class="lang-en">Protects battery hardware longevity with taskbar charge limits and overcharge alerts.</span>
-              <span class="lang-ar">يحمي عمر البطارية والأجهزة عبر تنبيهات الشحن الزائد وحدود الشحن على شريط المهام.</span>
-            </p>
-            <div class="vitrin-back-actions">
-              <a href="apps/gcpiluyari.html" class="vitrin-btn vitrin-btn-primary">
-                <span class="lang-tr">İncele</span><span class="lang-en">Explore</span><span class="lang-ar">استعراض</span>
+            <div class="vitrin-card-footer">
+              <span class="vitrin-badge dev">
+                <span class="lang-tr">Yapımda</span><span class="lang-en">In Dev</span><span class="lang-ar">قيد التطوير</span>
+              </span>
+              <a href="apps/gcpiluyari.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
               </a>
             </div>
-            <button type="button" class="vitrin-unflip-btn">
-              <span class="lang-tr">↺ Karta Dön</span><span class="lang-en">↺ Return</span><span class="lang-ar">↺ عودة</span>
-            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 7. Notes (Tasarımda - 📝) -->
+      <article class="vitrin-card" data-platform="mobile">
+        <div class="vitrin-card-inner">
+          <div class="vitrin-card-face vitrin-card-front">
+            <div class="vitrin-front-body">
+              <div class="vitrin-icon vitrin-icon-emoji">📝</div>
+              <h2 class="vitrin-card-name">Notes</h2>
+            </div>
+            <div class="vitrin-card-footer">
+              <span class="vitrin-badge design">
+                <span class="lang-tr">Tasarımda</span><span class="lang-en">Design</span><span class="lang-ar">قيد التصميم</span>
+              </span>
+              <a href="apps/notes.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
+              </a>
+            </div>
+          </div>
+          <div class="vitrin-card-face vitrin-card-back">
+            <div class="vitrin-back-body">
+              <h3 class="vitrin-back-title">Notes</h3>
+              <p class="vitrin-back-desc">
+                <span class="lang-tr">Fotoğraf, ses kaydı, el çizimi ve metin formatlarını toplayan gelişmiş not alma sistemi.</span>
+                <span class="lang-en">Advanced note-taking system combining photo, audio, drawing, and text notes.</span>
+                <span class="lang-ar">نظام تدوين ملاحظات متقدم يجمع بين الصور والصوت والرسم والنصوص.</span>
+              </p>
+            </div>
+            <div class="vitrin-card-footer">
+              <span class="vitrin-badge design">
+                <span class="lang-tr">Tasarımda</span><span class="lang-en">Design</span><span class="lang-ar">قيد التصميم</span>
+              </span>
+              <a href="apps/notes.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 8. DocuEdit (Tasarımda - 📄) -->
+      <article class="vitrin-card" data-platform="desktop">
+        <div class="vitrin-card-inner">
+          <div class="vitrin-card-face vitrin-card-front">
+            <div class="vitrin-front-body">
+              <div class="vitrin-icon vitrin-icon-emoji">📄</div>
+              <h2 class="vitrin-card-name">DocuEdit</h2>
+            </div>
+            <div class="vitrin-card-footer">
+              <span class="vitrin-badge design">
+                <span class="lang-tr">Tasarımda</span><span class="lang-en">Design</span><span class="lang-ar">قيد التصميم</span>
+              </span>
+              <a href="apps/docuedit.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
+              </a>
+            </div>
+          </div>
+          <div class="vitrin-card-face vitrin-card-back">
+            <div class="vitrin-back-body">
+              <h3 class="vitrin-back-title">DocuEdit</h3>
+              <p class="vitrin-back-desc">
+                <span class="lang-tr">Word, Excel, PowerPoint ve PDF dokümanlarını görüntüleme ve düzenleme asistanı.</span>
+                <span class="lang-en">Document viewer and annotation assistant for Word, Excel, PPT, and PDF.</span>
+                <span class="lang-ar">مساعد عرض وتحرير المستندات لـ Word و Excel و PPT و PDF.</span>
+              </p>
+            </div>
+            <div class="vitrin-card-footer">
+              <span class="vitrin-badge design">
+                <span class="lang-tr">Tasarımda</span><span class="lang-en">Design</span><span class="lang-ar">قيد التصميم</span>
+              </span>
+              <a href="apps/docuedit.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 9. PDF Layout (Tasarımda - 🖨️) -->
+      <article class="vitrin-card" data-platform="desktop">
+        <div class="vitrin-card-inner">
+          <div class="vitrin-card-face vitrin-card-front">
+            <div class="vitrin-front-body">
+              <div class="vitrin-icon vitrin-icon-emoji">🖨️</div>
+              <h2 class="vitrin-card-name">PDF Layout</h2>
+            </div>
+            <div class="vitrin-card-footer">
+              <span class="vitrin-badge design">
+                <span class="lang-tr">Tasarımda</span><span class="lang-en">Design</span><span class="lang-ar">قيد التصميم</span>
+              </span>
+              <a href="apps/pdflayout.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
+              </a>
+            </div>
+          </div>
+          <div class="vitrin-card-face vitrin-card-back">
+            <div class="vitrin-back-body">
+              <h3 class="vitrin-back-title">PDF Layout</h3>
+              <p class="vitrin-back-desc">
+                <span class="lang-tr">PDF sayfalarını özel boyutlarda ve çoklu sayfa düzeninde yazdırma yöneticisi.</span>
+                <span class="lang-en">PDF print manager for custom multi-page layouts and scaled printing.</span>
+                <span class="lang-ar">مدير طباعة PDF للتخطيطات المخصصة متعددة الصفحات.</span>
+              </p>
+            </div>
+            <div class="vitrin-card-footer">
+              <span class="vitrin-badge design">
+                <span class="lang-tr">Tasarımda</span><span class="lang-en">Design</span><span class="lang-ar">قيد التصميم</span>
+              </span>
+              <a href="apps/pdflayout.html" class="vitrin-detail-link" onclick="event.stopPropagation()">
+                <span class="lang-tr">Detaylar ➔</span><span class="lang-en">Details ➔</span><span class="lang-ar">التفاصيل ➔</span>
+              </a>
+            </div>
           </div>
         </div>
       </article>
@@ -368,52 +463,47 @@
     </div>
   </main>
 
-  <!-- 5. Minimalist Footer -->
+  <!-- 4. Standart Kurumsal Alt Bilgi (Copyright) -->
   <footer class="vitrin-footer">
-    <p style="margin: 0;">
-      <span class="lang-tr">© 2026 MSK Labs • Bağımsız Yazılım Stüdyosu</span>
-      <span class="lang-en">© 2026 MSK Labs • Independent Software Studio</span>
-      <span class="lang-ar">© 2026 إم إس كيه لابس • استوديو برمجيات مستقل</span>
+    <p class="copyright-line" style="margin: 0; font-size: 0.85rem; color: #64748b;">
+      <span class="lang-tr">© 2026 MSK Labs. Tüm hakları saklıdır.</span>
+      <span class="lang-en">© 2026 MSK Labs. All rights reserved.</span>
+      <span class="lang-ar">© 2026 MSK Labs. جميع الحقوق محفوظة.</span>
     </p>
   </footer>
 
-  <!-- 6. Hafif Etkileşim Scripti (Flip, Filtre, Dil, Tema) -->
+  <!-- 5. Etkileşim Scripti (Flip, Filtre, Dil, Tema) -->
   <script>
-    (function () {
-      // A. 3D Flip Etkileşimi
+    document.addEventListener('DOMContentLoaded', function () {
+      // A. 3D Flip Hareketi (Karta tıklandığında dönme)
       var cards = document.querySelectorAll('.vitrin-card');
       cards.forEach(function (card) {
-        // Ön yüze veya detay butonuna tıklandığında çevir
-        var front = card.querySelector('.vitrin-card-front');
-        if (front) {
-          front.addEventListener('click', function (e) {
-            card.classList.toggle('is-flipped');
-          });
-        }
-        // Geri dön butonuna tıklandığında ön yüze çevir
-        var unflipBtn = card.querySelector('.vitrin-unflip-btn');
-        if (unflipBtn) {
-          unflipBtn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            card.classList.remove('is-flipped');
-          });
-        }
-        // Buton ve linklere tıklandığında çevrilmeyi engelle
-        var links = card.querySelectorAll('.vitrin-back-actions a');
-        links.forEach(function (link) {
-          link.addEventListener('click', function (e) {
-            e.stopPropagation();
-          });
+        card.addEventListener('click', function (e) {
+          // Eğer tıklanan öğe doğrudan harici bağlantı ise dönmeyi tetikleme
+          if (e.target.closest('a.vitrin-detail-link')) {
+            return;
+          }
+          card.classList.toggle('is-flipped');
         });
       });
 
-      // B. Kategori Filtreleme
+      // B. Kategori Filtreleme (Tümü, Mobil, Masaüstü, Web)
       var filterPills = document.querySelectorAll('.vitrin-filter-pill');
+      var emptyWebBox = document.getElementById('vitrinEmptyWeb');
+
       filterPills.forEach(function (pill) {
         pill.addEventListener('click', function () {
           filterPills.forEach(function (p) { p.classList.remove('active'); });
           pill.classList.add('active');
           var filter = pill.getAttribute('data-filter') || 'all';
+
+          if (filter === 'web') {
+            cards.forEach(function (c) { c.classList.add('hidden'); });
+            if (emptyWebBox) emptyWebBox.style.display = 'block';
+            return;
+          }
+
+          if (emptyWebBox) emptyWebBox.style.display = 'none';
 
           cards.forEach(function (c) {
             var plat = c.getAttribute('data-platform') || 'all';
@@ -427,51 +517,42 @@
         });
       });
 
-      // C. Dil Değiştirici (TR, EN, AR)
-      var langButtons = document.querySelectorAll('.vitrin-lang-btn');
-      function applyLang(lang) {
-        document.body.classList.remove('lang-tr', 'lang-en', 'lang-ar');
-        document.body.classList.add('lang-' + lang);
-        if (lang === 'ar') {
-          document.documentElement.setAttribute('dir', 'rtl');
-        } else {
-          document.documentElement.setAttribute('dir', 'ltr');
-        }
-        langButtons.forEach(function (b) {
-          if (b.getAttribute('data-lang') === lang) {
-            b.classList.add('active');
-          } else {
-            b.classList.remove('active');
-          }
-        });
-        localStorage.setItem('user_lang', lang);
-      }
-
-      langButtons.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var targetLang = btn.getAttribute('data-lang') || 'tr';
-          applyLang(targetLang);
-        });
-      });
-
+      // İlk Dil Durumunu Ayarla
       var initialLang = localStorage.getItem('user_lang') || 'tr';
-      applyLang(initialLang);
+      setVitrinLang(initialLang);
+    });
 
-      // D. Tema Değiştirici (Light / Dark)
-      var themeBtn = document.getElementById('vitrinThemeBtn');
-      if (themeBtn) {
-        themeBtn.addEventListener('click', function () {
-          var current = document.documentElement.getAttribute('data-theme');
-          var target = current === 'dark' ? 'light' : 'dark';
-          if (target === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-          } else {
-            document.documentElement.removeAttribute('data-theme');
-          }
-          localStorage.setItem('user_theme', target);
-        });
+    // C. Dil Değiştirici
+    function setVitrinLang(lang) {
+      document.body.classList.remove('lang-tr', 'lang-en', 'lang-ar');
+      document.body.classList.add('lang-' + lang);
+      if (lang === 'ar') {
+        document.documentElement.setAttribute('dir', 'rtl');
+      } else {
+        document.documentElement.setAttribute('dir', 'ltr');
       }
-    })();
+      var langButtons = document.querySelectorAll('.lang-switcher button[data-lang]');
+      langButtons.forEach(function (b) {
+        if (b.getAttribute('data-lang') === lang) {
+          b.classList.add('active');
+        } else {
+          b.classList.remove('active');
+        }
+      });
+      localStorage.setItem('user_lang', lang);
+    }
+
+    // D. Tema Değiştirici
+    function toggleVitrinTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var target = current === 'dark' ? 'light' : 'dark';
+      if (target === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      localStorage.setItem('user_theme', target);
+    }
   </script>
 </body>
 </html>

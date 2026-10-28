@@ -725,118 +725,136 @@
     }
   }
 
-  function setupHeaderTrigger(activeItems, meta, currentItem) {
-    var triggerBtn = document.getElementById('mskAnnTriggerBtn');
-    var badge = document.getElementById('mskAnnBadge');
-    if (!triggerBtn) return;
+  function hideAllAnnouncementButtons() {
+    var btns = document.querySelectorAll('.announcement-trigger-btn, #mskAnnTriggerBtn, #mskAnnTriggerBtnDesk, #mskAnnTriggerBtnMob');
+    var badges = document.querySelectorAll('.msk-ann-badge, #mskAnnBadge');
+    btns.forEach(function (b) {
+      b.classList.remove('has-announcements');
+      b.style.setProperty('display', 'none', 'important');
+    });
+    badges.forEach(function (b) { b.style.display = 'none'; });
+  }
 
-    triggerBtn.style.display = 'inline-flex';
-    if (badge) {
-      if (!activeItems || activeItems.length === 0) {
-        badge.style.display = 'none';
-      } else {
-        badge.style.display = 'inline-block';
-        badge.textContent = activeItems.length.toString();
-      }
+  function setupHeaderTrigger(activeItems, meta, currentItem) {
+    var triggerBtns = document.querySelectorAll('.announcement-trigger-btn, #mskAnnTriggerBtn, #mskAnnTriggerBtnDesk, #mskAnnTriggerBtnMob');
+    var badges = document.querySelectorAll('.msk-ann-badge, #mskAnnBadge');
+    if (!triggerBtns || triggerBtns.length === 0) return;
+
+    if (!activeItems || activeItems.length === 0) {
+      hideAllAnnouncementButtons();
+      return;
     }
 
-    triggerBtn.onclick = function (e) {
-      e.stopPropagation();
-      var existingPop = document.getElementById('mskAnnPopoverMenu');
-      if (existingPop) {
-        existingPop.parentNode.removeChild(existingPop);
-        return;
-      }
+    triggerBtns.forEach(function (btn) {
+      btn.classList.add('has-announcements');
+      btn.style.removeProperty('display');
 
-      injectStyles();
-      var popover = document.createElement('div');
-      popover.id = 'mskAnnPopoverMenu';
-      popover.className = 'msk-ann-popover';
-      popover.style.position = 'fixed';
-      popover.style.zIndex = '10001';
-      popover.style.top = '84px';
-      popover.style.right = '20px';
-      try {
-        var rect = triggerBtn.getBoundingClientRect();
-        if (rect && rect.bottom > 0) {
-          popover.style.top = (Math.round(rect.bottom) + 8) + 'px';
-          var rightDist = Math.max(16, Math.round(window.innerWidth - rect.right));
-          popover.style.right = rightDist + 'px';
+      btn.onclick = function (e) {
+        e.stopPropagation();
+        var existingPop = document.getElementById('mskAnnPopoverMenu');
+        if (existingPop) {
+          existingPop.parentNode.removeChild(existingPop);
+          return;
         }
-      } catch (_) {}
 
-      var listHtml = (!activeItems || activeItems.length === 0)
-        ? '<div style="padding:18px 14px; text-align:center; color:var(--text-muted); font-size:13px;">Şu an aktif bir duyuru bulunmuyor.</div>'
-        : activeItems.map(function (it, idx) {
-        var dotColor = it.bannerType === 'success' ? '#10b981' : it.bannerType === 'warning' ? '#f59e0b' : it.bannerType === 'purple' ? '#8b5cf6' : '#3b82f6';
-        var isCurrent = it.id === currentItem.id;
-        return `
-          <div class="msk-ann-popover-item" data-ann-id="${it.id}">
-            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${dotColor}; flex-shrink:0;"></span>
-            <span style="flex:1; font-weight:${isCurrent ? '700' : '500'};">${it.title || ('Duyuru #' + (idx + 1))}</span>
-            ${isCurrent ? '<span style="font-size:10px; opacity:0.7;">(Aktif)</span>' : ''}
+        injectStyles();
+        var popover = document.createElement('div');
+        popover.id = 'mskAnnPopoverMenu';
+        popover.className = 'msk-ann-popover';
+        popover.style.position = 'fixed';
+        popover.style.zIndex = '10001';
+        popover.style.top = '84px';
+        popover.style.right = '20px';
+        try {
+          var rect = btn.getBoundingClientRect();
+          if (rect && rect.bottom > 0) {
+            popover.style.top = (Math.round(rect.bottom) + 8) + 'px';
+            var rightDist = Math.max(16, Math.round(window.innerWidth - rect.right));
+            popover.style.right = rightDist + 'px';
+          }
+        } catch (_) {}
+
+        var listHtml = (!activeItems || activeItems.length === 0)
+          ? '<div style="padding:18px 14px; text-align:center; color:var(--text-muted); font-size:13px;">Şu an aktif bir duyuru bulunmuyor.</div>'
+          : activeItems.map(function (it, idx) {
+          var dotColor = it.bannerType === 'success' ? '#10b981' : it.bannerType === 'warning' ? '#f59e0b' : it.bannerType === 'purple' ? '#8b5cf6' : '#3b82f6';
+          var isCurrent = it.id === currentItem.id;
+          return `
+            <div class="msk-ann-popover-item" data-ann-id="${it.id}">
+              <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${dotColor}; flex-shrink:0;"></span>
+              <span style="flex:1; font-weight:${isCurrent ? '700' : '500'};">${it.title || ('Duyuru #' + (idx + 1))}</span>
+              ${isCurrent ? '<span style="font-size:10px; opacity:0.7;">(Aktif)</span>' : ''}
+            </div>
+          `;
+        }).join('');
+
+        popover.innerHTML = `
+          <div style="padding:10px 14px; background:rgba(128,128,128,0.08); font-size:11px; font-weight:800; display:flex; justify-content:space-between; align-items:center;">
+            <span style="display:inline-flex; align-items:center; gap:6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0;">
+                <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+                <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
+                <path d="M8 6v8"/>
+              </svg>
+              DUYURULAR & KAMPANYALAR (${activeItems.length})
+            </span>
+            <button type="button" id="mskClosePopBtn" style="background:none; border:none; cursor:pointer; font-size:14px; color:inherit;">✕</button>
+          </div>
+          <div style="max-height:220px; overflow-y:auto;">${listHtml}</div>
+          <div style="padding:8px 12px; background:rgba(128,128,128,0.05); text-align:center;">
+            <button type="button" id="mskToggleBannerVisibilityBtn" style="font-size:11px; padding:4px 10px; border-radius:6px; border:1px solid rgba(128,128,128,0.3); background:transparent; color:inherit; cursor:pointer;">
+              Şeridi Yeniden Göster / Gizle
+            </button>
           </div>
         `;
-      }).join('');
 
-      popover.innerHTML = `
-        <div style="padding:10px 14px; background:rgba(128,128,128,0.08); font-size:11px; font-weight:800; display:flex; justify-content:space-between; align-items:center;">
-          <span style="display:inline-flex; align-items:center; gap:6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0;">
-              <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
-              <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
-              <path d="M8 6v8"/>
-            </svg>
-            DUYURULAR & KAMPANYALAR (${activeItems.length})
-          </span>
-          <button type="button" id="mskClosePopBtn" style="background:none; border:none; cursor:pointer; font-size:14px; color:inherit;">✕</button>
-        </div>
-        <div style="max-height:220px; overflow-y:auto;">${listHtml}</div>
-        <div style="padding:8px 12px; background:rgba(128,128,128,0.05); text-align:center;">
-          <button type="button" id="mskToggleBannerVisibilityBtn" style="font-size:11px; padding:4px 10px; border-radius:6px; border:1px solid rgba(128,128,128,0.3); background:transparent; color:inherit; cursor:pointer;">
-            Şeridi Yeniden Göster / Gizle
-          </button>
-        </div>
-      `;
+        document.body.appendChild(popover);
 
-      document.body.appendChild(popover);
-
-      // Event handlers
-      popover.querySelector('#mskClosePopBtn').onclick = function () {
-        popover.parentNode.removeChild(popover);
-      };
-
-      popover.querySelector('#mskToggleBannerVisibilityBtn').onclick = function () {
-        var topB = document.getElementById('mskActiveTopContainer');
-        var floatB = document.getElementById('mskActiveFloatingContainer');
-        var floatTab = document.getElementById('mskActiveFloatingTab');
-        if (topB || floatB || floatTab) {
-          if (topB && topB.parentNode) topB.parentNode.removeChild(topB);
-          if (floatB && floatB.parentNode) floatB.parentNode.removeChild(floatB);
-          if (floatTab && floatTab.parentNode) floatTab.parentNode.removeChild(floatTab);
-        } else {
-          renderAnnouncementBanner(currentItem, meta, activeItems);
-        }
-        popover.parentNode.removeChild(popover);
-      };
-
-      popover.querySelectorAll('.msk-ann-popover-item').forEach(function (el) {
-        el.onclick = function () {
-          var targetId = el.getAttribute('data-ann-id');
-          var selected = activeItems.find(function (x) { return x.id === targetId; }) || activeItems[0];
-          currentItem = selected;
-          renderAnnouncementBanner(selected, meta, activeItems);
+        popover.querySelector('#mskClosePopBtn').onclick = function () {
           popover.parentNode.removeChild(popover);
         };
-      });
 
-      document.addEventListener('click', function closeOut(ev) {
-        if (!popover.contains(ev.target) && !triggerBtn.contains(ev.target)) {
-          if (popover.parentNode) popover.parentNode.removeChild(popover);
-          document.removeEventListener('click', closeOut);
-        }
-      });
-    };
+        popover.querySelector('#mskToggleBannerVisibilityBtn').onclick = function () {
+          var topB = document.getElementById('mskActiveTopContainer');
+          var floatB = document.getElementById('mskActiveFloatingContainer');
+          var floatTab = document.getElementById('mskActiveFloatingTab');
+          if (topB || floatB || floatTab) {
+            if (topB && topB.parentNode) topB.parentNode.removeChild(topB);
+            if (floatB && floatB.parentNode) floatB.parentNode.removeChild(floatB);
+            if (floatTab && floatTab.parentNode) floatTab.parentNode.removeChild(floatTab);
+          } else {
+            renderAnnouncementBanner(currentItem, meta, activeItems);
+          }
+          popover.parentNode.removeChild(popover);
+        };
+
+        popover.querySelectorAll('.msk-ann-popover-item').forEach(function (el) {
+          el.onclick = function () {
+            var targetId = el.getAttribute('data-ann-id');
+            var selected = activeItems.find(function (x) { return x.id === targetId; }) || activeItems[0];
+            currentItem = selected;
+            renderAnnouncementBanner(selected, meta, activeItems);
+            popover.parentNode.removeChild(popover);
+          };
+        });
+
+        document.addEventListener('click', function closeOut(ev) {
+          if (!popover.contains(ev.target) && !btn.contains(ev.target)) {
+            if (popover.parentNode) popover.parentNode.removeChild(popover);
+            document.removeEventListener('click', closeOut);
+          }
+        });
+      };
+    });
+
+    badges.forEach(function (b) {
+      b.style.display = 'inline-block';
+      b.textContent = activeItems.length.toString();
+    });
+    if (typeof window.syncAnnouncementPosition === 'function') {
+      window.syncAnnouncementPosition();
+      setTimeout(window.syncAnnouncementPosition, 50);
+    }
   }
 
   function initAnnouncementLoader() {
@@ -862,7 +880,10 @@
           }
         }
 
-        if (!ann || (ann.is_active !== undefined && (ann.is_active === 0 || ann.is_active === false))) return;
+        if (!ann || (ann.is_active !== undefined && (ann.is_active === 0 || ann.is_active === false))) {
+          hideAllAnnouncementButtons();
+          return;
+        }
 
         var meta = {};
         if (ann.meta_json) {
@@ -894,7 +915,10 @@
             }];
 
         var activeItems = pool.filter(function (it) { return it.isActive !== false; });
-        if (activeItems.length === 0) return;
+        if (activeItems.length === 0) {
+          hideAllAnnouncementButtons();
+          return;
+        }
 
         // 1. Üst Şerit Kanalı (top_hanging) - Dizin Tabanlı Kusursuz Nöbetleşe (Round-Robin)
         var topPool = activeItems.filter(function (it) {
@@ -936,6 +960,7 @@
         setupHeaderTrigger(activeItems, meta, activeItems[0]);
       })
       .catch(function (err) {
+        hideAllAnnouncementButtons();
         console.warn('[MSK Announcement] Hata:', err.message);
       });
   }
