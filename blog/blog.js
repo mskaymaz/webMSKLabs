@@ -2,8 +2,31 @@
  * MSK Labs - Bizce & Anıltılar Platform Engine
  * Dynamic post rendering, filtering, language switching, and Text-to-Speech (TTS)
  */
+function getInitialSectionFromUrl() {
+  var path = (window.location.pathname || '').replace(/\/+$/, '');
+  var segments = path.split('/').filter(Boolean);
+  var blogIdx = segments.indexOf('blog');
+  if (blogIdx !== -1 && segments[blogIdx + 1]) {
+    var single = segments[blogIdx + 1].toLowerCase();
+    if (single === 'guncel' || single === 'news') return 'guncel';
+    if (single === 'anilts' || single === 'aniltilar' || single === 'anilti' || single === 'memoirs') return 'anilts';
+    if (single === 'bizce' || single === 'opinions') return 'bizce';
+    if (single === 'vlog') return 'vlog';
+  }
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var t = (params.get('type') || params.get('cat') || '').toLowerCase();
+    if (t === 'guncel' || t === 'news') return 'guncel';
+    if (t === 'anilts' || t === 'aniltilar' || t === 'anilti') return 'anilts';
+    if (t === 'bizce') return 'bizce';
+    if (t === 'vlog') return 'vlog';
+  } catch(e) {}
+  return 'bizce';
+}
+
 var currentLang = 'tr';
-var currentSection = 'bizce'; // 'bizce', 'anilts' or 'guncel'
+var currentSection = getInitialSectionFromUrl();
+window.currentSection = currentSection;
 var currentSubFilter = 'all';
 var currentPost = null;
 // Standart HTML5 MP3 Ses Oynatıcı Durum Değişkenleri
@@ -216,6 +239,7 @@ function switchSection(sec) {
   if (readerView) readerView.style.display = 'none';
   if (listView) listView.style.display = 'block';
 
+  updateSectionSeoMeta(sec, currentLang);
   updateHeaderAndTabs();
   renderSubCategories();
   renderPosts();
@@ -568,6 +592,44 @@ function renderPosts() {
   }
 }
 
+function updateSectionSeoMeta(sec, lang) {
+  if (currentPost) return;
+  var metaMap = {
+    bizce: {
+      tr: { title: "BİZCE — Düşünce ve Perspektif Yazıları | MSK Labs", desc: "İnsanı, toplumu, geleceği ve hayatı ilgilendiren meselelere farklı bir pencereden bakan BİZCE düşünce ve değerlendirme yazıları." },
+      en: { title: "BİZCE — Perspectives & Thoughtful Analyses | MSK Labs", desc: "BİZCE analyses and philosophical perspectives exploring human affairs, society, future, and ethics from a fresh vantage point." },
+      ar: { title: "بَيْزَجَه — مقالات ورؤى فكرية | MSK Labs", desc: "مقالات ورؤى فكرية تبحث في قضايا الإنسان والمجتمع والأخلاق من منظور مختلف." }
+    },
+    anilts: {
+      tr: { title: "ANILTILAR — Yaşanmışlıklardan Dersler ve İbretler | MSK Labs", desc: "Geçmişin izleri, geleceğin dersleri. Anıların ve tecrübelerin hayat dersine dönüştüğü gerçek yaşanmışlıklar." },
+      en: { title: "ANILTILAR — Real Experiences & Life Lessons | MSK Labs", desc: "Real experiences and wisdom drawn from life. Transforming memory and reflection into actionable life lessons." },
+      ar: { title: "أَنِلْتِيلَار — عبر ودروس من واقع الحياة | MSK Labs", desc: "تجارب حقيقية وعبر مستخلصة من الحياة لتحويل الذاكرة إلى حكمة ودروس نافعة." }
+    },
+    guncel: {
+      tr: { title: "GÜNCEL — Sıcak Olaylar ve Toplum Analizleri | MSK Labs", desc: "Görünenin arkasında ne var? Güncel olayların analizi, doğru bilgi arayışı ve toplumsal değerlendirmeler." },
+      en: { title: "GÜNCEL — Current Affairs & Social Analysis | MSK Labs", desc: "What lies beneath the surface? Analytical examinations of current global and social events with a search for truth." },
+      ar: { title: "الأخبار — تحليلات الأحداث الجارية | MSK Labs", desc: "تحليلات للأحداث الجارية وقضايا الساعة والبحث عن الحقيقة والعدل." }
+    }
+  };
+  var s = (sec === "aniltilar" || sec === "anilti") ? "anilts" : (sec || "bizce");
+  var data = metaMap[s] || metaMap.bizce;
+  var l = lang || currentLang || "tr";
+  var item = data[l] || data.tr;
+
+  document.title = item.title;
+  var metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute("content", item.desc);
+  var ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute("content", item.title);
+  var ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute("content", item.desc);
+  var canonical = document.querySelector('link[rel="canonical"]');
+  var canonicalUrl = "https://msklabs.org/blog/" + s;
+  if (canonical) canonical.setAttribute("href", canonicalUrl);
+  var ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl) ogUrl.setAttribute("content", canonicalUrl);
+}
+
 function updateBlogMetaAndSchema(post, langData) {
   if (!post || !langData) return;
   var titleText = (langData.title || '') + ' | Bizce & Anıltılar & Güncel | MSK Labs';
@@ -709,13 +771,7 @@ function showList() {
     videoWrapper.style.display = 'none';
   }
   currentPost = null;
-  document.title = 'MSK Labs - Bizce & Anıltılar & Güncel Yayın Platformu';
-
-  var metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', 'MSK Labs Bizce, Anıltılar ve Güncel düşünce, anı ve toplum analiz platformu. Teknoloji, hayat, bilim, insanlık ve güncel konular.');
-
-  var canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', 'https://msklabs.org/blog/blog.html');
+  updateSectionSeoMeta(currentSection, currentLang);
 
   var ldScript = document.getElementById('articleJsonLd');
   if (ldScript && ldScript.parentNode) {
@@ -1288,6 +1344,7 @@ window.addEventListener('languageChanged', function(e) {
   } else {
     renderSubCategories();
     renderPosts();
+    updateSectionSeoMeta(currentSection, currentLang);
   }
 });
 
@@ -1316,6 +1373,7 @@ function initBlogPage() {
 
   handleUrlParams();
   setLang(currentLang, saveToStorage);
+  updateSectionSeoMeta(currentSection, currentLang);
   applyFontSize();
   loadRemotePosts();
 }

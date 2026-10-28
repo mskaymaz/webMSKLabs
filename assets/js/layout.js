@@ -17,16 +17,6 @@
   }
 
   function getActiveBlogSection() {
-    if (typeof window.currentSection === 'string' && window.currentSection) {
-      var s = window.currentSection.toLowerCase();
-      if (s === 'aniltilar' || s === 'anilti') return 'anilts';
-      return s;
-    }
-    if (window.currentPost && window.currentPost.type) {
-      var pt = String(window.currentPost.type).toLowerCase();
-      if (pt === 'aniltilar' || pt === 'anilti') return 'anilts';
-      return pt;
-    }
     var cur = (window.location.pathname || pathname || '').toLowerCase().replace(/\\/g, '/');
     var parts = cur.split('/').filter(Boolean);
     var bIdx = parts.indexOf('blog');
@@ -45,6 +35,16 @@
       if (qt === 'bizce') return 'bizce';
       if (qt === 'vlog') return 'vlog';
     } catch (_) {}
+    if (typeof window.currentSection === 'string' && window.currentSection) {
+      var s = window.currentSection.toLowerCase();
+      if (s === 'aniltilar' || s === 'anilti') return 'anilts';
+      return s;
+    }
+    if (window.currentPost && window.currentPost.type) {
+      var pt = String(window.currentPost.type).toLowerCase();
+      if (pt === 'aniltilar' || pt === 'anilti') return 'anilts';
+      return pt;
+    }
     if (isBlogRoute()) return 'bizce';
     return '';
   }

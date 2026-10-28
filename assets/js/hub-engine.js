@@ -129,7 +129,7 @@
     },
     {
       id: "gc_pil_uyari",
-      name: { tr: "GÇ Pil Uyarı", en: "GC Battery Alert", ar: "تنبيه البطارية" },
+      name: { tr: "GC Pil Uyarı", en: "GC Battery Alert", ar: "تنبيه البطارية" },
       iconEmoji: "🔋",
       status: "dev",
       url: "apps/gcpiluyari.html"

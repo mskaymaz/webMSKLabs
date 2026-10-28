@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "app": "haydinamaza",
     "question": "Namaz vakitleri ve ezan alarmları nasıl çalışır?",
@@ -13,8 +13,8 @@
   },
   {
     "app": "rekatsay",
-    "question": "RekatSayaç namaz esnasında rekatı nasıl algılıyor?",
-    "answer": "Cihazınızın yakınlık sensörü (Proximity Sensor) veya ön kamerası secde anındaki yakınlaşmayı tespit ederek rekat ve secde sayılarını otomatik artırır.",
+    "question": "RekatSay namaz esnasında rekatı nasıl algılıyor?",
+    "answer": "Cihazınızın yakınlık sensörü (Proximity Sensor) ve ışık sensörü sayesinde secde anındaki temassız yakınlaşma ve ışık değişimi tespit edilerek rekat ve secde sayıları otomatik artırılır. Uygulama kamera veya görüntü kaydı kesinlikle kullanmaz.",
     "category": "Kullanım"
   },
   {

@@ -64,7 +64,7 @@
   <main class="portfolio-container main-content-area">
 
     <div class="section-tab-bar">
-      <button class="section-tab-btn active-bizce" id="tabBizce" onclick="switchSection('bizce')">
+      <button class="section-tab-btn" id="tabBizce" onclick="switchSection('bizce')">
         ✍️ BİZCE
       </button>
       <button class="section-tab-btn" id="tabAnilts" onclick="switchSection('anilts')">
@@ -74,6 +74,17 @@
         📰 GÜNCEL
       </button>
     </div>
+    <script>
+      (function() {
+        var p = (window.location.pathname || '').toLowerCase();
+        var q = (window.location.search || '').toLowerCase();
+        var sec = 'bizce';
+        if (p.indexOf('/guncel') !== -1 || q.indexOf('guncel') !== -1 || q.indexOf('news') !== -1) sec = 'guncel';
+        else if (p.indexOf('/anilts') !== -1 || p.indexOf('/aniltilar') !== -1 || q.indexOf('anilts') !== -1 || q.indexOf('aniltilar') !== -1) sec = 'anilts';
+        var b = document.getElementById('tab' + (sec === 'anilts' ? 'Anilts' : (sec === 'guncel' ? 'Guncel' : 'Bizce')));
+        if (b) b.classList.add('active-' + sec);
+      })();
+    </script>
 
     <div id="listView">
 

@@ -173,7 +173,7 @@ window.MSK_APPS_DATA = {
     icon: "🔋",
     logoImg: "media/gcpiluyari/icon.png",
     icon_url: "media/gcpiluyari/icon.png",
-    name: { tr: "GÇ Pil Uyarı", en: "GC Battery Alert", ar: "تنبيه البطارية" },
+    name: { tr: "GC Pil Uyarı", en: "GC Battery Alert", ar: "تنبيه البطارية" },
     tagline: {
       tr: "Akıllı Pil Sağlığı ve Şarj Uyarı Motoru",
       en: "Smart Battery Health & Charge Alert Engine",
