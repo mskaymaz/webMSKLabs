@@ -1213,6 +1213,18 @@ body.dark-theme .arabic-btn-icon {
     max-width: 100% !important;
   }
 
+  .page-title {
+    font-size: 1.55rem !important;
+    margin-top: 10px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .category-title {
+    font-size: 1.15rem !important;
+    margin: 24px 0 14px 0 !important;
+    padding-bottom: 8px !important;
+  }
+
   .app-filter-bar {
     display: flex !important;
     gap: 8px !important;
