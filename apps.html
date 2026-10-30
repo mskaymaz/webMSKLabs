@@ -7,26 +7,31 @@
     <meta name="description" content="MSK Labs tarafından geliştirilen ücretsiz ve reklamsız mobil ve masaüstü yazılım çözümleri portföyü.">
     <meta name="theme-color" content="#0f172a">
     <link rel="canonical" href="https://msklabs.org/apps.html">
+  <meta property="og:title" content="Uygulamalarımız | MSK Labs Portföyü">
+  <meta property="og:description" content="MSK Labs bağımsız yazılım ekosistemi. Mobil ve masaüstü için geliştirilen modern, odaklı uygulamalar.">
+  <meta property="og:url" content="https://msklabs.org/apps.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://msklabs.org/img/MSKLabsLogo.svg">
+  <meta name="twitter:card" content="summary_large_image">
     <script>!function(){var t=localStorage.getItem("user_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"===t&&document.documentElement.setAttribute("data-theme","dark")}()</script>
     <link rel="manifest" href="manifest.json">
-    
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/global.css?v=26">
-    
+    <link rel="stylesheet" href="assets/css/global.css?v=20261028_1145">
     <!-- MSK Labs Favicon -->
     <link rel="icon" type="image/png" href="img/MSKLabs_favicon.png">
     <link rel="shortcut icon" href="img/MSKLabs_favicon.png" type="image/x-icon">
     <link rel="apple-touch-icon" href="img/MSKLabs_favicon.png">
     <script src="assets/js/config.js" defer></script>
     <script src="assets/js/analytics.js" defer></script>
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"CollectionPage","name":"Uygulamalarımız | MSK Labs","url":"https://msklabs.org/apps.html","description":"MSK Labs bağımsız mobil ve masaüstü yazılım portföyü.","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"HaydiNamaza","url":"https://msklabs.org/apps/haydinamaza.html"},{"@type":"ListItem","position":2,"name":"RekatSay","url":"https://msklabs.org/apps/rekatsay.html"},{"@type":"ListItem","position":3,"name":"Date Counter","url":"https://msklabs.org/apps/date_counter.html"},{"@type":"ListItem","position":4,"name":"DeskPilot Pro","url":"https://msklabs.org/apps/deskpilot.html"},{"@type":"ListItem","position":5,"name":"En Yakın","url":"https://msklabs.org/apps/enyakin.html"}]}}
+    </script>
 </head>
 <body class="lang-tr">
-
 <header class="site-header-sticky"></header>
-
 <div class="layout-wrapper">
 
   <!-- Masaüstü Sol Reklam (1280px üzerinde görünür) -->
@@ -45,25 +50,36 @@
 
   <div class="subtitle-notice">
     <p class="notice-line-1">
-      <span class="lang-tr">Bu portföydeki uygulamalarımız ücretsiz ve reklamsızdır.</span>
-      <span class="lang-en">Our applications in this portfolio are free and ad-free.</span>
-      <span class="lang-ar">تطبيقنا في هذه المحفظة مجاني وبدون إعلانات.</span>
-    </p>
-    <p class="notice-line-2">
-      <span class="lang-tr">Ücret gerektiren uygulamalar ayrı bir kategoride yayınlanır.</span>
-      <span class="lang-en">Paid applications are published under a separate category.</span>
-      <span class="lang-ar">يتم نشر التطبيقات المدفوعة في فئة منفصلة.</span>
+      <span class="lang-tr">Bu portföydeki uygulamalarımız ücretsiz ve reklamsızdır; ücret gerektiren uygulamalar ayrı bir kategoride yayınlanır.</span>
+      <span class="lang-en">Our applications in this portfolio are free and ad-free; paid applications are published under a separate category.</span>
+      <span class="lang-ar">تطبيقاتنا في هذه المحفظة مجانية وبدون إعلانات؛ يتم نشر التطبيقات المدفوعة في فئة منفصلة.</span>
     </p>
   </div>
   
+  <!-- KATEGORİ VE PLATFORM FİLTRELEME ÇUBUĞU -->
+  <div class="app-filter-bar" id="appFilterBar" style="display: flex !important; justify-content: center !important; align-items: center !important; text-align: center !important; gap: 8px !important; margin: 16px auto 16px auto !important; flex-wrap: wrap !important; width: 100% !important; box-sizing: border-box !important;">
+    <button type="button" class="app-filter-pill active" data-filter="all">
+      <span class="lang-tr">Tümü</span><span class="lang-en">All</span><span class="lang-ar">الكل</span>
+    </button>
+    <button type="button" class="app-filter-pill" data-filter="mobile">
+      <span class="lang-tr">Mobil</span><span class="lang-en">Mobile</span><span class="lang-ar">الهاتف</span>
+    </button>
+    <button type="button" class="app-filter-pill" data-filter="desktop">
+      <span class="lang-tr">Masaüstü</span><span class="lang-en">Desktop</span><span class="lang-ar">سطح المكتب</span>
+    </button>
+    <button type="button" class="app-filter-pill" data-filter="web">
+      <span class="lang-tr">Web</span><span class="lang-en">Web</span><span class="lang-ar">الويب</span>
+    </button>
+  </div>
+
   <!-- 1. YAYINDAKİ AKTİF UYGULAMALAR -->
   <h2 class="category-title" id="apps">
     <span class="lang-tr">Yayındaki Uygulamalarımız</span>
     <span class="lang-en">Active Applications</span>
     <span class="lang-ar">التطبيقات المباشرة</span>
   </h2>
-  <div class="app-grid">
-    <a href="apps/haydinamaza.html" class="app-card">
+  <div class="app-grid" id="activeAppsGrid">
+    <a href="app.html?id=haydinamaza" class="app-card" data-platform="mobile">
       <div class="app-icon"><img src="media/haydinamaza/icon.png" alt="HaydiNamaza"></div>
       <h3 class="app-name">HaydiNamaza</h3>
       <p class="app-vision">
@@ -75,7 +91,7 @@
         <span class="lang-tr">Yayında</span><span class="lang-en">Active</span><span class="lang-ar">مباشر</span>
       </span>
     </a>
-    <a href="apps/rekatsay.html" class="app-card">
+    <a href="app.html?id=rekatsay" class="app-card" data-platform="mobile">
       <div class="app-icon"><img src="media/rekatsay/icon.png" alt="RekatSay"></div>
       <h3 class="app-name">RekatSay</h3>
       <p class="app-vision">
@@ -87,12 +103,12 @@
         <span class="lang-tr">Yayında</span><span class="lang-en">Active</span><span class="lang-ar">مباشر</span>
       </span>
     </a>
-    <a href="apps/date_counter.html" class="app-card">
+    <a href="app.html?id=date_counter" class="app-card" data-platform="desktop">
       <div class="app-icon"><img src="media/date-counter/icon.png" alt="Date Counter"></div>
       <h3 class="app-name">
-        <span class="lang-tr">Date Counter (Tarih &amp; Hedef Sayacı)</span>
-        <span class="lang-en">Date Counter (Date &amp; Goal Tracker)</span>
-        <span class="lang-ar">Date Counter (عداد التاريخ والأهداف)</span>
+        <span class="lang-tr">Date Counter<span class="app-name-sub" style="display:block; font-size:0.70em; font-weight:400; opacity:0.85; margin-top:2px;">(Tarih &amp; Hedef Sayacı)</span></span>
+        <span class="lang-en">Date Counter<span class="app-name-sub" style="display:block; font-size:0.70em; font-weight:400; opacity:0.85; margin-top:2px;">(Date &amp; Goal Tracker)</span></span>
+        <span class="lang-ar">Date Counter<span class="app-name-sub" style="display:block; font-size:0.70em; font-weight:400; opacity:0.85; margin-top:2px;">(عداد التاريخ والأهداف)</span></span>
       </h3>
       <p class="app-vision">
         <span class="lang-tr">Emeklilik, sınav ve özel hedeflerinizi masaüstünüzde ve görev çubuğunuzda canlı takip eden gelişmiş zaman sayacı.</span>
@@ -146,7 +162,7 @@
       </span>
     </a>
     <a href="apps/enyakin.html" class="app-card">
-      <div class="app-icon"><img src="img/EnYakinLogo.svg" alt="En Yakın"></div>
+      <div class="app-icon"><img src="media/enyakin/icon.png" alt="En Yakın"></div>
       <h3 class="app-name">
         <span class="lang-tr">En Yakın</span>
         <span class="lang-en">Nearest</span>
@@ -163,9 +179,14 @@
     </a>
   </div>
 
-  <!-- 3. PLANLAMA AŞAMASINDAKİ GELECEK PROJELER (2-3 AY) -->
-  <h2 class="category-title" id="upcoming" style="margin-top: 40px;">
-    <span class="lang-tr">Planlama Aşamasındaki Projeler (2-3 Ay)</span>
+  <!-- KATEGORİLER ARASI REKLAM ALANI (PLANLAMA ÖNCESİ) -->
+  <div class="infeed-ad-container">
+    <div class="ad-placeholder">Kategoriler Arası Reklam Alanı (In-Feed Banner 728x90)</div>
+  </div>
+
+  <!-- 3. PLANLAMA AŞAMASINDAKİ GELECEK PROJELER -->
+  <h2 class="category-title" id="upcoming">
+    <span class="lang-tr">Planlama Aşamasındaki Projeler</span>
     <span class="lang-en">Projects in Pipeline</span>
     <span class="lang-ar">مشاريع قيد التخطيط</span>
   </h2>
@@ -179,7 +200,7 @@
         <span class="lang-ar">نظام تدوين ملاحظات متقدم يجمع بين الصور والصوت والرسم والنصوص.</span>
       </p>
       <span class="app-status-badge planning">
-        <span class="lang-tr">Planlama (2-3 Ay)</span><span class="lang-en">Planning (2-3 mo)</span><span class="lang-ar">تخطيط</span>
+        <span class="lang-tr">Planlama</span><span class="lang-en">Planning</span><span class="lang-ar">تخطيط</span>
       </span>
     </div>
 
@@ -192,7 +213,7 @@
         <span class="lang-ar">مساعد عرض وتحرير المستندات لـ Word و Excel و PPT و PDF.</span>
       </p>
       <span class="app-status-badge planning">
-        <span class="lang-tr">Planlama (2-3 Ay)</span><span class="lang-en">Planning (2-3 mo)</span><span class="lang-ar">تخطيط</span>
+        <span class="lang-tr">Planlama</span><span class="lang-en">Planning</span><span class="lang-ar">تخطيط</span>
       </span>
     </div>
 
@@ -205,7 +226,7 @@
         <span class="lang-ar">مدير طباعة PDF للتخطيطات المخصصة متعددة الصفحات.</span>
       </p>
       <span class="app-status-badge planning">
-        <span class="lang-tr">Planlama (2-3 Ay)</span><span class="lang-en">Planning (2-3 mo)</span><span class="lang-ar">تخطيط</span>
+        <span class="lang-tr">Planlama</span><span class="lang-en">Planning</span><span class="lang-ar">تخطيط</span>
       </span>
     </div>
   </div>
@@ -226,5 +247,202 @@
 
 <footer class="site-footer"></footer>
 <script src="assets/js/layout.js"></script>
+
+<style>
+  .page-title {
+    font-size: 2.1rem !important;
+  }
+  .subtitle-notice {
+    max-width: 960px !important;
+    margin: 8px auto 20px auto !important;
+    text-align: center;
+  }
+  .notice-line-1 {
+    font-size: 0.80rem !important;
+    letter-spacing: 0 !important;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--text-muted, #64748b) !important;
+    white-space: nowrap;
+  }
+  @media (max-width: 860px) {
+    .page-title {
+      font-size: 1.55rem !important;
+    }
+    .notice-line-1 {
+      white-space: normal;
+      font-size: 0.78rem !important;
+    }
+  }
+  .app-filter-bar {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 8px !important;
+    margin: 16px auto 16px auto !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  @media (max-width: 850px) {
+    .app-filter-bar {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      text-align: center !important;
+      margin: 14px auto 14px auto !important;
+      width: 100% !important;
+    }
+  }
+  .app-filter-pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border: 1px solid var(--border-color, #cbd5e1);
+    background: var(--bg-surface, #f8fafc);
+    color: var(--text-main, #334155);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .app-filter-pill:hover,
+  .app-filter-pill.active {
+    background: var(--accent-primary, #2563eb);
+    color: #ffffff;
+    border-color: var(--accent-primary, #2563eb);
+  }
+</style>
+
+<script>
+  (function() {
+    var activeGrid = document.getElementById('activeAppsGrid');
+    if (!activeGrid) return;
+
+    var apiUrl = (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl) || 'https://msklabsdesk-backend.msklabs-org.workers.dev/api';
+    var appsEndpoint = apiUrl + '/v1/apps';
+    var allFetchedApps = [];
+    var currentFilter = 'all';
+
+    function formatAppTitleHtml(rawName) {
+      if (!rawName) return '';
+      var trimmed = String(rawName).trim();
+      var match = trimmed.match(/^(.+?)\s*[\(（](.+?)[\)）]$/);
+      if (match) {
+        var main = match[1].trim();
+        var sub = match[2].trim();
+        return main + '<span class="app-name-sub" style="display:block; font-size:0.70em; font-weight:400; opacity:0.85; margin-top:2px;">(' + sub + ')</span>';
+      }
+      return trimmed;
+    }
+
+    function renderApps(apps, filter) {
+      if (!apps || !apps.length) return;
+
+      var filtered = apps.filter(function(app) {
+        if (!filter || filter === 'all') return true;
+        var p = (app.platform || '').toLowerCase();
+        if (filter === 'mobile') return p === 'mobile' || p === 'android' || p === 'ios' || p === 'all';
+        if (filter === 'desktop') return p === 'desktop' || p === 'windows' || p === 'macos' || p === 'all';
+        if (filter === 'web') return p === 'web' || p === 'pwa' || p === 'all';
+        return true;
+      });
+
+      if (!filtered.length) {
+        activeGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 24px;">Bu filtreye uyan bir uygulama bulunamadı.</p>';
+        return;
+      }
+
+      var html = filtered.map(function(app) {
+        var rawIcon = (app.icon_url || '').trim();
+        var iconHtml = '📱';
+        if (rawIcon) {
+          if (rawIcon.length <= 8 && !rawIcon.includes('/') && !rawIcon.includes('.')) {
+            iconHtml = rawIcon;
+          } else {
+            var iconSrc = rawIcon.startsWith('http') ? rawIcon : ('/' + rawIcon.replace(/^\/+/, ''));
+            iconHtml = '<img src="' + iconSrc + '" alt="' + (app.name_tr || '') + '" onerror="this.onerror=null;this.parentNode.innerHTML=\'📱\';">';
+          }
+        }
+
+        var verText = app.latest_version ? 'v' + app.latest_version : 'v1.0.0';
+        var dlCountText = (app.downloads_count ? app.downloads_count + ' indirme' : '');
+
+        return `
+          <a href="app.html?id=${encodeURIComponent(app.app_id)}" class="app-card" data-platform="${app.platform || 'all'}">
+            <div class="app-icon">${iconHtml}</div>
+            <h3 class="app-name">
+              <span class="lang-tr">${formatAppTitleHtml(app.name_tr || '')}</span>
+              <span class="lang-en">${formatAppTitleHtml(app.name_en || app.name_tr || '')}</span>
+              <span class="lang-ar">${formatAppTitleHtml(app.name_ar || app.name_tr || '')}</span>
+            </h3>
+            <p class="app-vision">
+              <span class="lang-tr">${app.summary_tr || app.description_tr || ''}</span>
+              <span class="lang-en">${app.summary_en || app.description_en || app.summary_tr || app.description_tr || ''}</span>
+              <span class="lang-ar">${app.summary_ar || app.description_ar || app.summary_tr || app.description_tr || ''}</span>
+            </p>
+            <div class="app-card-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 6px;">
+              <span class="app-status-badge active">
+                <span class="lang-tr">Yayında</span>
+                <span class="lang-en">Active</span>
+                <span class="lang-ar">مباشر</span>
+              </span>
+              ${dlCountText ? '<span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 500;">' + dlCountText + '</span>' : ''}
+            </div>
+          </a>
+        `;
+      }).join('');
+
+      activeGrid.innerHTML = html;
+    }
+
+    function filterCards(filter) {
+      if (allFetchedApps && allFetchedApps.length > 0) {
+        renderApps(allFetchedApps, filter);
+        return;
+      }
+      var cards = activeGrid.querySelectorAll('.app-card');
+      cards.forEach(function(card) {
+        if (!filter || filter === 'all') {
+          card.style.display = '';
+          return;
+        }
+        var p = (card.getAttribute('data-platform') || '').toLowerCase();
+        var match = false;
+        if (filter === 'mobile') match = (p === 'mobile' || p === 'android' || p === 'ios' || p === 'all');
+        else if (filter === 'desktop') match = (p === 'desktop' || p === 'windows' || p === 'macos' || p === 'all');
+        else if (filter === 'web') match = (p === 'web' || p === 'pwa' || p === 'all');
+        card.style.display = match ? '' : 'none';
+      });
+    }
+
+    var filterBtns = document.querySelectorAll('.app-filter-pill');
+    filterBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        filterBtns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-filter') || 'all';
+        filterCards(currentFilter);
+      });
+    });
+
+    fetch(appsEndpoint)
+      .then(function(res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function(data) {
+        if (data && Array.isArray(data.apps) && data.apps.length > 0) {
+          allFetchedApps = data.apps.sort(function(a, b) {
+            return (a.display_order || 0) - (b.display_order || 0);
+          });
+          renderApps(allFetchedApps, currentFilter);
+        }
+      })
+      .catch(function(err) {
+        console.warn('[MSK Apps] Canlı veri yüklenemedi, varsayılan statik kartlar korundu:', err.message);
+      });
+  })();
+</script>
 </body>
 </html>

@@ -1,28 +1,59 @@
-/**
- * MSK Labs - Layout & Language/Theme Component Module
- * 
- * Policy:
- * 1. Tip 1 (Static Core Pages): Injects layout navigation, 2-Row Footer, language switcher, and dark theme toggle.
- * 2. Tip 2 (Dynamic Template Pages): Shared layout components for app showcase and blog templates.
- * 3. Active Link Highlighting: Pure CSS class toggle (.active-nav-link) on navigation anchors.
- * 4. Unified Language & Theme Module: Combines language buttons and theme toggle into a seamless header module.
- */
-
+// MSK Labs - Layout & Theme Module
 (function () {
-  // Path depth detection
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  if (!window.location.hash) {
+    window.scrollTo(0, 0);
+  }
+  // Path depth detection - Use root-relative path for web server hosting
   var pathname = window.location.pathname.replace(/\\/g, '/');
-  var isSubfolder = pathname.indexOf('/blog/') !== -1 || pathname.indexOf('/apps/') !== -1;
-  var basePath = isSubfolder ? '../' : './';
+  var basePath = '/';
   var pageName = pathname.substring(pathname.lastIndexOf('/') + 1) || 'index.html';
+
+  function isBlogRoute() {
+    var cur = (window.location.pathname || pathname || '').toLowerCase().replace(/\\/g, '/');
+    return cur.indexOf('/blog') !== -1 || cur.indexOf('blog.html') !== -1;
+  }
+
+  function getActiveBlogSection() {
+    var cur = (window.location.pathname || pathname || '').toLowerCase().replace(/\\/g, '/');
+    var parts = cur.split('/').filter(Boolean);
+    var bIdx = parts.indexOf('blog');
+    if (bIdx !== -1 && parts[bIdx + 1]) {
+      var seg = parts[bIdx + 1];
+      if (seg === 'guncel' || seg === 'news') return 'guncel';
+      if (seg === 'anilts' || seg === 'aniltilar' || seg === 'anilti' || seg === 'memoirs') return 'anilts';
+      if (seg === 'bizce' || seg === 'opinions') return 'bizce';
+      if (seg === 'vlog') return 'vlog';
+    }
+    try {
+      var q = new URLSearchParams(window.location.search);
+      var qt = (q.get('type') || q.get('cat') || '').toLowerCase();
+      if (qt === 'guncel' || qt === 'news') return 'guncel';
+      if (qt === 'anilts' || qt === 'aniltilar' || qt === 'anilti') return 'anilts';
+      if (qt === 'bizce') return 'bizce';
+      if (qt === 'vlog') return 'vlog';
+    } catch (_) {}
+    if (typeof window.currentSection === 'string' && window.currentSection) {
+      var s = window.currentSection.toLowerCase();
+      if (s === 'aniltilar' || s === 'anilti') return 'anilts';
+      return s;
+    }
+    if (window.currentPost && window.currentPost.type) {
+      var pt = String(window.currentPost.type).toLowerCase();
+      if (pt === 'aniltilar' || pt === 'anilti') return 'anilts';
+      return pt;
+    }
+    if (isBlogRoute()) return 'bizce';
+    return '';
+  }
 
   // Helper to resolve current page title with multi-language support
   function getPageTitleHTML() {
     var p = pageName.toLowerCase();
-    var bType = '';
-    if (p.indexOf('blog') !== -1) {
-      var bParams = new URLSearchParams(window.location.search);
-      bType = (bParams.get('type') || bParams.get('cat') || 'bizce').toLowerCase();
-    }
+    var cur = (window.location.pathname || pathname || '').toLowerCase().replace(/\\/g, '/');
+    var bType = isBlogRoute() ? getActiveBlogSection() : '';
 
     if (bType === 'anilts') {
       return '<span class="lang-tr">📖 ANILTILAR</span><span class="lang-en">📖 MEMOIRS</span><span class="lang-ar">📖 ذكريات</span>';
@@ -30,10 +61,12 @@
       return '<span class="lang-tr">📰 GÜNCEL</span><span class="lang-en">📰 NEWS</span><span class="lang-ar">📰 الأخبار</span>';
     } else if (bType === 'bizce' || p.indexOf('blog') !== -1) {
       return '<span class="lang-tr">✍️ BİZCE</span><span class="lang-en">✍️ OPINIONS</span><span class="lang-ar">✍️ رأينا</span>';
-    } else if (p === 'index.html' || p === '') {
+    } else if (p === 'index.html' || p === '' || cur === '/') {
       return '<span class="lang-tr">🏠 ANA SAYFA</span><span class="lang-en">🏠 HOME</span><span class="lang-ar">🏠 الرئيسية</span>';
     } else if (p.indexOf('apps') !== -1 || p.indexOf('app.html') !== -1 || pathname.indexOf('/apps/') !== -1) {
       return '<span class="lang-tr">📱 UYGULAMALARIMIZ</span><span class="lang-en">📱 OUR APPS</span><span class="lang-ar">📱 تطبيقاتنا</span>';
+    } else if (p.indexOf('vitrin') !== -1) {
+      return '<span class="lang-tr">📱 VİTRİN</span><span class="lang-en">📱 SHOWCASE</span><span class="lang-ar">📱 المعرض</span>';
     } else if (p.indexOf('about') !== -1) {
       return '<span class="lang-tr">ℹ️ HAKKIMIZDA</span><span class="lang-en">ℹ️ ABOUT US</span><span class="lang-ar">ℹ️ عن الشركة</span>';
     } else if (p.indexOf('destek') !== -1) {
@@ -46,12 +79,18 @@
       return '<span class="lang-tr">❓ SSS</span><span class="lang-en">❓ FAQ</span><span class="lang-ar">❓ الأسئلة الشائعة</span>';
     } else if (p.indexOf('privacy') !== -1) {
       return '<span class="lang-tr">🔒 GİZLİLİK</span><span class="lang-en">🔒 PRIVACY</span><span class="lang-ar">🔒 الخصوصية</span>';
+    } else if (p.indexOf('kvkk') !== -1) {
+      return '<span class="lang-tr">⚖️ KVKK</span><span class="lang-en">⚖️ DATA PROTECTION</span><span class="lang-ar">⚖️ حماية البيانات</span>';
+    } else if (p.indexOf('cookies') !== -1 || p.indexOf('cerez') !== -1) {
+      return '<span class="lang-tr">🍪 ÇEREZ POLİTİKASI</span><span class="lang-en">🍪 COOKIE POLICY</span><span class="lang-ar">🍪 سياسة الكوكيز</span>';
     } else if (p.indexOf('terms') !== -1) {
       return '<span class="lang-tr">📜 KULLANIM KOŞULLARI</span><span class="lang-en">📜 TERMS</span><span class="lang-ar">📜 شروط الخدمة</span>';
     } else if (p.indexOf('changelog') !== -1) {
       return '<span class="lang-tr">📝 DEĞİŞİKLİK GÜNLÜĞÜ</span><span class="lang-en">📝 CHANGELOG</span><span class="lang-ar">📝 سجل التغييرات</span>';
     } else if (p.indexOf('roadmap') !== -1) {
       return '<span class="lang-tr">🗺️ YOL HARİTASI</span><span class="lang-en">🗺️ ROADMAP</span><span class="lang-ar">🗺️ خريطة الطريق</span>';
+    } else if (p.indexOf('vitrin') !== -1) {
+      return '<span class="lang-tr">📱 VİTRİN</span><span class="lang-en">📱 SHOWCASE</span><span class="lang-ar">📱 المعرض</span>';
     }
     return '<span>MSK LABS</span>';
   }
@@ -102,15 +141,15 @@
         <span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span>
       </a>
       <span class="nav-divider">|</span>
-      <a href="${basePath}blog/blog.html?type=bizce">
+      <a href="${basePath}blog/bizce" data-nav="bizce">
         <span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span>
       </a>
       <span class="nav-divider">|</span>
-      <a href="${basePath}blog/blog.html?type=anilts">
+      <a href="${basePath}blog/anilts" data-nav="anilts">
         <span class="lang-tr">Anıltılar</span><span class="lang-en">Memoirs</span><span class="lang-ar">ذكريات</span>
       </a>
       <span class="nav-divider">|</span>
-      <a href="${basePath}blog/blog.html?type=guncel">
+      <a href="${basePath}blog/guncel" data-nav="guncel">
         <span class="lang-tr">Güncel</span><span class="lang-en">News</span><span class="lang-ar">الأخبار</span>
       </a>
       <span class="nav-divider">|</span>
@@ -133,9 +172,9 @@
 
     var mobileLinksHTML = `
       <a href="${basePath}index.html"><span class="lang-tr">🏠 Ana Sayfa</span><span class="lang-en">🏠 Home</span><span class="lang-ar">🏠 الرئيسية</span></a>
-      <a href="${basePath}blog/blog.html?type=bizce"><span class="lang-tr">✍️ Bizce</span><span class="lang-en">✍️ Bizce</span><span class="lang-ar">✍️ بيزجه</span></a>
-      <a href="${basePath}blog/blog.html?type=anilts"><span class="lang-tr">📖 Anıltılar</span><span class="lang-en">📖 Memoirs</span><span class="lang-ar">📖 ذكريات</span></a>
-      <a href="${basePath}blog/blog.html?type=guncel"><span class="lang-tr">📰 Güncel</span><span class="lang-en">📰 News</span><span class="lang-ar">📰 الأخبار</span></a>
+      <a href="${basePath}blog/bizce" data-nav="bizce"><span class="lang-tr">✍️ Bizce</span><span class="lang-en">✍️ Bizce</span><span class="lang-ar">✍️ بيزجه</span></a>
+      <a href="${basePath}blog/anilts" data-nav="anilts"><span class="lang-tr">📖 Anıltılar</span><span class="lang-en">📖 Memoirs</span><span class="lang-ar">📖 ذكريات</span></a>
+      <a href="${basePath}blog/guncel" data-nav="guncel"><span class="lang-tr">📰 Güncel</span><span class="lang-en">📰 News</span><span class="lang-ar">📰 الأخبار</span></a>
       <a href="${basePath}apps.html"><span class="lang-tr">📱 Uygulamalarımız</span><span class="lang-en">📱 Our Apps</span><span class="lang-ar">📱 تطبيقاتنا</span></a>
       <a href="${basePath}about.html"><span class="lang-tr">ℹ️ Hakkımızda</span><span class="lang-en">ℹ️ About Us</span><span class="lang-ar">ℹ️ عن الشركة</span></a>
       <a href="${basePath}destek.html"><span class="lang-tr">🎫 Destek &amp; Talep</span><span class="lang-en">🎫 Support</span><span class="lang-ar">🎫 الدعم والطلبات</span></a>
@@ -161,14 +200,38 @@
               <button onclick="setLang('ar')" data-lang="ar" title="العربية" class="lang-btn-arabic"><img src="${basePath}img/ElArabiye.svg" alt="العربية" class="arabic-btn-icon"></button>
               <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Gece Modu / Light Mode">🌙</button>
             </div>
-            <button type="button" class="hamburger-toggle-btn" id="hamburgerToggleBtn" aria-label="Menüyü Aç/Kapat" onclick="toggleMobileMenu()">
-              ☰
+            <div class="header-action-toggles">
+              <!-- Mobil Duyuru Butonu (Yalnızca <=768px ekranda hamburger yanında görünür) -->
+              <button id="mskAnnTriggerBtnMob" class="announcement-trigger-btn ann-trigger-mobile" style="display:none; position:relative; align-items:center; justify-content:center; background:transparent; border:none; outline:none; box-shadow:none; cursor:pointer; padding:0; margin:0; width:26px; height:26px; min-width:26px; min-height:26px; color:inherit;" title="Duyurular &amp; Kampanyalar" aria-label="Duyurular">
+                <svg class="ann-icon-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0;">
+                  <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+                  <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
+                  <path d="M8 6v8"/>
+                </svg>
+                <span class="msk-ann-badge" style="position:absolute; top:-5px; right:-7px; background:#ef4444; color:#fff; font-size:9px; font-weight:800; border-radius:10px; padding:1px 4px; line-height:1; display:none; pointer-events:none;">0</span>
+              </button>
+              <button type="button" class="hamburger-toggle-btn" id="hamburgerToggleBtn" aria-label="Menüyü Aç/Kapat" onclick="toggleMobileMenu()">
+                ☰
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="header-nav-row" style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%;">
+          <nav class="top-main-nav" style="width: 100%; text-align: center;">
+            ${navLinksHTML}
+          </nav>
+          <!-- Masaüstü Duyuru Butonu (İkinci satırda sağda tema ikonu hizasında, linkleri itelemez) -->
+          <div class="header-nav-announcement" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; z-index: 2;">
+            <button id="mskAnnTriggerBtnDesk" class="announcement-trigger-btn ann-trigger-desktop" style="display:none; position:relative; align-items:center; justify-content:center; background:transparent; border:none; outline:none; box-shadow:none; cursor:pointer; padding:0; margin:0; width:26px; height:26px; min-width:26px; min-height:26px; color:inherit;" title="Duyurular &amp; Kampanyalar" aria-label="Duyurular">
+              <svg class="ann-icon-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0;">
+                <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+                <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
+                <path d="M8 6v8"/>
+              </svg>
+              <span class="msk-ann-badge" id="mskAnnBadge" style="position:absolute; top:-5px; right:-7px; background:#ef4444; color:#fff; font-size:9px; font-weight:800; border-radius:10px; padding:1px 4px; line-height:1; display:none; pointer-events:none;">0</span>
             </button>
           </div>
         </div>
-        <nav class="top-main-nav">
-          ${navLinksHTML}
-        </nav>
       </div>
       <div class="mobile-drawer-menu" id="mobileDrawerMenu">
         ${mobileLinksHTML}
@@ -182,39 +245,50 @@
     });
   }
 
-  // 2. Safe 2-Row Footer Injector
+  // 2. Safe 2-Row Footer Injector (Autonomous & Self-Healing)
   function renderFooter() {
     var footerEl = document.querySelector('footer.site-footer') || document.getElementById('site-footer');
-    if (!footerEl) return;
+    if (!footerEl) {
+      footerEl = document.createElement('footer');
+      footerEl.className = 'site-footer';
+      footerEl.id = 'site-footer';
+      var layoutWrapper = document.querySelector('.layout-wrapper');
+      if (layoutWrapper && layoutWrapper.parentNode) {
+        layoutWrapper.parentNode.insertBefore(footerEl, layoutWrapper.nextSibling);
+      } else {
+        document.body.appendChild(footerEl);
+      }
+    }
 
-    function getLinkClass(keyword) {
+        function getLinkClass(keyword) {
+      if (isBlogRoute()) {
+        var sec = getActiveBlogSection();
+        if (keyword === sec) return ' active-nav-link';
+        return '';
+      }
       if (keyword === 'index' && (pageName === 'index.html' || pageName === '')) return ' active-nav-link';
       if (keyword !== 'index' && pageName.indexOf(keyword) !== -1) return ' active-nav-link';
-      // Blog sayfasında URL type parametresine göre footer aktif link vurgulama
-      if (pageName === 'blog.html') {
-        var bParams = new URLSearchParams(window.location.search);
-        var bType = (bParams.get('type') || bParams.get('cat') || 'bizce').toLowerCase();
-        if (keyword === bType) return ' active-nav-link';
-        if (!bParams.get('type') && !bParams.get('cat') && keyword === 'bizce') return ' active-nav-link';
-      }
       return '';
     }
 
     var footerHTML = `
       <div class="footer-links-row1" style="margin-bottom: 0.4rem; font-weight: 600;">
         <a href="${basePath}index.html" class="${getLinkClass('index')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a> |
-        <a href="${basePath}blog/blog.html?type=bizce" class="${getLinkClass('bizce')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a> |
-        <a href="${basePath}blog/blog.html?type=anilts" class="${getLinkClass('anilts')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Anıltılar</span><span class="lang-en">Memoirs</span><span class="lang-ar">ذكريات</span></a> |
-        <a href="${basePath}blog/blog.html?type=guncel" class="${getLinkClass('guncel')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Güncel</span><span class="lang-en">News</span><span class="lang-ar">الأخبار</span></a> |
+        <a href="${basePath}blog/bizce" class="${getLinkClass('bizce')}" data-nav="bizce" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a> |
+        <a href="${basePath}blog/anilts" class="${getLinkClass('anilts')}" data-nav="anilts" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Anıltılar</span><span class="lang-en">Memoirs</span><span class="lang-ar">ذكريات</span></a> |
+        <a href="${basePath}blog/guncel" class="${getLinkClass('guncel')}" data-nav="guncel" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Güncel</span><span class="lang-en">News</span><span class="lang-ar">الأخبار</span></a> |
         <a href="${basePath}apps.html" class="${getLinkClass('apps')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Uygulamalarımız</span><span class="lang-en">Our Apps</span><span class="lang-ar">تطبيقاتنا</span></a> |
         <a href="${basePath}about.html" class="${getLinkClass('about')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a> |
         <a href="${basePath}bizkimiz.html" class="${getLinkClass('bizkimiz')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Biz Kimiz</span><span class="lang-en">Who We Are</span><span class="lang-ar">من نحن</span></a> |
         <a href="${basePath}contact.html" class="${getLinkClass('contact')}" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a>
       </div>
       <div class="footer-links-row2" style="margin-bottom: 0.75rem; font-weight: 500; font-size: 0.8rem;">
+        <a href="${basePath}vitrin.html" class="${getLinkClass('vitrin')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Vitrin</span><span class="lang-en">Showcase</span><span class="lang-ar">المعرض</span></a> |
         <a href="${basePath}destek.html" class="${getLinkClass('destek')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a> |
         <a href="${basePath}faq.html" class="${getLinkClass('faq')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">SSS</span><span class="lang-en">FAQ</span><span class="lang-ar">الأسئلة الشائعة</span></a> |
         <a href="${basePath}privacy.html" class="${getLinkClass('privacy')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Gizlilik Politikası</span><span class="lang-en">Privacy Policy</span><span class="lang-ar">سياسة الخصوصية</span></a> |
+        <a href="${basePath}cookies.html" class="${getLinkClass('cookies')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Çerez Politikası</span><span class="lang-en">Cookie Policy</span><span class="lang-ar">سياسة الكوكيز</span></a> |
+        <a href="${basePath}kvkk.html" class="${getLinkClass('kvkk')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">KVKK</span><span class="lang-en">KVKK</span><span class="lang-ar">حماية البيانات</span></a> |
         <a href="${basePath}terms.html" class="${getLinkClass('terms')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Kullanım Koşulları</span><span class="lang-en">Terms of Service</span><span class="lang-ar">شروط الخدمة</span></a>
       </div>
       <p class="copyright-line" style="margin: 0; font-size: 0.85rem; color: #64748b;">
@@ -233,34 +307,42 @@
 
   // 3. Safe Active Link Highlighter & Nav Sync
   function highlightActiveTopNav() {
-    var navLinks = document.querySelectorAll('.top-main-nav a, .site-subnav a, .footer-links a, .footer-links-row1 a, .footer-links-row2 a');
-    var params = new URLSearchParams(window.location.search);
-    var typeParam = (params.get('type') || params.get('cat') || '').toLowerCase();
+    var navLinks = document.querySelectorAll('.top-main-nav a, .site-subnav a, .mobile-drawer-menu a, .footer-links a, .footer-links-row1 a, .footer-links-row2 a');
+    var isBlog = isBlogRoute();
+    var activeBlogSec = isBlog ? getActiveBlogSection() : '';
+    var curPage = pageName.toLowerCase();
+    var curPath = (window.location.pathname || pathname || '').toLowerCase().replace(/\\/g, '/');
 
     navLinks.forEach(function (link) {
       link.classList.remove('active-nav-link');
-      var href = link.getAttribute('href');
+      var href = (link.getAttribute('href') || '').toLowerCase();
+      var dataNav = (link.getAttribute('data-nav') || '').toLowerCase();
       if (!href) return;
 
       var isActive = false;
-      if (pageName === 'blog.html') {
-        if (typeParam === 'anilts' || typeParam === 'aniltilar' || typeParam === 'anilti') {
-          if (href.indexOf('type=anilts') !== -1 || href.indexOf('cat=anilts') !== -1) isActive = true;
-        } else if (typeParam === 'guncel') {
-          if (href.indexOf('type=guncel') !== -1 || href.indexOf('cat=guncel') !== -1) isActive = true;
-        } else {
-          if (href.indexOf('type=bizce') !== -1 || href.indexOf('cat=bizce') !== -1) isActive = true;
+      if (isBlog) {
+        if (activeBlogSec === 'anilts') {
+          if (dataNav === 'anilts' || href.indexOf('/blog/anilts') !== -1 || href.indexOf('type=anilts') !== -1 || href.indexOf('/blog/aniltilar') !== -1) isActive = true;
+        } else if (activeBlogSec === 'guncel') {
+          if (dataNav === 'guncel' || href.indexOf('/blog/guncel') !== -1 || href.indexOf('type=guncel') !== -1) isActive = true;
+        } else if (activeBlogSec === 'bizce') {
+          if (dataNav === 'bizce' || href.indexOf('/blog/bizce') !== -1 || href.indexOf('type=bizce') !== -1) isActive = true;
         }
-      } else if (pageName === 'index.html' || pageName === '') {
-        if (href.indexOf('index.html') !== -1 && href.indexOf('#apps') === -1) isActive = true;
+      } else if (curPage === 'index.html' || curPage === '' || curPath === '/') {
+        if (href.indexOf('index.html') !== -1 && href.indexOf('#') === -1) isActive = true;
       } else {
-        if (href.indexOf(pageName) !== -1) isActive = true;
+        if (curPage && href.indexOf(curPage) !== -1) isActive = true;
       }
 
       if (isActive) {
         link.classList.add('active-nav-link');
       }
     });
+
+    var titleEl = document.getElementById('stickyHeaderTitle');
+    if (titleEl) {
+      titleEl.innerHTML = getPageTitleHTML();
+    }
   }
 
   window.highlightActiveTopNav = highlightActiveTopNav;
@@ -329,18 +411,148 @@
     });
   }
 
+  // Centralized i18n Configuration Object
+  window.MSK_I18N_CONFIG = window.MSK_I18N_CONFIG || {
+    defaultLang: 'tr',
+    supportedLangs: {
+      tr: { code: 'tr', dir: 'ltr', name: 'Türkçe' },
+      en: { code: 'en', dir: 'ltr', name: 'English' },
+      ar: { code: 'ar', dir: 'rtl', name: 'العربية' }
+    }
+  };
+
+  // Centralized Dynamic SEO Metadata Sync (Title, Description, OpenGraph)
+  function syncSEOMetadata(currentLang) {
+    try {
+      var head = document.head || document.getElementsByTagName('head')[0];
+      if (!head) return;
+
+      var titleText = '';
+      var descText = '';
+
+      // 1. Read page title from stickyHeaderTitle multi-language spans
+      var titleContainer = document.getElementById('stickyHeaderTitle');
+      if (titleContainer) {
+        var activeSpan = titleContainer.querySelector('.lang-' + currentLang);
+        if (activeSpan && activeSpan.innerText) {
+          titleText = activeSpan.innerText.trim();
+          titleText = titleText.replace(/^[\u2000-\u3300\uD83C-\uDFFF\uDB40-\uDC00\u2600-\u27BF\uFE00-\uFE0F\u00A9\u00AE\u2122\u2139]+\s*/g, '').trim();
+        }
+      }
+
+      // 2. Read from App Showcase metadata if present (CURRENT_APP_DATA)
+      if (window.CURRENT_APP_DATA && window.CURRENT_APP_DATA.name && window.CURRENT_APP_DATA.name[currentLang]) {
+        var appName = window.CURRENT_APP_DATA.name[currentLang];
+        var appTagline = (window.CURRENT_APP_DATA.tagline && window.CURRENT_APP_DATA.tagline[currentLang]) ? window.CURRENT_APP_DATA.tagline[currentLang] : '';
+        titleText = appName + (appTagline ? ' — ' + appTagline : '');
+        if (window.CURRENT_APP_DATA.description && window.CURRENT_APP_DATA.description[currentLang]) {
+          descText = window.CURRENT_APP_DATA.description[currentLang];
+        }
+      }
+
+      // 3. Read from Blog Article metadata if active in window.currentPost
+      if (window.currentPost && window.currentPost[currentLang]) {
+        var pData = window.currentPost[currentLang];
+        if (pData.title) titleText = pData.title;
+        if (pData.summary) descText = pData.summary;
+      }
+
+      // Format final Title with brand suffix
+      if (titleText) {
+        if (titleText.indexOf('MSK Labs') === -1 && titleText.indexOf('MSKLabs') === -1) {
+          titleText = titleText + ' | MSK Labs';
+        }
+        document.title = titleText;
+
+        // Update og:title
+        var ogTitle = head.querySelector('meta[property="og:title"]');
+        if (!ogTitle) {
+          ogTitle = document.createElement('meta');
+          ogTitle.setAttribute('property', 'og:title');
+          head.appendChild(ogTitle);
+        }
+        ogTitle.setAttribute('content', titleText);
+      }
+
+      // Update meta name="description" & og:description
+      if (descText) {
+        var metaDesc = head.querySelector('meta[name="description"]');
+        if (!metaDesc) {
+          metaDesc = document.createElement('meta');
+          metaDesc.setAttribute('name', 'description');
+          head.appendChild(metaDesc);
+        }
+        metaDesc.setAttribute('content', descText);
+
+        var ogDesc = head.querySelector('meta[property="og:description"]');
+        if (!ogDesc) {
+          ogDesc = document.createElement('meta');
+          ogDesc.setAttribute('property', 'og:description');
+          head.appendChild(ogDesc);
+        }
+        ogDesc.setAttribute('content', descText);
+      }
+    } catch(e) {}
+  }
+
+  // Centralized Hreflang SEO Sync
+  function syncHreflangTags(currentLang) {
+    try {
+      var head = document.head || document.getElementsByTagName('head')[0];
+      if (!head) return;
+      var currentUrl = new URL(window.location.href);
+      var baseUrl = currentUrl.origin + currentUrl.pathname;
+      var config = window.MSK_I18N_CONFIG;
+      var supportedCodes = Object.keys(config.supportedLangs);
+
+      supportedCodes.forEach(function(code) {
+        var link = head.querySelector('link[rel="alternate"][hreflang="' + code + '"]');
+        if (!link) {
+          link = document.createElement('link');
+          link.setAttribute('rel', 'alternate');
+          link.setAttribute('hreflang', code);
+          head.appendChild(link);
+        }
+        var targetUrl = baseUrl + (code === config.defaultLang ? '' : '?lang=' + code);
+        link.setAttribute('href', targetUrl);
+      });
+
+      var defaultLink = head.querySelector('link[rel="alternate"][hreflang="x-default"]');
+      if (!defaultLink) {
+        defaultLink = document.createElement('link');
+        defaultLink.setAttribute('rel', 'alternate');
+        defaultLink.setAttribute('hreflang', 'x-default');
+        head.appendChild(defaultLink);
+      }
+      defaultLink.setAttribute('href', baseUrl);
+    } catch(e) {}
+  }
+
   // Global Language & RTL Switcher
   window.setLang = function(lang, saveToStorage) {
-    if (!lang) lang = 'tr';
+    var config = window.MSK_I18N_CONFIG;
+    if (!lang || !config.supportedLangs[lang]) {
+      lang = config.defaultLang;
+    }
+
     if (saveToStorage !== false) {
       try { localStorage.setItem('user_lang', lang); } catch(e) {}
     }
     
+    var langInfo = config.supportedLangs[lang] || config.supportedLangs[config.defaultLang];
+    var direction = langInfo.dir || 'ltr';
+
     document.documentElement.setAttribute('lang', lang);
-    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    document.documentElement.setAttribute('dir', direction);
     
     if (document.body) {
-      document.body.classList.remove('lang-tr', 'lang-en', 'lang-ar');
+      // Dynamic cleanup of all previous lang-* classes
+      var existingClasses = Array.from(document.body.classList);
+      existingClasses.forEach(function(cls) {
+        if (cls.indexOf('lang-') === 0) {
+          document.body.classList.remove(cls);
+        }
+      });
       document.body.classList.add('lang-' + lang);
     }
 
@@ -364,6 +576,12 @@
     var currentTheme = document.documentElement.getAttribute('data-theme') || getSavedTheme();
     updateThemeToggleBtn(currentTheme);
 
+    // Sync hreflang link tags for SEO
+    syncHreflangTags(lang);
+
+    // Sync dynamic SEO Title, Description, and OpenGraph metadata
+    syncSEOMetadata(lang);
+
     try {
       window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: lang } }));
     } catch(e) {}
@@ -379,10 +597,10 @@
         
         var queryParts = urlPathAndQuery.split('?');
         var path = queryParts[0];
-        var queryStr = queryParts[1] || '';
+
         
-        var params = new URLSearchParams(queryStr);
-        if (lang !== 'tr') {
+        var params = new URLSearchParams(queryParts[1] || '');
+        if (lang !== config.defaultLang) {
           params.set('lang', lang);
         } else {
           params.delete('lang');
@@ -392,15 +610,15 @@
         a.setAttribute('href', path + (newQuery ? '?' + newQuery : '') + hash);
       }
     });
+
+    if (typeof window.syncAnnouncementPosition === 'function') {
+      window.syncAnnouncementPosition();
+    }
   };
 
-  // Dynamic HTML lang and RTL attribute sync
-  // Priority order:
-  // 1. URL Parameter (?lang=) -> URL-based session override (does not overwrite user's saved preference)
-  // 2. Explicit User Preference (localStorage 'user_lang') -> Saved when user clicks language button
-  // 3. Browser / System Language (navigator.language) -> Automatically detects tr/ar/en
-  // 4. Default Fallback ('tr')
+  // Dynamic HTML lang and RTL attribute sync (URL -> localStorage -> navigator -> fallback)
   function syncLangAttributes() {
+    var config = window.MSK_I18N_CONFIG;
     var activeLang = null;
     var saveToStorage = true;
     try {
@@ -417,23 +635,20 @@
     if (!activeLang) {
       try {
         var sysLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
-        if (sysLang.indexOf('tr') === 0) {
-          activeLang = 'tr';
-        } else if (sysLang.indexOf('ar') === 0) {
-          activeLang = 'ar';
-        } else if (sysLang.indexOf('en') === 0) {
-          activeLang = 'en';
-        } else {
-          activeLang = 'tr';
+        var supportedCodes = Object.keys(config.supportedLangs);
+        for (var i = 0; i < supportedCodes.length; i++) {
+          var code = supportedCodes[i];
+          if (sysLang.indexOf(code) === 0) {
+            activeLang = code;
+            break;
+          }
         }
-      } catch(e) {
-        activeLang = 'tr';
-      }
+      } catch(e) {}
       saveToStorage = false;
     }
 
-    if (['tr', 'en', 'ar'].indexOf(activeLang) === -1) {
-      activeLang = 'tr';
+    if (!activeLang || !config.supportedLangs[activeLang]) {
+      activeLang = config.defaultLang;
     }
 
     window.setLang(activeLang, saveToStorage);
@@ -443,19 +658,95 @@
   var preTheme = getSavedTheme();
   document.documentElement.setAttribute('data-theme', preTheme);
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () {
-      initTheme();
-      renderHeader();
-      renderFooter();
-      highlightActiveTopNav();
-      syncLangAttributes();
-    });
-  } else {
+  // Dynamic AdSense Loader Injection
+  function injectAdsLoader() {
+    try {
+      if (document.querySelector('script[data-msk-ads]')) return;
+      var s = document.createElement('script');
+      s.src = basePath + 'assets/js/ads-loader.js';
+      s.defer = true;
+      s.setAttribute('data-msk-ads', 'true');
+      (document.head || document.documentElement).appendChild(s);
+      if (!document.querySelector('script[data-msk-pages]')) {
+        var p = document.createElement('script');
+        p.src = basePath + 'assets/js/page-loader.js';
+        p.defer = true;
+        p.setAttribute('data-msk-pages', 'true');
+        (document.head || document.documentElement).appendChild(p);
+      }
+
+    } catch (_) {}
+  }
+
+  function injectAnnouncementLoader() {
+    try {
+      if (document.querySelector('script[data-msk-announcement]')) return;
+      var a = document.createElement('script');
+      a.src = basePath + 'assets/js/announcement-loader.js';
+      a.defer = true;
+      a.setAttribute('data-msk-announcement', 'true');
+      (document.head || document.documentElement).appendChild(a);
+    } catch (_) {}
+  }
+
+  function syncAnnouncementPosition() {
+    var themeBtn = document.getElementById('themeToggleBtn');
+    var annContainer = document.querySelector('.header-nav-announcement');
+    var navRow = document.querySelector('.header-nav-row');
+    if (!themeBtn || !annContainer || !navRow) return;
+
+    if (window.innerWidth > 768) {
+      var themeRect = themeBtn.getBoundingClientRect();
+      var navRect = navRow.getBoundingClientRect();
+      var isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+
+      annContainer.style.width = Math.round(themeRect.width) + 'px';
+      annContainer.style.justifyContent = 'center';
+
+      if (isRTL) {
+        var leftOffset = Math.round(themeRect.left - navRect.left);
+        annContainer.style.left = leftOffset + 'px';
+        annContainer.style.right = 'auto';
+      } else {
+        var rightOffset = Math.round(navRect.right - themeRect.right);
+        annContainer.style.right = rightOffset + 'px';
+        annContainer.style.left = 'auto';
+      }
+    } else {
+      annContainer.style.right = '';
+      annContainer.style.left = '';
+      annContainer.style.width = '';
+    }
+  }
+  window.syncAnnouncementPosition = syncAnnouncementPosition;
+  window.addEventListener('resize', syncAnnouncementPosition);
+
+  function injectCookieConsent() {
+    try {
+      if (document.querySelector("script[data-msk-cookie]")) return;
+      var s = document.createElement("script");
+      s.src = basePath + "assets/js/cookie-consent.js";
+      s.defer = true;
+      s.setAttribute("data-msk-cookie", "true");
+      (document.head || document.documentElement).appendChild(s);
+    } catch (_) {}
+  }
+
+  function bootLayout() {
     initTheme();
     renderHeader();
     renderFooter();
     highlightActiveTopNav();
     syncLangAttributes();
+    injectAdsLoader();
+    injectAnnouncementLoader();
+    injectCookieConsent();
+    syncAnnouncementPosition();
+    setTimeout(syncAnnouncementPosition, 100);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootLayout);
+  } else {
+    bootLayout();
   }
 })();

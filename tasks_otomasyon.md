@@ -1,13 +1,19 @@
 # Bismillahirrahmânirrâhîm
 
-> 📘 **Detaylı Entegrasyon, Google E-Tablo Veri Mimarisi ve Alınan Kararlar:**  
-> Lütfen tam rehber için [ISTISARE_VE_KARARLAR.md](file:///d:/Code/mskaymaz/webMSKLabs/ISTISARE_VE_KARARLAR.md) dokümanını inceleyiniz.  
-> *English:* For complete integration details, Google Sheets data schema, and technical guidelines, see [ISTISARE_VE_KARARLAR.md](file:///d:/Code/mskaymaz/webMSKLabs/ISTISARE_VE_KARARLAR.md).
+> ⚠️ **[HISTORICAL / SUPERSEDED DOCUMENT]**  
+> **ÖNEMLİ UYARI:** Bu doküman, MSK Labs'in ilk otomasyon aşamasında (Eylül 2026) hazırlanmış tarihsel otomasyon yol haritasıdır.  
+> Aşağıdaki eski mimari kararlar güncel **`MSKLabsDesk/tasks.md`** canlı sisteminde **ARTIK AKTİF DEĞİLDİR**:
+> 1. **Admin PIN 175:** İstemci tarafında PIN tutulması güvenlik gerekçesiyle kaldırılmış, yerini Cloudflare Workers Edge JWT Auth sistemine bırakmıştır.
+> 2. **Telegram Bot:** Canlı bildirim/destek altyapısında Telegram botu yerine Resend E-posta API ve VAPID Web Push kullanılmaktadır.
+> 3. **Google Sheets Veritabanı:** Google Apps Script (`google_sheet_setup.gs`) ve E-Tablo veritabanı canlı sistemde aktif değildir; tüm dinamik veriler Cloudflare D1 (SQLite Edge DB) üzerinde saklanmaktadır.
+> 4. **Client-side Authentication:** İstemci bazlı oturum doğrulama yaklaşımı yerine sunucu taraflı JWT/Workers yetkilendirmesi esastır.
+> 
+> *Bu belge silinmemiş olup, projenin geçmiş otomasyon evrimini belgelemek amacıyla tarihçe (historical log) olarak saklanmaktadır.*
 
-# MSK Labs 20+ Uygulama Merkezi Otomasyon Yol Haritası & İstemci Sözleşmesi (tasks_otomasyon.md)
-# MSK Labs 20+ Applications Automation Roadmap & Client Contract Specification
+# MSK Labs 20+ Uygulama Merkezi Otomasyon Yol Haritası & İstemci Sözleşmesi (tasks_otomasyon.md) [HISTORICAL / SUPERSEDED]
+# MSK Labs 20+ Applications Automation Roadmap & Client Contract Specification [HISTORICAL / SUPERSEDED]
 
-Bu dosya, hem **msklabs.org merkezi web altyapısını** hem de **20+ Mobil Uygulamanın entegrasyon standartlarını** tanımlayan ana sözleşmedir (Master API & Client Specification). 1 kişi tarafından yönetilen tüm uygulamalar (Flutter, Kotlin, Swift, React Native vb.) görsel Google E-Tablo paneli ve bu dokümandaki URL yapılarını birebir uygulayacaktır.  
+Bu dosya, hem **msklabs.org merkezi web altyapısını** hem de **20+ Mobil Uygulamanın entegrasyon standartlarını** tanımlayan eski sözleşmedir.  
 *English:* This master document defines integration standards for both the **msklabs.org web infrastructure** and **20+ Mobile Applications**. All client apps (Flutter, Kotlin, Swift, React Native, etc.) managed by a single developer must strictly consume the endpoints and parameter schemas defined below.
 
 ---
@@ -188,3 +194,8 @@ Tüm web ve mobil içerikler tek bir Google E-Tablo üzerinden kod yazmadan gör
 
 ### 📌 GELECEK OTURUM NOTU / NEXT SESSION NOTE
 - [ ] **Gözden Geçirme & İnceleme:** Blog sayfası altyapısı ve mimarisi tamamlandı. Ana sayfa (index.html) ile blog yapısının (log/blog.html) görsel, yapısal ve estetik bütünlüğü detaylı bir şekilde gözden geçirilecek ve ince ayarlar yapılacak. / Review & Refine: Blog architecture complete. Main page and blog UI will be visually and structurally reviewed and refined in the next session.
+
+#### Adım 21: CI/CD Quality Gates & Node.js 22 Güncellemesi (21.10.2026 - 15:00)
+- [x] 21.1 `.github/workflows/ci.yml` ve `d1_backup.yml` iş akışlarında Node.js sürümü 20'den 22'ye güncellendi (Node 20 deprecation ve `node:sqlite` uyumsuzluğu giderildi).
+- [x] 21.2 `tests/data003.test.ts` testi CI ortamı için `.wrangler/state` klasörünü otomatik oluşturan koruma mantığıyla güçlendirildi.
+- [x] 21.3 Yerel test ortamında tüm 5 Quality Gates (TypeScript, Satır Limiti, i18n, Vitest 604 test, Vite Build) başarıyla doğrulandı.

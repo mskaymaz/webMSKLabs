@@ -1,29 +1,188 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSKLabs.org - İletişim</title>
-    <meta name="description" content="MSK Labs iletişim bilgileri, e-posta adresi ve geri bildirim kanalları.">
-    <script>!function(){var t=localStorage.getItem("user_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"===t&&document.documentElement.setAttribute("data-theme","dark")}()</script>
-    <link rel="canonical" href="https://msklabs.org/contact.html">
-    <meta property="og:title" content="İletişim | MSK Labs">
-    <meta property="og:description" content="MSK Labs iletişim bilgileri, e-posta adresi ve geri bildirim kanalları.">
-    <meta property="og:url" content="https://msklabs.org/contact.html">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://msklabs.org/img/MSKLabsLogo.svg">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/global.css?v=26">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İletişim &amp; Destek Kanalları | MSK Labs</title>
+  <meta name="description" content="MSK Labs kurumsal iletişim kanalları, bilet takip numaralı teknik destek masası, GitHub deposu ve veri koruma irtibat bilgileri.">
+  <script>!function(){var t=localStorage.getItem("user_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"===t&&document.documentElement.setAttribute("data-theme","dark")}()</script>
+  <link rel="canonical" href="https://msklabs.org/contact.html">
+  <meta property="og:title" content="İletişim &amp; Destek Kanalları | MSK Labs">
+  <meta property="og:description" content="MSK Labs bilet takip numaralı destek masası, kurumsal e-posta kanalları ve resmi irtibat bilgileri.">
+  <meta property="og:url" content="https://msklabs.org/contact.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://msklabs.org/img/MSKLabsLogo.svg">
+  <meta name="twitter:card" content="summary_large_image">
 
-    <!-- MSK Labs Favicon & Kısayol İkonları -->
-    <link rel="icon" type="image/png" href="img/MSKLabs_favicon.png">
-    <link rel="shortcut icon" href="img/MSKLabs_favicon.png" type="image/x-icon">
-    <link rel="apple-touch-icon" href="img/MSKLabs_favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/global.css?v=31">
+
+  <link rel="icon" type="image/png" href="img/MSKLabs_favicon.png">
+  <link rel="shortcut icon" href="img/MSKLabs_favicon.png" type="image/x-icon">
+  <link rel="apple-touch-icon" href="img/MSKLabs_favicon.png">
+
   <script src="assets/js/config.js"></script>
   <script src="assets/js/analytics.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "İletişim & Destek Kanalları | MSK Labs",
+    "url": "https://msklabs.org/contact.html",
+    "description": "MSK Labs destek, geri bildirim ve kurumsal iş birliği iletişim kanalları.",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "MSK Labs",
+      "url": "https://msklabs.org",
+      "logo": "https://msklabs.org/img/MSKLabsLogo.svg",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "email": "destek@msklabs.org",
+          "contactType": "technical support",
+          "availableLanguage": ["Turkish", "English", "Arabic"]
+        },
+        {
+          "@type": "ContactPoint",
+          "email": "iletisim@msklabs.org",
+          "contactType": "general inquiries",
+          "availableLanguage": ["Turkish", "English", "Arabic"]
+        },
+        {
+          "@type": "ContactPoint",
+          "email": "kvkk@msklabs.org",
+          "contactType": "data protection",
+          "availableLanguage": ["Turkish", "English", "Arabic"]
+        }
+      ]
+    }
+  }
+  </script>
+
+  <style>
+    /* 2pt Küçültülmüş Tipografi ve Kurumsal Kart Düzeni */
+    .contact-intro-card {
+      background: var(--bg-card, #ffffff);
+      border: 1px solid var(--border-color, #cbd5e1);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 22px;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--text-main, #334155);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .contact-card {
+      background: var(--bg-card, #ffffff);
+      border: 1px solid var(--border-color, #cbd5e1);
+      border-radius: 14px;
+      padding: 18px 18px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      box-sizing: border-box;
+    }
+    .contact-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+      border-color: var(--primary-color, #0284c7);
+    }
+    .contact-card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+    .contact-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main, #0f172a);
+      margin: 0 0 6px 0;
+    }
+    .contact-card-desc {
+      font-size: 0.86rem;
+      color: var(--text-muted, #64748b);
+      line-height: 1.60;
+      margin: 0 0 14px 0;
+      flex-grow: 1;
+    }
+    .contact-card-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 0.86rem;
+      color: var(--primary-color, #0284c7);
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .contact-card-action:hover {
+      text-decoration: underline;
+    }
+    .contact-card-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: var(--primary-color, #0284c7);
+      color: #ffffff !important;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.84rem;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+      margin-top: auto;
+    }
+    .contact-card-btn:hover {
+      opacity: 0.92;
+    }
+    .contact-cta-box {
+      background: rgba(2, 132, 199, 0.05);
+      border: 1px solid rgba(2, 132, 199, 0.2);
+      border-radius: 14px;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 10px;
+      margin-bottom: 24px;
+    }
+    .contact-cta-text h3 {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--primary-color, #0284c7);
+      margin: 0 0 4px 0;
+    }
+    .contact-cta-text p {
+      font-size: 0.86rem;
+      color: var(--text-muted, #475569);
+      margin: 0;
+      line-height: 1.55;
+    }
+    .legal-footer-meta {
+      margin-top: 24px;
+      padding: 14px 18px;
+      background: var(--bg-hover, #f8fafc);
+      border: 1px solid var(--border-color, #e2e8f0);
+      border-radius: 10px;
+      font-size: 0.82rem;
+      color: var(--text-muted, #64748b);
+      line-height: 1.55;
+    }
+    .legal-footer-meta strong {
+      color: var(--text-main, #0f172a);
+    }
+  </style>
 </head>
 <body class="lang-tr">
 
@@ -35,53 +194,188 @@
     <div class="ad-placeholder">Masaüstü Sol Reklam<br>(120x300)</div>
   </aside>
 
-  <div class="portfolio-container">
+  <main class="portfolio-container">
 
     <h1 class="page-title">
-      <span class="lang-tr">İletişim</span>
-      <span class="lang-en">Contact Us</span>
-      <span class="lang-ar">الاتصال بنا</span>
+      <span class="lang-tr">İletişim &amp; Destek Kanalları</span>
+      <span class="lang-en">Contact &amp; Support Channels</span>
+      <span class="lang-ar">قنوات الاتصال والدعم</span>
     </h1>
 
-    <div class="static-page-card">
+    <!-- KURUMSAL GİRİŞ BİLGİLENDİRMESİ -->
+    <div class="contact-intro-card" data-static-locked="true">
       <div class="lang-tr">
-        <h2>Bize Ulaşın</h2><div style="background:rgba(2,132,199,0.08); border-left:4px solid #0284c7; padding:16px; border-radius:8px; margin-bottom:20px;"><strong style="color:#0284c7;">💡 Uygulama Hata & Özellik Talebi İçin:</strong><p style="margin:6px 0 0 0; font-size:0.95rem;">Uygulamalarımızla ilgili doğrudan bilet numarası alarak hızlı geri bildirim göndermek için <a href="destek.html" style="color:#0284c7; font-weight:700; text-decoration:underline;">Destek & Talep Sayfamızı</a> kullanabilirsiniz.</p></div>
-        <p>Uygulamalarımız hakkında görüş, öneri, hata bildirimi veya iş birliği talepleriniz için doğrudan e-posta adresimiz üzerinden bizimle iletişime geçebilirsiniz.</p>
-        
-        <h2>E-Posta Adresimiz</h2>
-        <p style="font-size:1.1rem; font-weight:600;">
-          ✉️ E-posta: <a href="mailto:msklabs.org@gmail.com" class="contact-email-link" style="color:#38bdf8;">msklabs.org@gmail.com</a>
-        </p>
-
-        <h2>Geri Bildirim ve Destek</h2>
-        <p>Tüm e-postalarınız ve geri bildirimleriniz dikkatle incelenmekte ve uygulamalarımızın gelişimine doğrudan katkı sağlamaktadır. En kısa sürede size dönüş yapmaktan memnuniyet duyarız.</p>
+        MSK Labs; masaüstü, mobil ve web platformlarında bağımsız, reklamsız ve kullanıcı odaklı yazılım çözümleri üretir. İletişim süreçlerimizin omurgasını; şeffaf, kayıt altına alınabilir ve bilet takip numaralı <strong>Destek &amp; Talep Masamız</strong> oluşturmaktadır. Uygulama desteği, hata bildirimi, kurumsal iş birliği veya veri gizliliği talepleriniz için aşağıdaki doğrudan kanallarımızdan bize ulaşabilirsiniz.
       </div>
-
       <div class="lang-en">
-        <h2>Get in Touch</h2>
-        <p>Feel free to send your feedback, inquiries, bug reports, or collaboration requests directly via email.</p>
-        
-        <h2>Official Email</h2>
-        <p style="font-size:1.1rem; font-weight:600;">
-          ✉️ Email: <a href="mailto:msklabs.org@gmail.com" class="contact-email-link" style="color:#38bdf8;">msklabs.org@gmail.com</a>
-        </p>
-
-        <h2>Feedback & Support</h2>
-        <p>We review every message carefully and appreciate your support in improving MSK Labs applications.</p>
+        MSK Labs engineers independent, focused software solutions across desktop, mobile, and web. The backbone of our communications is our transparent and ticketed <strong>Support &amp; Feedback Desk</strong>. For application assistance, bug reports, corporate inquiries, or data privacy requests, you can reach us via our official direct channels below.
       </div>
-
       <div class="lang-ar">
-        <h2>تواصل معنا</h2>
-        <p>إذا كانت لديك أي أسئلة أو اقتراحات، يرجى التواصل معنا عبر البريد الإلكتروني:</p>
-        <p style="font-size:1.1rem; font-weight:600;">
-          ✉️ البريد الإلكتروني: <a href="mailto:msklabs.org@gmail.com" style="color:#38bdf8;">msklabs.org@gmail.com</a>
-        </p>
+        تقوم MSK Labs بهندسة منظومة برمجية مستقلة عبر المنصات المكتبية والهواتف والويب. يشكل <strong>مكتب الدعم والطلبات المعتمد على التذاكر</strong> الركيزة الأساسية لاتصالاتنا. للحصول على الدعم الفني أو الاستفسارات المؤسسية، يمكنك التواصل معنا عبر قنواتنا المباشرة أدناه.
       </div>
     </div>
 
-    
+    <!-- 6 KURUMSAL İLETİŞİM KARTI -->
+    <div class="contact-grid">
 
-  </div>
+      <!-- 1. Canlı Destek Masası & Bilet Sistemi -->
+      <div class="contact-card">
+        <div class="contact-card-icon">🎫</div>
+        <h2 class="contact-card-title">
+          <span class="lang-tr">Destek &amp; Talep Masası</span>
+          <span class="lang-en">Support &amp; Feedback Desk</span>
+          <span class="lang-ar">مكتب الدعم الفني والطلبات</span>
+        </h2>
+        <p class="contact-card-desc">
+          <span class="lang-tr">Uygulamalarımızla ilgili hata bildirimi veya özellik talebi oluşturup takip numarasıyla durumunu anlık sorgulayabilirsiniz.</span>
+          <span class="lang-en">Submit bug reports or feature requests and monitor progress with your unique ticket tracking number.</span>
+          <span class="lang-ar">إرسال تقارير الأخطاء أو طلبات الميزات ومتابعة الحالة عبر رقم التذكرة الخاص بك.</span>
+        </p>
+        <a href="destek.html" class="contact-card-btn">
+          <span>🎫</span>
+          <span class="lang-tr">Destek Masasına Git</span>
+          <span class="lang-en">Go to Support Desk</span>
+          <span class="lang-ar">الذهاب لمكتب الدعم</span>
+        </a>
+      </div>
+
+      <!-- 2. Yetkili Kurumsal E-Posta Kanalları -->
+      <div class="contact-card">
+        <div class="contact-card-icon">✉️</div>
+        <h2 class="contact-card-title">
+          <span class="lang-tr">Kurumsal E-Posta</span>
+          <span class="lang-en">Official Email Desks</span>
+          <span class="lang-ar">البريد الإلكتروني الرسمي</span>
+        </h2>
+        <p class="contact-card-desc">
+          <span class="lang-tr">Konusuna göre özelleştirilmiş doğrudan kurumsal masalarımız üzerinden bizimle yazışabilirsiniz.</span>
+          <span class="lang-en">Direct corporate desks designated for specialized correspondence and inquiries.</span>
+          <span class="lang-ar">مكاتبنا المخصصة للمراسلات الرسمية حسب موضوع الاستفسار.</span>
+        </p>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <a href="mailto:destek@msklabs.org" class="contact-card-action">
+            <span>📩</span> <span>destek@msklabs.org</span>
+          </a>
+          <a href="mailto:iletisim@msklabs.org" class="contact-card-action">
+            <span>📮</span> <span>iletisim@msklabs.org</span>
+          </a>
+          <a href="mailto:kvkk@msklabs.org" class="contact-card-action">
+            <span>🔒</span> <span>kvkk@msklabs.org</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 3. SSS ve Bilgi Bankası -->
+      <div class="contact-card">
+        <div class="contact-card-icon">❓</div>
+        <h2 class="contact-card-title">
+          <span class="lang-tr">Sıkça Sorulan Sorular</span>
+          <span class="lang-en">Knowledge Base &amp; FAQ</span>
+          <span class="lang-ar">الأسئلة الشائعة</span>
+        </h2>
+        <p class="contact-card-desc">
+          <span class="lang-tr">Uygulama kurulumları, çevrimdışı kullanım, yerel veri saklama ve güvenlik konularında hazır yanıt arşivi.</span>
+          <span class="lang-en">Instant answers covering installations, offline execution, local storage, and security.</span>
+          <span class="lang-ar">إجابات فورية حول إعداد التطبيقات والعمل دون اتصال وأمان البيانات المحلية.</span>
+        </p>
+        <a href="faq.html" class="contact-card-btn" style="background: transparent; color: var(--text-main, #0f172a) !important; border: 1px solid var(--border-color, #cbd5e1);">
+          <span>🔍</span>
+          <span class="lang-tr">Soruları İncele</span>
+          <span class="lang-en">Browse FAQ</span>
+          <span class="lang-ar">استعراض الأسئلة</span>
+        </a>
+      </div>
+
+      <!-- 4. Açık Kaynak & GitHub -->
+      <div class="contact-card">
+        <div class="contact-card-icon">🐙</div>
+        <h2 class="contact-card-title">
+          <span class="lang-tr">Geliştirici &amp; GitHub</span>
+          <span class="lang-en">Developer &amp; GitHub</span>
+          <span class="lang-ar">المطور و GitHub</span>
+        </h2>
+        <p class="contact-card-desc">
+          <span class="lang-tr">Açık kaynak depolarımız, sürüm değişiklikleri ve teknik hata takibi (Issue Tracker) için GitHub merkezimiz.</span>
+          <span class="lang-en">GitHub hub for open-source repositories, release logs, and public issue tracking.</span>
+          <span class="lang-ar">مركز GitHub للمستودعات مفتوحة المصدر وسجلات الإصدارات وتتبع المشكلات.</span>
+        </p>
+        <a href="https://github.com/mskaymaz" target="_blank" rel="noopener noreferrer" class="contact-card-action" style="margin-top:auto;">
+          <span>🔗</span> <span>github.com/mskaymaz</span>
+        </a>
+      </div>
+
+      <!-- 5. Çalışma Esasları & Yanıt Süreci -->
+      <div class="contact-card">
+        <div class="contact-card-icon">⏱️</div>
+        <h2 class="contact-card-title">
+          <span class="lang-tr">Çalışma Esasları</span>
+          <span class="lang-en">Operating Hours</span>
+          <span class="lang-ar">ساعات العمل الرسمية</span>
+        </h2>
+        <p class="contact-card-desc">
+          <span class="lang-tr">Hafta içi <strong>09:00 – 18:00</strong> arasında iletilen destek talepleri öncelikle ele alınır. Hafta sonu oluşturulan biletler takip eden ilk iş gününde işleme konur.</span>
+          <span class="lang-en">Weekdays <strong>09:00 – 18:00 (UTC+3)</strong>. Weekend tickets are queued and processed on the following business day.</span>
+          <span class="lang-ar">أيام الأسبوع من <strong>09:00 إلى 18:00</strong>. تُدرج تذاكر عطلة نهاية الأسبوع وتُعالج في أول يوم عمل تالٍ.</span>
+        </p>
+        <div style="font-size:0.82rem; color:var(--text-muted, #64748b); margin-top:auto;">
+          <span class="lang-tr">⚖️ Nesnel ve şeffaf çözüm süreci.</span>
+          <span class="lang-en">⚖️ Objective &amp; transparent resolutions.</span>
+          <span class="lang-ar">⚖️ عملية حل موضوعية وشفافة.</span>
+        </div>
+      </div>
+
+      <!-- 6. Güvenlik & Doğrulama -->
+      <div class="contact-card">
+        <div class="contact-card-icon">🛡️</div>
+        <h2 class="contact-card-title">
+          <span class="lang-tr">Güvenlik Doğrulaması</span>
+          <span class="lang-en">Security Verification</span>
+          <span class="lang-ar">التحقق الأمني المعتمد</span>
+        </h2>
+        <p class="contact-card-desc">
+          <span class="lang-tr">MSK Labs adına tüm resmi yazışmalar yalnızca <code>@msklabs.org</code> adreslerinden yapılır. Asla telefonla veya e-postayla şifre veya kart bilgisi istenmez.</span>
+          <span class="lang-en">Official correspondence occurs strictly via <code>@msklabs.org</code>. We never solicit passwords or payment cards.</span>
+          <span class="lang-ar">تتم المراسلات حصرياً عبر <code>@msklabs.org</code>. لا نطلب أبداً كلمات مرور أو بيانات بطاقات بنكية.</span>
+        </p>
+        <div style="font-size:0.82rem; color:var(--text-muted, #64748b); margin-top:auto;">
+          <span class="lang-tr">🔒 TLS 1.3 Şifreli İletişim Güvencesi</span>
+          <span class="lang-en">🔒 TLS 1.3 Encrypted Communications</span>
+          <span class="lang-ar">🔒 اتصالات مشفرة ببروتوكول TLS 1.3</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- HIZLI DESTEK BİLETİ ÇAĞRI KUTUSU (CTA) -->
+    <div class="contact-cta-box">
+      <div class="contact-cta-text">
+        <h3 class="lang-tr">Bir Hata mı Bildirmek İstiyorsunuz?</h3>
+        <h3 class="lang-en">Encountered an Issue or Need Help?</h3>
+        <h3 class="lang-ar">هل واجهت مشكلة أو تحتاج إلى مساعدة؟</h3>
+        <p class="lang-tr">Uygulamalarımızla ilgili hata bildirimi, öneri veya teknik destek için canlı destek biletinizi anında oluşturabilirsiniz.</p>
+        <p class="lang-en">Submit a technical ticket or feature request directly through our support desk to receive a live tracking ID.</p>
+        <p class="lang-ar">يمكنك إنشاء تذكرة دعم فني مباشرة عبر مكتب الدعم لدينا للحصول على معرف تتبع فوري.</p>
+      </div>
+      <a href="destek.html" class="contact-card-btn" style="padding: 10px 18px; font-size: 0.88rem; margin: 0;">
+        <span>🎫</span>
+        <span class="lang-tr">Canlı Destek Masasına Git</span>
+        <span class="lang-en">Open Support Ticket</span>
+        <span class="lang-ar">فتح تذكرة دعم الآن</span>
+      </a>
+    </div>
+
+    <!-- KULLANICI KURALI: GÜNCELLEME VE KAPSAM BİLGİSİ EN ALTTA -->
+    <div class="legal-footer-meta">
+      <div>📅 <strong>Son Güncelleme ve Yürürlük Tarihi:</strong> 30 Ekim 2026</div>
+      <div style="margin-top:4px;">🌐 <strong>Uygulama Kapsamı:</strong> <code>msklabs.org</code> Web Platformu, Tüm Alt Alan Adları ve Bağımsız Yazılım Ekosistemi.</div>
+    </div>
+
+    <!-- SAYFA ALTI REKLAM ALANI -->
+    <div class="infeed-ad-container">
+      <div class="ad-placeholder">Sayfa Sonu Reklamı (Bottom Banner)</div>
+    </div>
+
+  </main>
 
   <aside class="desktop-ad desktop-ad-right">
     <div class="ad-placeholder">Masaüstü Sağ Reklam<br>(120x300)</div>
@@ -89,27 +383,7 @@
 
 </div>
 
-<script>
-  var SITE_CONFIG = { contactEmail: "msklabs.org@gmail.com" };
-</script>
-
-
-  <!-- Standart Alt Footer Menusu -->
-  <footer class="site-footer" style="text-align: center; padding: 1.5rem 1rem; border-top: 1px solid #cbd5e1; margin-top: 2.5rem; font-size: 0.85rem; color: #64748b;">
-    <div class="footer-links" style="margin-bottom: 0.75rem; font-weight: 600;">
-      <a href="index.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a> |
-      <a href="blog/blog.html?type=bizce" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Bizce</span><span class="lang-en">Bizce</span><span class="lang-ar">بيزجه</span></a> |
-      <a href="blog/blog.html?type=anilts" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Anıltılar</span><span class="lang-en">Anıltılar</span><span class="lang-ar">Anıltılar</span></a> |
-      <a href="about.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Hakkımızda</span><span class="lang-en">About Us</span><span class="lang-ar">عن الشركة</span></a> |
-      <a href="destek.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a> |
-      <a href="contact.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span><span class="lang-ar">اتصل بنا</span></a> |
-      <a href="who-we-are.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Biz Kimiz</span><span class="lang-en">Who We Are</span><span class="lang-ar">من نحن</span></a> |
-      <a href="faq.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">SSS</span><span class="lang-en">FAQ</span><span class="lang-ar">الأسئلة الشائعة</span></a> |
-      <a href="privacy.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Gizlilik Politikası</span><span class="lang-en">Privacy Policy</span><span class="lang-ar">سياسة الخصوصية</span></a> |
-      <a href="terms.html" style="color: #475569; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Kullanım Koşulları</span><span class="lang-en">Terms of Service</span><span class="lang-ar">شروط الخدمة</span></a>
-    </div>
-    <p class="copyright-line" style="margin: 0;">© 2026 MSK Labs. Tüm hakları saklıdır.</p>
-  </footer>
-  <script src="assets/js/layout.js"></script>
+<footer class="site-footer"></footer>
+<script src="assets/js/layout.js"></script>
 </body>
 </html>

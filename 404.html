@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>404 - Sayfa Bulunamadı | MSK Labs</title>
+  <meta name="description" content="Aradığınız sayfa mevcut değil veya taşınmış olabilir. MSK Labs ana sayfasına dönerek uygulamalarımızı keşfedebilirsiniz.">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="canonical" href="https://msklabs.org/404.html">
+
+  <script>
+    (function(){
+      var t = localStorage.getItem("user_theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      if (t === "dark") document.documentElement.setAttribute("data-theme", "dark");
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/global.css?v=31">
+  <link rel="icon" type="image/png" href="img/MSKLabs_favicon.png">
+
+  <style>
+    .error-wrapper {
+      min-height: calc(100vh - 280px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .error-card {
+      background: var(--bg-card, #ffffff);
+      border: 1px solid var(--border-color, #cbd5e1);
+      border-radius: 24px;
+      padding: 48px 32px;
+      max-width: 620px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      backdrop-filter: blur(12px);
+    }
+    .error-code {
+      font-size: 5rem;
+      font-weight: 800;
+      line-height: 1;
+      margin: 0 0 12px 0;
+      background: linear-gradient(135deg, #0284c7, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .error-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-main, #0f172a);
+      margin: 0 0 16px 0;
+    }
+    .error-desc {
+      font-size: 1rem;
+      color: var(--text-muted, #475569);
+      line-height: 1.6;
+      margin: 0 0 32px 0;
+    }
+    .error-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary-color, #0284c7);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    }
+    .btn-primary:hover {
+      opacity: 0.92;
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-surface, #f1f5f9);
+      color: var(--text-main, #0f172a);
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1px solid var(--border-color, #cbd5e1);
+      transition: all 0.2s ease;
+    }
+    .btn-secondary:hover {
+      background: var(--bg-surface-hover, #e2e8f0);
+      transform: translateY(-2px);
+    }
+  </style>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/analytics.js"></script>
+</head>
+<body class="lang-tr">
+
+  <header class="site-header-sticky"></header>
+
+  <div class="layout-wrapper">
+    <main class="error-wrapper">
+      <div class="error-card">
+        <div class="error-code">404</div>
+        <h1 class="error-title">
+          <span class="lang-tr">Sayfa Bulunamadı</span>
+          <span class="lang-en">Page Not Found</span>
+          <span class="lang-ar">الصفحة غير موجودة</span>
+        </h1>
+        <p class="error-desc">
+          <span class="lang-tr">Ulaşmaya çalıştığınız sayfa kaldırılmış, adı değiştirilmiş veya geçici olarak kullanım dışı kalmış olabilir.</span>
+          <span class="lang-en">The page you are looking for might have been removed, renamed, or is temporarily unavailable.</span>
+          <span class="lang-ar">ربما تمت إزالة الصفحة التي تبحث عنها، أو تغيير اسمها، أو أنها غير متاحة مؤقتاً.</span>
+        </p>
+        <div class="error-actions">
+          <a href="index.html" class="btn-primary">
+            🏠 <span class="lang-tr">Ana Sayfaya Dön</span><span class="lang-en">Go to Home</span><span class="lang-ar">الرئيسية</span>
+          </a>
+          <a href="apps.html" class="btn-secondary">
+            📱 <span class="lang-tr">Uygulamalarımızı İnceleyin</span><span class="lang-en">Our Apps</span><span class="lang-ar">تطبيقاتنا</span>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer"></footer>
+  </div>
+
+  <script src="assets/js/layout.js"></script>
+</body>
+</html>

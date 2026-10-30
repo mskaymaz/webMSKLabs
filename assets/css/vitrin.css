@@ -1,0 +1,389 @@
+/* ==========================================================================
+   MSK LABS — VİTRİN CSS (3xN MOBİL STANDARDI)
+   Dosya: assets/css/vitrin.css
+   Amaç: 3 sütunlu 3x3 ızgara, daraltılmış kart mimarisi ve dengeli hiza
+   ========================================================================== */
+
+:root {
+  --vitrin-safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+body.vitrin-body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-page, #f8fafc);
+  color: var(--text-main, #0f172a);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+[data-theme="dark"] body.vitrin-body {
+  background-color: var(--bg-page, #0f172a);
+  color: var(--text-main, #f8fafc);
+}
+
+/* Multi-Language Visibility Rules */
+body.lang-tr .lang-en, body.lang-tr .lang-ar { display: none !important; }
+body.lang-en .lang-tr, body.lang-en .lang-ar { display: none !important; }
+body.lang-ar .lang-tr, body.lang-ar .lang-en { display: none !important; }
+
+html[dir="rtl"] body.vitrin-body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* 2. Ana Vitrin Kapsayıcısı */
+.vitrin-container {
+  max-width: 640px;
+  width: 100%;
+  margin: 136px auto 0 auto;
+  padding: 10px 10px calc(36px + var(--vitrin-safe-bottom)) 10px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .vitrin-container {
+    margin-top: 96px;
+  }
+}
+
+/* 3. Başlık ve Filtreleme Çubuğu */
+.vitrin-hero {
+  text-align: center;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.vitrin-title {
+  font-size: 1.40rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-main, #0f172a);
+}
+
+.vitrin-filter-bar {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 10px auto 14px auto;
+  flex-wrap: wrap;
+}
+
+.vitrin-filter-pill {
+  padding: 5px 14px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  border-radius: 999px;
+  border: 1px solid var(--border-color, #cbd5e1);
+  background: var(--bg-card, #ffffff);
+  color: var(--text-muted, #475569);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .vitrin-filter-pill {
+  background: #1e293b;
+  border-color: #334155;
+  color: #cbd5e1;
+}
+
+.vitrin-filter-pill.active {
+  background: var(--primary-color, #2563eb) !important;
+  border-color: var(--primary-color, #2563eb) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.28);
+}
+
+/* Web Boş Durum Bildirimi */
+.vitrin-empty-state {
+  display: none;
+  text-align: center;
+  padding: 24px 14px;
+  background: var(--bg-card, #ffffff);
+  border: 1px dashed var(--border-color, #cbd5e1);
+  border-radius: 12px;
+  color: var(--text-muted, #64748b);
+  font-size: 0.82rem;
+  font-weight: 500;
+  margin: 12px 0;
+}
+
+[data-theme="dark"] .vitrin-empty-state {
+  background: #1e293b;
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+/* 4. ÜÇ SÜTUNLU KART IZGARASI (3xN Grid) */
+.vitrin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+/* 5. 3xN Kart Mimarisi (150px Dengeli Yükseklik) */
+.vitrin-card {
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+  height: 152px;
+  min-height: 152px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.vitrin-card.hidden {
+  display: none !important;
+}
+
+.vitrin-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 14px;
+}
+
+.vitrin-card.is-flipped .vitrin-card-inner {
+  transform: rotateY(180deg);
+}
+
+html[dir="rtl"] .vitrin-card.is-flipped .vitrin-card-inner {
+  transform: rotateY(-180deg);
+}
+
+.vitrin-card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 14px;
+  padding: 8px 8px 6px 8px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--border-color, #cbd5e1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* ÖN YÜZ (Front Face) — Logo + İsim + Dikey Alt Çubuk */
+.vitrin-card-front {
+  background: var(--bg-card, #ffffff);
+  z-index: 2;
+  transform: rotateY(0deg);
+  align-items: center;
+  text-align: center;
+}
+
+[data-theme="dark"] .vitrin-card-front {
+  background: var(--bg-card, #1e293b);
+  border-color: var(--border-color, #334155);
+}
+
+.vitrin-front-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Logo Çerçevesi (58px Kare Alan) */
+.vitrin-icon {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  min-height: 58px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 0 auto 3px auto;
+  background: var(--bg-surface, #f1f5f9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+
+.vitrin-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 14px;
+}
+
+.vitrin-icon.vitrin-icon-emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.vitrin-card-name {
+  font-size: 0.80rem;
+  font-weight: 700;
+  color: var(--text-main, #0f172a);
+  margin: 0;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
+}
+
+/* ARKA YÜZ (Back Face) — İsim + Açıklama + Dikey Alt Çubuk */
+.vitrin-card-back {
+  background: var(--bg-surface, #f8fafc);
+  transform: rotateY(180deg);
+  z-index: 1;
+  text-align: left;
+}
+
+html[dir="rtl"] .vitrin-card-back {
+  transform: rotateY(-180deg);
+  text-align: right;
+}
+
+[data-theme="dark"] .vitrin-card-back {
+  background: #182234;
+  border-color: var(--border-color, #334155);
+}
+
+.vitrin-back-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+html[dir="rtl"] .vitrin-back-body {
+  align-items: flex-start;
+}
+
+.vitrin-back-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-main, #0f172a);
+  margin: 0 0 2px 0;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
+}
+
+.vitrin-back-desc {
+  font-size: 0.60rem;
+  color: var(--text-muted, #334155);
+  line-height: 1.30;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 100%;
+}
+
+[data-theme="dark"] .vitrin-back-desc {
+  color: #cbd5e1;
+}
+
+/* 6. Alt Çubuk — Dikey Sıralı (Üstte Durum Rozeti, Altta Detaylar Butonu) */
+.vitrin-card-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin-top: auto;
+  padding-top: 4px;
+  border-top: none;
+  box-sizing: border-box;
+}
+
+.vitrin-badge {
+  font-size: 0.58rem;
+  font-weight: 700;
+  padding: 2px 4px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.vitrin-badge.active {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.28);
+}
+
+.vitrin-badge.dev {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+}
+
+.vitrin-badge.design,
+.vitrin-badge.planning {
+  background: rgba(2, 132, 199, 0.12);
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.28);
+}
+
+/* Doğrudan Detay Linki (Alt Satırda Tam Genişlik) */
+.vitrin-detail-link {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--primary-color, #2563eb);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  line-height: 1;
+  padding: 4px 4px;
+  min-height: 24px;
+  border-radius: 4px;
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.vitrin-detail-link:hover {
+  background: rgba(37, 99, 235, 0.18);
+  text-decoration: none;
+}
+
+[data-theme="dark"] .vitrin-detail-link {
+  color: #60a5fa;
+  background: rgba(96, 165, 250, 0.12);
+}
+
+/* 7. Standart Kurumsal Alt Bilgi (Copyright) */
+.vitrin-footer {
+  text-align: center;
+  padding: 20px 14px calc(28px + var(--vitrin-safe-bottom)) 14px;
+  border-top: 1px solid var(--border-subtle, #e2e8f0);
+}
+
+[data-theme="dark"] .vitrin-footer {
+  border-top-color: var(--border-color, #334155);
+}

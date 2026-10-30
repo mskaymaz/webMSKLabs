@@ -1,4 +1,4 @@
-﻿# Destek & Talep Sistemi Gorev Listesi (tasks_destek.md)
+# Destek & Talep Sistemi Gorev Listesi (tasks_destek.md)
 
 Bu dosya, msklabs.org/destek.html sayfasinin ve arka plan motorunun adim adim gelistirilme surecini takip etmek icin olusturulmustur.
 
@@ -34,6 +34,15 @@ Bu dosya, msklabs.org/destek.html sayfasinin ve arka plan motorunun adim adim ge
 ---
 
 ## Adim 5: Arka Plan Motoru & AI Entegrasyonu (Backend)
-- [x] 5.1 Cloudflare Worker / Serverless API endpoint taslagi (functions/api/feedback.js).
+- [x] 5.1 Cloudflare Worker / Serverless API endpoint taslagi (`functions/api/feedback.js` / `POST /api/v1/support`).
 - [x] 5.2 Gemini Flash AI Ayristirma Prompt'u (Hata/Istek Siniflandirma + 1-10 Ciddiyet Puani + Ozetleme).
-- [x] 5.3 Telegram Anlik Bildirim & Veritabani sablonu.
+- [x] 5.3 **Güncel Veritabanı & Bildirim Mimarisi:** Bilet verileri doğrudan **Cloudflare D1** veritabanında (`messages` tablosu) saklanır. Bilet yönetim işlemleri **`MSKLabsDesk` Admin PWA** paneli üzerinden yürütülür. E-posta bildirimleri **Resend API** üzerinden, anlık yönetici bildirimleri ise **VAPID Web Push** protokolü ile iletilir.
+- [x] 5.4 `[HISTORICAL / SUPERSEDED]` *Eski Telegram bot bildirimi ve Google Sheets senkronizasyon şablonu güncel canlı sistemde aktif veritabanı/bildirim katmanı değildir; yerini D1 + Resend + VAPID Web Push yapısına bırakmıştır.*
+
+---
+
+## Adim 6: Güvenlik Doğrulaması & Robot Koruması (Anti-Bot & Double Opt-in)
+- [x] 6.1 Destek ve Blog yorumu formlarında dinamik matematik testi (sıfır maliyet, insan doğrulaması).
+- [x] 6.2 Bot yakalayıcı bal küpü (honeypot) alanı entegrasyonu.
+- [x] 6.3 Blog yorumları için çift aşamalı e-posta doğrulama (Double Opt-in) entegrasyonu.
+- [x] 6.4 Destek taleplerinde anlık DNS MX e-posta geçerlilik denetimi ve makbuz ekranında TR/EN/AR uyarı balonu entegrasyonu (14.10.2026 - 10:25).

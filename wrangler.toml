@@ -1,0 +1,23 @@
+# Cloudflare Worker Configuration for webMSKLabs / DevAdmin
+name = "uygulamalar"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+account_id = "ded2c59ad818860dc2b159c930663fba"
+
+[build]
+command = "npm run build"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "msklabsdesk_db"
+database_id = "579478d7-68db-4f5a-92e6-c8127ba3b5ba"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "msklabs-media"
+
+[vars]
+ENVIRONMENT = "development"
+ALLOWED_ORIGINS = "http://localhost:3000,http://localhost:5173,https://mskaymaz.com,https://msklabs.org,https://dev.msklabs.org"

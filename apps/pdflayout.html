@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Layout - Gelişmiş PDF Sayfa Düzenleme &amp; Baskı | MSK Labs</title>
+    <meta name="description" content="PDF Layout; PDF sayfalarını özel boyutlarda, çoklu sayfa düzeni (N-up) ve gelişmiş ölçeklendirme ile çıktıya gönderen akıllı baskı yöneticisi.">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="canonical" href="https://msklabs.org/apps/pdflayout.html">
+    <meta property="og:title" content="PDF Layout - Gelişmiş PDF Sayfa Düzenleme &amp; Birleştirme | MSK Labs">
+    <meta property="og:description" content="PDF Layout; sayfa silme, taşıma, birleştirme, bölme ve döndürme işlemlerini yerel cihazınızda güvenle gerçekleştiren modern masaüstü aracı.">
+    <meta property="og:url" content="https://msklabs.org/apps/pdflayout.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://msklabs.org/img/MSKLabsLogo.svg">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "PDF Layout",
+      "operatingSystem": "Windows, macOS, Linux",
+      "applicationCategory": "UtilitiesApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "PDF Layout; sayfa silme, taşıma, birleştirme, bölme ve döndürme işlemlerini yerel cihazınızda güvenle gerçekleştiren modern masaüstü aracı."
+    }
+    </script>
+
+    <script>!function(){var t=localStorage.getItem("user_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"===t&&document.documentElement.setAttribute("data-theme","dark")}()</script>
+
+    <!-- Google Fonts: Inter & Global Stylesheet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/global.css?v=31">
+    
+    <style>
+      .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+      .back-btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-main, #334155); font-weight: 600; font-size: 0.95rem; background: var(--bg-card, #fff); padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border-color, #cbd5e1); box-shadow: 2px 2px 5px rgba(0,0,0,0.05); transition: all 0.2s ease; }
+      .back-btn:hover { background: var(--bg-surface-hover, #f1f5f9); color: var(--primary-color, #2563eb); transform: translateX(-3px); }
+      .detail-card { background: var(--bg-card, #ffffff); border: 1px solid var(--border-color, #cbd5e1); border-radius: 16px; padding: 40px; box-shadow: 0 6px 16px rgba(0,0,0,0.03); margin-bottom: 30px; }
+      .app-header { display: flex; align-items: center; gap: 24px; margin-bottom: 24px; }
+      .app-big-icon { width: 96px; height: 96px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 48px; background: var(--bg-surface, #f1f5f9); border: 1px solid var(--border-color, #cbd5e1); flex-shrink: 0; }
+      .app-title-group { display: flex; flex-direction: column; gap: 6px; }
+      .app-title-group h1 { font-size: 2.2rem; font-weight: 700; color: var(--text-main, #1e293b); margin: 0; }
+      .badges { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+      .badge { font-size: 0.85rem; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
+      .badge-platform { background: var(--bg-surface, #e2e8f0); color: var(--text-muted, #475569); }
+      .badge-status { background: rgba(2, 132, 199, 0.15); color: #0284c7; }
+      .app-header-right { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+      .global-status-panel { background: var(--bg-surface, #f8fafc); border: 1px solid var(--border-color, #cbd5e1); padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-main, #334155); }
+      .status-tag.active { color: #0284c7; }
+      .app-description { font-size: 1.15rem; line-height: 1.6; color: var(--text-main, #334155); margin-bottom: 30px; border-bottom: 1px solid var(--border-subtle, #f1f5f9); padding-bottom: 24px; }
+      .features-title { font-size: 1.3rem; font-weight: 700; color: var(--text-main, #1e293b); margin-bottom: 16px; }
+      .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 30px; }
+      .feature-box { background: var(--bg-surface, #f8fafc); border: 1px solid var(--border-color, #e2e8f0); border-radius: 12px; padding: 20px; }
+      .feature-box h4 { font-size: 1.05rem; font-weight: 600; margin: 0 0 8px 0; color: var(--text-main, #1e293b); }
+      .feature-box p { font-size: 0.92rem; color: var(--text-muted, #475569); margin: 0; line-height: 1.5; }
+      .pipeline-notice { background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: 12px; padding: 20px; text-align: center; color: var(--text-main, #0f172a); }
+      .pipeline-notice h3 { margin: 0 0 6px 0; color: #0284c7; font-size: 1.15rem; }
+      .pipeline-notice p { margin: 0; font-size: 0.92rem; color: var(--text-muted, #475569); }
+      @media (max-width: 768px) {
+        .detail-card { padding: 20px; }
+        .app-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+        .app-header-right { align-items: flex-start; margin-left: 0; width: 100%; }
+        .app-title-group h1 { font-size: 1.7rem; }
+      }
+    </style>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+  <script src="../assets/js/layout.js"></script>
+</head>
+<body class="lang-tr">
+
+<header class="site-header-sticky"></header>
+
+<div class="layout-wrapper">
+  <div class="portfolio-container" style="max-width: 860px; margin: 0 auto; padding: 30px 16px;">
+    
+    <div class="top-nav">
+      <a href="../vitrin.html" onclick="if(history.length>1){history.back();return false;}" class="back-btn">
+        <span>←</span>
+        <span class="lang-tr">Uygulamalara Dön</span>
+        <span class="lang-en">Back to Apps</span>
+        <span class="lang-ar">العودة للتطبيقات</span>
+      </a>
+    </div>
+
+    <!-- Uygulama Kartı -->
+    <div class="detail-card">
+      <div class="app-header">
+        <div class="app-big-icon">🖨️</div>
+        <div class="app-title-group">
+          <h1>PDF Layout</h1>
+          <div class="badges">
+            <span class="badge badge-platform">
+              <span class="lang-tr">💻 Masaüstü Sistem</span>
+              <span class="lang-en">💻 Desktop App</span>
+              <span class="lang-ar">💻 تطبيق سطح المكتب</span>
+            </span>
+            <span class="badge badge-status">
+              <span class="lang-tr">📐 Tasarım Aşamasında</span>
+              <span class="lang-en">📐 Design In Progress</span>
+              <span class="lang-ar">📐 قيد التصميم</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="app-header-right">
+          <div class="global-status-panel">
+            <span class="lang-tr">🌐 Dil Durumu: <strong class="status-tag active">TR, EN, AR</strong></span>
+            <span class="lang-en">🌐 Languages: <strong class="status-tag active">TR, EN, AR</strong></span>
+            <span class="lang-ar">🌐 اللغات: <strong class="status-tag active">TR, EN, AR</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-description">
+        <span class="lang-tr">PDF sayfalarını tek yaprakta 2 veya 4 sayfa basma (N-up), kenar boşluğu kırpma, özel ölçeklendirme ve kitapçık düzeniyle çıktıya gönderen akıllı yazdırma asistanı.</span>
+        <span class="lang-en">Smart print manager for PDF files supporting custom multi-page layouts (N-up), margin trimming, scaling, and booklet printing.</span>
+        <span class="lang-ar">مدير طباعة ذكي لملفات PDF يدعم التخطيطات متعددة الصفحات على ورقة واحدة وقص الهوامش والتحجيم وطباعة الكتيبات.</span>
+      </div>
+
+      <div class="features-title">
+        <span class="lang-tr">Planlanan Özellikler</span>
+        <span class="lang-en">Planned Features</span>
+        <span class="lang-ar">الميزات المخططة</span>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-box">
+          <h4>📖 
+            <span class="lang-tr">Çoklu Sayfa &amp; Kitapçık Düzeni</span>
+            <span class="lang-en">N-Up &amp; Booklet Layout</span>
+            <span class="lang-ar">تخطيط الكتيبات والصفحات المتعددة</span>
+          </h4>
+          <p>
+            <span class="lang-tr">Tek yaprağa 2, 4 veya 8 sayfa yerleştirerek kağıttan tasarruf edin.</span>
+            <span class="lang-en">Save paper by arranging 2, 4, or 8 pages onto a single sheet effortlessly.</span>
+            <span class="lang-ar">توفير الورق بترتيب 2 أو 4 أو 8 صفحات على ورقة واحدة بسهولة.</span>
+          </p>
+        </div>
+
+        <div class="feature-box">
+          <h4>✂️ 
+            <span class="lang-tr">Akıllı Kenar Boşluğu Kırpma</span>
+            <span class="lang-en">Smart Margin Cropping</span>
+            <span class="lang-ar">قص الهوامش الذكي</span>
+          </h4>
+          <p>
+            <span class="lang-tr">Gereksiz beyaz kenarlıkları otomatik tespit edip içeriği büyütür.</span>
+            <span class="lang-en">Automatically detects excessive white margins to maximize content area.</span>
+            <span class="lang-ar">يكتشف الهوامش البيضاء الزائدة تلقائياً لتكبير مساحة المحتوى.</span>
+          </p>
+        </div>
+
+        <div class="feature-box">
+          <h4>🖨️ 
+            <span class="lang-tr">Yazıcı Önizleme &amp; Dışa Aktarma</span>
+            <span class="lang-en">Print Preview &amp; Export</span>
+            <span class="lang-ar">معاينة الطباعة والتصدير</span>
+          </h4>
+          <p>
+            <span class="lang-tr">Baskı öncesi gerçek piksel önizlemesi ve optimize edilmiş PDF çıktısı.</span>
+            <span class="lang-en">Pixel-accurate pre-print preview and optimized PDF export capability.</span>
+            <span class="lang-ar">معاينة واقعية دقيقة قبل الطباعة وتصدير PDF محسّن.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Bilgilendirme Alanı -->
+      <div class="pipeline-notice">
+        <h3>
+          <span class="lang-tr">📐 Tasarım ve Planlama Sürecinde</span>
+          <span class="lang-en">📐 In Design &amp; Planning Stage</span>
+          <span class="lang-ar">📐 قيد مرحلة التصميم والتخطيط</span>
+        </h3>
+        <p>
+          <span class="lang-tr">Bu uygulama MSK Labs ürün yol haritasında yer almakta olup arayüz ve mimari tasarım aşamasındadır. Yayınlandığında buradan indirilebilecektir.</span>
+          <span class="lang-en">This application is part of the MSK Labs product roadmap and currently in interface design. It will be available for download once released.</span>
+          <span class="lang-ar">هذا التطبيق ضمن خارطة طريق إم إس كيه لابس وهو حالياً في مرحلة التصميم. سيكون متاحاً للتنزيل فور إطلاقه.</span>
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer"></footer>
+</body>
+</html>

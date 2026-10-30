@@ -8,18 +8,32 @@
 
 ## 🏛️ MIMARI KARAR ÖZETİ / ARCHITECTURAL DECISION SUMMARY
 
-### 🇹🇷 Türkçe: Tek Kişilik Geliştirici + AI İşbirliği Modeli
-MSK Labs tek geliştirici ve AI yardımcısı ile yönetilmektedir. 500+ sayfalık gelecekteki ölçeklenmede her sayfada ayrı ayrı HTML düzenlemesi yapmak sürdürülemez. Web sitemizdeki tüm sayfalar 2 ana kategoriye ayrılmıştır:
+### 🇹🇷 Türkçe: Tek Kişilik Geliştirici + AI İşbirliği Modeli & Veri Mimarısı
+MSK Labs tek geliştirici ve AI yardımcısı ile yönetilmektedir. 500+ sayfalık gelecekteki ölçeklenmede her sayfada ayrı ayrı HTML düzenlemesi yapmak sürdürülemez.
+
+**Portal Mimarisi (webMSKLabs vs Admin):**
+- **Public Web Portalı (`webMSKLabs`):** Kamusal ziyaretçilere hizmet veren hafif, performanslı **Vanilla HTML5 / CSS3 / JavaScript** yapısını korur. Sayfalar React'e dönüştürülmez.
+- **İstemci Metadata & Fallback (`assets/js/apps-data.js`):** Public tarafta statik uygulama metadata'sı ve yedekleme (fallback) amacıyla kullanılır. Tüm sistemin veritabanından bağımsız "tek mutlak gerçek kaynağı" değildir.
+- **Dinamik & Yönetilebilir Veri Kaynağı:** Tüm dinamik verilerin (blog yayınları, yorumlar, destek talepleri, TTS ses metadata'sı) nihai ve yetkili kaynağı Cloudflare Edge Workers API ve Cloudflare D1 veritabanıdır (`MSKLabsDesk` Admin mimarisi).
+
+Web sitemizdeki tüm sayfalar 2 ana kategoriye ayrılmıştır:
 1. **Tip 1 - Kurumsal Çekirdek Sayfalar (Static Core Pages):** `index.html`, `about.html`, `destek.html`, `contact.html`, `who-we-are.html`, `faq.html`, `privacy.html`, `terms.html`. Sabit içeriklidir, ancak Header (Logo, Dil Butonları, Üst Menü) ve 2 Satırlı Footer bağlantıları `assets/js/layout.js` bileşeni tarafından dinamik olarak yüklenir.
 2. **Tip 2 - Dinamik İçerik & Şablon Sayfaları (Dynamic Content & Template Pages):**
-   - **2A: Uygulama Şablonu (App Showcase & Doc Template):** Uygulama tanıtım ve kullanım sayfaları (`haydinamaza`, `deskpilot` vb.). Tüm verileri `assets/js/apps-data.js` merkezi veri dosyasından çeker.
+   - **2A: Uygulama Şablonu (App Showcase & Doc Template):** Uygulama tanıtım ve kullanım sayfaları (`haydinamaza`, `deskpilot` vb.). Statik verileri `assets/js/apps-data.js` ve Cloudflare D1 Edge API entegrasyonundan çeker.
    - **2B: Yayın & Makale Şablonu (Blog & Memoir Template):** Bizce ve Anıltılar yayınları (`blog/blog.html` + `blog/blog.js`).
 
-### 🇬🇧 English: Solo Developer + AI Operational Policy
-MSK Labs is developed and maintained by a single founder working alongside an AI coding assistant. Manual, file-by-file edits across 500+ future pages are strictly prohibited. The system adopts a two-tier architecture:
+### 🇬🇧 English: Solo Developer + AI Operational Policy & Data Architecture
+MSK Labs is developed and maintained by a single founder working alongside an AI coding assistant. Manual, file-by-file edits across 500+ future pages are strictly prohibited.
+
+**Portal Architecture (webMSKLabs vs Admin):**
+- **Public Web Portal (`webMSKLabs`):** Retains lightweight, high-performance **Vanilla HTML5 / CSS3 / JavaScript** for public visitors. Public pages are NOT migrated to React.
+- **Client Metadata & Fallback (`assets/js/apps-data.js`):** Used for public client-side static application metadata and fallback. It is not the sole database-independent single source of truth for the entire backend system.
+- **Authoritative Data Source:** The authoritative source for dynamic content (blog posts, comments, support tickets, TTS audio assets) is the Cloudflare Edge Workers API and Cloudflare D1 database (`MSKLabsDesk` Admin architecture).
+
+The system adopts a two-tier architecture:
 1. **Type 1 - Static Core Pages:** Main institutional pages. Header (Logo, Language Switcher, Nav) and 2-Row Footer are injected dynamically via `assets/js/layout.js`.
 2. **Type 2 - Dynamic Content & Template Pages:**
-   - **2A: App Showcase & Doc Template:** App overview pages (`haydinamaza`, `deskpilot`, etc.) consuming structured data from `assets/js/apps-data.js`.
+   - **2A: App Showcase & Doc Template:** App overview pages (`haydinamaza`, `deskpilot`, etc.) consuming static data from `assets/js/apps-data.js` and Cloudflare D1 Edge APIs.
    - **2B: Publishing & Memoir Template:** Blog articles and memoirs managed via `blog/blog.html` + `blog/blog.js`.
 
 ---

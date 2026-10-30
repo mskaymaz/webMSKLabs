@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Disallow: /ist.html
+Disallow: /pages.html
+Disallow: /dl.html
+Disallow: /who-we-are.html
+
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /media/
+Allow: /img/
+Allow: /assets/
+
+Sitemap: https://msklabs.org/sitemap.xml

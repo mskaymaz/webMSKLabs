@@ -1,4 +1,4 @@
-﻿{
+{
   "last_updated": "2026-09-10T10:50:00Z",
   "announcements": {
     "haydinamaza": {
@@ -21,7 +21,7 @@
       "message_tr": "Windows 11 uyumluluğu artırıldı.",
       "message_en": "Windows 11 compatibility enhanced.",
       "action_label_tr": "İncele",
-      "action_url": "https://msklabs.org/deskpilot.html"
+      "action_url": "https://msklabs.org/apps/deskpilot.html"
     }
   }
 }

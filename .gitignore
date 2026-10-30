@@ -4,6 +4,9 @@
 .dev.vars
 *.secret
 
+# Wrangler Local State
+.wrangler/
+
 # IDE & System Files
 .vscode/
 .idea/
@@ -11,3 +14,7 @@
 Thumbs.db
 ~$*
 node_modules/
+
+# Build Output
+dist/
+.vite/
