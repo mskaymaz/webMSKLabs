@@ -17,9 +17,11 @@
 * **Türkçe & Tarih-Saat Formatı:** Tüm commit mesajları ve dokümantasyon notları anlaşılır **Türkçe açıklamalarla ve tam tarih-saat damgasıyla** (Örn: 01.10.2026 - 16:30) yazılır.
 * Kullanıcı süreçle ilgili genel/özel bir kural ifade ettiğinde fark edilir ve AGENTS.md dosyasına eklenerek kayıt altına alınır.
 
-## 4. DevAdmin Geliştirme ve Ana Dal Koruma Protokolü
-* **Yalnızca DevAdmin:** Tüm geliştirmeler, entegrasyonlar ve testler yalnızca `DevAdmin` dalında yürütülür.
-* **Ana Dal Koruması:** `main` dalına geçiş yapılmaz, merge/PR/rebase yapılmaz.
+## 4. Ana Dal (Main) ve Canlı Yayın Protokolü
+* **Ana Dal Çalışma Standardı:** Hem panel yapısı (`MSKLabsDesk`) hem de web arayüzü (`webMSKLabs`) tamamen normal yayına geçmiş olup, tüm geliştirmeler ve güncellemeler doğrudan ana dal (`main`) üzerinde yürütülür.
+* **Yedek Dal Güvencesi:** Canlıya geçiş öncesindeki durumlar (`OldMain`, `OldMaster` ve `DevAdmin`) yedek ve arşiv amaçlı olarak hem yerelde hem uzak repoda korunur; silinmez.
+* **Yerel Öncelikli Doğrulama (Local-First Verification):** Değişiklikler doğrudan ana dalda geliştirilse dahi önce yerel sunucuda (`localhost`) derlenip test edilir; kullanıcıdan yerel görünüm ve işlevsellik için açık onay alınmadan uzak sunucuya (Cloudflare Pages / GitHub) push/dağıtım yapılmaz.
+* **Kabul Kriteri (DoD):** Görevler ancak kod uygulandığında, arayüz-API-veritabanı entegrasyonu gerçek veriyle doğrulandığında ve derleme/regresyon testleri hatasız geçtiğinde `DoD` kriterini sağlar. Mock veri veya yüzeysel PASS yeterli kabul edilmez.
 
 ## 5. Dil ve Arayüz Kuralı
 * Yönetici arayüzü tamamen Türkçe, web kamusal içerikleri çoklu dil (TR, EN, AR) desteğini korur.
