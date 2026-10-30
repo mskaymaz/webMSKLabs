@@ -66,7 +66,7 @@ export async function onRequest(context) {
     { loc: 'https://msklabs.org/about.html', priority: '0.8' },
     { loc: 'https://msklabs.org/contact.html', priority: '0.7' },
     { loc: 'https://msklabs.org/blog/bizce', priority: '0.9' },
-    { loc: 'https://msklabs.org/blog/aniltilar', priority: '0.8' },
+    { loc: 'https://msklabs.org/blog/anilts', priority: '0.8' },
     { loc: 'https://msklabs.org/blog/guncel', priority: '0.8' },
   ];
 

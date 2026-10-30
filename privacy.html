@@ -3,169 +3,152 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gizlilik Politikası | MSK Labs</title>
-  <meta name="description" content="MSK Labs uygulamaları için dinamik ve şeffaf Gizlilik Politikası ve Kişisel Veri Koruma Metni.">
+  <title>Gizlilik Politikası ve KVKK Aydınlatma Metni | MSK Labs</title>
+  <meta name="description" content="MSK Labs web sitesi, masaüstü yazılımları ve mobil uygulamaları için Kişisel Verilerin Korunması (KVKK), GDPR ve Gizlilik İlkeleri.">
   <script>!function(){var t=localStorage.getItem("user_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"===t&&document.documentElement.setAttribute("data-theme","dark")}()</script>
   <link rel="canonical" href="https://msklabs.org/privacy.html">
-  <meta property="og:title" content="Gizlilik Politikası | MSK Labs">
-  <meta property="og:description" content="MSK Labs uygulamaları için Gizlilik Politikası ve Kişisel Veri Koruma Metni.">
+  <meta property="og:title" content="Gizlilik Politikası ve KVKK Aydınlatma Metni | MSK Labs">
+  <meta property="og:description" content="MSK Labs web sitesi, masaüstü yazılımları ve mobil uygulamaları için Kişisel Verilerin Korunması (KVKK), GDPR ve Gizlilik İlkeleri.">
   <meta property="og:url" content="https://msklabs.org/privacy.html">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://msklabs.org/img/MSKLabsLogo.svg">
-  
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/global.css?v=26">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/global.css?v=31">
 
-  <!-- MSK Labs Favicon -->
   <link rel="icon" type="image/png" href="img/MSKLabs_favicon.png">
   <link rel="shortcut icon" href="img/MSKLabs_favicon.png" type="image/x-icon">
   <link rel="apple-touch-icon" href="img/MSKLabs_favicon.png">
 
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/analytics.js"></script>
+
   <style>
-    .privacy-badge-card {
-      background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
+    /* 2pt Küçültülmüş Tipografi ve Kurumsal Düzen */
+    .legal-meta-bar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .app-meta-box {
-      display: flex;
       align-items: center;
-      gap: 1rem;
-    }
-    .app-meta-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #0ea5e9, #6366f1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
-    }
-    .app-meta-info h2 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #0f172a;
-      margin: 0;
-    }
-    .app-meta-info p {
-      font-size: 0.875rem;
-      color: #334155;
-      margin: 0.2rem 0 0 0;
-    }
-    .badge-pill-group {
-      display: flex;
-      gap: 0.5rem;
       flex-wrap: wrap;
-    }
-    .badge-pill {
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      color: #38bdf8;
-      padding: 0.35rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .permissions-table-wrapper {
-      margin: 1.5rem 0;
-      overflow-x: auto;
-    }
-    .permissions-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #ffffff; border: 1px solid #e2e8f0;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding: 10px 16px;
+      background: var(--bg-card, #ffffff);
+      border: 1px solid var(--border-color, #cbd5e1);
       border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .permissions-table th, .permissions-table td {
-      padding: 0.85rem 1rem;
-      text-align: left;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 0.9rem;
-    }
-    .permissions-table th {
-      background: rgba(255, 255, 255, 0.1);
-      color: #334155;
-      font-weight: 600;
-    }
-    .permissions-table td {
-      color: #334155;
-    }
-    .permissions-table td strong {
-      color: #0f172a;
-    }
-
-    .print-btn-container {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 1rem;
+      font-size: 0.82rem;
+      color: var(--text-muted, #64748b);
     }
     .print-btn {
-      background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #1e293b;
-      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid var(--border-color, #cbd5e1);
+      color: var(--text-main, #0f172a);
+      padding: 6px 14px;
       border-radius: 8px;
-      font-size: 0.85rem;
+      font-size: 0.80rem;
+      font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 6px;
       transition: all 0.2s ease;
     }
     .print-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: #ffffff;
+      border-color: var(--primary-color, #0284c7);
+      color: var(--primary-color, #0284c7);
     }
-
-    @media print {
-      body {
-        background: #ffffff !important;
-        color: #0f172a !important;
+    .legal-content h2 {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--text-main, #0f172a);
+      margin: 28px 0 10px 0;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-color, #f1f5f9);
+    }
+    .legal-content h2:first-of-type {
+      margin-top: 0;
+    }
+    .legal-content h3 {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--text-main, #1e293b);
+      margin: 18px 0 6px 0;
+    }
+    .legal-content p, .legal-content li {
+      font-size: 0.86rem;
+      line-height: 1.68;
+      color: var(--text-main, #334155);
+    }
+    .legal-content ul, .legal-content ol {
+      padding-left: 22px;
+      margin: 10px 0 16px 0;
+    }
+    .legal-content li {
+      margin-bottom: 8px;
+    }
+    .privacy-highlight-box {
+      background: rgba(2, 132, 199, 0.05);
+      border-left: 4px solid var(--primary-color, #0284c7);
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin: 16px 0 24px 0;
+    }
+    .privacy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px 0;
+      font-size: 0.82rem;
+    }
+    .privacy-table th, .privacy-table td {
+      border: 1px solid var(--border-color, #cbd5e1);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .privacy-table th {
+      background: var(--bg-hover, #f8fafc);
+      color: var(--text-main, #0f172a);
+      font-weight: 700;
+    }
+    .legal-footer-meta {
+      margin-top: 36px;
+      padding: 14px 18px;
+      background: var(--bg-hover, #f8fafc);
+      border: 1px solid var(--border-color, #e2e8f0);
+      border-radius: 10px;
+      font-size: 0.82rem;
+      color: var(--text-muted, #64748b);
+      line-height: 1.55;
+    }
+    .legal-footer-meta strong {
+      color: var(--text-main, #0f172a);
+    }
+    @media (max-width: 768px) {
+      .privacy-table {
+        display: block;
+        overflow-x: auto;
       }
-      .desktop-ad, .print-btn-container, .back-btn, .lang-switcher, .site-footer {
+    }
+    @media print {
+      .site-header-sticky, .site-footer, .desktop-ad, .print-btn, .infeed-ad-container, .legal-meta-bar {
         display: none !important;
       }
-      .portfolio-container {
+      .layout-wrapper, .portfolio-container {
         max-width: 100% !important;
+        margin: 0 !important;
         padding: 0 !important;
       }
-      .static-page-card, .privacy-badge-card {
-        background: #ffffff !important;
-        border: 1px solid #cbd5e1 !important;
-        color: #0f172a !important;
+      .static-page-card {
+        border: none !important;
         box-shadow: none !important;
-      }
-      .app-meta-info h2, h1, h2, h3 {
-        color: #0f172a !important;
-      }
-      .permissions-table th {
-        background: #f1f5f9 !important;
-        color: #0f172a !important;
-      }
-      .permissions-table td {
-        color: #334155 !important;
+        padding: 0 !important;
       }
     }
   </style>
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/analytics.js"></script>
 </head>
 <body class="lang-tr">
 
@@ -177,131 +160,418 @@
     <div class="ad-placeholder">Masaüstü Sol Reklam<br>(120x300)</div>
   </aside>
 
-  <div class="portfolio-container">
-
-    <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%; margin-bottom: 1rem;">
-      <div class="print-btn-container" style="margin:0;">
-        <button onclick="window.print()" class="print-btn">
-          🖨️ <span class="lang-tr">PDF / Yazdır</span><span class="lang-en">Print / PDF</span><span class="lang-ar">طباعة / PDF</span>
-        </button>
-      </div>
-    </div>
+  <main class="portfolio-container">
 
     <h1 class="page-title">
-      <span class="lang-tr">Gizlilik Politikası</span>
-      <span class="lang-en">Privacy Policy</span>
-      <span class="lang-ar">سياسة الخصوصية</span>
+      <span class="lang-tr">Gizlilik Politikası ve KVKK Aydınlatma Metni</span>
+      <span class="lang-en">Privacy Policy &amp; Data Protection Disclosure</span>
+      <span class="lang-ar">سياسة الخصوصية وبيان حماية البيانات الشخصية</span>
     </h1>
 
-    <!-- Dynamic App Badge -->
-    <div class="privacy-badge-card" id="appBadgeCard">
-      <div class="app-meta-box">
-        <div class="app-meta-icon" id="appIconBox">📱</div>
-        <div class="app-meta-info">
-          <h2 id="appNameText">MSK Labs Uygulaması</h2>
-          <p id="appMetaSub">Sürüm: <span id="appVerText">1.0.0</span> | Platform: <span id="appOsText">Genel</span></p>
-        </div>
+    <div class="legal-meta-bar">
+      <div>
+        <span>🛡️ </span>
+        <strong class="lang-tr">Genel Mahremiyet ve Veri Koruma Çerçevesi</strong>
+        <strong class="lang-en">General Privacy &amp; Data Protection Framework</strong>
+        <strong class="lang-ar">الإطار العام للخصوصية وحماية البيانات</strong>
       </div>
-      <div class="badge-pill-group">
-        <span class="badge-pill">✓ Google Play Uyumlu</span>
-        <span class="badge-pill">✓ App Store Uyumlu</span>
-        <span class="badge-pill">📅 Güncelleme: 10 Eylül 2026</span>
-      </div>
+      <button type="button" onclick="window.print()" class="print-btn" aria-label="Yazdır">
+        🖨️ <span class="lang-tr">PDF / Yazdır</span><span class="lang-en">Print / PDF</span><span class="lang-ar">طباعة / PDF</span>
+      </button>
     </div>
 
-    <!-- Policy Content Card -->
-    <div class="static-page-card">
-      <div class="lang-tr">
-        <h2>1. Genel Bilgilendirme ve Taahhüt</h2>
-        <p>MSK Labs ("biz", "tarafımız"), kullanıcılarımızın kişisel verilerinin gizliliğine ve güvenliğine en yüksek seviyede önem vermektedir. Bu Gizlilik Politikası, msklabs.org web sitemiz ve yayınladığımız mobil/masaüstü yazılımlarımız (<span class="app-name-holder">MSK Labs Uygulamaları</span>) aracılığıyla işlenen verilerin niteliğini, amacını ve haklarınızı açıklamak amacıyla hazırlanmıştır.</p>
+    <div class="static-page-card legal-content">
 
-        <h2>2. Uygulamaya Özel İzinler ve Veri İşleme Tablosu</h2>
-        <p>Aşağıdaki tablo, <strong><span class="app-name-holder">seçili uygulamanın</span></strong> cihazınız üzerinde ihtiyaç duyduğu izinleri ve kullanım amaçlarını göstermektedir:</p>
-        
-        <div class="permissions-table-wrapper">
-          <table class="permissions-table" id="permissionsTableTr">
-            <thead>
-              <tr>
-                <th>İzin / Veri Türü</th>
-                <th>Kullanım Amacı</th>
-                <th>Depolama Lokasyonu</th>
-              </tr>
-            </thead>
-            <tbody id="permissionsTbodyTr">
-              <!-- Dynamically populated -->
-            </tbody>
-          </table>
+      <!-- ==========================================
+           TÜRKÇE TAM KURUMSAL GİZLİLİK VE KVKK METNİ
+           ========================================== -->
+      <div class="lang-tr">
+        <div class="privacy-highlight-box">
+          <strong style="color:var(--primary-color, #0284c7); font-size:0.94rem;">🛡️ Temel Mahremiyet İlkemiz — Sıfır Bilgi (Zero-Knowledge) ve Yerel Öncelikli (Local-First) Mimari:</strong>
+          <p style="margin:6px 0 0 0; font-size:0.85rem; line-height:1.65;">MSK Labs; kullanıcı mahremiyetini ticari kaygıların ve her türlü veri madenciliğinin üzerinde tutar. Masaüstü yazılımlarımızda ve mobil uygulamalarımızda <strong>merkezi üyelik kaydı, profil çıkarma veya kişisel veri toplama kesinlikle bulunmamaktadır</strong>. Tüm yapılandırma dosyalarınız, sayaç değerleriniz, notlarınız ve tercihleriniz <em>"Veriniz tamamen sizindir"</em> ilkesiyle yalnızca kendi fiziksel cihazınızda yerel olarak işlenir ve saklanır.</p>
         </div>
 
-        <h2>3. Reklam ve Üçüncü Taraf Hizmetleri (Google AdSense / AdMob)</h2>
-        <p>Uygulamalarımızda ücretsiz hizmet kalitesini sürdürebilmek adına Google AdMob / AdSense reklam ağları kullanılabilir.</p>
+        <h2>Madde 1 — Veri Sorumlusunun Kimliği</h2>
+        <p>6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK"), Aydınlatma Yükümlülüğünün Yerine Getirilmesinde Uyulacak Usul ve Esaslar Hakkında Tebliğ ve Avrupa Birliği Genel Veri Koruma Tüzüğü ("GDPR") uyarınca; <code>msklabs.org</code> alan adlı internet sitesi ile Windows, macOS, Linux, Android ve iOS platformlarında yayınlanan bağımsız yazılım ürünlerinin geliştiricisi ve yöneticisi olan <strong>MSK Labs</strong> ("Kuruluş" veya "Veri Sorumlusu"), kişisel verilerinizin korunmasına en üst düzeyde özen göstermektedir.</p>
+        <p>
+          🌐 <strong>Resmi İnternet Sitesi:</strong> <a href="https://msklabs.org" target="_blank" rel="noopener noreferrer" style="color:var(--primary-color, #0284c7); font-weight:600;">https://msklabs.org</a><br>
+          🔒 <strong>KVKK &amp; Veri Koruma Masası:</strong> <a href="mailto:kvkk@msklabs.org" style="color:var(--primary-color, #0284c7); font-weight:600;">kvkk@msklabs.org</a><br>
+          ✉️ <strong>Genel Destek E-Postası:</strong> <a href="mailto:destek@msklabs.org" style="color:var(--primary-color, #0284c7); font-weight:600;">destek@msklabs.org</a>
+        </p>
+
+        <h2>Madde 2 — Kişisel Verilerin İşlenmesindeki Temel İlkeler</h2>
+        <p>MSK Labs bünyesinde veri işleme faaliyetleri, KVKK'nın 4. maddesinde düzenlenen evrensel ilkelere tam uyum içerisinde yürütülür:</p>
         <ul>
-          <li>Google, reklam sunumunu kişiselleştirmek veya anonimleştirmek amacıyla reklam tanımlayıcılarını (Advertising ID) kullanabilir.</li>
-          <li>Kullanıcılar, <a href="https://www.google.com/settings/ads" target="_blank" style="color:#38bdf8; text-decoration: underline;">Google Reklam Ayarları</a> sayfasını ziyaret ederek kişiselleştirilmiş reklamcılığı diledikleri zaman devre dışı bırakabilirler.</li>
+          <li><strong>Hukuka ve Dürüstlük Kurallarına Uygunluk:</strong> Kullanıcı aleyhine gizli veya öngörülemez hiçbir veri işleme faaliyeti yürütülmez.</li>
+          <li><strong>Doğruluk ve Gerektiğinde Güncellik:</strong> Veriler doğrudan kullanıcının kendi yerel cihazında tutulduğundan, kontrol ve güncellik münhasıran kullanıcının tasarrufundadır.</li>
+          <li><strong>Belirli, Açık ve Meşru Amaçlar İçin İşlenme:</strong> Uygulamalarımızda arka planda gizli veri toplayan, kullanıcı davranışını gözetleyen veya izinsiz veri sızdıran hiçbir kod parçacığı yer almaz.</li>
+          <li><strong>İşlendikleri Amaçla Bağlantılı, Sınırlı ve Ölçülü Olma (Veri Minimizasyonu):</strong> Yalnızca hizmetin teknik olarak sunulabilmesi için kaçınılmaz olan asgari düzeydeki veriler işlenir.</li>
+          <li><strong>Gerekli Süre Kadar Muhafaza Edilme:</strong> Yerel veriler kullanıcının cihazında saklanır; merkezi sunucularımızda gereksiz veri arşivi tutulmaz.</li>
         </ul>
 
-        <h2>4. Veri Silme Hakları ve İletişim</h2>
-        <p>KVKK ve GDPR uyarınca, uygulamalarımız bünyesinde yerel olarak saklanan verilerinizi uygulamanın "Verileri Temizle" seçeneğiyle silebilir veya doğrudan bizimle iletişime geçebilirsiniz.</p>
-        <p>📩 <strong>Veri Silme & Destek Talebi:</strong> <a href="destek.html?category=istek" style="color:#38bdf8; text-decoration: underline;">Canlı Destek Formu Kullanın</a> veya <a href="mailto:msklabs.org@gmail.com" style="color:#38bdf8;">msklabs.org@gmail.com</a> adresine e-posta gönderin.</p>
+        <h2>Madde 3 — İşlenen Kişisel Veri Kategorileri</h2>
+        <p>MSK Labs ekosisteminde işlenen veriler nitelikleri itibarıyla aşağıdaki kategorilerden oluşmaktadır:</p>
+        <ul>
+          <li><strong>Kimlik Bilgisi:</strong> Yalnızca web sitemiz üzerindeki destek masası veya doğrudan e-posta yazışmalarında kullanıcının kendi isteğiyle paylaştığı ad ve soyad bilgisi. <em>(Masaüstü ve mobil uygulamalarımızın kullanımında kimlik bilgisi talep edilmez.)</em></li>
+          <li><strong>İletişim Bilgisi:</strong> Kullanıcının destek talebi oluştururken veya e-bültene kaydolurken kendi isteğiyle paylaştığı e-posta adresi.</li>
+          <li><strong>Müşteri İşlem ve Talep/Şikayet Bilgisi:</strong> Destek masası veya e-posta üzerinden iletilen hata bildirimleri, teknik biletler, öneri ve yazışma içerikleri.</li>
+          <li><strong>İşlem ve Ağ Güvenliği Bilgisi:</strong> Web sitesine erişim sırasında sunucu altyapısını siber saldırılardan korumak ve 5651 sayılı Kanun yükümlülüklerini yerine getirmek amacıyla geçici olarak kaydedilen internet protokolü (IP) adresi, tarayıcı türü, işletim sistemi bilgisi ve istek zaman damgaları.</li>
+          <li><strong>Kullanıcı İşlem ve Tercih Verileri (Yerel Depolama):</strong> Kullanıcının tarayıcısında veya cihazında yerel olarak saklanan gece/gündüz tema tercihi, seçili dil ve çerez onay tercihleri.</li>
+          <li><strong>Pazarlama Bilgisi (Yalnızca Açık Rıza ile):</strong> E-bülten listemize kendi rızasıyla kaydolan kullanıcılara yeni sürüm duyuruları iletmek için kullanılan e-posta adresi.</li>
+        </ul>
+        <p><strong>Özel Nitelikli Kişisel Veriler Hakkında Kesin Taahhüt:</strong> MSK Labs; kullanıcılardan ırk, etnik köken, siyasi düşünce, felsefi inanç, din, mezhep, kılık-kıyafet, dernek/vakıf/sendika üyeliği, sağlık, cinsel hayat, ceza mahkûmiyeti veya biyometrik/genetik veriler gibi hiçbir özel nitelikli kişisel veri talep etmez ve işlemez.</p>
+
+        <h2>Madde 4 — Cihaz Donanımı, Sensörler ve İzin Şeffaflığı Matrisi</h2>
+        <p><strong>TAVİZSİZ GÜVENLİK TAAHHÜDÜ: HİÇBİR MSK LABS UYGULAMASINDA KAMERA VE MİKROFON İZNİ İSTENMEZ, KULLANILMAZ VE ÇALIŞTIRILMAZ. UYGULAMALARIMIZ ASLA SES VEYA OPTİK GÖRÜNTÜ KAYDI ALMAZ.</strong></p>
+        <p>Uygulamalarımızın düzgün çalışabilmesi için işletim sistemi düzeyinde ihtiyaç duyulan teknik donanım izinleri ve depolama ilkeleri aşağıdaki tabloda şeffafça açıklanmıştır:</p>
+
+        <table class="privacy-table">
+          <thead>
+            <tr>
+              <th>Uygulama Adı</th>
+              <th>Talep Edilen Donanım / İzin</th>
+              <th>Teknik İşleme Amacı &amp; Güvenlik Taahhüdü</th>
+              <th>Depolama Konumu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>RekatSay</strong> (Mobil)</td>
+              <td>Mesafe / Yakınlık Sensörü (Proximity Sensor)</td>
+              <td>Namaz esnasında secdeye varış hareketini fiziksel mesafeden tespit ederek rekat ve secde sayısını hesaplar. <strong>Kamera veya optik görüntü kesinlikle kullanılmaz.</strong></td>
+              <td>Cihazın Geçici Belleği (RAM) — Uygulama kapandığında anında sıfırlanır.</td>
+            </tr>
+            <tr>
+              <td><strong>HaydiNamaza &amp; En Yakın</strong> (Mobil / Web)</td>
+              <td>Konum Servisleri (GPS / Ağ Tabanlı Konum)</td>
+              <td>Güneşin coğrafi açısına göre namaz vakitlerini, pusula ile kıble açısını hesaplamak ve yakındaki ibadet noktalarını listelemek için anlık kullanılır. Konum koordinatları <strong>asla sunucularımıza iletilmez veya kaydedilmez</strong>.</td>
+              <td>Kullanıcı Donanımı (Cihaz içi anlık matematiksel hesaplama)</td>
+            </tr>
+            <tr>
+              <td><strong>Date Counter &amp; DeskPilot Pro</strong> (Masaüstü)</td>
+              <td>Yerel Disk Erişim İzni</td>
+              <td>Kullanıcının tanımladığı geri sayım hedeflerini, emeklilik tarihlerini, görev çubuğu kısayollarını ve arayüz yapılandırmasını saklar.</td>
+              <td>Kullanıcının Yerel Sabit Diski (<code>settings.json</code> / <code>AppData</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>GC Pil Uyarı</strong> (Masaüstü)</td>
+              <td>İşletim Sistemi Donanım Pil Durumu API'si</td>
+              <td>Dizüstü bilgisayarın pil sağlığını korumak amacıyla kritik şarj eşiklerinde kullanıcıyı masaüstü bildirimiyle uyarmak için pil yüzdesini dinler.</td>
+              <td>Yerel İşletim Sistemi Oturumu (Kalıcı kayıt tutulmaz)</td>
+            </tr>
+            <tr>
+              <td><strong>DocuEdit, Notes &amp; PDFLayout</strong> (Masaüstü / Web)</td>
+              <td>Kullanıcı Dosyası Seçimi (File Picker)</td>
+              <td>Kullanıcının kendi seçtiği metin veya PDF belgelerini yerel olarak işler, dönüştürür ve kaydeder. Belgeler hiçbir uzak sunucuya yüklenmez.</td>
+              <td>Kullanıcının Belirlediği Yerel Dizin</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Madde 5 — Kişisel Verilerin Toplanma Yöntemi ve Hukuki Sebepleri</h2>
+        <p>Kişisel verileriniz; web sitemiz, iletişim formları, e-posta yazışmaları ve çerezler aracılığıyla tamamen elektronik ortamda toplanmaktadır. Bu veriler, 6698 sayılı KVKK’nın 5. maddesinde belirtilen aşağıdaki hukuki sebepler doğrultusunda işlenir:</p>
+        <ol>
+          <li><strong>Bir Sözleşmenin Kurulması veya İfasıyla Doğrudan Doğruya İlgili Olması (KVKK m. 5/2-c):</strong> Destek masası veya e-posta aracılığıyla iletilen teknik yardım biletlerinin sonuçlandırılması.</li>
+          <li><strong>Veri Sorumlusunun Hukuki Yükümlülüğünü Yerine Getirebilmesi (KVKK m. 5/2-ç):</strong> 5651 sayılı İnternet Ortamında Yapılan Yayınların Düzenlenmesi Hakkında Kanun uyarınca web sunucu erişim loglarının yasal süre boyunca tutulması.</li>
+          <li><strong>Veri Sorumlusunun Meşru Menfaatleri (KVKK m. 5/2-f):</strong> Web sitemizin ve API servislerimizin siber güvenliğinin sağlanması, sistem performansının optimize edilmesi, kötü niyetli saldırıların (DDoS, sızma girişimleri) önlenmesi.</li>
+          <li><strong>Açık Rıza (KVKK m. 5/1):</strong> İsteğe bağlı olarak e-bülten kayıt formunu dolduran kullanıcılara yeni sürüm duyurularının gönderilmesi. <em>(Kullanıcı dilediği zaman bu onayını tek tıklamayla geri alabilir.)</em></li>
+        </ol>
+
+        <h2>Madde 6 — Çerez (Cookie) Politikası ve Tercih Yönetimi</h2>
+        <p>Web sitemizde (<code>msklabs.org</code>), kullanıcı deneyimini iyileştirmek ve güvenliği sağlamak amacıyla sınırlı kapsamda çerezler ve yerel tarayıcı depolama alanları kullanılmaktadır:</p>
+        <ul>
+          <li><strong>Zorunlu ve İşlevsel Çerezler:</strong> Sitemizin düzgün çalışabilmesi için teknik olarak zorunlu olan ve tarayıcınızın yerel depolama alanında (<code>localStorage</code>) tutulan tercihlerdir (gece/gündüz teması: <code>user_theme</code>, arayüz dili: <code>user_lang</code>, çerez onay durumu: <code>cookie_consent_msk</code>). Bu veriler kişisel profil oluşturmaz ve üçüncü taraflarla paylaşılmaz.</li>
+          <li><strong>Analitik Çerezler (İsteğe Bağlı):</strong> Sitemizin ziyaretçi trafiğini ve sayfa akışını anlamak amacıyla kullanılan anonimleştirilmiş ölçüm çerezleridir. Yalnızca çerez tercih merkezinden onay vermeniz durumunda etkinleştirilir.</li>
+          <li><strong>Reklam ve Pazarlama Çerezleri (Google AdSense / AdMob):</strong> Bağımsız yazılım geliştirme ve ücretsiz yayın faaliyetlerimizi sürdürebilmek amacıyla sitemizde onaylı Google reklamları yayınlanabilir. Google, web sitemizi ve internetteki diğer siteleri geçmiş ziyaretlerinize dayanarak size uygun reklamlar sunmak amacıyla çerezlerden (DoubleClick vb.) faydalanabilir.</li>
+          <li><strong>Çerez Tercihlerini Yönetme ve Reddetme:</strong> Sayfamızın sol alt kısmında yer alan Çerez Bildirimi veya tarayıcı ayarlarınız üzerinden çerez tercihlerinizi dilediğiniz an güncelleyebilir, analitik veya reklam çerezlerini tamamen reddedebilirsiniz. Ayrıca kişiselleştirilmiş reklam tercihlerini <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" style="color:var(--primary-color, #0284c7); text-decoration:underline;">Google Reklam Ayarları</a> veya <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" style="color:var(--primary-color, #0284c7); text-decoration:underline;">aboutads.info</a> üzerinden yönetebilirsiniz.</li>
+        </ul>
+
+        <h2>Madde 7 — Verilerin Kimlerle Paylaşıldığı ve Aktarım Esasları</h2>
+        <p>MSK Labs, kullanıcılarına ait kişisel verileri hiçbir koşulda <strong>üçüncü şahıslara satmaz, kiralamaz ve ticari amaçlı pazarlama şirketleriyle paylaşmaz.</strong></p>
+        <p>Kişisel verileriniz yalnızca aşağıdaki zorunlu hallerde ve KVKK'nın 8. ve 9. maddelerine uygun olarak aktarılabilir:</p>
+        <ul>
+          <li><strong>Kanunen Yetkili Kamu Kurum ve Kuruluşları:</strong> Mahkemeler, savcılıklar, kolluk kuvvetleri ve yasal olarak bilgi talep etmeye yetkili resmi mercilerin mevzuata uygun yazılı talepleri doğrultusunda.</li>
+          <li><strong>Teknik Altyapı ve Barındırma Sağlayıcıları:</strong> Web sitemizin kesintisiz, hızlı ve siber saldırılara karşı korumalı biçimde sunulabilmesi için küresel içerik dağıtım ağı (CDN) ve barındırma sağlayıcımız (Cloudflare) ile kurumsal e-posta iletim sağlayıcılarımız üzerinden teknik gereksinimlerle sınırlı olarak.</li>
+        </ul>
+
+        <h2>Madde 8 — Veri Güvenliği ve Alınan Teknik / İdari Tedbirler</h2>
+        <p>Kişisel verilerin hukuka aykırı olarak işlenmesini, yetkisiz erişimini ve kaybolmasını engellemek amacıyla aşağıdaki güvenlik tedbirleri uygulanmaktadır:</p>
+        <ul>
+          <li><strong>Modern TLS 1.3 ve HTTPS Şifreleme:</strong> Web sitemiz ve tüm API iletişimlerimiz güncel şifreleme sertifikalarıyla güvence altındadır; veriler ağ üzerinde açık metin olarak iletilmez.</li>
+          <li><strong>Ödeme Bilgisi Güvenliği:</strong> Web sitemiz üzerinde kredi kartı veya banka kartı bilgisi toplanmaz veya saklanmaz. İleride sunulabilecek herhangi bir bağış veya lisanslama sürecinde ödemeler doğrudan BDDK lisanslı güvenli ödeme kuruluşları ve 256-bit SSL şifrelemeli banka ağ geçitleri üzerinden gerçekleştirilir.</li>
+          <li><strong>Ağ ve Sistem Savunması:</strong> API uç noktalarımızda CORS kuralları, CSRF korumaları ve otomatik istek sınırlandırma (rate limiting) mekanizmaları etkindir.</li>
+          <li><strong>Yerel Öncelikli Mimari Güvencesi:</strong> Uygulamalarımız yerel öncelikli olarak çalıştığından, sunucularımızda merkezi kullanıcı veritabanı bulunmaz. Bu sayede toplu veri sızıntısı veya veritabanı çalınması riski teknik olarak ortadan kaldırılmıştır.</li>
+        </ul>
+
+        <h2>Madde 9 — Veri Saklama Süreleri ve İmha Politikası</h2>
+        <ul>
+          <li><strong>Masaüstü ve Mobil Uygulama Verileri:</strong> Tamamen kullanıcının kendi yerel cihazında tutulduğundan; kullanıcının uygulamayı cihazından kaldırması, uygulama verilerini temizlemesi veya ayar dosyasını silmesiyle birlikte <strong>anında ve geri döndürülemez biçimde silinir.</strong></li>
+          <li><strong>Destek Masası ve E-Posta Yazışmaları:</strong> Kullanıcının destek talebi çözüme kavuşturulduktan sonra, Türk Borçlar Kanunu ve Türk Ticaret Kanunu'ndaki yasal zamanaşımı sürelerinin dolmasıyla birlikte güvenli yöntemlerle kalıcı olarak imha edilir veya anonim hale getirilir.</li>
+          <li><strong>Sunucu Güvenlik Logları:</strong> 5651 sayılı Kanun ve ilgili mevzuat gereğince yasal zorunlu süre boyunca saklanır ve sürenin bitiminde otomatik olarak silinir.</li>
+        </ul>
+
+        <h2>Madde 10 — Üçüncü Taraf Web Siteleri ve Dış Bağlantılar</h2>
+        <p>Web sitemiz veya uygulamalarımız, MSK Labs tarafından işletilmeyen üçüncü taraf web sitelerine bağlantılar (linkler) içerebilir. MSK Labs, bağlantı verilen harici sitelerin gizlilik uygulamalarından, çerez politikalarından ve içeriklerinden sorumlu değildir. Dış siteleri ziyaret ettiğinizde ilgili sitenin kendi gizlilik politikasını incelemeniz tavsiye edilir.</p>
+
+        <h2>Madde 11 — 6698 Sayılı KVKK Kapsamındaki Haklarınız (Madde 11)</h2>
+        <p>Kişisel veri sahibi ("İlgili Kişi") olarak, KVKK’nın 11. maddesi uyarınca MSK Labs'e başvurarak aşağıdaki haklarınızı kullanabilirsiniz:</p>
+        <ol>
+          <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme,</li>
+          <li>Kişisel verileriniz işlenmişse buna ilişkin bilgi talep etme,</li>
+          <li>Kişisel verilerin işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme,</li>
+          <li>Yurt içinde veya yurt dışında kişisel verilerin aktarıldığı üçüncü kişileri bilme,</li>
+          <li>Kişisel verilerin eksik veya yanlış işlenmiş olması hâlinde bunların düzeltilmesini isteme,</li>
+          <li>KVKK'nın 7. maddesinde öngörülen şartlar çerçevesinde kişisel verilerin silinmesini veya yok edilmesini isteme <em>(Unutulma Hakkı)</em>,</li>
+          <li>Düzeltme, silme ve yok edilme işlemlerinin, kişisel verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme,</li>
+          <li>İşlenen verilerin tamamen otomatik sistemler vasıtasıyla analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme,</li>
+          <li>Kişisel verilerin kanuna aykırı olarak işlenmesi sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme.</li>
+        </ol>
+        <p>Avrupa Birliği Genel Veri Koruma Tüzüğü (GDPR) kapsamındaki kullanıcılarımız da yukarıdaki haklara ek olarak verilerinin yapılandırılmış bir formatta kendilerine iletilmesini isteme <em>(Veri Taşınabilirliği)</em> ve işlemeyi kısıtlama haklarına sahiptir.</p>
+
+        <h2>Madde 12 — Başvuru Usulü ve İrtibat Kanalları</h2>
+        <p>Yukarıda belirtilen haklarınızı kullanmak için, <em>Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ</em> hükümlerine uygun olarak kimliğinizi doğrulayıcı bilgilerle birlikte talebinizi aşağıdaki kurumsal başvuru kanalımıza iletebilirsiniz:</p>
+        <p>
+          🔒 <strong>KVKK &amp; Veri Koruma Masası:</strong> <a href="mailto:kvkk@msklabs.org" style="color:var(--primary-color, #0284c7); font-weight:600;">kvkk@msklabs.org</a><br>
+          ✉️ <strong>Genel Destek E-Postası:</strong> <a href="mailto:destek@msklabs.org" style="color:var(--primary-color, #0284c7); font-weight:600;">destek@msklabs.org</a><br>
+          🎫 <strong>Canlı Destek Bileti:</strong> <a href="destek.html" style="color:var(--primary-color, #0284c7); font-weight:600;">https://msklabs.org/destek.html</a>
+        </p>
+        <p>Başvurularınız, talebin niteliğine göre en kısa sürede ve <strong>en geç 30 (otuz) gün içinde</strong> kural olarak ücretsiz şekilde sonuçlandırılacaktır.</p>
+
+        <h2>Madde 13 — Değişiklikler ve Yürürlük</h2>
+        <p>MSK Labs, mevzuat değişiklikleri, yeni yasal düzenlemeler veya ürün güncellemeleri doğrultusunda bu Gizlilik Politikası ve KVKK Aydınlatma Metni'ni dilediği zaman güncelleme hakkını saklı tutar. Güncellenmiş metin <code>msklabs.org/privacy.html</code> adresinde yayımlandığı tarihte derhal yürürlük kazanır.</p>
+
+        <!-- KULLANICI KURALI: GÜNCELLEME VE KAPSAM BİLGİSİ EN ALTTA -->
+        <div class="legal-footer-meta">
+          <div>📅 <strong>Son Güncelleme ve Yürürlük Tarihi:</strong> 30 Ekim 2026</div>
+          <div style="margin-top:4px;">🌐 <strong>Uygulama Kapsamı:</strong> <code>msklabs.org</code> Web Platformu, Tüm Alt Alan Adları, Windows / macOS / Linux Masaüstü Yazılımları ve Android / iOS Mobil Uygulama Ekosistemi.</div>
+        </div>
       </div>
 
+      <!-- ==========================================
+           İNGİLİZCE TAM KURUMSAL GİZLİLİK VE GDPR METNİ
+           ========================================== -->
       <div class="lang-en">
-        <h2>1. General Information & Commitment</h2>
-        <p>MSK Labs ("we", "us") prioritizes user privacy and data security. This Privacy Policy outlines data handling practices for our software applications (<span class="app-name-holder">MSK Labs Applications</span>) and website msklabs.org.</p>
-
-        <h2>2. Application Specific Permissions & Data Table</h2>
-        <p>The table below summarizes permissions required by <strong><span class="app-name-holder">this application</span></strong>:</p>
-
-        <div class="permissions-table-wrapper">
-          <table class="permissions-table" id="permissionsTableEn">
-            <thead>
-              <tr>
-                <th>Permission / Data Type</th>
-                <th>Purpose of Use</th>
-                <th>Storage Location</th>
-              </tr>
-            </thead>
-            <tbody id="permissionsTbodyEn">
-              <!-- Dynamically populated -->
-            </tbody>
-          </table>
+        <div class="privacy-highlight-box">
+          <strong style="color:var(--primary-color, #0284c7); font-size:0.94rem;">🛡️ Core Privacy Commitment — Zero-Knowledge &amp; Local-First Architecture:</strong>
+          <p style="margin:6px 0 0 0; font-size:0.85rem; line-height:1.65;">MSK Labs puts privacy above monetization. Across our desktop utilities and mobile software, we enforce <strong>no mandatory account registrations, no centralized tracking, and zero server-side telemetry</strong>. Configuration files, counter records, and user preferences remain strictly confined to your physical hardware under the <em>"Your Data Belongs to You"</em> principle.</p>
         </div>
 
-        <h2>3. Advertising & Third-Party Services (Google AdMob / AdSense)</h2>
-        <p>Third-party vendors, including Google, use cookies and Advertising IDs to serve ads based on user interactions.</p>
-        <p>Users may manage advertising preferences via <a href="https://www.google.com/settings/ads" target="_blank" style="color:#38bdf8; text-decoration: underline;">Google Ads Settings</a>.</p>
+        <h2>Section 1 — Identity of the Data Controller</h2>
+        <p>Pursuant to Turkish Personal Data Protection Law No. 6698 ("KVKK") and the EU General Data Protection Regulation ("GDPR"), <strong>MSK Labs</strong> ("Organization", "we", "us") serves as Data Controller for the website <code>msklabs.org</code> and our software ecosystem spanning Windows, macOS, Linux, Android, and iOS.</p>
+        <p>
+          🌐 <strong>Official Website:</strong> <a href="https://msklabs.org" target="_blank" rel="noopener noreferrer" style="color:var(--primary-color, #0284c7); font-weight:600;">https://msklabs.org</a><br>
+          🔒 <strong>Privacy Desk:</strong> <a href="mailto:kvkk@msklabs.org" style="color:var(--primary-color, #0284c7); font-weight:600;">kvkk@msklabs.org</a><br>
+          ✉️ <strong>General Support:</strong> <a href="mailto:destek@msklabs.org" style="color:var(--primary-color, #0284c7); font-weight:600;">destek@msklabs.org</a>
+        </p>
 
-        <h2>4. Data Deletion & Contact</h2>
-        <p>Users retain full rights to wipe application data locally or request support via our <a href="destek.html" style="color:#38bdf8; text-decoration: underline;">Support Desk</a> or by emailing <a href="mailto:msklabs.org@gmail.com" style="color:#38bdf8;">msklabs.org@gmail.com</a>.</p>
+        <h2>Section 2 — Core Data Processing Principles</h2>
+        <p>All data handling operations adhere strictly to statutory principles: Lawfulness, fairness, and transparency; Accuracy and data subject control; Purpose limitation; Data minimization; and Storage limitation. We never deploy background snooping or covert profiling mechanisms.</p>
+
+        <h2>Section 3 — Data Categories &amp; Special Categories of Data</h2>
+        <ul>
+          <li><strong>Identity Data:</strong> Name and surname voluntarily submitted via support desk tickets or direct email correspondences. <em>(No identity data is required to run desktop or mobile apps.)</em></li>
+          <li><strong>Contact Data:</strong> Email address provided during ticket creation or newsletter subscription.</li>
+          <li><strong>Transaction &amp; Inquiries:</strong> Bug reports, technical tickets, and feedback correspondence.</li>
+          <li><strong>Network Security Telemetry:</strong> Anonymized IP addresses, timestamps, and browser user-agents recorded transiently to defend servers against cyberattacks.</li>
+          <li><strong>Preferences (Local Storage):</strong> Dark/light mode theme, interface language, and cookie consent flags stored in browser <code>localStorage</code>.</li>
+        </ul>
+        <p><strong>Special Categories of Personal Data:</strong> MSK Labs strictly never requests, processes, or stores sensitive personal data such as racial or ethnic origin, religious or philosophical beliefs, political opinions, trade union membership, biometric data, health data, or criminal convictions.</p>
+
+        <h2>Section 4 — Device Hardware, Sensors &amp; Permission Transparency</h2>
+        <p><strong>CRITICAL MANDATE: NONE OF OUR APPLICATIONS REQUEST, EXECUTE, OR UTILIZE CAMERA OR MICROPHONE ACCESS. ZERO AUDIO OR OPTICAL RECORDING OCCURS.</strong></p>
+
+        <table class="privacy-table">
+          <thead>
+            <tr>
+              <th>Application</th>
+              <th>Requested Hardware / Permission</th>
+              <th>Technical Purpose &amp; Safety Mandate</th>
+              <th>Storage Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>RekatSay</strong> (Mobile)</td>
+              <td>Proximity Sensor</td>
+              <td>Detects prostration motion strictly via physical proximity during prayers to count prostrations. <strong>No camera is ever accessed.</strong></td>
+              <td>Volatile Memory (RAM) — Cleared immediately on app close.</td>
+            </tr>
+            <tr>
+              <td><strong>HaydiNamaza &amp; En Yakın</strong> (Mobile/Web)</td>
+              <td>Location Services (GPS)</td>
+              <td>Locally calculates solar angles for prayer times and compass Qibla alignment. Coordinates are never transmitted to our servers.</td>
+              <td>User Hardware (Local client-side calculation)</td>
+            </tr>
+            <tr>
+              <td><strong>Date Counter &amp; DeskPilot Pro</strong> (Desktop)</td>
+              <td>Local File System Access</td>
+              <td>Saves user-defined countdown milestones, retirement dates, shortcuts, and window configurations.</td>
+              <td>Local Storage (<code>settings.json</code> / <code>AppData</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>GC Battery Alert</strong> (Desktop)</td>
+              <td>OS Battery Status API</td>
+              <td>Listens to battery percentages to trigger desktop notifications at designated charge thresholds.</td>
+              <td>Local OS Session</td>
+            </tr>
+            <tr>
+              <td><strong>DocuEdit, Notes &amp; PDFLayout</strong> (Desktop/Web)</td>
+              <td>User File Picker</td>
+              <td>Processes and transforms user-selected text or PDF files entirely on the local device without cloud uploads.</td>
+              <td>Local User Directory</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Section 5 — Legal Grounds for Processing</h2>
+        <p>Data processing is conducted pursuant to KVKK Article 5 and GDPR Article 6: Performance of a contract (support tickets); Compliance with legal obligations (statutory web server logs under Law No. 5651); Legitimate interests (cybersecurity and platform integrity); and Explicit consent (optional newsletter subscription).</p>
+
+        <h2>Section 6 — Cookie Policy &amp; Preferences</h2>
+        <ul>
+          <li><strong>Essential Cookies:</strong> Strictly necessary preferences (theme, language, consent status) stored in browser <code>localStorage</code> without third-party tracking.</li>
+          <li><strong>Analytics Cookies (Optional):</strong> Anonymized measurement cookies enabled only upon explicit user consent.</li>
+          <li><strong>Advertising Cookies (Google AdSense/AdMob):</strong> Verified Google advertising partners may serve non-intrusive contextual ads to support free software maintenance. Users may customize ad settings via <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" style="color:var(--primary-color, #0284c7); text-decoration:underline;">Google Ad Settings</a> or <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" style="color:var(--primary-color, #0284c7); text-decoration:underline;">aboutads.info</a>.</li>
+        </ul>
+
+        <h2>Section 7 — Data Sharing &amp; Third Parties</h2>
+        <p>MSK Labs never sells, rents, or commercializes personal data. Transfers occur strictly under statutory mandates: Competent governmental authorities pursuant to lawful orders; and Technical CDN/hosting infrastructure (Cloudflare) and email transmission providers for technical delivery.</p>
+
+        <h2>Section 8 — Security Safeguards</h2>
+        <p>All web communications are protected by modern TLS 1.3 encryption and HTTPS. Because our applications utilize a local-first architecture without central databases, collective data leakage risks are architecturally non-existent.</p>
+
+        <h2>Section 9 — Data Retention &amp; Destruction</h2>
+        <p>Local app data is purged immediately when the user uninstalls the software or clears app data. Support correspondence is safely deleted upon expiration of statutory limitation periods.</p>
+
+        <h2>Section 10 — External Links</h2>
+        <p>MSK Labs is not responsible for the privacy policies or practices of third-party websites linked within our platform.</p>
+
+        <h2>Section 11 — Data Subject Rights (KVKK &amp; GDPR)</h2>
+        <p>You have the right to learn whether your data is processed, request information, seek rectification, request deletion/erasure ("Right to be Forgotten"), object to automated decision-making, and claim compensation for unlawful processing. GDPR users also hold the right to Data Portability and restriction of processing.</p>
+
+        <h2>Section 12 — Inquiries &amp; Exercise of Rights</h2>
+        <p>To exercise your rights, submit your request to <a href="mailto:kvkk@msklabs.org" style="color:var(--primary-color, #0284c7); font-weight:600;">kvkk@msklabs.org</a>. Requests will be concluded free of charge within 30 days.</p>
+
+        <h2>Section 13 — Amendments &amp; Validity</h2>
+        <p>MSK Labs reserves the right to revise this Policy. Updates take effect immediately upon publication at <code>msklabs.org/privacy.html</code>.</p>
+
+        <div class="legal-footer-meta">
+          <div>📅 <strong>Effective Date &amp; Last Updated:</strong> October 30, 2026</div>
+          <div style="margin-top:4px;">🌐 <strong>Scope:</strong> <code>msklabs.org</code> Web Platform, Subdomains, Desktop (Windows/macOS/Linux) and Mobile (Android/iOS) Software Ecosystem.</div>
+        </div>
       </div>
 
+      <!-- ==========================================
+           ARAPÇA TAM KURUMSAL GİZLİLİK VE VERİ KORUMA METNİ
+           ========================================== -->
       <div class="lang-ar">
-        <h2>1. معلومات عامة</h2>
-        <p>تولي MSK Labs أولوية قصوى لخصوصية المستخدمين وأمان بياناتهم.</p>
-        <h2>2. أذونات التطبيق واستخدام البيانات</h2>
-        <div class="permissions-table-wrapper">
-          <table class="permissions-table" id="permissionsTableAr">
-            <thead>
-              <tr>
-                <th>الإذن / نوع البيانات</th>
-                <th>غرض الاستخدام</th>
-                <th>موقع التخزين</th>
-              </tr>
-            </thead>
-            <tbody id="permissionsTbodyAr">
-              <!-- Dynamically populated -->
-            </tbody>
-          </table>
+        <div class="privacy-highlight-box">
+          <strong style="color:var(--primary-color, #0284c7); font-size:0.94rem;">🛡️ مبدأ الخصوصية الأساسي — بنية المعرفة الصفرية والأولوية المحلية:</strong>
+          <p style="margin:6px 0 0 0; font-size:0.85rem; line-height:1.65;">تضع MSK Labs خصوصية المستخدم فوق كل اعتبار تجاري أو إعلاني. في برمجياتنا المكتبية وتطبيقات الهواتف المحمولة، <strong>لا يوجد أي تسجيل دخول إلزامي، ولا تتبع مركزي، ولا جمع لبياناتك الشخصية على خوادمنا</strong>. يتم حفظ ومعالجة جميع إعداداتك وسجلاتك وملاحظاتك محلياً فقط على جهازك المادي بموجب مبدأ <em>"بياناتك ملكك بالكامل"</em>.</p>
         </div>
-        <h2>3. التواصل والدعم</h2>
-        <p>لأي استفسار تواصل معنا عبر البريد الإلكتروني: <a href="mailto:msklabs.org@gmail.com" style="color:#38bdf8;">msklabs.org@gmail.com</a></p>
+
+        <h2>المادة 1 — هوية المسؤول عن البيانات</h2>
+        <p>وفقاً لقانون حماية البيانات الشخصية التركي رقم 6698 ولائحة حماية البيانات العامة للاتحاد الأوروبي (GDPR)، تعد <strong>MSK Labs</strong> هي الجهة المسؤولة عن معالجة البيانات لموقع <code>msklabs.org</code> ومنظومة التطبيقات التابعة لها لأنظمة Windows وmacOS وLinux وAndroid وiOS.</p>
+        <p>
+          🌐 <strong>الموقع الرسمي:</strong> <a href="https://msklabs.org" target="_blank" rel="noopener noreferrer" style="color:var(--primary-color, #0284c7); font-weight:600;">https://msklabs.org</a><br>
+          🔒 <strong>مكتب حماية البيانات:</strong> <a href="mailto:kvkk@msklabs.org" style="color:var(--primary-color, #0284c7); font-weight:600;">kvkk@msklabs.org</a><br>
+          ✉️ <strong>الدعم الفني العام:</strong> <a href="mailto:destek@msklabs.org" style="color:var(--primary-color, #0284c7); font-weight:600;">destek@msklabs.org</a>
+        </p>
+
+        <h2>المادة 2 — المبادئ الأساسية لمعالجة البيانات</h2>
+        <p>تلتزم المؤسسة بمبادئ المشروعية، الشفافية، دقة البيانات، تحديد الأغراض، تقليل البيانات إلى الحد الأدنى، وتحديد مدة الاحتفاظ دون أي مراقبة خفية.</p>
+
+        <h2>المادة 3 — فئات البيانات والبيانات ذات الطبيعة الخاصة</h2>
+        <ul>
+          <li><strong>بيانات الهوية والاتصال:</strong> الاسم والبريد الإلكتروني المقدم اختيارياً عبر الدعم الفني لحل التذاكر فقط.</li>
+          <li><strong>سجلات أمان الشبكة:</strong> عناوين IP مجهولة المصدر وسجلات الاتصال المؤقتة لحماية الموقع من الهجمات.</li>
+          <li><strong>التفضيلات المحلية:</strong> إعدادات المظهر واللغة المحفوظة في التخزين المحلي للمتصفح.</li>
+        </ul>
+        <p><strong>تعهد قطعي بشأن البيانات الحساسة:</strong> لا تطلب MSK Labs ولا تعالج أي بيانات تتعلق بالأصل العرقي، المعتقدات الدينية، الآراء السياسية، البيانات الصحية أو الحيوية.</p>
+
+        <h2>المادة 4 — مصفوفة أذونات الأجهزة والمستشعرات</h2>
+        <p><strong>تعهد أمني قطعي: لا يطلب أي تطبيق من تطبيقاتنا ولا يستخدم ولا يقوم بتشغيل إذن الكاميرا أو الميكروفون على الإطلاق. لا يتم تسجيل أي صوت أو صورة.</strong></p>
+
+        <table class="privacy-table">
+          <thead>
+            <tr>
+              <th>اسم التطبيق</th>
+              <th>الإذن / المستشعر المطلوب</th>
+              <th>الغرض التقني وتعهد الأمان</th>
+              <th>مكان التخزين</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>RekatSay</strong> (الجوال)</td>
+              <td>مستشعر القرب (Proximity Sensor)</td>
+              <td>يكتشف حركة السجود عبر المسافة المادية لاحتساب الركعات. <strong>لا تُستخدم الكاميرا إطلاقاً.</strong></td>
+              <td>ذاكرة الوصول العشوائي (RAM) — تُمسح فور إغلاق التطبيق.</td>
+            </tr>
+            <tr>
+              <td><strong>HaydiNamaza و En Yakın</strong> (الجوال/الويب)</td>
+              <td>خدمات الموقع (GPS)</td>
+              <td>تُستخدم محلياً لحساب أوقات الصلاة واتجاه القبلة، ولا يتم إرسال الإحداثيات لخوادمنا إطلاقاً.</td>
+              <td>جهاز المستخدم (حسابات رياضية محلية)</td>
+            </tr>
+            <tr>
+              <td><strong>Date Counter و DeskPilot Pro</strong> (سطح المكتب)</td>
+              <td>الوصول للقرص المحلي</td>
+              <td>لحفظ تواريخ العد التنازلي وتفضيلات واجهة المستخدم على القرص المحلي.</td>
+              <td>قرص المستخدم المحلي (<code>settings.json</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>تنبيه البطارية GC</strong> (سطح المكتب)</td>
+              <td>واجهة برمجة حالة البطارية</td>
+              <td>لمراقبة نسبة الشحن وإرسال تنبيهات سطح المكتب عند النسب الحرجة.</td>
+              <td>جلسة نظام التشغيل المحلية</td>
+            </tr>
+            <tr>
+              <td><strong>DocuEdit و Notes و PDFLayout</strong> (سطح المكتب/الويب)</td>
+              <td>أداة اختيار الملفات</td>
+              <td>لمعالجة وتحويل ملفات النصوص وPDF محلياً دون رفعها لأي خادم.</td>
+              <td>المجلد المحلي المحدد من المستخدم</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>المادة 5 — الأساس القانوني لمعالجة البيانات</h2>
+        <p>تتم المعالجة بموجب المادة 5 من قانون KVKK والمادة 6 من GDPR: تنفيذ العقود (تذاكر الدعم)، الالتزام القانوني (سجلات الويب بموجب القانون 5651)، المصالح المشروعة (الأمن السيبراني)، والموافقة الصريحة (النشرات البريدية).</p>
+
+        <h2>المادة 6 — سياسة ملفات تعريف الارتباط (Cookies)</h2>
+        <p>نستخدم ملفات تعريف الارتباط الضرورية للتفضيلات. قد تُعرض إعلانات Google AdSense وAdMob المعتمدة لدعم البرمجيات المجانية، مع إمكانية إدارة تفضيلات الإعلانات عبر إعدادات إعلانات Google في أي وقت.</p>
+
+        <h2>المادة 7 — مشاركة البيانات والأطراف الثالثة</h2>
+        <p>لا يتم بيع أو تأجير أي بيانات شخصية، ولا تتم المشاركة إلا مع السلطات القضائية الرسمية بموجب القانون أو مزودي الاستضافة التقنية (Cloudflare) لأغراض التشغيل.</p>
+
+        <h2>المادة 8 — التدابير الأمنية والتقنية</h2>
+        <p>تتم حماية جميع الاتصالات بتشفير TLS 1.3 الحديث وبروتوكول HTTPS. بفضل المعمارية المحلية، لا توجد قواعد بيانات مركزية يمكن اختراقها.</p>
+
+        <h2>المادة 9 — مدد الاحتفاظ بالبيانات وإتلافها</h2>
+        <p>تُمسح بيانات التطبيقات فور حذف التطبيق من جهاز المستخدم. وتُحذف مراسلات الدعم بعد انقضاء مدد التقادم القانونية.</p>
+
+        <h2>المادة 10 — الروابط الخارجية</h2>
+        <p>لا تتحمل المؤسسة مسؤولية ممارسات الخصوصية للمواقع الخارجية المرتبطة.</p>
+
+        <h2>المادة 11 — حقوق أصحاب البيانات والتواصل</h2>
+        <p>يحق لك معرفة ما إذا كانت بياناتك تُعالج، وطلب تصحيحها، أو حذفها (حق النسيان)، وطلب نقل البيانات. لممارسة حقوقك يرجى مراسلة: <a href="mailto:kvkk@msklabs.org" style="color:var(--primary-color, #0284c7); font-weight:600;">kvkk@msklabs.org</a>، وتتم معالجة الطلبات مجاناً خلال 30 يوماً.</p>
+
+        <h2>المادة 12 — التعديلات والسريان</h2>
+        <p>تحتفظ MSK Labs بحق تعديل هذه السياسة، وتسري فور نشرها على الموقع.</p>
+
+        <div class="legal-footer-meta">
+          <div>📅 <strong>تاريخ السريان وآخر تحديث:</strong> 30 أكتوبر 2026</div>
+          <div style="margin-top:4px;">🌐 <strong>النطاق:</strong> موقع <code>msklabs.org</code> والنطاقات الفرعية ومنظومة برمجيات سطح المكتب والجوال.</div>
+        </div>
       </div>
+
     </div>
 
-    <!-- Footer -->
-    
+    <!-- SAYFA ALTI REKLAM ALANI -->
+    <div class="infeed-ad-container">
+      <div class="ad-placeholder">Sayfa Sonu Reklamı (Bottom Banner)</div>
+    </div>
 
-  </div>
+  </main>
 
   <aside class="desktop-ad desktop-ad-right">
     <div class="ad-placeholder">Masaüstü Sağ Reklam<br>(120x300)</div>
@@ -309,137 +579,7 @@
 
 </div>
 
-<script>
-  const APPS_CONFIG = {
-    'haydinamaza': {
-      name: 'HaydiNamaza',
-      icon: '🕌',
-      permissions: [
-        { name: 'Konum İzni (GPS)', purpose: 'Namaz vakitlerinin ve kıble açısının doğru hesaplanması', storage: 'Cihaz İçi Anlık (Sunucuya Kaydedilmez)' },
-        { name: 'Bildirim İzni', purpose: 'Ezan ve namaz vakit hatırlatma alarmlarının çalması', storage: 'Yerel Cihaz Hafızası' },
-        { name: 'Arka Plan Çalışma', purpose: 'Vakit geldiğinde ezan sesinin zamanında tetiklenmesi', storage: 'Cihaz Sistem Servisi' }
-      ]
-    },
-    'rekatsay': {
-      name: 'RekatSay',
-      icon: '📿',
-      permissions: [
-        { name: 'Mesafe Sensörü (Proximity)', purpose: 'Secde esnasında rekat ve secde sayısının otomatik algılanması', storage: 'Geçici Cihaz RAM' },
-        { name: 'Titreşim İzni', purpose: 'Secde tamamlandığında kullanıcıya dokunsal geri bildirim', storage: 'Cihaz Donanımı' }
-      ]
-    },
-    'date-counter': {
-      name: 'Date Counter (Tarih & Hedef Sayacı)',
-      icon: '⏱️',
-      permissions: [
-        { name: 'Yerel Depolama (JSON Storage)', purpose: 'Hedef tarihleriniz, geri sayım tercihleriniz ve görünüm ayarlarınız', storage: 'Cihaz İçi Hafıza (settings.json)' },
-        { name: 'Sistem Başlangıcı / Görev Çubuğu', purpose: 'Masaüstünüzde ve görev çubuğunuzda sayacın otomatik başlatılması', storage: 'Yerel Windows Kayıt Defteri' }
-      ]
-    },
-    'enyakin': {
-      name: 'En Yakın',
-      icon: '📍',
-      permissions: [
-        { name: 'Konum İzni (GPS)', purpose: 'Etrafınızdaki en yakın nöbetçi eczane, cami ve hizmetlerin bulunması', storage: 'Anlık Cihaz İçi (Sunucuya Gönderilmez)' }
-      ]
-    },
-    'deskpilot': {
-      name: 'DeskPilot',
-      icon: '🖥️',
-      permissions: [
-        { name: 'Saha/Kullanıcı Ayarları', purpose: 'Masaüstü kısayolları ve kullanıcı tercihleri', storage: 'Yerel Diskte Saklanır' }
-      ]
-    },
-    'gcpiluyari': {
-      name: 'GC Pil Uyarı',
-      icon: '🔋',
-      permissions: [
-        { name: 'Bildirim İzni', purpose: 'Görev çubuğu üzerinde çalışan pil uyarı sistemi ve şarj bildirimleri', storage: 'Yerel Cihaz Hafızası' }
-      ]
-    }
-  };
-
-  const DEFAULT_APP = {
-    name: 'MSK Labs Genel Uygulama',
-    icon: '📱',
-    permissions: [
-      { name: 'Yerel Depolama (Local Storage)', purpose: 'Uygulama içi ayarlar ve tercihlerinizin saklanması', storage: 'Yerel Cihaz Hafızası' },
-      { name: 'Anonim Sistem Bilgisi', purpose: 'Uygulama performans ve hata durumlarının tespiti', storage: 'Anonimleştirilmiş Sistem Logu' }
-    ]
-  };
-
-  function setLang(lang, saveToStorage) {
-    if (!lang) lang = 'tr';
-    if (saveToStorage !== false) {
-      try { localStorage.setItem('user_lang', lang); } catch(e) {}
-    }
-    document.body.className = 'lang-' + lang;
-    document.querySelectorAll('.lang-switcher button').forEach(function(btn) {
-      if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      else btn.classList.remove('active');
-    });
-  }
-
-  (function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const appId = (urlParams.get('app') || '').toLowerCase().trim();
-    const appVer = urlParams.get('ver') || '1.0.0';
-    const appOs = (urlParams.get('os') || 'Mobil').toUpperCase();
-    const langParam = urlParams.get('lang');
-    let savedLang = null;
-    let saveToStorage = true;
-    try { savedLang = localStorage.getItem('user_lang'); } catch(e) {}
-    
-    let activeLang = null;
-    if (langParam) {
-      activeLang = langParam.toLowerCase();
-      saveToStorage = false;
-    } else if (savedLang) {
-      activeLang = savedLang;
-    } else {
-      const sysLang = (navigator.language || '').toLowerCase();
-      if (sysLang.indexOf('tr') === 0) activeLang = 'tr';
-      else if (sysLang.indexOf('ar') === 0) activeLang = 'ar';
-      else if (sysLang.indexOf('en') === 0) activeLang = 'en';
-      else activeLang = 'tr';
-      saveToStorage = false;
-    }
-    
-    setLang(activeLang || 'tr', saveToStorage);
-
-    const appData = APPS_CONFIG[appId] || DEFAULT_APP;
-
-    document.getElementById('appNameText').innerText = appData.name;
-    document.getElementById('appIconBox').innerText = appData.icon;
-    document.getElementById('appVerText').innerText = appVer;
-    document.getElementById('appOsText').innerText = appOs;
-
-    document.querySelectorAll('.app-name-holder').forEach(el => {
-      el.innerText = appData.name;
-    });
-
-    function renderTable(tbodyId) {
-      const tbody = document.getElementById(tbodyId);
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      (appData.permissions || []).forEach(item => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><strong>${item.name || ''}</strong></td>
-          <td>${item.purpose || item.desc || ''}</td>
-          <td><span style="color:#38bdf8;">${item.storage || ''}</span></td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    renderTable('permissionsTbodyTr');
-    renderTable('permissionsTbodyEn');
-    renderTable('permissionsTbodyAr');
-  })();
-</script>
-
-  <footer class="site-footer"></footer>
+<footer class="site-footer"></footer>
 <script src="assets/js/layout.js"></script>
 </body>
 </html>

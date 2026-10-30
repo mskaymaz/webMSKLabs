@@ -15,12 +15,9 @@
     'about.html': 'about',
     'who-we-are.html': 'about',
     'bizkimiz.html': 'about',
-    'contact.html': 'contact',
     'destek.html': 'support',
     'support.html': 'support',
     'faq.html': 'faq',
-    'privacy.html': 'privacy',
-    'terms.html': 'terms',
   };
 
   var slug = SLUG_MAP[pageName];
@@ -67,6 +64,9 @@
     // 3. Statik İçerik Kartı Güncellemesi
     var card = document.querySelector('.static-page-card, .corporate-page-content');
     if (card) {
+      if (card.hasAttribute('data-static-locked') || card.classList.contains('legal-content')) {
+        return;
+      }
       var trContentEl = card.querySelector('.lang-tr, [data-lang="tr"]');
       if (trContentEl && page.content_tr) {
         trContentEl.innerHTML = page.content_tr;

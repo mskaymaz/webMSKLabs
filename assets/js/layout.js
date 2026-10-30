@@ -79,6 +79,10 @@
       return '<span class="lang-tr">❓ SSS</span><span class="lang-en">❓ FAQ</span><span class="lang-ar">❓ الأسئلة الشائعة</span>';
     } else if (p.indexOf('privacy') !== -1) {
       return '<span class="lang-tr">🔒 GİZLİLİK</span><span class="lang-en">🔒 PRIVACY</span><span class="lang-ar">🔒 الخصوصية</span>';
+    } else if (p.indexOf('kvkk') !== -1) {
+      return '<span class="lang-tr">⚖️ KVKK</span><span class="lang-en">⚖️ DATA PROTECTION</span><span class="lang-ar">⚖️ حماية البيانات</span>';
+    } else if (p.indexOf('cookies') !== -1 || p.indexOf('cerez') !== -1) {
+      return '<span class="lang-tr">🍪 ÇEREZ POLİTİKASI</span><span class="lang-en">🍪 COOKIE POLICY</span><span class="lang-ar">🍪 سياسة الكوكيز</span>';
     } else if (p.indexOf('terms') !== -1) {
       return '<span class="lang-tr">📜 KULLANIM KOŞULLARI</span><span class="lang-en">📜 TERMS</span><span class="lang-ar">📜 شروط الخدمة</span>';
     } else if (p.indexOf('changelog') !== -1) {
@@ -283,6 +287,8 @@
         <a href="${basePath}destek.html" class="${getLinkClass('destek')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Destek &amp; Talep</span><span class="lang-en">Support &amp; Feedback</span><span class="lang-ar">الدعم والطلبات</span></a> |
         <a href="${basePath}faq.html" class="${getLinkClass('faq')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">SSS</span><span class="lang-en">FAQ</span><span class="lang-ar">الأسئلة الشائعة</span></a> |
         <a href="${basePath}privacy.html" class="${getLinkClass('privacy')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Gizlilik Politikası</span><span class="lang-en">Privacy Policy</span><span class="lang-ar">سياسة الخصوصية</span></a> |
+        <a href="${basePath}cookies.html" class="${getLinkClass('cookies')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Çerez Politikası</span><span class="lang-en">Cookie Policy</span><span class="lang-ar">سياسة الكوكيز</span></a> |
+        <a href="${basePath}kvkk.html" class="${getLinkClass('kvkk')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">KVKK</span><span class="lang-en">KVKK</span><span class="lang-ar">حماية البيانات</span></a> |
         <a href="${basePath}terms.html" class="${getLinkClass('terms')}" style="color: #64748b; text-decoration: none; margin: 0 0.35rem;"><span class="lang-tr">Kullanım Koşulları</span><span class="lang-en">Terms of Service</span><span class="lang-ar">شروط الخدمة</span></a>
       </div>
       <p class="copyright-line" style="margin: 0; font-size: 0.85rem; color: #64748b;">
