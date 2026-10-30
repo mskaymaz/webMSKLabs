@@ -8,6 +8,10 @@ account_id = "ded2c59ad818860dc2b159c930663fba"
 [build]
 command = "npm run build"
 
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "msklabsdesk_db"

@@ -8,6 +8,9 @@ export interface Env {
   // Cloudflare R2 Media Bucket Binding
   MEDIA: R2Bucket;
 
+  // Cloudflare Workers Static Assets Fetcher
+  ASSETS?: Fetcher;
+
   // Cloudflare KV Idempotency Store Binding (API-007)
   IDEMPOTENCY_STORE?: KVNamespace;
 
