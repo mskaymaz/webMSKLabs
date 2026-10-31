@@ -74,7 +74,7 @@ export async function createIncidentAlert(
   // 2. Trigger COM-001 Email Alert for CRITICAL & HIGH Severity Incidents
   if (severity === 'CRITICAL' || severity === 'HIGH') {
     try {
-      const recipient = ctx?.env?.ADMIN_ALERT_EMAIL || 'admin@msklabs.com';
+      const recipient = ctx?.env?.ADMIN_ALERT_EMAIL || 'admin@msklabs.org';
       const subject = `[SECURITY INCIDENT - ${severity}] ${eventType} (${requestId})`;
       const timestampStr = new Date().toISOString();
 

@@ -146,7 +146,7 @@ async function handleReadiness(ctx: any): Promise<Response> {
     // Trigger COM-001 Zero-Cost Email Alert (deduplicated via cooldown)
     shouldSendAlert(ctx, 'readiness_failure').then((canAlert) => {
       if (canAlert) {
-        const recipient = ctx.env?.ADMIN_ALERT_EMAIL || 'admin@msklabs.com';
+        const recipient = ctx.env?.ADMIN_ALERT_EMAIL || 'admin@msklabs.org';
         sendEmail({
           to: recipient,
           subject: `[ALERT] Service Readiness Failure (${ctx.requestId})`,
