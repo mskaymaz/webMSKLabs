@@ -453,7 +453,7 @@
     var isRotator = (item.displayMode || meta.displayMode) === 'rotator';
 
     if (isFloating) {
-      var cardW = item.cardWidth || (sizePreset === 'compact' ? 260 : sizePreset === 'large' ? 380 : 310);
+      var cardW = (isMob && typeof item.mobileCardWidth === 'number') ? item.mobileCardWidth : (item.cardWidth || (sizePreset === 'compact' ? 260 : sizePreset === 'large' ? 380 : 310));
       var cardPadY = item.paddingY !== undefined ? item.paddingY : (sizePreset === 'compact' ? 8 : sizePreset === 'large' ? 14 : 10);
       var padCard = cardPadY + 'px ' + (sizePreset === 'compact' ? '10px' : sizePreset === 'large' ? '16px' : '12px');
       var fontCard = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12px';
@@ -510,7 +510,8 @@
       container.style.color = currentText;
       container.style.overflow = 'hidden';
       if (currentBorder) container.style.border = currentBorder;
-      if (item.cardHeight) container.style.height = item.cardHeight + 'px';
+      var cardH = (isMob && typeof item.mobileCardHeight === 'number') ? item.mobileCardHeight : item.cardHeight;
+      if (cardH) container.style.height = cardH + 'px';
 
       var glassEffect = item.glassEffect || meta.glassEffect || 'none';
       if (glassEffect === 'blur') {
