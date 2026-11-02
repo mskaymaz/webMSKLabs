@@ -11,8 +11,12 @@ describe('SECTION 18 — WEBMSKLABS INTEGRATION (INT-001, INT-002 & INT-TTS-001)
 
   it('1. INT-001 — should verify presence of integration documentation guides', () => {
     const deskDir = path.join(process.cwd(), '..', 'MSKLabsDesk');
-    const doc1 = path.join(deskDir, 'webMSKLabs_cms_integration.md');
-    const doc2 = path.join(deskDir, 'webMSKLabs_integration_guide.md');
+    const doc1 = fs.existsSync(path.join(deskDir, 'docs', 'architecture', 'webMSKLabs_cms_integration.md'))
+      ? path.join(deskDir, 'docs', 'architecture', 'webMSKLabs_cms_integration.md')
+      : path.join(deskDir, 'webMSKLabs_cms_integration.md');
+    const doc2 = fs.existsSync(path.join(deskDir, 'docs', 'architecture', 'webMSKLabs_integration_guide.md'))
+      ? path.join(deskDir, 'docs', 'architecture', 'webMSKLabs_integration_guide.md')
+      : path.join(deskDir, 'webMSKLabs_integration_guide.md');
 
     if (!fs.existsSync(deskDir)) {
       // Sibling repository MSKLabsDesk is absent in isolated CI/container environments

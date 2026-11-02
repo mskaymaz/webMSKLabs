@@ -233,6 +233,18 @@
         border-radius: 8px 0 0 8px !important;
         border-right: none !important;
       }
+      .msk-ann-tab-top {
+        writing-mode: horizontal-tb !important;
+        padding: 5px 14px !important;
+        border-radius: 0 0 10px 10px !important;
+        border-top: none !important;
+      }
+      .msk-ann-tab-bottom {
+        writing-mode: horizontal-tb !important;
+        padding: 5px 14px !important;
+        border-radius: 10px 10px 0 0 !important;
+        border-bottom: none !important;
+      }
 
       /* Tema Renkleri */
       .msk-theme-info {
@@ -389,7 +401,8 @@
 
   function renderAnnouncementBanner(item, meta, allActiveItems) {
     var placement = item.placement || meta.placement || 'top_hanging';
-    var isFloating = placement === 'right_floating' || placement === 'left_floating';
+    var isWebSlot = placement === 'top_left' || placement === 'top_right' || placement === 'bottom_left' || placement === 'bottom_center' || placement === 'bottom_right';
+    var isFloating = isWebSlot || placement === 'right_floating' || placement === 'left_floating';
     var containerId = isFloating ? 'mskActiveFloatingContainer' : 'mskActiveTopContainer';
     var existing = document.getElementById(containerId);
     if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
@@ -443,20 +456,53 @@
       var cardPadY = item.paddingY !== undefined ? item.paddingY : (sizePreset === 'compact' ? 8 : sizePreset === 'large' ? 14 : 10);
       var padCard = cardPadY + 'px ' + (sizePreset === 'compact' ? '10px' : sizePreset === 'large' ? '16px' : '12px');
       var fontCard = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12px';
-      var topOff = item.topOffset !== undefined ? item.topOffset : 110;
-      var sideOff = item.sideOffset !== undefined ? item.sideOffset : 5;
+      var isBottomSlot = placement.indexOf('bottom_') === 0;
+      var isTopSlot = placement === 'top_left' || placement === 'top_right';
+      var topOff = (typeof item.topOffset === 'number') ? item.topOffset : (isTopSlot ? 20 : 110);
+      var bottomOff = (typeof item.bottomOffset === 'number') ? item.bottomOffset : 20;
+      var sideOff = (typeof item.horizontalOffset === 'number') ? item.horizontalOffset : ((typeof item.sideOffset === 'number') ? item.sideOffset : (isWebSlot ? 20 : 5));
       var tabText = item.tabText || 'SİZİN İÇİN';
-      var autoDelay = (typeof item.autoCollapseDelay === 'number') ? item.autoCollapseDelay : 4;
+      var autoDelay = (typeof item.autoCollapseDelay === 'number') ? item.autoCollapseDelay : 10;
 
-      container.className = 'msk-announcement-floating ' + (placement === 'left_floating' ? 'msk-floating-left' : 'msk-floating-right');
+      container.className = 'msk-announcement-floating';
       container.style.width = cardW + 'px';
-      container.style.top = topOff + 'px';
-      if (placement === 'left_floating') {
+
+      if (placement === 'top_left') {
+        container.style.top = topOff + 'px';
         container.style.left = sideOff + 'px';
         container.style.right = 'auto';
-      } else {
+        container.style.bottom = 'auto';
+      } else if (placement === 'top_right') {
+        container.style.top = topOff + 'px';
         container.style.right = sideOff + 'px';
         container.style.left = 'auto';
+        container.style.bottom = 'auto';
+      } else if (placement === 'bottom_left') {
+        container.style.bottom = bottomOff + 'px';
+        container.style.left = sideOff + 'px';
+        container.style.right = 'auto';
+        container.style.top = 'auto';
+      } else if (placement === 'bottom_right') {
+        container.style.bottom = bottomOff + 'px';
+        container.style.right = sideOff + 'px';
+        container.style.left = 'auto';
+        container.style.top = 'auto';
+      } else if (placement === 'bottom_center') {
+        container.style.bottom = bottomOff + 'px';
+        container.style.left = '50%';
+        container.style.transform = 'translateX(calc(-50% + ' + (sideOff - 20) + 'px))';
+        container.style.top = 'auto';
+        container.style.right = 'auto';
+      } else if (placement === 'left_floating') {
+        container.style.top = topOff + 'px';
+        container.style.left = sideOff + 'px';
+        container.style.right = 'auto';
+        container.classList.add('msk-floating-left');
+      } else {
+        container.style.top = topOff + 'px';
+        container.style.right = sideOff + 'px';
+        container.style.left = 'auto';
+        container.classList.add('msk-floating-right');
       }
       container.style.fontSize = fontCard;
       container.style.color = currentText;
@@ -487,14 +533,37 @@
       // Dikey Kulakçık (Askı Rozet / Tab - İkonsuz, İnce ve Yalın)
       var tabEl = document.createElement('div');
       tabEl.id = 'mskActiveFloatingTab';
-      tabEl.className = 'msk-ann-tab ' + (placement === 'left_floating' ? 'msk-ann-tab-left' : 'msk-ann-tab-right');
-      tabEl.style.top = topOff + 'px';
-      if (placement === 'left_floating') {
+      tabEl.className = 'msk-ann-tab';
+
+      if (placement === 'top_left') {
+        tabEl.classList.add('msk-ann-tab-top');
+        tabEl.style.top = topOff + 'px';
         tabEl.style.left = sideOff + 'px';
-        tabEl.style.right = 'auto';
-      } else {
+      } else if (placement === 'top_right') {
+        tabEl.classList.add('msk-ann-tab-top');
+        tabEl.style.top = topOff + 'px';
         tabEl.style.right = sideOff + 'px';
-        tabEl.style.left = 'auto';
+      } else if (placement === 'bottom_left') {
+        tabEl.classList.add('msk-ann-tab-bottom');
+        tabEl.style.bottom = bottomOff + 'px';
+        tabEl.style.left = sideOff + 'px';
+      } else if (placement === 'bottom_right') {
+        tabEl.classList.add('msk-ann-tab-bottom');
+        tabEl.style.bottom = bottomOff + 'px';
+        tabEl.style.right = sideOff + 'px';
+      } else if (placement === 'bottom_center') {
+        tabEl.classList.add('msk-ann-tab-bottom');
+        tabEl.style.bottom = bottomOff + 'px';
+        tabEl.style.left = '50%';
+        tabEl.style.transform = 'translateX(calc(-50% + ' + (sideOff - 20) + 'px))';
+      } else if (placement === 'left_floating') {
+        tabEl.classList.add('msk-ann-tab-left');
+        tabEl.style.top = topOff + 'px';
+        tabEl.style.left = sideOff + 'px';
+      } else {
+        tabEl.classList.add('msk-ann-tab-right');
+        tabEl.style.top = topOff + 'px';
+        tabEl.style.right = sideOff + 'px';
       }
       tabEl.style.background = currentBg;
       tabEl.style.color = currentText;
@@ -534,32 +603,36 @@
         if (isCollapsed) return;
         isCollapsed = true;
         container.style.opacity = '0';
-        container.style.transform = (placement === 'right_floating') ? 'translateX(30px) scale(0.95)' : 'translateX(-30px) scale(0.95)';
+        var exitTransform = isBottomSlot ? 'translateY(25px) scale(0.95)' : (placement === 'right_floating' || placement === 'top_right' || placement === 'bottom_right') ? 'translateX(30px) scale(0.95)' : 'translateX(-30px) scale(0.95)';
+        container.style.transform = exitTransform;
         setTimeout(function () {
           container.style.setProperty('display', 'none', 'important');
           tabEl.style.setProperty('display', 'flex', 'important');
           tabEl.style.opacity = '0';
-          tabEl.style.transform = (placement === 'right_floating') ? 'translateX(15px)' : 'translateX(-15px)';
+          var tabEnterTransform = isBottomSlot ? 'translateY(12px)' : (placement === 'right_floating' || placement === 'top_right') ? 'translateX(15px)' : 'translateX(-15px)';
+          tabEl.style.transform = tabEnterTransform;
           requestAnimationFrame(function () {
             tabEl.style.opacity = '1';
-            tabEl.style.transform = 'translateX(0)';
+            tabEl.style.transform = placement === 'bottom_center' ? 'translateX(calc(-50% + ' + (sideOff - 20) + 'px))' : 'translateX(0)';
           });
-        }, 250);
+        }, 220);
       }
 
       function expandToCard() {
         if (!isCollapsed) return;
         isCollapsed = false;
         tabEl.style.opacity = '0';
-        tabEl.style.transform = (placement === 'right_floating') ? 'translateX(15px)' : 'translateX(-15px)';
+        var tabExitTransform = isBottomSlot ? 'translateY(12px)' : (placement === 'right_floating' || placement === 'top_right') ? 'translateX(15px)' : 'translateX(-15px)';
+        tabEl.style.transform = tabExitTransform;
         setTimeout(function () {
           tabEl.style.setProperty('display', 'none', 'important');
           container.style.setProperty('display', 'flex', 'important');
           container.style.opacity = '0';
-          container.style.transform = (placement === 'right_floating') ? 'translateX(30px) scale(0.95)' : 'translateX(-30px) scale(0.95)';
+          var cardEnterTransform = isBottomSlot ? 'translateY(25px) scale(0.95)' : (placement === 'right_floating' || placement === 'top_right' || placement === 'bottom_right') ? 'translateX(30px) scale(0.95)' : 'translateX(-30px) scale(0.95)';
+          container.style.transform = cardEnterTransform;
           requestAnimationFrame(function () {
             container.style.opacity = '1';
-            container.style.transform = 'translateX(0) scale(1)';
+            container.style.transform = placement === 'bottom_center' ? 'translateX(calc(-50% + ' + (sideOff - 20) + 'px)) scale(1)' : 'translateX(0) scale(1)';
           });
         }, 200);
       }
@@ -591,6 +664,23 @@
           collapseToTab();
         });
       }
+
+      // Sayfa kaydırıldığında otomatik kulakçığa küçül
+      if (item.autoCollapseOnScroll !== false) {
+        var onScrollCollapse = function () {
+          if (!isCollapsed && window.scrollY > 30) {
+            collapseToTab();
+          }
+        };
+        window.addEventListener('scroll', onScrollCollapse, { passive: true });
+      }
+
+      // Kart dışına tıklandığında otomatik kulakçığa küçül
+      document.addEventListener('click', function (e) {
+        if (!isCollapsed && !container.contains(e.target) && !tabEl.contains(e.target)) {
+          collapseToTab();
+        }
+      });
     } else {
       // Üst Askılı Şerit (Sayfayı asla aşağı itmez)
       var minH = item.customHeight || (sizePreset === 'compact' ? 26 : sizePreset === 'large' ? 48 : 34);
@@ -918,40 +1008,30 @@
           return;
         }
 
-        // 1. Üst Şerit Kanalı (top_hanging) - Dizin Tabanlı Kusursuz Nöbetleşe (Round-Robin)
-        var topPool = activeItems.filter(function (it) {
-          return (it.placement || meta.placement || 'top_hanging') === 'top_hanging';
-        });
-        if (topPool.length > 0) {
-          var lastTopIdx = -1;
-          try { lastTopIdx = parseInt(localStorage.getItem('msk_last_top_idx') || '-1', 10); } catch (_) {}
-          var nextTopIdx = (isNaN(lastTopIdx) || lastTopIdx < 0 || lastTopIdx >= topPool.length - 1) ? 0 : (lastTopIdx + 1);
-          var chosenTop = topPool[nextTopIdx];
-          try { localStorage.setItem('msk_last_top_idx', nextTopIdx.toString()); } catch (_) {}
-
-          var isTopDismissed = false;
-          try { isTopDismissed = sessionStorage.getItem('msk_dismissed_' + chosenTop.id) === 'true'; } catch (_) {}
-          if (chosenTop && !isTopDismissed) {
-            renderAnnouncementBanner(chosenTop, meta, activeItems);
+        // Cihaz Uyumlu Tekil Nöbetleşe (Round-Robin) Seçimi: Sayfa Başına Azami 1 Duyuru
+        var isMob = window.innerWidth <= 768;
+        var filteredPool = activeItems.filter(function (it) {
+          var pl = it.placement || meta.placement || 'top_hanging';
+          if (isMob) {
+            return pl === 'left_floating' || pl === 'right_floating' || pl === 'top_hanging' || pl.indexOf('bottom_') === 0 || pl.indexOf('top_') === 0;
+          } else {
+            // Web/Masaüstü: AdSense kule reklamlarını korumak için 5 yuva ve top_hanging geçerlidir
+            return pl === 'top_left' || pl === 'top_right' || pl === 'bottom_left' || pl === 'bottom_center' || pl === 'bottom_right' || pl === 'top_hanging';
           }
-        }
-
-        // 2. Sağ ve Sol Kart Kanalı (floating) - Dizin Tabanlı Kusursuz Nöbetleşe (Round-Robin)
-        var floatPool = activeItems.filter(function (it) {
-          return it.placement === 'left_floating' || it.placement === 'right_floating';
         });
-        if (floatPool.length > 0) {
-          var lastFloatIdx = -1;
-          try { lastFloatIdx = parseInt(localStorage.getItem('msk_last_float_idx') || '-1', 10); } catch (_) {}
-          var nextFloatIdx = (isNaN(lastFloatIdx) || lastFloatIdx < 0 || lastFloatIdx >= floatPool.length - 1) ? 0 : (lastFloatIdx + 1);
-          var chosenFloat = floatPool[nextFloatIdx];
-          try { localStorage.setItem('msk_last_float_idx', nextFloatIdx.toString()); } catch (_) {}
 
-          var isFloatDismissed = false;
-          try { isFloatDismissed = sessionStorage.getItem('msk_dismissed_' + chosenFloat.id) === 'true'; } catch (_) {}
-          if (chosenFloat && !isFloatDismissed) {
-            renderAnnouncementBanner(chosenFloat, meta, activeItems);
-          }
+        var displayPool = filteredPool.length > 0 ? filteredPool : activeItems;
+
+        var lastIdx = -1;
+        try { lastIdx = parseInt(localStorage.getItem('msk_last_single_ann_idx') || '-1', 10); } catch (_) {}
+        var nextIdx = (isNaN(lastIdx) || lastIdx < 0 || lastIdx >= displayPool.length - 1) ? 0 : (lastIdx + 1);
+        var chosenItem = displayPool[nextIdx];
+        try { localStorage.setItem('msk_last_single_ann_idx', nextIdx.toString()); } catch (_) {}
+
+        var isItemDismissed = false;
+        try { isItemDismissed = sessionStorage.getItem('msk_dismissed_' + chosenItem.id) === 'true'; } catch (_) {}
+        if (chosenItem && !isItemDismissed) {
+          renderAnnouncementBanner(chosenItem, meta, activeItems);
         }
 
         // Header sağ megafon / zil butonunu hazırla
