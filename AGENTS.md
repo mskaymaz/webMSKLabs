@@ -20,6 +20,7 @@
 ## 4. Ana Dal (Main) ve Canlı Yayın Protokolü
 * **Ana Dal Çalışma Standardı:** Hem panel yapısı (`MSKLabsDesk`) hem de web arayüzü (`webMSKLabs`) tamamen normal yayına geçmiş olup, tüm geliştirmeler ve güncellemeler doğrudan ana dal (`main`) üzerinde yürütülür. Şimdilik doğrudan `main` dalında çalışıyoruz; kullanıcı açıkça yeni bir dala geçilmesini belirtmediği sürece doğrudan ana dalda kalınır, commit ve push işlemleri doğrudan `main` dalına yapılır.
 * **Yedek Dal Güvencesi:** Canlıya geçiş öncesindeki durumlar (`OldMain`, `OldMaster` ve `DevAdmin`) yedek ve arşiv amaçlı olarak hem yerelde hem uzak repoda korunur; silinmez.
+* **Push ve Dağıtım Protokolü (Kullanıcı Onay Zorunluluğu):** Her geliştirme adımında yerel commit serbestçe atılabilir; ancak kullanıcı açıkça "push yapalım" demeden kesinlikle uzak depoya (`git push`) push veya canlı yayın dağıtımı yapılamaz.
 * **Yerel Öncelikli Doğrulama (Local-First Verification):** Değişiklikler doğrudan ana dalda geliştirilse dahi önce yerel sunucuda (`localhost`) derlenip test edilir; kullanıcıdan yerel görünüm ve işlevsellik için açık onay alınmadan uzak sunucuya (Cloudflare Pages / GitHub) push/dağıtım yapılmaz.
 * **Kabul Kriteri (DoD):** Görevler ancak kod uygulandığında, arayüz-API-veritabanı entegrasyonu gerçek veriyle doğrulandığında ve derleme/regresyon testleri hatasız geçtiğinde `DoD` kriterini sağlar. Mock veri veya yüzeysel PASS yeterli kabul edilmez.
 

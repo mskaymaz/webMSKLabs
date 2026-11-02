@@ -400,7 +400,8 @@
   }
 
   function renderAnnouncementBanner(item, meta, allActiveItems) {
-    var placement = item.placement || meta.placement || 'top_hanging';
+    var isMob = window.innerWidth <= 768;
+    var placement = (isMob && item.mobilePlacement) ? item.mobilePlacement : (item.placement || meta.placement || 'top_hanging');
     var isWebSlot = placement === 'top_left' || placement === 'top_right' || placement === 'bottom_left' || placement === 'bottom_center' || placement === 'bottom_right';
     var isFloating = isWebSlot || placement === 'right_floating' || placement === 'left_floating';
     var containerId = isFloating ? 'mskActiveFloatingContainer' : 'mskActiveTopContainer';
@@ -458,9 +459,9 @@
       var fontCard = sizePreset === 'compact' ? '11px' : sizePreset === 'large' ? '14px' : '12px';
       var isBottomSlot = placement.indexOf('bottom_') === 0;
       var isTopSlot = placement === 'top_left' || placement === 'top_right';
-      var topOff = (typeof item.topOffset === 'number') ? item.topOffset : (isTopSlot ? 20 : 110);
-      var bottomOff = (typeof item.bottomOffset === 'number') ? item.bottomOffset : 20;
-      var sideOff = (typeof item.horizontalOffset === 'number') ? item.horizontalOffset : ((typeof item.sideOffset === 'number') ? item.sideOffset : (isWebSlot ? 20 : 5));
+      var topOff = (isMob && typeof item.mobileTopOffset === 'number') ? item.mobileTopOffset : ((typeof item.topOffset === 'number') ? item.topOffset : (isTopSlot ? 20 : 110));
+      var bottomOff = (isMob && typeof item.mobileBottomOffset === 'number') ? item.mobileBottomOffset : ((typeof item.bottomOffset === 'number') ? item.bottomOffset : 20);
+      var sideOff = (isMob && typeof item.mobileHorizontalOffset === 'number') ? item.mobileHorizontalOffset : ((typeof item.horizontalOffset === 'number') ? item.horizontalOffset : ((typeof item.sideOffset === 'number') ? item.sideOffset : (isWebSlot ? 20 : 5)));
       var tabText = item.tabText || 'SİZİN İÇİN';
       var autoDelay = (typeof item.autoCollapseDelay === 'number') ? item.autoCollapseDelay : 10;
 
@@ -1011,7 +1012,9 @@
         // Cihaz Uyumlu Tekil Nöbetleşe (Round-Robin) Seçimi: Sayfa Başına Azami 1 Duyuru
         var isMob = window.innerWidth <= 768;
         var filteredPool = activeItems.filter(function (it) {
-          var pl = it.placement || meta.placement || 'top_hanging';
+          if (it.deviceTarget === 'desktop' && isMob) return false;
+          if (it.deviceTarget === 'mobile' && !isMob) return false;
+          var pl = (isMob && it.mobilePlacement) ? it.mobilePlacement : (it.placement || meta.placement || 'top_hanging');
           if (isMob) {
             return pl === 'left_floating' || pl === 'right_floating' || pl === 'top_hanging' || pl.indexOf('bottom_') === 0 || pl.indexOf('top_') === 0;
           } else {
