@@ -467,6 +467,7 @@
 
       container.className = 'msk-announcement-floating';
       container.style.width = cardW + 'px';
+      container.style.maxWidth = 'calc(100vw - ' + Math.max(16, sideOff * 2) + 'px)';
 
       if (placement === 'top_left') {
         container.style.top = topOff + 'px';
