@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { sendEmail, validateHeaders } from '../backend/src/services/emailService';
 
-describe('COM-002 — Resend Email Service Test Suite', () => {
+describe('COM-002 â€” Resend Email Service Test Suite', () => {
   it('should reject email headers containing CR/LF characters (Header Injection Protection)', () => {
     expect(() => validateHeaders({ to: 'user@example.com\r\nBcc: hacker@bad.com', subject: 'Normal' })).toThrow();
     expect(() => validateHeaders({ to: 'user@example.com', subject: 'Subject\nHacked' })).toThrow();
@@ -69,6 +69,42 @@ describe('COM-002 — Resend Email Service Test Suite', () => {
     expect(res.success).toBe(false);
     expect(res.status).toBe(429);
     expect(res.error).toContain('Rate limit exceeded');
+  });
+
+  it('should fallback to Brevo API when Resend returns 429 and brevoApiKey is present (COM-OUTBOUND-002)', async () => {
+    const mockFetch = vi.fn().mockImplementation(async (url: string, opts: any) => {
+      if (url.includes('api.resend.com')) {
+        return new Response(JSON.stringify({ message: 'Rate limit exceeded' }), {
+          status: 429,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      if (url.includes('api.brevo.com')) {
+        expect(opts.headers['api-key']).toBe('xkeysib-mock-brevo-key');
+        return new Response(JSON.stringify({ messageId: '<brevo-12345@smtp-relay.mailin.fr>' }), {
+          status: 201,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      throw new Error(`Unexpected URL: ${url}`);
+    });
+
+    const res = await sendEmail({
+      to: 'alici@example.com',
+      subject: 'Fallback Test',
+      html: '<p>Body</p>',
+      text: 'Body',
+      apiKey: 're_valid_resend_key',
+      brevoApiKey: 'xkeysib-mock-brevo-key',
+      mockSend: false,
+      fetchFn: mockFetch
+    });
+
+    expect(res.success).toBe(true);
+    expect(res.mode).toBe('BREVO_API');
+    expect(res.status).toBe(200);
+    expect(res.messageId).toBe('<brevo-12345@smtp-relay.mailin.fr>');
+    expect(mockFetch).toHaveBeenCalledTimes(2);
   });
 
   it('should send email with latency < 400ms acceptance target', async () => {
