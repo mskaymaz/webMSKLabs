@@ -569,13 +569,25 @@
         tabEl.style.left = '50%';
         tabEl.style.transform = 'translateX(calc(-50% + ' + (sideOff - 20) + 'px))';
       } else if (placement === 'left_floating') {
-        tabEl.classList.add('msk-ann-tab-left');
-        tabEl.style.top = topOff + 'px';
-        tabEl.style.left = sideOff + 'px';
+        if (!isMob) {
+          tabEl.classList.add('msk-ann-tab-top');
+          tabEl.style.top = topOff + 'px';
+          tabEl.style.left = sideOff + 'px';
+        } else {
+          tabEl.classList.add('msk-ann-tab-left');
+          tabEl.style.top = topOff + 'px';
+          tabEl.style.left = sideOff + 'px';
+        }
       } else {
-        tabEl.classList.add('msk-ann-tab-right');
-        tabEl.style.top = topOff + 'px';
-        tabEl.style.right = sideOff + 'px';
+        if (!isMob) {
+          tabEl.classList.add('msk-ann-tab-top');
+          tabEl.style.top = topOff + 'px';
+          tabEl.style.right = sideOff + 'px';
+        } else {
+          tabEl.classList.add('msk-ann-tab-right');
+          tabEl.style.top = topOff + 'px';
+          tabEl.style.right = sideOff + 'px';
+        }
       }
       tabEl.style.background = currentBg;
       tabEl.style.color = currentText;
