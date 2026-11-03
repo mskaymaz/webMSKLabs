@@ -549,44 +549,44 @@
 
       if (placement === 'top_left') {
         tabEl.classList.add('msk-ann-tab-top');
-        tabEl.style.top = topOff + 'px';
+        tabEl.style.top = '0px'; // Tam tavana yasl
         tabEl.style.left = sideOff + 'px';
       } else if (placement === 'top_right') {
         tabEl.classList.add('msk-ann-tab-top');
-        tabEl.style.top = topOff + 'px';
+        tabEl.style.top = '0px'; // Tam tavana yasl
         tabEl.style.right = sideOff + 'px';
       } else if (placement === 'bottom_left') {
         tabEl.classList.add('msk-ann-tab-bottom');
-        tabEl.style.bottom = bottomOff + 'px';
+        tabEl.style.bottom = '0px'; // Tam tabana yasl
         tabEl.style.left = sideOff + 'px';
       } else if (placement === 'bottom_right') {
         tabEl.classList.add('msk-ann-tab-bottom');
-        tabEl.style.bottom = bottomOff + 'px';
+        tabEl.style.bottom = '0px'; // Tam tabana yasl
         tabEl.style.right = sideOff + 'px';
       } else if (placement === 'bottom_center') {
         tabEl.classList.add('msk-ann-tab-bottom');
-        tabEl.style.bottom = bottomOff + 'px';
+        tabEl.style.bottom = '0px'; // Tam tabana yasl
         tabEl.style.left = '50%';
         tabEl.style.transform = 'translateX(calc(-50% + ' + (sideOff - 20) + 'px))';
       } else if (placement === 'left_floating') {
         if (!isMob) {
           tabEl.classList.add('msk-ann-tab-top');
-          tabEl.style.top = topOff + 'px';
+          tabEl.style.top = '0px'; // Tam tavana yasl
           tabEl.style.left = sideOff + 'px';
         } else {
           tabEl.classList.add('msk-ann-tab-left');
           tabEl.style.top = topOff + 'px';
-          tabEl.style.left = sideOff + 'px';
+          tabEl.style.left = '0px'; // Tam sola yasl
         }
       } else {
         if (!isMob) {
           tabEl.classList.add('msk-ann-tab-top');
-          tabEl.style.top = topOff + 'px';
+          tabEl.style.top = '0px'; // Tam tavana yasl
           tabEl.style.right = sideOff + 'px';
         } else {
           tabEl.classList.add('msk-ann-tab-right');
           tabEl.style.top = topOff + 'px';
-          tabEl.style.right = sideOff + 'px';
+          tabEl.style.right = '0px'; // Tam saa yasl
         }
       }
       tabEl.style.background = currentBg;
