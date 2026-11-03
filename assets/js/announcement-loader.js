@@ -138,8 +138,17 @@
         white-space: pre-wrap !important;
         word-break: break-word !important;
         overflow-x: hidden !important;
+        overflow-y: auto !important;
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+        -webkit-overflow-scrolling: touch !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
+      }
+      .msk-ann-content::-webkit-scrollbar {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
       }
       .msk-ann-content img {
         max-width: 100% !important;
