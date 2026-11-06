@@ -141,16 +141,16 @@ export default defineConfig({
       devOptions: {
         enabled: false
       },
-      includeAssets: ['favicon.ico', 'pwa-192x192.png', 'pwa-512x512.png'],
+      includeAssets: ['favicon.ico', 'pwa-192x192.png', 'pwa-512x512.png', 'img/MSKLabs_favicon.png'],
       manifest: {
-        name: 'MSKLabs DevAdmin',
-        short_name: 'DevAdmin',
-        description: 'MSKLabs DevAdmin Yönetim Portalı',
+        name: 'MSK Labs — Ücretsiz & Reklamsız Uygulamalar',
+        short_name: 'MSK Labs',
+        description: 'MSK Labs bağımsız mobil ve masaüstü yazılım ekosistemi ve yayın platformu',
         theme_color: '#0f172a',
         background_color: '#0f172a',
         display: 'standalone',
-        start_url: '/admin/',
-        scope: '/admin/',
+        start_url: '/',
+        scope: '/',
         icons: [
           {
             src: '/pwa-192x192.png',

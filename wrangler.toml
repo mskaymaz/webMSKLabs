@@ -16,7 +16,9 @@ binding = "ASSETS"
 binding = "DB"
 database_name = "msklabsdesk_db"
 database_id = "579478d7-68db-4f5a-92e6-c8127ba3b5ba"
-migrations_dir = "migrations"
+# NOTE: D1 schema migrations are centrally authored and applied from MSKLabsDesk/backend/migrations
+# migrations_dir is removed here to prevent accidental schema/version collision on shared production D1
+# migrations_dir = "migrations"
 
 [[r2_buckets]]
 binding = "MEDIA"

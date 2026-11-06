@@ -223,7 +223,9 @@
     if (window.SITE_CONFIG && window.SITE_CONFIG.apiUrl) {
       return window.SITE_CONFIG.apiUrl;
     }
-    return '/api';
+    return (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      ? 'http://localhost:8787/api'
+      : 'https://msklabsdesk-backend.msklabs-org.workers.dev/api';
   }
 
   function loadPostComments(post) {
@@ -248,7 +250,7 @@
     fetch(apiUrl)
       .then(function(res) {
         if (!res.ok) {
-          return fetch('/api/comments?post_slug=' + encodeURIComponent(slug));
+          return fetch(apiBase + '/comments?post_slug=' + encodeURIComponent(slug));
         }
         return res;
       })
@@ -352,7 +354,7 @@
       }
       if (!res.ok) {
         // Fallback endpoint
-        return fetch('/api/comments', {
+        return fetch(apiBase + '/comments', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
           body: JSON.stringify(payload)

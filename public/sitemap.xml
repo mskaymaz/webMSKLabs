@@ -137,6 +137,33 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://msklabs.org/cookies.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/cookies.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/cookies.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/cookies.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/cookies.html"/>
+    <lastmod>2026-11-06</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://msklabs.org/kvkk.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/kvkk.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/kvkk.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/kvkk.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/kvkk.html"/>
+    <lastmod>2026-11-06</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://msklabs.org/app.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/app.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/app.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://msklabs.org/app.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://msklabs.org/app.html"/>
+    <lastmod>2026-11-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://msklabs.org/blog/blog.html</loc>
     <xhtml:link rel="alternate" hreflang="tr" href="https://msklabs.org/blog/blog.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://msklabs.org/blog/blog.html?lang=en"/>
