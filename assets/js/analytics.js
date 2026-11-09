@@ -1,4 +1,27 @@
 /**
+ * Google Analytics 4 (GA4) Global Etiket Yükleyici
+ * Ölçüm Kimliği: G-MQZ4CDTHWD
+ */
+(function() {
+  var GA_ID = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.gaMeasurementId) || 'G-MQZ4CDTHWD';
+  if (typeof window !== 'undefined' && !window.__ga4_initialized) {
+    window.__ga4_initialized = true;
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ window.dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GA_ID, { send_page_view: true });
+
+    if (!document.querySelector('script[src*="googletagmanager.com/gtag/js?id="]')) {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+    }
+  }
+})();
+
+/**
  * MSK Labs - Lightweight Live Web Analytics & Event Tracker
  * Sitedeki her sayfa gösterimini ve buton tıklamalarını canlı kaydeder.
  * Non-blocking 1KB client tracking engine.
@@ -36,6 +59,9 @@
     }
     
     data[today].views = (data[today].views || 0) + 1;
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'page_view', { page_path: window.location.pathname });
+    }
 
     // Track unique session
     if (!sessionStorage.getItem('msklabs_session_tracked')) {
@@ -62,6 +88,9 @@
       data[today] = { views: 0, unique: 0, downloads: 0, tickets: 0, apps: {} };
     }
 
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', eventName, { app_id: appId || 'web' });
+    }
     if (eventName === 'download') {
       data[today].downloads = (data[today].downloads || 0) + 1;
       if (appId) {
