@@ -3,6 +3,12 @@ import { handleRequest } from './routes/index.js';
 import { createRequestContext } from './middleware/request.js';
 import { globalErrorHandler } from './middleware/error.js';
 import { handleInboundEmail } from './services/emailInboundService.js';
+import {
+  getMaintenanceConfig,
+  checkPathMaintenance,
+  checkAdminBypass,
+  generateMaintenance503Response,
+} from './utils/maintenance.js';
 
 /**
  * ARCH-003 & COM-INBOUND-001 — Modular Route, Middleware & Inbound Email Worker Entry
@@ -11,6 +17,37 @@ export default {
   async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     const pathname = url.pathname;
+
+    // 0. Bakım Modu Kalkanı (Maintenance Shield Interceptor - HTTP 503 & Admin Bypass)
+    const isStaticAsset = /\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf|eot|webmanifest|json|map)$/i.test(pathname);
+    const isAdminRoute = pathname === '/admin' || pathname.startsWith('/admin/') || pathname.startsWith('/api/admin') || pathname.startsWith('/api/v1/admin');
+    const isBypassPath = pathname === '/api/health' || pathname === '/api/v1/health' || pathname === '/api/v1/maintenance';
+
+    if (!isStaticAsset && !isAdminRoute && !isBypassPath && env.DB) {
+      try {
+        const mConfig = await getMaintenanceConfig(env.DB);
+        const mCheck = checkPathMaintenance(pathname, mConfig);
+        if (mCheck.inMaintenance && !checkAdminBypass(request)) {
+          if (pathname.startsWith('/api/')) {
+            return new Response(JSON.stringify({
+              error: 'Hizmet geçici olarak planlı bakım modundadır.',
+              message: mCheck.message || mConfig.message,
+              eta: mCheck.eta,
+            }), {
+              status: 503,
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Retry-After': '3600',
+                'Cache-Control': 'no-store, no-cache, must-revalidate',
+              },
+            });
+          }
+          return generateMaintenance503Response(mCheck.routeTitle || 'MSK Labs', mCheck.message || mConfig.message, mCheck.eta);
+        }
+      } catch (mErr) {
+        console.warn('[Maintenance Interceptor Error]', mErr);
+      }
+    }
 
     // 1. API ve Dinamik Edge Uç Noktaları (Router üzerinden işlenir)
     if (pathname.startsWith('/api/') || pathname === '/api' || pathname === '/sitemap.xml') {
