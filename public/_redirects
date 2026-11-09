@@ -1,0 +1,5 @@
+# Cloudflare Pages 301 Permanent Redirects for SEO & Search Console
+/aniltilar /blog/anilts.html 301
+/aniltilar.html /blog/anilts.html 301
+/blog/blog.html /blog 301
+/blog/blog /blog 301
