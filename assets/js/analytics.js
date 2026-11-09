@@ -1,22 +1,22 @@
 /**
- * Google Analytics 4 (GA4) Global Etiket Yükleyici
+ * Google Analytics 4 (GA4) Fallback & Dynamic Loader
  * Ölçüm Kimliği: G-MQZ4CDTHWD
  */
 (function() {
   var GA_ID = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.gaMeasurementId) || 'G-MQZ4CDTHWD';
-  if (typeof window !== 'undefined' && !window.__ga4_initialized) {
-    window.__ga4_initialized = true;
+  if (typeof window !== 'undefined') {
     window.dataLayer = window.dataLayer || [];
-    function gtag(){ window.dataLayer.push(arguments); }
-    window.gtag = gtag;
-    gtag('js', new Date());
-    gtag('config', GA_ID, { send_page_view: true });
-
-    if (!document.querySelector('script[src*="googletagmanager.com/gtag/js?id="]')) {
+    if (typeof window.gtag !== 'function') {
+      window.gtag = function(){ window.dataLayer.push(arguments); };
+    }
+    if (!window.__ga4_initialized && !document.querySelector('script[src*="googletagmanager.com/gtag/js?id="]')) {
+      window.__ga4_initialized = true;
       var s = document.createElement('script');
       s.async = true;
       s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
       document.head.appendChild(s);
+      window.gtag('js', new Date());
+      window.gtag('config', GA_ID);
     }
   }
 })();
@@ -51,7 +51,7 @@
     }
   }
 
-  function trackPageView() {
+  function trackPageView(isSpaTransition) {
     const data = getStats();
     const today = getTodayKey();
     if (!data[today]) {
@@ -59,8 +59,14 @@
     }
     
     data[today].views = (data[today].views || 0) + 1;
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'page_view', { page_path: window.location.pathname });
+    // Initial page load is handled natively by static gtag config.
+    // Only manual SPA route changes trigger a dedicated page_view event.
+    if (isSpaTransition && typeof window.gtag === 'function') {
+      window.gtag('event', 'page_view', {
+        page_location: window.location.href,
+        page_title: document.title,
+        page_path: window.location.pathname
+      });
     }
 
     // Track unique session
@@ -89,7 +95,11 @@
     }
 
     if (typeof window.gtag === 'function') {
-      window.gtag('event', eventName, { app_id: appId || 'web' });
+      window.gtag('event', eventName, {
+        app_id: appId || 'web',
+        page_location: window.location.href,
+        page_title: document.title
+      });
     }
     if (eventName === 'download') {
       data[today].downloads = (data[today].downloads || 0) + 1;
