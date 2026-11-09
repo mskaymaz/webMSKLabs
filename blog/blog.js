@@ -231,6 +231,7 @@ function switchSection(sec) {
     var newUrl = '/blog/' + sec + langParam;
     if (window.location.pathname !== '/blog/' + sec) {
       window.history.pushState({ section: sec }, '', newUrl);
+      if (window.MSK_Analytics && typeof window.MSK_Analytics.trackPageView === 'function') window.MSK_Analytics.trackPageView(true);
     }
   } catch(e) {}
 
@@ -749,6 +750,7 @@ function openPost(id) {
     var targetPath = ('/blog/' + currentSection + '/' + postSlug).replace(/\/+$/, '');
     if (curPath !== targetPath || window.location.search.indexOf('id=') !== -1) {
       window.history.pushState({ post: postSlug, section: currentSection }, '', newUrl);
+      if (window.MSK_Analytics && typeof window.MSK_Analytics.trackPageView === 'function') window.MSK_Analytics.trackPageView(true);
     }
   } catch(e) {}
 
