@@ -42,6 +42,32 @@ export default {
               },
             });
           }
+
+          // Statik maintenance.html şablonunu ASSETS üzerinden 503 status ile sunma
+          if (env.ASSETS) {
+            try {
+              const mQuery = new URLSearchParams({
+                title: mCheck.routeTitle || 'MSK Labs',
+                msg: mCheck.message || mConfig.message || '',
+                eta: mCheck.eta || '',
+              });
+              const mAssetReq = new Request(new URL(`/maintenance.html?${mQuery.toString()}`, request.url), request);
+              const mAssetRes = await env.ASSETS.fetch(mAssetReq);
+              if (mAssetRes.status === 200) {
+                const newHeaders = new Headers(mAssetRes.headers);
+                newHeaders.set('Retry-After', '3600');
+                newHeaders.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+                return new Response(mAssetRes.body, {
+                  status: 503,
+                  statusText: 'Service Unavailable',
+                  headers: newHeaders,
+                });
+              }
+            } catch (mAssetErr) {
+              console.warn('[Maintenance Asset Fallback Error]', mAssetErr);
+            }
+          }
+
           return generateMaintenance503Response(mCheck.routeTitle || 'MSK Labs', mCheck.message || mConfig.message, mCheck.eta);
         }
       } catch (mErr) {

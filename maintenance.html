@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Planlı Bakım Çalışması | MSK Labs</title>
+  <meta name="description" content="MSK Labs servisleri planlı bakım ve iyileştirme çalışmaları nedeniyle geçici olarak hizmet verememektedir.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="canonical" href="https://msklabs.org/maintenance.html">
+
+  <script>
+    (function(){
+      var t = localStorage.getItem("user_theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      if (t === "dark") document.documentElement.setAttribute("data-theme", "dark");
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/global.css?v=31">
+  <link rel="icon" type="image/png" href="img/MSKLabs_favicon.png">
+
+  <style>
+    .maintenance-wrapper {
+      min-height: calc(100vh - 280px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .maintenance-card {
+      background: var(--bg-card, #ffffff);
+      border: 1px solid var(--border-color, #cbd5e1);
+      border-radius: 24px;
+      padding: 48px 32px;
+      max-width: 620px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      backdrop-filter: blur(12px);
+      position: relative;
+    }
+    .maintenance-icon-wrap {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px auto;
+      border-radius: 20px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      animation: pulseGlow 2.5s infinite ease-in-out;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(245, 158, 11, 0); }
+      50% { transform: scale(1.04); box-shadow: 0 0 20px rgba(245, 158, 11, 0.25); }
+    }
+    .maintenance-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.15);
+      color: #d97706;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      padding: 4px 14px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    [data-theme="dark"] .maintenance-badge {
+      color: #fbbf24;
+    }
+    .maintenance-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main, #0f172a);
+      margin: 0 0 14px 0;
+      line-height: 1.3;
+    }
+    .maintenance-desc {
+      font-size: 0.98rem;
+      color: var(--text-muted, #475569);
+      line-height: 1.65;
+      margin: 0 0 20px 0;
+    }
+    .eta-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 12px;
+      background: rgba(2, 132, 199, 0.08);
+      border: 1px solid rgba(2, 132, 199, 0.2);
+      color: #0284c7;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 28px;
+    }
+    [data-theme="dark"] .eta-box {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      border-color: rgba(56, 189, 248, 0.25);
+    }
+    .maintenance-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary-color, #0284c7);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+    }
+    .btn-primary:hover {
+      opacity: 0.92;
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-surface, #f1f5f9);
+      color: var(--text-main, #0f172a);
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-decoration: none;
+      border: 1px solid var(--border-color, #cbd5e1);
+      transition: all 0.2s ease;
+    }
+    .btn-secondary:hover {
+      background: var(--bg-surface-hover, #e2e8f0);
+      transform: translateY(-2px);
+    }
+  </style>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/analytics.js"></script>
+</head>
+<body class="lang-tr">
+
+  <header class="site-header-sticky"></header>
+
+  <div class="layout-wrapper">
+    <main class="maintenance-wrapper">
+      <div class="maintenance-card">
+        <div class="maintenance-icon-wrap" aria-hidden="true">
+          ⚙️
+        </div>
+
+        <div class="maintenance-badge">
+          <span class="lang-tr">Planlı Bakım Modu</span>
+          <span class="lang-en">Scheduled Maintenance</span>
+          <span class="lang-ar">أعمال صيانة مجدولة</span>
+        </div>
+
+        <h1 class="maintenance-title" id="m-title">
+          <span class="lang-tr">Sistemimiz Geçici Olarak Bakımdadır</span>
+          <span class="lang-en">System is Temporarily Under Maintenance</span>
+          <span class="lang-ar">النظام قيد الصيانة مؤقتاً</span>
+        </h1>
+
+        <p class="maintenance-desc" id="m-desc">
+          <span class="lang-tr">Daha iyi ve kesintisiz bir deneyim sunabilmek için altyapımızda planlı güncellemeler yapıyoruz. Sayfamız kısa bir süre sonra tekrar yayında olacaktır.</span>
+          <span class="lang-en">We are performing scheduled updates to improve our services and user experience. This page will be back online shortly.</span>
+          <span class="lang-ar">نجري تحديثات مجدولة لتحسين بنيتنا التحتية وتوفير تجربة أفضل. ستعود الصفحة للعمل قريباً.</span>
+        </p>
+
+        <div class="eta-box" id="m-eta-box" style="display: none;">
+          <span>⏱️</span>
+          <span class="lang-tr">Tahmini Tamamlanma: <strong id="m-eta-val">--:--</strong></span>
+          <span class="lang-en">Estimated Return: <strong id="m-eta-val-en">--:--</strong></span>
+          <span class="lang-ar">الوقت المقدر للانتهاء: <strong id="m-eta-val-ar">--:--</strong></span>
+        </div>
+
+        <div class="maintenance-actions">
+          <a href="index.html" class="btn-primary">
+            🏠 <span class="lang-tr">Ana Sayfaya Dön</span><span class="lang-en">Go to Home</span><span class="lang-ar">الرئيسية</span>
+          </a>
+          <a href="status.html" class="btn-secondary">
+            📊 <span class="lang-tr">Sistem Durumu</span><span class="lang-en">System Status</span><span class="lang-ar">حالة النظام</span>
+          </a>
+          <button type="button" onclick="location.reload()" class="btn-secondary">
+            🔄 <span class="lang-tr">Yenile</span><span class="lang-en">Refresh</span><span class="lang-ar">تحديث</span>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer"></footer>
+  </div>
+
+  <script src="assets/js/layout.js"></script>
+  <script>
+    (function(){
+      // URL Parametreleri Desteği (?title=...&msg=...&eta=...)
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var customTitle = params.get('title') || params.get('section');
+        var customMsg = params.get('msg');
+        var customEta = params.get('eta');
+
+        if (customTitle) {
+          var tElem = document.getElementById('m-title');
+          if (tElem) {
+            tElem.innerHTML = '<span>' + decodeURIComponent(customTitle) + ' — Bakımda</span>';
+          }
+        }
+
+        if (customMsg) {
+          var dElem = document.getElementById('m-desc');
+          if (dElem) {
+            dElem.innerHTML = '<span>' + decodeURIComponent(customMsg) + '</span>';
+          }
+        }
+
+        if (customEta) {
+          showEta(decodeURIComponent(customEta));
+        } else {
+          // Parametre yoksa canlı API'den sorgula
+          fetch('/api/v1/maintenance')
+            .then(function(res){ return res.json(); })
+            .then(function(data){
+              if (data && data.maintenance) {
+                var m = data.maintenance;
+                if (m.eta) showEta(m.eta);
+                if (m.message && !customMsg) {
+                  var desc = document.getElementById('m-desc');
+                  if (desc) desc.innerHTML = '<span>' + m.message + '</span>';
+                }
+              }
+            })
+            .catch(function(){});
+        }
+      } catch (e) {}
+
+      function showEta(val) {
+        if (!val || val.trim() === '') return;
+        var box = document.getElementById('m-eta-box');
+        var vTr = document.getElementById('m-eta-val');
+        var vEn = document.getElementById('m-eta-val-en');
+        var vAr = document.getElementById('m-eta-val-ar');
+        if (box) box.style.display = 'inline-flex';
+        if (vTr) vTr.textContent = val;
+        if (vEn) vEn.textContent = val;
+        if (vAr) vAr.textContent = val;
+      }
+    })();
+  </script>
+</body>
+</html>
