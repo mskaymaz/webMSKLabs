@@ -85,6 +85,14 @@ export default {
       }
     }
 
+    // SEO & Eski Rota 301 Kalıcı Yönlendirmeleri (Googlebot & Arama İndeksi Onarımı)
+    if (pathname === '/aniltilar' || pathname === '/aniltilar.html') {
+      return Response.redirect(new URL('/blog/anilts.html', request.url).toString(), 301);
+    }
+    if (pathname === '/blog/blog.html' || pathname === '/blog/blog') {
+      return Response.redirect(new URL('/blog', request.url).toString(), 301);
+    }
+
     // 2. Statik Varlıklar ve SPA Yönlendirmesi (Cloudflare Worker Assets)
     if (env.ASSETS) {
       try {
