@@ -7,11 +7,11 @@ export function getSecurityHeaders(request: Request, env: Env): Record<string, s
   const headers: Record<string, string> = {
     'Content-Security-Policy': [
       "default-src 'self'",
-      "script-src 'self' https://challenges.cloudflare.com",
+      "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://www.googletagmanager.com https://static.cloudflareinsights.com",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https: blob:",
+      "img-src 'self' data: https: blob: https://www.google-analytics.com https://www.googletagmanager.com",
       "font-src 'self' data:",
-      "connect-src 'self' https://challenges.cloudflare.com https://generativelanguage.googleapis.com https://script.google.com https://api.telegram.org",
+      "connect-src 'self' https://challenges.cloudflare.com https://generativelanguage.googleapis.com https://script.google.com https://api.telegram.org https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://cloudflareinsights.com",
       "frame-ancestors 'none'",
       "object-src 'none'",
       "base-uri 'self'",

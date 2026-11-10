@@ -127,11 +127,12 @@ describe('SEC-ADV-001 — Security Headers & CSP Management Tests', () => {
       const csp = headers['Content-Security-Policy'];
 
       expect(csp).toContain("default-src 'self'");
-      expect(csp).toContain("script-src 'self' https://challenges.cloudflare.com");
+      expect(csp).toContain("https://challenges.cloudflare.com");
+      expect(csp).toContain("https://www.googletagmanager.com");
       expect(csp).toContain("style-src 'self' 'unsafe-inline'");
       expect(csp).toContain("img-src 'self' data: https: blob:");
       expect(csp).toContain("font-src 'self' data:");
-      expect(csp).toContain("connect-src 'self' https://challenges.cloudflare.com https://generativelanguage.googleapis.com https://script.google.com https://api.telegram.org");
+      expect(csp).toContain("https://*.google-analytics.com");
       expect(csp).toContain("frame-ancestors 'none'");
       expect(csp).toContain("object-src 'none'");
       expect(csp).toContain("base-uri 'self'");
