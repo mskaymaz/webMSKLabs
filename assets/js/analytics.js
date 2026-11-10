@@ -1,9 +1,9 @@
 /**
  * Google Analytics 4 (GA4) Fallback & Dynamic Loader
- * Ölçüm Kimliği: G-MQZ4CDTHWD
+ * Ölçüm Kimliği: G-WZES84LTL3
  */
 (function() {
-  var GA_ID = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.gaMeasurementId) || 'G-MQZ4CDTHWD';
+  var GA_ID = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.gaMeasurementId) || 'G-WZES84LTL3';
   if (typeof window !== 'undefined') {
     window.dataLayer = window.dataLayer || [];
     if (typeof window.gtag !== 'function') {
