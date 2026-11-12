@@ -69,6 +69,9 @@ function copyStaticAssetsPlugin(): Plugin {
             copyFile(path.resolve(blogDir, file), path.resolve(distBlogDir, file));
           }
         }
+        if (fs.existsSync(path.resolve(distBlogDir, 'blog.html'))) {
+          copyFile(path.resolve(distBlogDir, 'blog.html'), path.resolve(distBlogDir, 'index.html'));
+        }
       }
 
       // 4. Root static metadata files

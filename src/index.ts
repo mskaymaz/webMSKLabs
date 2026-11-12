@@ -109,7 +109,7 @@ export default {
             return await env.ASSETS.fetch(new Request(new URL('/admin/index.html', request.url), request));
           }
           if (pathname === '/blog' || pathname.startsWith('/blog/')) {
-            return await env.ASSETS.fetch(new Request(new URL('/blog/blog.html', request.url), request));
+            return await env.ASSETS.fetch(new Request(new URL('/blog/index.html', request.url), request));
           }
         }
 
