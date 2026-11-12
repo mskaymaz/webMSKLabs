@@ -90,6 +90,9 @@ export default {
     if (normalizedPath === '/aniltilar' || normalizedPath === '/aniltilar.html' || pathname.startsWith('/aniltilar/')) {
       return Response.redirect('https://msklabs.org/blog/anilts', 301);
     }
+    if (normalizedPath === '/v1/apps' || pathname.startsWith('/v1/apps')) {
+      return Response.redirect('https://msklabs.org/apps', 301);
+    }
     if (normalizedPath === '/blog/blog.html' || normalizedPath === '/blog/blog' || pathname.startsWith('/blog/blog/')) {
       return Response.redirect('https://msklabs.org/blog', 301);
     }

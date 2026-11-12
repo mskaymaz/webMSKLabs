@@ -3,3 +3,6 @@
 /aniltilar/ https://msklabs.org/blog/anilts 301
 /aniltilar/* https://msklabs.org/blog/anilts 301
 /aniltilar.html https://msklabs.org/blog/anilts 301
+/v1/apps https://msklabs.org/apps 301
+/v1/apps/ https://msklabs.org/apps 301
+/v1/apps/* https://msklabs.org/apps 301

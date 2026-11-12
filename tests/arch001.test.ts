@@ -82,4 +82,14 @@ describe('ARCH-001 — Serverless Edge Backend & Env Architecture Tests', () => 
     expect(res.status).toBe(301);
     expect(res.headers.get('Location')).toBe('https://msklabs.org/blog');
   });
+
+  it('8. should 301 redirect /v1/apps variations to canonical /apps', async () => {
+    const paths = ['/v1/apps', '/v1/apps/', '/v1/apps/extra'];
+    for (const p of paths) {
+      const req = new Request(`https://msklabs.org${p}`, { method: 'GET' });
+      const res = await worker.fetch(req, mockEnv, {} as ExecutionContext);
+      expect(res.status).toBe(301);
+      expect(res.headers.get('Location')).toBe('https://msklabs.org/apps');
+    }
+  });
 });
