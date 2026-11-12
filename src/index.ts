@@ -86,11 +86,12 @@ export default {
     }
 
     // SEO & Eski Rota 301 Kalıcı Yönlendirmeleri (Googlebot & Arama İndeksi Onarımı)
-    if (pathname === '/aniltilar' || pathname === '/aniltilar.html') {
-      return Response.redirect(new URL('/blog/anilts.html', request.url).toString(), 301);
+    const normalizedPath = (pathname.endsWith('/') && pathname.length > 1) ? pathname.slice(0, -1) : pathname;
+    if (normalizedPath === '/aniltilar' || normalizedPath === '/aniltilar.html' || pathname.startsWith('/aniltilar/')) {
+      return Response.redirect('https://msklabs.org/blog/anilts', 301);
     }
-    if (pathname === '/blog/blog.html' || pathname === '/blog/blog') {
-      return Response.redirect(new URL('/blog', request.url).toString(), 301);
+    if (normalizedPath === '/blog/blog.html' || normalizedPath === '/blog/blog' || pathname.startsWith('/blog/blog/')) {
+      return Response.redirect('https://msklabs.org/blog', 301);
     }
 
     // 2. Statik Varlıklar ve SPA Yönlendirmesi (Cloudflare Worker Assets)
